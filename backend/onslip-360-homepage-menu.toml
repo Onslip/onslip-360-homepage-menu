@@ -1,0 +1,12 @@
+[listen]
+host  = 'localhost'
+port  = 8080
+
+[database]
+uri   = 'postgresql://ua-tuc:Quee8quie0GoHohx@free-tier5.gcp-europe-west1.cockroachlabs.cloud:26257/defaultdb?sslmode=require&options=--cluster%3Donslip-360-dhm-2447'
+
+[onslip360]
+base  = 'https://test.onslip360.com/v1/'      # Onslip 360 environment
+realm = 'elis.948636'                          # Onslip 360 account
+id    = 'key:admin+apikey@elis.948636' # ID of user's API key
+key   = 'R2hMN3JIPklCfT0pdVdndDcwbT1ZI3owZ0NaTlZKVFo='                                    # User's Base64-encoded API key
