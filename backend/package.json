@@ -1,0 +1,51 @@
+{
+  "name": "onslip-360-homepage-menu",
+  "version": "1.0.0",
+  "description": "Onslip 360 Dynamic Homepage Menu",
+  "repository": "https://github.com/Onslip/onslip-360-js-api-demos",
+  "license": "Apache-2.0",
+  "private": true,
+  "main": "build/src/onslip-360-homepage-menu.js",
+  "bin": "onslip-360-homepage-menu",
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/build/test/**/*.test.js"
+    ],
+    "collectCoverage": true,
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "outputDirectory": "coverage",
+    "classNameTemplate": "{classname}",
+    "ancestorSeparator": "."
+  },
+  "dependencies": {
+    "@divine/headers": "^2.0.0",
+    "@divine/synchronization": "^1.2.1",
+    "@divine/sysconsole": "^2.0.0",
+    "@divine/uri": "~0.4.1",
+    "@divine/uri-postgres-protocol": "^0.4.0",
+    "@divine/web-service": "~0.4.0",
+    "@onslip/onslip-360-node-api": "1.24.0-2107071611",
+    "ajv": "^8.8.2",
+    "commander": "^8.3.0",
+    "daemonize-process": "^3.0.0",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^14.18.0",
+    "@types/request": "^2.48.7",
+    "jest": "^27.4.5",
+    "jest-junit": "^13.0.0",
+    "ts-json-schema-generator": "~0.97.0",
+    "typescript": "~4.5.4"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

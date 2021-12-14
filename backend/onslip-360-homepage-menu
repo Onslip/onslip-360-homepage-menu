@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+require('./build/src/onslip-360-homepage-menu').main(process.argv[1], ...process.argv.slice(2))
+    .catch((err) => {
+        console.error(String(err), JSON.stringify(err, null, 4));
+        return 70;
+    })
+    .then((rc) => {
+        process.exit(rc);
+    });
