@@ -1,6 +1,7 @@
-import { DatabaseURI, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, URI } from '@divine/uri';
 import { WebArguments, WebResource, WebService } from '@divine/web-service'
 import { API } from '@onslip/onslip-360-node-api';
+import { Name } from 'ajv';
 import { DHMConfig } from './schema';
 
 export class DHMService {
@@ -16,6 +17,7 @@ export class DHMService {
     async initialize(): Promise<this> {
         return this;
     }
+
 
     asWebService(): WebService<this> {
         const svc = this;
@@ -33,8 +35,9 @@ export class DHMService {
     private async rootResponse(who?: string) {
         const clientInfo = await this.api.getClientInfo()
         const dbVersion  = await this.db.query<DBVersion[]>`select version()`;
-
-        return [ 'Hello', who ?? clientInfo.user?.name, dbVersion[0].version ];
+        const addTable = await this.db.query<DBQuery[]>`CREATE TABLE IF NOT EXISTS accounts (id INT PRIMARY KEY, balance INT)`;
+        this.db.query<DBQuery[]>`INSERT INTO accounts (id, balance) VALUES (1, 1000), (2, 250)`;
+        return [ 'Tony', who ?? clientInfo.user?.name, dbVersion[0].version ];
     }
 }
 
