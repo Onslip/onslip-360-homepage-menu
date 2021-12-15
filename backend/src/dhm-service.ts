@@ -1,4 +1,4 @@
-import { DatabaseURI, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, URI } from '@divine/uri';
 //const { DatabaseURI, URI } = require('@divine/uri');
 
 import { WebArguments, WebResource, WebService } from '@divine/web-service'
@@ -38,9 +38,18 @@ export class DHMService {
         
         const dbVersion  = await this.db.query<DBVersion[]>`select version()`;
         const productGet = await this.api.listProducts();
+        const productName  = productGet.map(x => x);
+        productName.forEach(element => {
+            
+            
+            this.db.query<DBQuery[]>`INSERT INTO onslip.products (Name, Price) VALUES (${element.name}, ${element.price ?? 0})`
+
+            
+        });
+        
 
 
-        return [ 'Helo', who ?? clientInfo.user?.name, dbVersion[0].version,productGet.map(x => x.name).toString()];
+        return [ 'Helo', who ?? clientInfo.user?.name, dbVersion[0].version, productGet.map(x => x.name).toString()];
     }
 
     
@@ -66,4 +75,5 @@ export class DHMService {
 
 interface DBVersion {
     version: string;
+    price: number;
 }
