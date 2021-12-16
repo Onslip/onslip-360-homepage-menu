@@ -1,6 +1,7 @@
-import { DatabaseURI, URI } from '@divine/uri';
-import { WebArguments, WebResource, WebService } from '@divine/web-service'
+import { DatabaseURI, DBQuery, URI } from '@divine/uri';
+import { WebArguments, WebResource, WebResponse, WebService } from '@divine/web-service'
 import { API } from '@onslip/onslip-360-node-api';
+import { debug } from 'console';
 import { DHMConfig } from './schema';
 
 export class DHMService {
@@ -33,8 +34,15 @@ export class DHMService {
     private async rootResponse(who?: string) {
         const clientInfo = await this.api.getClientInfo()
         const dbVersion  = await this.db.query<DBVersion[]>`select version()`;
+        const menu = (await this.api.listButtonMaps()).map(x => x.name)
 
-        return [ 'Hello', who ?? clientInfo.user?.name, dbVersion[0].version ];
+        const categories = await (await this.api.listProductGroups()).map(x => x)
+        const products = await (await this.api.listProducts()).map(x => x)
+        products.forEach(element => {
+            //this.db.query<DBQuery[]>`insert into onslip.productcategory (rowid, name) values (${element.id}, ${element.name})`
+            this.db.query<DBQuery[]>`insert into onslip.products (rowid, name, price, productcategory_id) values (${element.id}, ${element.name}, ${element.price ?? 0}, ${element['product-group']})`
+        });
+        return [ 'Hello', who ?? clientInfo.user?.name, dbVersion[0].version];
     }
 }
 
