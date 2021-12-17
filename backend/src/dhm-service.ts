@@ -91,8 +91,6 @@ export class DHMService {
     private async SelectFoodName(id?: number) {
         const dbGetProducts = await this.db.query<DBProducts[]>`SELECT * FROM onslip.products`;
         const dbGetCategory = await this.db.query<DBCategories[]>`SELECT * FROM onslip.productcategory WHERE rowid=${id?? 0}`;
-        const filterCategoriesByID = await dbGetCategory.filter(x => x.id == id);
-        console.log(filterCategoriesByID.map(x=> x.name));
 
 
         const filterProductsByCatID = await dbGetProducts.filter(x => x.productcategory_id == id);
