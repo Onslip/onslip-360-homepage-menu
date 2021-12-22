@@ -1,17 +1,6 @@
 import { DHMService } from "./dhm-service";
-import {
-  API,
-  AbortController,
-  eventStreamType,
-} from "@onslip/onslip-360-node-api";
-import {
-  DatabaseURI,
-  DBQuery,
-  DBResult,
-  toObject,
-  URI,
-  ZlibEncoder,
-} from "@divine/uri";
+import { API, AbortController, eventStreamType, } from "@onslip/onslip-360-node-api";
+import { DatabaseURI, DBQuery, DBResult, toObject, URI, ZlibEncoder, } from "@divine/uri";
 import { DHMConfig } from "./schema";
 
 export class Listener {
