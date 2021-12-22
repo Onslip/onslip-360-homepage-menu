@@ -1,83 +1,215 @@
-import { DatabaseURI, DBQuery, DBResult, toObject, URI } from '@divine/uri';
-import { WebArguments, WebResource, WebService } from '@divine/web-service'
-import { API } from '@onslip/onslip-360-node-api';
-import { Name } from 'ajv';
-import { profileEnd } from 'console';
-import { emitKeypressEvents } from 'readline';
-import { createContext } from 'vm';
-import { DHMConfig } from './schema';
+import { DatabaseURI, DBQuery, DBResult, toObject, URI } from "@divine/uri";
+import { WebArguments, WebResource, WebService } from "@divine/web-service";
+import { API, AbortController, eventStreamType } from "@onslip/onslip-360-node-api";
+import { Name } from "ajv";
+import { profileEnd } from "console";
+import { type } from "os";
+import { listenerCount } from "process";
+import { emitKeypressEvents } from "readline";
+import { createContext } from "vm";
+import { DHMConfig } from "./schema";
+import { Listener } from "./listener";
+
 
 export class DHMService {
-    private api: API;
-    private db: DatabaseURI;
+  private api: API;
+  private db: DatabaseURI;
+  private listener: Listener;
+  constructor(private config: DHMConfig) {
+    const { base, realm, id, key } = config.onslip360;
+    this.api = new API(base, realm, id, key);
+    this.db = new URI(config.database.uri) as DatabaseURI;
+    this.listener = new Listener(config);
+  }
+  
+  async initialize(): Promise<this> {
+    return this;
+  }
 
-    constructor(private config: DHMConfig) {
-        const { base, realm, id, key } = config.onslip360;
-        this.api = new API(base, realm, id, key);
-        this.db = new URI(config.database.uri) as DatabaseURI;
-    }
+  asWebService(): WebService<this> {
+    const svc = this;
 
-    async initialize(): Promise<this> {
-        return this;
-    }
+    return new WebService(this).addResource(
+      class implements WebResource {
+        static path = RegExp("");
 
+        async GET(args: WebArguments) {
+          return svc.rootResponse(args.string("?who", undefined));
+        }
+      }
+    );
+  }
 
-    asWebService(): WebService<this> {
-        const svc = this;
+  private async rootResponse(who?: string) {
+    const clientInfo = await this.api.getClientInfo();
+    // this.listener.ListenerDelete();
+    // this.ListenerUpdate();
+    this.listener.Listener();
+    return this.GetProdByGroup();
+  }
 
-        return new WebService(this)
-            .addResource(class implements WebResource {
-                static path = RegExp('');
+  private async GetProdByGroup() {
+    const catName = await this.db.query<
+      DBCat[]
+    >`select * from onslip.productcategories`;
+    const prod = await this.db.query<
+      DBProduct[]
+    >`select * from onslip.products`;
+    return catName.map((r) => [
+      r.name,
+      prod
+        .filter((x) => x.productcategory_id == r.id)
+        .map((x) => [x.name, x.price, x.description]),
+    ]);
+  }
 
-                async GET(args: WebArguments) {
-                    return svc.rootResponse(args.string('?who', undefined));
-                }
-            });
-    }
+//   private async ListenerUpdate() {
+//     while (true) {
+//       try {
+//         for (const pg of await this.api.listProductGroups("", "name")) {
+//           console.log(`  ${pg.name}, created on ${new Date(pg.created)}`);
+//         }
 
-    private async rootResponse(who?: string) {
-        const clientInfo = await this.api.getClientInfo();
-        // const dbVersion = await this.db.query<DBVersion[]>`select version()`;
-        // const dbGetList = await this.db.query<DBQuery[]>`select * from onslip.products `;
-        const getGroups = await this.api.listProductGroups();
-        // this.db.query<DBQuery[]>`CREATE TABLE onslip.productcategories (id INT PRIMARY KEY, name STRING)`;
-        
-        const getProducts = await this.api.listProducts();
+//         for (const product of await this.api.listProducts(
+//           `price>20`,
+//           "name",
+//           0,
+//           -1,
+//           true,
+//           ""
+//         )) {
+//           console.log(
+//             `  ${product.name}: ${product.price} kr ${
+//               product.deleted
+//                 ? `(deleted on ${new Date(product.deleted as string)})`
+//                 : ""
+//             }`
+//           );
+//         }
+//         const stream = await this.api.addEventStream({
+//           state: "pending",
+//           queries: [
+//             { resource: "records", query: "usage.type=product-update" },
+//             { resource: "records", query: "usage.type=productgroup-update" },
+//           ],
+//         });
+//         const cancel = new AbortController();
+//         setTimeout(() => cancel.abort, 60_000);
+
+//         console.log("Product and product group updates:");
+//         for await (const event of this.api
+//           .signal(cancel.signal)
+//           .openEventStream(stream.id)) {
+//           const listProduct = this.api.listProducts();
+//           const listGroups = this.api.listProductGroups();
+//           (await listProduct).forEach(
+//             (element) =>
+//               this.db.query<DBQuery[]>`update onslip.products SET (name, price, description, productcategory_id) = (${element.name}, ${element.price ?? null}, ${element.description ?? null}, ${element["product-group"]}) where rowid = ${element.id}`
+//           );
+//           (await listGroups).forEach(
+//             (element) =>
+//               this.db.query<DBQuery[]>`update onslip.products SET (name) = (${element.name}) where rowid = ${element.id}`
+//           );
+//           console.log(event);
+//         }
+//         console.log("All done");
+//       } catch (error) {
+//         console.log(`OK`);
+//         await new Promise((resolve) => setTimeout(resolve));
+//       }
+//     }
+//   }
+
+//   private async ListenerCreate()
+//   {
+//       while(true)
+//       {
+//           try{
+//             const stream = await this.api.addEventStream({
+//                 state: "pending",
+//                 queries: [
+//                   { resource: "records", query: "usage.type=product-create" },
+//                   { resource: "records", query: "usage.type=productgroup-create" },
+//                 ],
+//               });
+//               const cancel = new AbortController();
+//               setTimeout(() => cancel.abort, 60_000);
       
-        // this.db.query<DBQuery[]>`CREATE TABLE onslip.products (name STRING, price STRING, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`
-        // getGroups.forEach(element => 
-        //     this.db.query<DBQuery[]>`INSERT INTO onslip.productcategories (id, name) VALUES (${element.id}, ${element.name})`
-        //     );
-        // getProducts.forEach(element => 
-        //     this.db.query<DBQuery[]>`INSERT INTO onslip.products (rowid, name, price, description, productcategory_id) VALUES (${element.id}, ${element.name}, ${element.price ?? null}, ${element.description ?? null}, ${element['product-group']})`
-        //     );
-        return this.GetProdByGroup();
-    }
+//               console.log("Product and product group updates:");
+//               for await (const event of this.api.signal(cancel.signal).openEventStream(stream.id)) {
+//                 const listProduct = this.api.listProducts();
+//                 const listGroups = this.api.listProductGroups();
+//                 (await listProduct).forEach(
+//                   (element) =>
+//                     this.db.query<DBQuery[]>`update onslip.products SET (name, price, description, productcategory_id) = (${element.name}, ${element.price ?? null}, ${element.description ?? null}, ${element["product-group"]}) where rowid = ${element.id}`
+//                 );
+//                 (await listGroups).forEach(
+//                   (element) =>
+//                     this.db.query<DBQuery[]>`update onslip.products SET (name) = (${element.name}) where rowid = ${element.id}`
+//                 );
+//                 console.log(event);
+//               }
+//               console.log("All done");
+//           }
+//           catch(error)
+//           {
+//               console.error(error);
+//           }
+//       }
+//   }
 
-
-
-    private async GetProdByGroup() {
-        const catName = await this.db.query<DBCat[]>`select * from onslip.productcategories`;
-        // const list = await this.db.query<DBQuery[]>`select onslip.products.name, onslip.productcategory.name from onslip.productcategory join onslip.products on productcategory_id = onslip.productcategory.rowid `;
-        // const catId = await this.db.query<DBQuery[]>`select rowid from onslip.productcategories`;
-        const prod = await this.db.query<DBProduct[]>`select * from onslip.products`;
-        return catName.map(r => [r.name, prod.filter(x => x.productcategory_id == r.id).map(x => x.name)]);
-    }
+  private async ListenerDelete()
+  {
+      while(true)
+      {
+          try{
+            const stream = await this.api.addEventStream({
+                state: "pending",
+                queries: [
+                  { resource: "records", query: "usage.type=product-delete" },
+                  { resource: "records", query: "usage.type=productgroup-delete" },
+                ],
+              });
+              
+              const cancel = new AbortController();
+              setTimeout(() => cancel.abort, 60_000);
+      
+              for await (const event of this.api
+                .signal(cancel.signal)
+                .openEventStream(stream.id)) {
+                // const listProduct = this.api.listProducts();
+                // const listGroups = this.api.listProductGroups();
+                // (await listProduct).forEach(
+                //   (element) =>
+                //     this.db.query<DBQuery[]>`DELETE from onslip.products SET (name, price, description, productcategory_id) = (${element.name}, ${element.price ?? null}, ${element.description ?? null}, ${element["product-group"]}) where rowid = ${element.id}`
+                // );
+                // (await listGroups).forEach(
+                //   (element) =>
+                //     this.db.query<DBQuery[]>`DELETE onslip.products SET (name) = (${element.name}) where rowid = ${element.id}`
+                // );
+                event.payload
+                console.log(event);
+                
+              }
+              console.log("All done");
+          }
+          catch(error)
+          {
+              console.log("error");
+          }
+      }
+  }
 }
 
-interface DBVersion {
-    version: string;
+interface DBCat {
+  id: number;
+  name: string;
 }
-
-interface DBCat 
-{
-    id: number;
-    name: string;
-}  
 
 interface DBProduct {
-    name: string;
-    price: string;
-    description: string;
-    productcategory_id: number;
+  name: string;
+  price: string;
+  description: string;
+  productcategory_id: number;
 }
+
