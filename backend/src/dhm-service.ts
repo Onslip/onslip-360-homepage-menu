@@ -42,24 +42,48 @@ export class DHMService {
 
   private async rootResponse(who?: string) {
     const clientInfo = await this.api.getClientInfo();
-    this.listener.Listener();
-    return this.GetProdByGroup();
+    this.CreateDB();
+
+    // this.listener.Listener();
+    return ["hej"];
   }
 
-  private async GetProdByGroup() {
-    const catName = await this.db.query<
-      DBCat[]
-      >`select * from onslip.productcategories`;
-    const prod = await this.db.query<
-      DBProduct[]
-      >`select * from onslip.products`;
-    return catName.map((r) => [
-      r.name,
-      prod
-        .filter((x) => x.productcategory_id == r.id)
-        .map((x) => [x.name, x.price, x.description]),
-    ]);
+  private async CreateDB() {
+    await this.db.query<DBQuery[]>`create schema if not exists onslip`;
+    this.CreateTable();
   }
+
+  private async CreateTable() {
+    const getAllProductGroups = this.api.listProductGroups();
+    this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL)`;
+    (await getAllProductGroups).forEach((x) => {
+      this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${x.id}, ${x.name})`
+    });
+    this.CreateNextTable();
+  }
+
+  private async CreateNextTable() {
+    await this.db.query<DBQuery[]>`create table if not exists onslip.products (name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
+    const getAllProducts = this.api.listProducts();
+    (await getAllProducts).forEach((x) => {
+      this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, description,productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
+    });
+  }
+
+  //   private async GetProdByGroup() {
+  //     const catName = await this.db.query<
+  //       DBCat[]
+  //       >`select * from onslip.productcategories`;
+  //     const prod = await this.db.query<
+  //       DBProduct[]
+  //       >`select * from onslip.products`;
+  //     return catName.map((r) => [
+  //       r.name,
+  //       prod
+  //         .filter((x) => x.productcategory_id == r.id)
+  //         .map((x) => [x.name, x.price, x.description]),
+  //     ]);
+  //   }
 }
 
 interface DBCat {

@@ -35,19 +35,29 @@ export class Listener {
     this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${prodGroup.id}, ${prodGroup.name})`;
   }
 
-  async UpdateAll() {
+
+  private async CreateDB() {
+    await this.db.query<DBQuery[]>`create schema if not exists onslip`;
+    this.CreateGroupTable();
+  }
+
+  private async CreateGroupTable() {
     const getAllProductGroups = this.api.listProductGroups();
-    this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL`;
-    this.db.query<DBQuery[]>`create table if not exists onslip.products (name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
+    this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL)`;
     (await getAllProductGroups).forEach((x) => {
       this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${x.id}, ${x.name})`
     });
+    this.CreateProductTable();
+  }
 
+  private async CreateProductTable() {
+    await this.db.query<DBQuery[]>`create table if not exists onslip.products (name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
     const getAllProducts = this.api.listProducts();
     (await getAllProducts).forEach((x) => {
       this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, description,productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
     });
   }
+
 
   async DeleteFromDb() {
     const deletedProducts = (
@@ -68,7 +78,7 @@ export class Listener {
   }
 
   async Listener() {
-    this.UpdateAll();
+    this.CreateDB();
     this.DeleteFromDb();
     while (true) {
       try {
@@ -115,6 +125,7 @@ export class Listener {
       }
     }
   }
+
 }
 
 interface IProductPayload {
