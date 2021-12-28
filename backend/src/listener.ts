@@ -56,8 +56,8 @@ export class Listener {
     (await getAllProducts).forEach((x) => {
       this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, description,productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
     });
+    this.DeleteFromDb();
   }
-
 
   async DeleteFromDb() {
     const deletedProducts = (
@@ -79,7 +79,6 @@ export class Listener {
 
   async Listener() {
     this.CreateDB();
-    this.DeleteFromDb();
     while (true) {
       try {
         const stream = await this.api.addEventStream({
