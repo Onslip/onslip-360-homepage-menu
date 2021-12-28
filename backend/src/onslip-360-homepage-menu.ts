@@ -11,7 +11,6 @@ import { validate } from './schema';
 
 import '@divine/uri-postgres-protocol'
 import { stringify } from 'querystring';
-
 SysConsole.replaceConsole({ title: pkg.name, showFile: false, showLine: false, syslogMsgId: true },
                           { depth: null, maxArrayLength: null, colors: true });
 
