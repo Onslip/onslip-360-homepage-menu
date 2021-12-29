@@ -2,10 +2,17 @@
     "extends": "../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "build",
+        "lib": [
+            "dom"
+        ],
     },
     "include": [
-        "src/**/*.ts", "src/**/*.json", "package.json", "test/**/*.ts",
+        "src/**/*.ts",
+        "src/**/*.json",
+        "package.json",
+        "test/**/*.ts",
+        "src/web-demo.js",
+        "src/dhm-service.js",
     ],
-    "references": [
-    ]
+    "references": [],
 }

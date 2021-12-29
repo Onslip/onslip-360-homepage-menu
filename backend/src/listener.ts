@@ -124,7 +124,6 @@ export class Listener {
       }
     }
   }
-
 }
 
 interface IProductPayload {

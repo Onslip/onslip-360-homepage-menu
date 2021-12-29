@@ -9,12 +9,14 @@ import { emitKeypressEvents } from "readline";
 import { createContext } from "vm";
 import { DHMConfig } from "./schema";
 import { Listener } from "./listener";
+import { Content } from "./DomContent";
 
 
 export class DHMService {
   private api: API;
   private db: DatabaseURI;
   private listener: Listener;
+
   constructor(private config: DHMConfig) {
     const { base, realm, id, key } = config.onslip360;
     this.api = new API(base, realm, id, key);
@@ -43,6 +45,7 @@ export class DHMService {
   private async rootResponse(who?: string) {
     const clientInfo = await this.api.getClientInfo();
     this.listener.Listener();
+    Content;
     return this.GetProdByGroup();
   }
 
@@ -61,6 +64,7 @@ export class DHMService {
         .map((x) => [x.name, x.price, x.description]),
     ]);
   }
+
 }
 
 interface DBCat {
@@ -73,5 +77,9 @@ interface DBProduct {
   price: string;
   description: string;
   productcategory_id: number;
+}
+
+function webRequestHandler(arg0: {}): import("@onslip/onslip-360-node-api").RequestHandler {
+  throw new Error("Function not implemented.");
 }
 
