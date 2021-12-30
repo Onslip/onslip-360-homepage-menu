@@ -12,7 +12,7 @@ import { validate } from './schema';
 import '@divine/uri-postgres-protocol'
 import { stringify } from 'querystring';
 SysConsole.replaceConsole({ title: pkg.name, showFile: false, showLine: false, syslogMsgId: true },
-                          { depth: null, maxArrayLength: null, colors: true });
+    { depth: null, maxArrayLength: null, colors: true });
 
 API.initialize(nodeRequestHandler({ userAgent: `${pkg.name}/${pkg.version}` }));
 
@@ -21,9 +21,9 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
         .name(pkg.name)
         .description(pkg.description)
         .version(pkg.version)
-        .option('    --config <file>',   'Read configuration from this file')
-        .option('    --pidfile <file>',  'Fork and write PID to this file')
-        .option('    --user <user>',     'Run as this user')
+        .option('    --config <file>', 'Read configuration from this file')
+        .option('    --pidfile <file>', 'Fork and write PID to this file')
+        .option('    --user <user>', 'Run as this user')
         .parse(process.argv);
 
     const argv = cmd.opts();
@@ -40,6 +40,7 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
     const config = validate('DHMConfig', await new URI(argv.config).load());
     const dhnsvc = await new DHMService(config).initialize();
     const websvc = await new WebServer(config.listen.host, config.listen.port, dhnsvc.asWebService()).start();
+    console.info(__dirname)
 
     if (argv.pidfile) {
         require('daemonize-process')();

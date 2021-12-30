@@ -2,10 +2,15 @@
     "extends": "../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "build",
+        "module": "amd",
+        "target": "es3",
+        "outFile": "build/index.js"
     },
     "include": [
-        "src/**/*.ts", "src/**/*.json", "package.json", "test/**/*.ts",
+        "src/**/*.ts",
+        "src/**/*.json",
+        "package.json",
+        "test/**/*.ts",
     ],
-    "references": [
-    ]
+    "references": []
 }
