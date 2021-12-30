@@ -2,9 +2,11 @@
     "extends": "../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "build",
+        "jsx": "react",
+        "lib": ["es2020", "DOM"],
     },
     "include": [
-        "src/**/*.ts", "src/**/*.json", "package.json", "test/**/*.ts",
+        "src/**/*.ts", "src/**/*.tsx", "src/**/*.json", "package.json", "test/**/*.ts",
     ],
     "references": [
     ]

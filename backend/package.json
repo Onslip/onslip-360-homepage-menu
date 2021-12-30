@@ -29,6 +29,7 @@
     "@divine/sysconsole": "^2.0.0",
     "@divine/uri": "~0.4.1",
     "@divine/uri-postgres-protocol": "^0.4.0",
+    "@divine/uri-x4e-parser": "^0.4.1",
     "@divine/web-service": "~0.4.0",
     "@onslip/onslip-360-node-api": "1.24.0-2107071611",
     "ajv": "^8.8.2",
