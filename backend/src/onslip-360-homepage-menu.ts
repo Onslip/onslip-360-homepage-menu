@@ -10,7 +10,6 @@ import { DHMService } from './dhm-service';
 import { validate } from './schema';
 
 import '@divine/uri-postgres-protocol'
-import { stringify } from 'querystring';
 SysConsole.replaceConsole({ title: pkg.name, showFile: false, showLine: false, syslogMsgId: true },
     { depth: null, maxArrayLength: null, colors: true });
 
@@ -40,7 +39,6 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
     const config = validate('DHMConfig', await new URI(argv.config).load());
     const dhnsvc = await new DHMService(config).initialize();
     const websvc = await new WebServer(config.listen.host, config.listen.port, dhnsvc.asWebService()).start();
-    console.info(__dirname)
 
     if (argv.pidfile) {
         require('daemonize-process')();

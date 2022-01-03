@@ -1,11 +1,6 @@
-import { DatabaseURI, DBQuery, URI } from '@divine/uri';
+import { DatabaseURI, FileURI, URI } from '@divine/uri';
 import { WebArguments, WebResource, WebResponse, WebService } from '@divine/web-service'
-import { API, AbortController } from '@onslip/onslip-360-node-api';
-import { debug } from 'console';
-import { globalAgent, METHODS } from 'http';
-import { resolve } from 'path';
-import { post } from 'request';
-import { CLIENT_RENEG_WINDOW } from 'tls';
+import { API } from '@onslip/onslip-360-node-api';
 import { Listener } from './listener';
 import { DHMConfig } from './schema';
 
@@ -40,6 +35,6 @@ export class DHMService {
 
     private async rootResponse(who?: string) {
         this.listener.Listener();
-        return ["hejhej"];
+        return ["hej"]
     }
 }

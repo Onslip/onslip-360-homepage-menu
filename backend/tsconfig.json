@@ -2,15 +2,17 @@
     "extends": "../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "build",
-        "module": "amd",
-        "target": "es3",
-        "outFile": "build/index.js"
+        "lib": [
+            "dom"
+        ],
     },
     "include": [
         "src/**/*.ts",
         "src/**/*.json",
         "package.json",
         "test/**/*.ts",
+        "src/web-demo.js",
+        "src/dhm-service.js",
     ],
-    "references": []
+    "references": [],
 }
