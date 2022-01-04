@@ -7,15 +7,18 @@ import { WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@
 import { API } from '@onslip/onslip-360-node-api';
 import { readFile } from 'fs/promises';
 import { DHMConfig } from './schema';
+import { Listener } from './Listener';
 
 export class DHMService {
     private api: API;
     private db: DatabaseURI;
+    private listener: Listener;
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
+        this.listener = new Listener(config);
     }
 
     async initialize(): Promise<this> {
@@ -62,7 +65,7 @@ export class DHMService {
     private async rootResponse(who?: string) {
         const clientInfo = await this.api.getClientInfo()
         const dbVersion = await this.db.query<DBVersion[]>`select version()`;
-
+        this.listener.Listener();
         return ['Hello', who ?? clientInfo.user?.name, dbVersion[0].version];
     }
 }
