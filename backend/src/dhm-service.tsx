@@ -5,6 +5,7 @@ import { DatabaseURI, URI } from '@divine/uri';
 import { html, jsx4HTML } from '@divine/uri-x4e-parser';
 import { WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
+import { readFile } from 'fs/promises';
 import { DHMConfig } from './schema';
 
 export class DHMService {
@@ -14,7 +15,7 @@ export class DHMService {
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
         this.api = new API(base, realm, id, key);
-        this.db  = new URI(config.database.uri) as DatabaseURI;
+        this.db = new URI(config.database.uri) as DatabaseURI;
     }
 
     async initialize(): Promise<this> {
@@ -35,8 +36,9 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /(?<type>literal|tsx)/;
 
+
                 async GET(args: WebArguments) {
-                    const [ _hello, name, version ] = await svc.rootResponse(args.string('?who', undefined));
+                    const [_hello, name, version] = await svc.rootResponse(args.string('?who', undefined));
 
                     if (args.string('$type') === 'literal') {
                         return new WebResponse(WebStatus.OK, html`<html>
@@ -47,8 +49,8 @@ export class DHMService {
                         });
                     } else {
                         return new WebResponse(WebStatus.OK, <html>
-                            <h1>Hello, { name }</h1>
-                            <p>DB Version: { version }</p>
+                            <h1>Hello, {name}</h1>
+                            <p>DB Version: {version}</p>
                         </html>, {
                             'content-type': 'text/html',
                         });
@@ -59,9 +61,9 @@ export class DHMService {
 
     private async rootResponse(who?: string) {
         const clientInfo = await this.api.getClientInfo()
-        const dbVersion  = await this.db.query<DBVersion[]>`select version()`;
+        const dbVersion = await this.db.query<DBVersion[]>`select version()`;
 
-        return [ 'Hello', who ?? clientInfo.user?.name, dbVersion[0].version ];
+        return ['Hello', who ?? clientInfo.user?.name, dbVersion[0].version];
     }
 }
 
