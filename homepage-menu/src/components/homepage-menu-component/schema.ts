@@ -3,11 +3,6 @@ import Ajv, { ValidateFunction } from 'ajv';
 import schema from './schema.json';
 
 export interface DHMConfig {
-    listen: {
-        host: string;
-        port: number;
-    },
-
     database: {
         uri: string;
     }

@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "DHMConfig": {
+      "properties": {
+        "database": {
+          "properties": {
+            "uri": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        },
+        "onslip360": {
+          "properties": {
+            "base": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "key": {
+              "type": "string"
+            },
+            "realm": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "base",
+            "realm",
+            "id",
+            "key"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "database",
+        "onslip360"
+      ],
+      "type": "object"
+    },
+    "NamedParameters<typeof validate>": {
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "object"
+      ],
+      "type": "object"
+    }
+  }
+}

@@ -1,13 +1,15 @@
 /** @jsx     jsx4HTML.element */
 /** @jsxFrag jsx4HTML.fragment */
 
-import { DatabaseURI, URI } from '@divine/uri';
+import { DatabaseURI, guessContentType, TOMLParser, URI } from '@divine/uri';
 import { html, jsx4HTML } from '@divine/uri-x4e-parser';
 import { WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { readFile } from 'fs/promises';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
+import { readFileSync } from 'fs';
+import { serialize } from 'v8';
 
 
 
@@ -18,6 +20,7 @@ export class DHMService {
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
+
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
         this.listener = new Listener(config);
@@ -38,40 +41,23 @@ export class DHMService {
                     return svc.rootResponse(args.string('?who', undefined));
                 }
             })
-            .addResource(class implements WebResource {
-                static path = /(?<type>literal|tsx)/;
-
-
-                async GET(args: WebArguments) {
-                    const [_hello, name, version] = await svc.rootResponse(args.string('?who', undefined));
-
-                    if (args.string('$type') === 'literal') {
-                        return new WebResponse(WebStatus.OK, html`<html>
-                            <h1>Hello, ${name}</h1>
-                            <p>DB Version: ${version}</p>
-                        </html>`, {
-                            'content-type': 'text/html',
-                        });
-                    } else {
-                        return new WebResponse(WebStatus.OK, <html>
-                            <h1>Hello, {name}</h1>
-                            <p>DB Version: {version}</p>
-                        </html>, {
-                            'content-type': 'text/html',
-                        });
-                    }
-                }
-            });
     }
 
     private async rootResponse(who?: string) {
         const clientInfo = await this.api.getClientInfo()
         const dbVersion = await this.db.query<DBVersion[]>`select version()`;
-        this.listener.Listener();
-        return ['Hello', who ?? clientInfo.user?.name, dbVersion[0].version];
+        const prod = await this.db.query<DBproduct[]>`select name, price, description from onslip.products`
+        //this.listener.Listener();
+        return [prod];
     }
 }
 
 interface DBVersion {
     version: string;
+}
+
+export interface DBproduct {
+    name: string
+    description: string
+    price: string
 }
