@@ -1,16 +1,13 @@
-import { DHMService } from "./dhm-service";
-import { API, AbortController, eventStreamType, } from "@onslip/onslip-360-node-api";
-import { DatabaseURI, DBQuery, DBResult, toObject, URI, ZlibEncoder, } from "@divine/uri";
-import { DHMConfig } from "./schema";
+import { API, AbortController } from "@onslip/onslip-360-node-api";
+import { DatabaseURI, DBQuery } from "@divine/uri";
 
 export class Listener {
     private api: API;
     private db: DatabaseURI;
 
-    constructor(private config: DHMConfig) {
-        const { base, realm, id, key } = config.onslip360;
-        this.api = new API(base, realm, id, key);
-        this.db = new URI(config.database.uri) as DatabaseURI;
+    constructor(_api: API, _db: DatabaseURI) {
+        this.api = _api;
+        this.db = _db;
     }
 
     async ListenerDelete(load: API.DataObjectOperation) {
@@ -63,17 +60,13 @@ export class Listener {
         const deletedProducts = (
             await this.api.listProducts(undefined, undefined, undefined, undefined, true)).filter((product) => product.deleted != undefined);
         deletedProducts.forEach((x) => {
-            this.db.query<
-                DBQuery[]
-                >`delete from onslip.products where rowid = ${x.id}`;
+            this.db.query<DBQuery[]>`delete from onslip.products where rowid = ${x.id}`;
         });
 
         const deletedGroups = (
             await this.api.listProductGroups(undefined, undefined, undefined, undefined, true)).filter((group) => group.deleted != undefined);
         deletedGroups.forEach((x) => {
-            this.db.query<
-                DBQuery[]
-                >`delete from onslip.productcategories where id = ${x.id}`;
+            this.db.query<DBQuery[]>`delete from onslip.productcategories where id = ${x.id}`;
         });
     }
 

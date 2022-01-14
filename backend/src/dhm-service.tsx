@@ -1,15 +1,8 @@
-/** @jsx     jsx4HTML.element */
-/** @jsxFrag jsx4HTML.fragment */
-
-import { DatabaseURI, DBQuery, guessContentType, TOMLParser, URI } from '@divine/uri';
-import { html, jsx4HTML } from '@divine/uri-x4e-parser';
+import { DatabaseURI, DBQuery, URI } from '@divine/uri';
 import { WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
-import { readFile } from 'fs/promises';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { readFileSync } from 'fs';
-import { serialize } from 'v8';
 
 
 
@@ -20,10 +13,9 @@ export class DHMService {
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
-
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
-        this.listener = new Listener(config);
+        this.listener = new Listener(this.api, this.db);
     }
 
     async initialize(): Promise<this> {
@@ -37,20 +29,20 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = RegExp('');
 
-                async GET(args: WebArguments) {
-                    return svc.rootResponse(args.string('?who', undefined));
+                async GET() {
+                    return svc.rootResponse();
                 }
             })
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
-        const catName = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
-        const prod = await this.db.query<DBproduct[]>`select * from onslip.products`
-        return catName.map(c => ({
+        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
+        const products = await this.db.query<DBproduct[]>`select * from onslip.products`
+        return categories.map(c => ({
             category: {
                 name: c.name
             },
-            products: prod.filter(p => p.productcategory_id == c.id).map(p => ({
+            products: products.filter(p => p.productcategory_id == c.id).map(p => ({
                 name: p.name,
                 price: p.price,
                 description: p.description
@@ -58,27 +50,20 @@ export class DHMService {
         } as productsWithCategory))
     }
 
-    private async rootResponse(who?: string) {
-        const clientInfo = await this.api.getClientInfo()
-        const dbVersion = await this.db.query<DBVersion[]>`select version()`;
+    private async rootResponse() {
         //this.listener.Listener();
         console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
     }
 }
-
-interface DBVersion {
-    version: string;
-}
-
-export interface DBproduct {
+interface DBproduct {
     name: string
     description: string
     price: string
     productcategory_id: number
 }
 
-export interface DBcategory {
+interface DBcategory {
     name: string
     id: number
 }
