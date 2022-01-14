@@ -7,33 +7,58 @@ import { Component, h, State, Prop } from '@stencil/core';
 })
 export class HomepageMenuComponent {
   private url = 'http://localhost:8080'
-  @State() responsedata
+  @State() responsedata: productsWithCategory[]
 
-  fetchdata() {
-    fetch(this.url)
+  async fetchdata() {
+    await fetch(this.url)
       .then(rsp => rsp.json())
-      .then(data => this.responsedata = data)
+      .then(data => this.responsedata = JSON.parse(JSON.stringify(data)))
   }
 
-  componentWillLoad() {
-    this.fetchdata()
+  async componentWillLoad() {
+    await this.fetchdata()
   }
 
   render() {
     return (
       <html>
-        <ul>
+        <table>
           {
-            this.responsedata
+            this.responsedata.map(p => {
+              return (
+                <tr>
+                  <tbody>
+                    <th>{p.category.name}</th>
+                    {
+                      p.products.map(prod => {
+                        return (
+                          <slot>
+                            <td>{prod.name}</td>
+                            <td>{prod.price}</td>
+                            <td>{prod.description}</td>
+                          </slot>
+                        )
+                      })
+                    }
+                  </tbody>
+                </tr>
+              )
+            })
           }
-        </ul>
+        </table>
       </html>
-    );
+    )
   }
 }
 
-// interface DBproduct {
-//   name: string,
-//   price: string,
-//   description: string
-// }
+interface productsWithCategory {
+  category: {
+    name: string
+  }
+  products: {
+    name: string,
+    price: string,
+    description: string
+  }[]
+}
+

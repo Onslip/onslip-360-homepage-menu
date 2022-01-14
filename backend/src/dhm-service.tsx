@@ -1,7 +1,7 @@
 /** @jsx     jsx4HTML.element */
 /** @jsxFrag jsx4HTML.fragment */
 
-import { DatabaseURI, guessContentType, TOMLParser, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, guessContentType, TOMLParser, URI } from '@divine/uri';
 import { html, jsx4HTML } from '@divine/uri-x4e-parser';
 import { WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
@@ -43,12 +43,27 @@ export class DHMService {
             })
     }
 
+    private async GetProdByGroup(): Promise<productsWithCategory[]> {
+        const catName = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
+        const prod = await this.db.query<DBproduct[]>`select * from onslip.products`
+        return catName.map(c => ({
+            category: {
+                name: c.name
+            },
+            products: prod.filter(p => p.productcategory_id == c.id).map(p => ({
+                name: p.name,
+                price: p.price,
+                description: p.description
+            }))
+        } as productsWithCategory))
+    }
+
     private async rootResponse(who?: string) {
         const clientInfo = await this.api.getClientInfo()
         const dbVersion = await this.db.query<DBVersion[]>`select version()`;
-        const prod = await this.db.query<DBproduct[]>`select name, price, description from onslip.products`
         //this.listener.Listener();
-        return [prod];
+        console.log(await this.GetProdByGroup())
+        return await this.GetProdByGroup();
     }
 }
 
@@ -60,4 +75,21 @@ export interface DBproduct {
     name: string
     description: string
     price: string
+    productcategory_id: number
+}
+
+export interface DBcategory {
+    name: string
+    id: number
+}
+
+interface productsWithCategory {
+    category: {
+        name: string
+    }
+    products: {
+        name: string,
+        price: string,
+        description: string
+    }[]
 }
