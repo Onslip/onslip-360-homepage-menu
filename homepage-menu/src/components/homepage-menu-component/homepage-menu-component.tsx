@@ -1,9 +1,10 @@
 import { Component, h, State, Prop } from '@stencil/core';
+import '@ionic/core'
 
 @Component({
   tag: 'homepage-menu-component',
   styleUrl: 'homepage-menu-component.css',
-  shadow: true,
+  //shadow: true,
 })
 export class HomepageMenuComponent {
   private url = 'http://localhost:8080'
@@ -22,31 +23,41 @@ export class HomepageMenuComponent {
   render() {
     return (
       <html>
-        <table>
-          {
-            this.responsedata.map(p => {
-              return (
-                <tr>
-                  <tbody>
-                    <th>{p.category.name}</th>
-                    {
-                      p.products.map(prod => {
-                        return (
-                          <slot>
-                            <td>{prod.name}</td>
-                            <td>{prod.price}</td>
-                            <td>{prod.description}</td>
-                          </slot>
-                        )
-                      })
-                    }
-                  </tbody>
-                </tr>
-              )
-            })
-          }
-        </table>
+        {
+          this.responsedata.map(p => {
+            return (
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    {p.category.name}
+                  </ion-card-title>
+                </ion-card-header>
+                {
+                  p.products.map(prod => {
+                    return (
+                      <ion-card-content>
+                        <p>{prod.name}{prod.price}kr</p>
+                        <p>{prod.description}</p>
+                      </ion-card-content>
+                    )
+                  })
+                }
+              </ion-card>
+            )
+          })
+        }
       </html>
+      // <ion-card>
+      //   <ion-card-header>
+      //     <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      //     <ion-card-title>Card Title</ion-card-title>
+      //   </ion-card-header>
+
+      //   <ion-card-content>
+      //     Keep close to Nature's heart... and break clear away, once in awhile,
+      //     and climb a mountain or spend a week in the woods. Wash your spirit clean.
+      //   </ion-card-content>
+      // </ion-card>
     )
   }
 }
