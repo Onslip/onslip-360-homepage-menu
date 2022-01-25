@@ -9,8 +9,6 @@ import '@ionic/core'
 })
 export class HomepageMenuComponent {
 
-
-
   private url = 'http://localhost:8080'
   @State() responsedata: productsWithCategory[]
 
@@ -28,31 +26,6 @@ export class HomepageMenuComponent {
   render() {
     return (
       <html>
-        <ion-button></ion-button>
-        <table>
-          {
-            this.responsedata.map(p => {
-              return (
-                <tr>
-                  <tbody>
-                    <th>{p.category.name}</th>
-                    {
-                      p.products.map(prod => {
-                        return (
-                          <slot>
-                            <td>{prod.name}</td>
-                            <td>{prod.price}</td>
-                            <td>{prod.description}</td>
-                          </slot>
-                        )
-                      })
-                    }
-                  </tbody>
-                </tr>
-              )
-            })
-          }
-        </table>
         {
           this.responsedata.map(p => {
             return (
@@ -62,7 +35,6 @@ export class HomepageMenuComponent {
                     {p.category.name}
                   </ion-card-title>
                 </ion-card-header>
-                
               </ion-card>
             )
           })

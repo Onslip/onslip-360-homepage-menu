@@ -1,6 +1,4 @@
 import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
-import { DHMConfig } from "/home/elis/onslip-360-homepage-menu/backend/src/schema"
-
 
 @Component({
   tag: 'api-ui',
@@ -13,14 +11,6 @@ export class ApiUi {
   @State() id: string;
   @State() key: string;
   @State() dbUri: string;
-  @State() config: DHMConfig
-
-  constructor() {
-    this.realm = this.config.onslip360.realm;
-    this.id = this.config.onslip360.id;
-    this.key = this.config.onslip360.key;
-    this.dbUri = this.config.database.uri;
-  }
 
   @Prop({
     mutable: true,
