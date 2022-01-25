@@ -6,10 +6,20 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface ApiUi {
+        "closeIcon": string;
+        "isopen": boolean;
+    }
     interface HomepageMenuComponent {
     }
 }
 declare global {
+    interface HTMLApiUiElement extends Components.ApiUi, HTMLStencilElement {
+    }
+    var HTMLApiUiElement: {
+        prototype: HTMLApiUiElement;
+        new (): HTMLApiUiElement;
+    };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuComponentElement: {
@@ -17,13 +27,19 @@ declare global {
         new (): HTMLHomepageMenuComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "api-ui": HTMLApiUiElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface ApiUi {
+        "closeIcon"?: string;
+        "isopen"?: boolean;
+    }
     interface HomepageMenuComponent {
     }
     interface IntrinsicElements {
+        "api-ui": ApiUi;
         "homepage-menu-component": HomepageMenuComponent;
     }
 }
@@ -31,6 +47,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
         }
     }

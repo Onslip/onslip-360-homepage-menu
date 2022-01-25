@@ -1,4 +1,5 @@
 import { Component, h, State, Prop } from '@stencil/core';
+import { IonicSlides } from '@ionic/core';
 
 @Component({
   tag: 'homepage-menu-component',
@@ -6,6 +7,9 @@ import { Component, h, State, Prop } from '@stencil/core';
   shadow: true,
 })
 export class HomepageMenuComponent {
+
+
+
   private url = 'http://localhost:8080'
   @State() responsedata: productsWithCategory[]
 
@@ -16,12 +20,14 @@ export class HomepageMenuComponent {
   }
 
   async componentWillLoad() {
+
     await this.fetchdata()
   }
 
   render() {
     return (
       <html>
+        <ion-button></ion-button>
         <table>
           {
             this.responsedata.map(p => {
