@@ -30,11 +30,14 @@ export class HomepageMenuComponent {
           this.responsedata.map(p => {
             return (
               <ion-card>
-                <ion-card-header>
-                  <ion-card-title>
-                    {p.category.name}
-                  </ion-card-title>
-                </ion-card-header>
+                <category-component category={p.category}></category-component>
+                {
+                  p.products.map(prod => {
+                    return(
+                      <product-component product={prod}></product-component>
+                    )
+                  })
+                }
               </ion-card>
             )
           })
