@@ -1,21 +1,27 @@
 import { DatabaseURI, DBQuery, URI } from '@divine/uri';
-import { WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
+import { CORSFilter, WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 
+// const cors = require('cors');
 
+// cors({
+//     origin: 'http://127.0.0.1:3333'
+// })
 
 export class DHMService {
     private api: API;
     private db: DatabaseURI;
     private listener: Listener;
+    private service: WebResponse;
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
         this.listener = new Listener(this.api, this.db);
+        this.service = new WebResponse(WebStatus.ACCEPTED);
     }
 
     async initialize(): Promise<this> {
@@ -33,6 +39,7 @@ export class DHMService {
                     return svc.rootResponse();
                 }
             })
+          
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
@@ -51,6 +58,11 @@ export class DHMService {
     }
 
     private async rootResponse() {
+        this.service.setHeader('origin', 'http://localhost:3333')
+        this.service.headers['access-control-allow-origin'] = 'http://localhost:3333'
+        this.service.headers['access-control-allow-credentials'] = true;
+        this.service.headers.allow
+        console.log(this.service.headers['access-control-allow-origin'])
         //this.listener.Listener();
         console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();

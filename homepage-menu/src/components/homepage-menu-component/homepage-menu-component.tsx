@@ -1,7 +1,15 @@
 import { Component, h, State, Prop } from '@stencil/core';
+<<<<<<< HEAD
 import { productsWithCategory } from '../../utils/utils';
 import '@ionic/core'
 import { ProductComponent } from '../product-component/product-component';
+=======
+<<<<<<< HEAD
+import { IonicSlides } from '@ionic/core';
+=======
+import '@ionic/core'
+>>>>>>> 1ccd487e9bd1a71429d5d5ce8a55c425ddd4f570
+>>>>>>> 03fef285f9ac9f11cee653b5f3e61aca343e681b
 
 @Component({
   tag: 'homepage-menu-component',
@@ -9,6 +17,9 @@ import { ProductComponent } from '../product-component/product-component';
   //shadow: true,
 })
 export class HomepageMenuComponent {
+
+
+
   private url = 'http://localhost:8080'
   @State() responsedata: productsWithCategory[]
 
@@ -19,12 +30,40 @@ export class HomepageMenuComponent {
   }
 
   async componentWillLoad() {
+
     await this.fetchdata()
   }
 
   render() {
     return (
       <html>
+<<<<<<< HEAD
+        <ion-button></ion-button>
+        <table>
+          {
+            this.responsedata.map(p => {
+              return (
+                <tr>
+                  <tbody>
+                    <th>{p.category.name}</th>
+                    {
+                      p.products.map(prod => {
+                        return (
+                          <slot>
+                            <td>{prod.name}</td>
+                            <td>{prod.price}</td>
+                            <td>{prod.description}</td>
+                          </slot>
+                        )
+                      })
+                    }
+                  </tbody>
+                </tr>
+              )
+            })
+          }
+        </table>
+=======
         {
           this.responsedata.map(p => {
             return (
@@ -39,6 +78,7 @@ export class HomepageMenuComponent {
             )
           })
         }
+>>>>>>> 1ccd487e9bd1a71429d5d5ce8a55c425ddd4f570
       </html>
     )
   }
