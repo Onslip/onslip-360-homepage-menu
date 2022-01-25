@@ -1,10 +1,14 @@
 import { Component, h, State, Prop } from '@stencil/core';
+<<<<<<< HEAD
 import { IonicSlides } from '@ionic/core';
+=======
+import '@ionic/core'
+>>>>>>> 1ccd487e9bd1a71429d5d5ce8a55c425ddd4f570
 
 @Component({
   tag: 'homepage-menu-component',
   styleUrl: 'homepage-menu-component.css',
-  shadow: true,
+  //shadow: true,
 })
 export class HomepageMenuComponent {
 
@@ -27,6 +31,7 @@ export class HomepageMenuComponent {
   render() {
     return (
       <html>
+<<<<<<< HEAD
         <ion-button></ion-button>
         <table>
           {
@@ -52,7 +57,43 @@ export class HomepageMenuComponent {
             })
           }
         </table>
+=======
+        {
+          this.responsedata.map(p => {
+            return (
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    {p.category.name}
+                  </ion-card-title>
+                </ion-card-header>
+                {
+                  p.products.map(prod => {
+                    return (
+                      <ion-card-content>
+                        <p>{prod.name}{prod.price}kr</p>
+                        <p>{prod.description}</p>
+                      </ion-card-content>
+                    )
+                  })
+                }
+              </ion-card>
+            )
+          })
+        }
+>>>>>>> 1ccd487e9bd1a71429d5d5ce8a55c425ddd4f570
       </html>
+      // <ion-card>
+      //   <ion-card-header>
+      //     <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      //     <ion-card-title>Card Title</ion-card-title>
+      //   </ion-card-header>
+
+      //   <ion-card-content>
+      //     Keep close to Nature's heart... and break clear away, once in awhile,
+      //     and climb a mountain or spend a week in the woods. Wash your spirit clean.
+      //   </ion-card-content>
+      // </ion-card>
     )
   }
 }
