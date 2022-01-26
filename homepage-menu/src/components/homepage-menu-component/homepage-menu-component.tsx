@@ -18,8 +18,8 @@ export class HomepageMenuComponent {
       .then(data => this.responsedata = JSON.parse(JSON.stringify(data)))
   }
 
-  async componentWillLoad() {
 
+  async componentWillLoad() {
     await this.fetchdata()
   }
 

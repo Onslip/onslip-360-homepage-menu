@@ -1,14 +1,9 @@
-import { DatabaseURI, DBQuery, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, TOMLParser, URI } from '@divine/uri';
 import { CORSFilter, WebArguments, WebResource, WebResponse, WebService, WebStatus } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-
-// const cors = require('cors');
-
-// cors({
-//     origin: 'http://127.0.0.1:3333'
-// })
+import { writeFileSync } from 'fs';
 
 export class DHMService {
     private api: API;
@@ -39,7 +34,6 @@ export class DHMService {
                     return svc.rootResponse();
                 }
             })
-          
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
