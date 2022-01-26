@@ -1,4 +1,6 @@
 import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
+import { parse } from 'toml';
+
 
 @Component({
   tag: 'api-ui',
@@ -10,7 +12,8 @@ export class ApiUi {
   @State() realm: string;
   @State() id: string;
   @State() key: string;
-  @State() dbUri: string;
+  @State() uri: string;
+
 
   @Prop({
     mutable: true,
@@ -18,6 +21,7 @@ export class ApiUi {
   })
   @Prop() isopen: boolean;
   @Prop() closeIcon = 'x.svg';
+
 
   open() {
     this.isopen = true;
@@ -27,8 +31,24 @@ export class ApiUi {
     this.isopen = false;
   }
 
-  render() {
+  async PostData() {
+    const data = [this.realm, this.id, this.key, this.uri];
+    await fetch('http://localhost:8080/api', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
 
+  }
+
+  handleChange(event) {
+    this.realm = event.target.value;
+  }
+
+
+  render() {
     return (
       <div>
         <button class='button-9' id='changekey' onClick={this.open.bind(this)}>ändra nyckel</button>
@@ -44,19 +64,19 @@ export class ApiUi {
             <div class="body">
               <slot />
               <label>API-realm:</label><br></br>
-              <input autocomplete="current-password" id="id_password" />
+              <input type="text" value={this.realm} onInput={(event) => this.handleChange(event)} />
               <br></br><br></br>
               <label>API-id:</label><br></br>
-              <input autocomplete="current-password" id="id_password" ></input>
+              <input ></input>
               <br></br><br></br>
               <label>API-nyckel:</label><br></br>
-              <input autocomplete="current-password" id="id_password" />
+              <input />
               <br></br><br></br>
               <label>Databas-URI:</label><br></br>
-              <input autocomplete="current-password" id="id_password" />
+              <input />
             </div>
             <div class="footer">
-              <button class='button-9'>Spara</button>
+              <button class='button-9' onClick={this.PostData.bind(this) && this.close.bind(this)} type="submit" value="Submit">Spara</button>
             </div>
           </div>
         </div >

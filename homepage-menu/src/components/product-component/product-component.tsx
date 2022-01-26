@@ -7,24 +7,18 @@ import { DBproduct } from '../../utils/utils';
   shadow: true,
 })
 export class ProductComponent {
-
+  
   @Prop() product: DBproduct
 
   render() {
     return (
       <ion-card-content>
         <ion-row>
-          <ion-col>
-            <div>{this.product.name}</div>
-          </ion-col>
-          <ion-col>
-            <div>{this.product.price}kr</div>
-          </ion-col>
+        <div>{this.product.name}</div>
+        <div>{this.product.price}</div>
         </ion-row>
         <ion-row>
-          <ion-col>
-            <div>{this.product.description}</div>
-          </ion-col>
+        <div>{this.product.description}</div>
         </ion-row>
       </ion-card-content>
     );

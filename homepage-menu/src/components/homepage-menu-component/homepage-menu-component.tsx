@@ -33,7 +33,7 @@ export class HomepageMenuComponent {
                 <category-component category={p.category}></category-component>
                 {
                   p.products.map(prod => {
-                    return(
+                    return (
                       <product-component product={prod}></product-component>
                     )
                   })

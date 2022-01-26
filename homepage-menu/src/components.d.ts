@@ -5,14 +5,13 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { DBcategory, DBproduct } from "./utils/utils";
+import { DBproduct } from "./utils/utils";
 export namespace Components {
     interface ApiUi {
         "closeIcon": string;
         "isopen": boolean;
     }
     interface CategoryComponent {
-        "category": DBcategory;
     }
     interface HomepageMenuComponent {
     }
@@ -58,7 +57,6 @@ declare namespace LocalJSX {
         "isopen"?: boolean;
     }
     interface CategoryComponent {
-        "category"?: DBcategory;
     }
     interface HomepageMenuComponent {
     }
