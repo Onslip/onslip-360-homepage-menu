@@ -5,12 +5,18 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { DBproduct } from "./utils/utils";
 export namespace Components {
     interface ApiUi {
         "closeIcon": string;
         "isopen": boolean;
     }
+    interface CategoryComponent {
+    }
     interface HomepageMenuComponent {
+    }
+    interface ProductComponent {
+        "product": DBproduct;
     }
 }
 declare global {
@@ -20,15 +26,29 @@ declare global {
         prototype: HTMLApiUiElement;
         new (): HTMLApiUiElement;
     };
+    interface HTMLCategoryComponentElement extends Components.CategoryComponent, HTMLStencilElement {
+    }
+    var HTMLCategoryComponentElement: {
+        prototype: HTMLCategoryComponentElement;
+        new (): HTMLCategoryComponentElement;
+    };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuComponentElement: {
         prototype: HTMLHomepageMenuComponentElement;
         new (): HTMLHomepageMenuComponentElement;
     };
+    interface HTMLProductComponentElement extends Components.ProductComponent, HTMLStencilElement {
+    }
+    var HTMLProductComponentElement: {
+        prototype: HTMLProductComponentElement;
+        new (): HTMLProductComponentElement;
+    };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
+        "category-component": HTMLCategoryComponentElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
+        "product-component": HTMLProductComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -36,11 +56,18 @@ declare namespace LocalJSX {
         "closeIcon"?: string;
         "isopen"?: boolean;
     }
+    interface CategoryComponent {
+    }
     interface HomepageMenuComponent {
+    }
+    interface ProductComponent {
+        "product"?: DBproduct;
     }
     interface IntrinsicElements {
         "api-ui": ApiUi;
+        "category-component": CategoryComponent;
         "homepage-menu-component": HomepageMenuComponent;
+        "product-component": ProductComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -48,7 +75,9 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
+            "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
+            "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
         }
     }
 }
