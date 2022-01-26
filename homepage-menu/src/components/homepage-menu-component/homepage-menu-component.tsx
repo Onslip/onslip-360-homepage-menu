@@ -9,8 +9,6 @@ import '@ionic/core'
 })
 export class HomepageMenuComponent {
 
-
-
   private url = 'http://localhost:8080'
   @State() responsedata: productsWithCategory[]
 
@@ -62,7 +60,7 @@ export class HomepageMenuComponent {
                     {p.category.name}
                   </ion-card-title>
                 </ion-card-header>
-                
+
               </ion-card>
             )
           })
