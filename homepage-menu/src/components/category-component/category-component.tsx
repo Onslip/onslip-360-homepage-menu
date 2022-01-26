@@ -1,4 +1,5 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, Prop } from '@stencil/core';
+import { DBcategory } from '../../utils/utils';
 
 @Component({
   tag: 'category-component',
@@ -7,11 +8,15 @@ import { Component, Host, h } from '@stencil/core';
 })
 export class CategoryComponent {
 
+  @Prop() category: DBcategory
+
   render() {
     return (
-      <Host>
-        <slot></slot>
-      </Host>
+      <ion-card-header>
+        <ion-card-title>
+          {this.category.name}
+        </ion-card-title>
+      </ion-card-header>
     );
   }
 

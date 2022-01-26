@@ -1,7 +1,5 @@
 import { Config } from '@stencil/core';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import 'fs';
 
 export const config: Config = {
   namespace: 'homepage-menu',
@@ -9,8 +7,6 @@ export const config: Config = {
 
     after: [
       nodePolyfills(),
-      nodeResolve({ preferBuiltins: false })
-
     ]
   },
   outputTargets: [

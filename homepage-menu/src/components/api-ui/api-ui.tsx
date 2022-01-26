@@ -1,6 +1,4 @@
 import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
-import { parse } from 'toml';
-
 
 @Component({
   tag: 'api-ui',
