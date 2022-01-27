@@ -29,7 +29,7 @@ export class HomepageMenuComponent {
         {
           this.responsedata.map(p => {
             return (
-              <ion-card>
+              <ion-card color="primary">
                 <category-component category={p.category}></category-component>
                 {
                   p.products.map(prod => {
