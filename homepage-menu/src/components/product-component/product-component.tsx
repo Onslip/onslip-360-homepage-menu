@@ -15,6 +15,11 @@ export class ProductComponent {
       <ion-card-content>
         <ion-row>
           <ion-col>
+            <img src='https://expo.se/sites/default/files/symbols/Pepe.gif' width={100}></img>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
             <div>{this.product.name}</div>
           </ion-col>
           <ion-col>

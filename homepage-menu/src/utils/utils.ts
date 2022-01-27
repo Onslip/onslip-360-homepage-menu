@@ -8,6 +8,7 @@ export interface productsWithCategory {
     description: string
   }[]
 }
+
 export interface DBproduct {
   name: string
   description: string

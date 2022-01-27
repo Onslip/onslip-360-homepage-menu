@@ -27,7 +27,7 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
         .option('    --pidfile <file>', 'Fork and write PID to this file')
         .option('    --user <user>', 'Run as this user')
         .parse(process.argv);
-
+    
     const argv = cmd.opts();
 
     function check(cond: boolean, message: string) {
@@ -36,7 +36,7 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
             process.exit(64);
         }
     }
-
+    
     check(!!argv.config, '--config is required');
 
     const config = validate('DHMConfig', await new URI(argv.config).load());
