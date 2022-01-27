@@ -1,6 +1,4 @@
 import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
-import { parse } from 'toml';
-
 
 @Component({
   tag: 'api-ui',
@@ -33,20 +31,18 @@ export class ApiUi {
 
   async PostData() {
     const data = [this.realm, this.id, this.key, this.uri];
-    await fetch('http://localhost:8080/api', {
+    await fetch('./assets/test.json', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(this.realm),
       headers: {
         'Content-Type': 'application/json',
       }
     });
-
   }
 
   handleChange(event) {
     this.realm = event.target.value;
   }
-
 
   render() {
     return (
@@ -76,7 +72,7 @@ export class ApiUi {
               <input />
             </div>
             <div class="footer">
-              <button class='button-9' onClick={this.PostData.bind(this) && this.close.bind(this)} type="submit" value="Submit">Spara</button>
+              <button class='button-9' onClick={this.close.bind(this) && this.PostData.bind(this)} type="submit" value="Submit">Spara</button>
             </div>
           </div>
         </div >

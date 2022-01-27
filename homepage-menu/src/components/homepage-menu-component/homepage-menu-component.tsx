@@ -25,7 +25,7 @@ export class HomepageMenuComponent {
 
   render() {
     return (
-      <html>
+      <html class='body'>
         {
           this.responsedata.map(p => {
             return (

@@ -15,6 +15,8 @@ export namespace Components {
     }
     interface HomepageMenuComponent {
     }
+    interface ImageUploader {
+    }
     interface ProductComponent {
         "product": DBproduct;
     }
@@ -38,6 +40,12 @@ declare global {
         prototype: HTMLHomepageMenuComponentElement;
         new (): HTMLHomepageMenuComponentElement;
     };
+    interface HTMLImageUploaderElement extends Components.ImageUploader, HTMLStencilElement {
+    }
+    var HTMLImageUploaderElement: {
+        prototype: HTMLImageUploaderElement;
+        new (): HTMLImageUploaderElement;
+    };
     interface HTMLProductComponentElement extends Components.ProductComponent, HTMLStencilElement {
     }
     var HTMLProductComponentElement: {
@@ -48,6 +56,7 @@ declare global {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
+        "image-uploader": HTMLImageUploaderElement;
         "product-component": HTMLProductComponentElement;
     }
 }
@@ -60,6 +69,9 @@ declare namespace LocalJSX {
     }
     interface HomepageMenuComponent {
     }
+    interface ImageUploader {
+        "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
+    }
     interface ProductComponent {
         "product"?: DBproduct;
     }
@@ -67,6 +79,7 @@ declare namespace LocalJSX {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
         "homepage-menu-component": HomepageMenuComponent;
+        "image-uploader": ImageUploader;
         "product-component": ProductComponent;
     }
 }
@@ -77,6 +90,7 @@ declare module "@stencil/core" {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
+            "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
         }
     }

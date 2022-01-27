@@ -3,6 +3,7 @@ import { CORSFilter, WebArguments, WebResource, WebResponse, WebService, WebStat
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
+import { post } from 'request';
 
 // const cors = require('cors');
 
@@ -39,12 +40,13 @@ export class DHMService {
                     return svc.rootResponse();
                 }
             })
-          
+        
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`
+        this.api.listButtonMaps()
         return categories.map(c => ({
             category: {
                 name: c.name
