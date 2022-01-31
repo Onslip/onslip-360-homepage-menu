@@ -12,23 +12,23 @@ export class ProductComponent {
 
   render() {
     return (
-      <ion-card-content>
-        <ion-row>
-          <ion-col>
+      <ion-card-content class='productContainer'>
+        <ion-row class='productIcon'>
+          <ion-col >
             <img src='https://expo.se/sites/default/files/symbols/Pepe.gif' width={100}></img>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
+        <ion-row class='productName'>
+          <ion-col class='name'>
             <div>{this.product.name}</div>
           </ion-col>
-          <ion-col>
-            <div>{this.product.price}kr</div>
+          <ion-col class='productDesc'>
+            <div>{this.product.description}</div>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row class='productPrice'>
           <ion-col>
-            <div>{this.product.description}</div>
+            <div>{this.product.price}kr</div>
           </ion-col>
         </ion-row>
       </ion-card-content>

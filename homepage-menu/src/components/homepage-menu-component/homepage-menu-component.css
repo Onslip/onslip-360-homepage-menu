@@ -2,7 +2,7 @@
   display: block;
 }
 
-.body {
+.menuContainer {
   align-content: center;
     margin: auto;
   width: 50%;
@@ -10,4 +10,12 @@
   padding: 10px;
 }
 
+.menu {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.menu-item {
+  display: flex;
+}
 

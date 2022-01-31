@@ -12,8 +12,8 @@ export class CategoryComponent {
 
   render() {
     return (
-      <ion-card-header>
-        <ion-card-title>
+      <ion-card-header class='categoryContainer'>
+        <ion-card-title class='categoryTitle'>
           {this.category.name}
         </ion-card-title>
       </ion-card-header>

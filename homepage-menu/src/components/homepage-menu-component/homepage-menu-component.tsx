@@ -25,16 +25,16 @@ export class HomepageMenuComponent {
 
   render() {
     return (
-      <html class='body'>
+      <div class='menuContainer'>
         {
           this.responsedata.map(p => {
             return (
-              <ion-card color="primary">
+              <ion-card color="primary" class='menu'>
                 <category-component category={p.category}></category-component>
                 {
                   p.products.map(prod => {
                     return (
-                      <product-component product={prod}></product-component>
+                      <product-component class='menu-item' product={prod}></product-component>
                     )
                   })
                 }
@@ -42,7 +42,7 @@ export class HomepageMenuComponent {
             )
           })
         }
-      </html>
+      </div>
     )
   }
 }

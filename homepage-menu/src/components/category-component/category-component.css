@@ -1,3 +1,13 @@
 :host {
   display: block;
 }
+
+.categoryContainer {
+
+}
+
+.categoryTitle {
+  margin: 0;
+  padding-bottom: 1em;
+  border-bottom: 2px solid #ccc;
+}

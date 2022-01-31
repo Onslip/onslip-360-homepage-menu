@@ -1,4 +1,5 @@
-import { Component, Element, Event, EventEmitter, h, getAssetPath } from '@stencil/core';
+import { Component, getAssetPath, h, State, Event, EventEmitter, Element } from '@stencil/core';
+import '@ionic/core';
 
 const MAX_UPLOAD_SIZE = 1024; // bytes
 const ALLOWED_FILE_TYPES = 'image.*';
@@ -8,6 +9,7 @@ const ALLOWED_FILE_TYPES = 'image.*';
   styleUrl: 'image-uploader.css',
   shadow: true,
   assetsDirs: ['images'],
+
 })
 export class ImageUploader {
 
@@ -29,9 +31,9 @@ export class ImageUploader {
         return false;
       }
 
-      this.handlePost(files);
 
       // upload image
+      this.submitForm(files[0]);
       this.uploadImage(imageFile);
     } else {
       console.error(files.length === 0 ? 'NO IMAGE UPLOADED' : 'YOU CAN ONLY UPLOAD ONE IMAGE AT THE TIME');
@@ -39,26 +41,26 @@ export class ImageUploader {
     }
   }
 
-  async handlePost(files: FileList) {
-    const formData = new FormData()
-    await formData.append('myFile', files[0])
-    console.log(files[0]);
+  async submitForm(file) {
+    let formData = new FormData();
+    formData.append('file', file, file.name);
+    let path = getAssetPath('images');
 
-    await fetch('build/images', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
-
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data.path)
-      })
-      .catch(error => {
-        console.error(error)
-      })
-
+    path = file;
+    try {
+      const response = await fetch(getAssetPath('images') + '/upload.php', {
+        method: 'post',
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   }
+
   private uploadImage(file) {
     console.log(typeof file);
     // create a new instance of HTML5 FileReader api to handle uploading
