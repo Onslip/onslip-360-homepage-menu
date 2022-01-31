@@ -36,6 +36,24 @@ export class DHMService {
             })
     }
 
+    private async WritetoFile(base: string, realm: string, id: string, key: string) {
+        this.api = new API(base, realm, id, key);
+        writeFileSync('./test.toml', `[listen]
+host  = 'localhost'
+port  = 8080
+
+[database]
+uri   = 'postgresql://user:password@free-tier5.gcp-europe-west1.cockroachlabs.cloud:26257/defaultdb?sslmode=require&options=--cluster%3Donslip-360-dhm-2447'
+
+[onslip360]
+base  = 'https://test.onslip360.com/v1/'      # Onslip 360 environment
+realm = '${realm}'                          # Onslip 360 account
+id    = '${id}' # ID of user's API key
+key   = '${key}'                                    # User's Base64-encoded API key
+`)
+    }
+
+
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`
@@ -58,8 +76,9 @@ export class DHMService {
         this.service.headers['access-control-allow-credentials'] = true;
         this.service.headers.allow
         console.log(this.service.headers['access-control-allow-origin'])
-        //this.listener.Listener();
+        this.listener.Listener();
         console.log(await this.GetProdByGroup())
+        // this.WritetoFile('https://test.onslip360.com/v1/', 'bajs', 'bajs', 'bajs');
         return await this.GetProdByGroup();
     }
 }
