@@ -29,15 +29,17 @@ export class ApiUi {
     this.isopen = false;
   }
 
-  async PostData() {
+  PostData() {
     const data = [this.realm, this.id, this.key, this.uri];
-    await fetch('./assets/test.json', {
+    fetch('http://localhost:8080/post', {
       method: 'POST',
-      body: JSON.stringify(this.realm),
+      body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json',
-      }
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
     });
+    this.close();
   }
 
   handleChange(event) {
@@ -72,7 +74,7 @@ export class ApiUi {
               <input />
             </div>
             <div class="footer">
-              <button class='button-9' onClick={this.close.bind(this) && this.PostData.bind(this)} type="submit" value="Submit">Spara</button>
+              <button class='button-9' onClick={this.PostData.bind(this)} type="submit" value="Submit">Spara</button>
             </div>
           </div>
         </div >
