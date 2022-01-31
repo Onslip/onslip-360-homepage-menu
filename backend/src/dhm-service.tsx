@@ -33,6 +33,7 @@ export class DHMService {
                 async GET() {
                     return svc.rootResponse();
                 }
+
             })
     }
 
