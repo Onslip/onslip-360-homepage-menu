@@ -49,14 +49,16 @@ export class ApiUi {
   render() {
     return (
       <div>
-        <button class='button-9' id='changekey' onClick={this.open.bind(this)}>ändra nyckel</button>
+        <div class='main-button'>
+          <button class='button-9' id='changekey' onClick={this.open.bind(this)}>ändra nyckel</button>
+        </div>
         <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
           <div class="modal-overlay" onClick={this.close.bind(this)}></div>
           <div class="modal">
             <div class="header">
               <h6>Ändra api-nyckel</h6>
               <button class='button-close' onClick={this.close.bind(this)}>
-                <img src={getAssetPath(`./assets/${this.closeIcon}`)} alt='close icon'></img>
+                <img src={getAssetPath(`./assets/${this.closeIcon}`)} alt='close icon' />
               </button>
             </div>
             <div class="body">

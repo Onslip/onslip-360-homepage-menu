@@ -7,6 +7,7 @@
 }
 
 .categoryTitle {
+  color: black;
   margin: 0;
   padding-bottom: 1em;
   border-bottom: 2px solid #ccc;

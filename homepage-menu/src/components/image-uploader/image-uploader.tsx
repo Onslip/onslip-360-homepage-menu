@@ -31,10 +31,10 @@ export class ImageUploader {
         return false;
       }
 
+      this.uploadImage(imageFile);
 
       // upload image
       this.submitForm(files[0]);
-      this.uploadImage(imageFile);
     } else {
       console.error(files.length === 0 ? 'NO IMAGE UPLOADED' : 'YOU CAN ONLY UPLOAD ONE IMAGE AT THE TIME');
       return false;
@@ -44,11 +44,9 @@ export class ImageUploader {
   async submitForm(file) {
     let formData = new FormData();
     formData.append('file', file, file.name);
-    let path = getAssetPath('images');
 
-    path = file;
     try {
-      const response = await fetch(getAssetPath('images') + '/upload.php', {
+      const response = await fetch(getAssetPath('images/upload.php'), {
         method: 'post',
         body: formData,
       });
@@ -70,8 +68,6 @@ export class ImageUploader {
     }
 
     reader.onload = () => {
-      const imagePreviewContainer: HTMLElement = this.elementHost.shadowRoot.querySelector('#image-preview');
-      imagePreviewContainer.style.backgroundImage = `url(${reader.result})`;
       document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
       console.log('uploading finished, emitting an image blob to the outside world');
       this.onUploadCompleted.emit(file);
@@ -98,15 +94,11 @@ export class ImageUploader {
   }
 
   render() {
-    return <div class="image-upload">
-      <div class="image-upload__edit">
+    return <div class="upload">
+      <div class="upload-edit">
         <label htmlFor="file"></label>
-        <input type="file" name="files[]" id="file" accept="image/*" class="image-upload__input"
+        <input type="file" name="files[]" id="file" accept="image/*" class="upload-button"
           onChange={($event: any) => this.onInputChange($event.target.files)} />
-      </div>
-
-      <div class="image-upload__preview">
-        <div id="image-preview"></div>
       </div>
     </div>;
   }
