@@ -8,7 +8,11 @@
 
 .categoryTitle {
   color: black;
+  font-size: 1.5rem;
+  
   margin: 0;
   padding-bottom: 1em;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-weight: bold;
 }

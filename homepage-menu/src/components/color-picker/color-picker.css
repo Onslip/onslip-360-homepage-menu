@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+.colorCell {
+  width: 20px;
+  height: 20px;
+  margin: 4px;
+  opacity: 0.7;
+  cursor: pointer;
+  border-radius: 75%;
+  display: inline-block;
+  border: 1.2px solid rgb(115, 130, 132);
+}
+
+.pwc-color-picker {
+  border-radius: 100px;
+}
+
+.colors {
+  -webkit-appearance: none;
+  margin: 7px 4px 4px 4px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+}
+.colors::-webkit-color-swatch {
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+}
+.colors::-webkit-color-swatch-wrapper {
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+}
+.paletteActive {
+  border: 1.5px solid rgb(242, 247, 253);
+  width: 19px;
+  height: 19px;
+}
+
+.active {
+  width: 21px;
+  height: 21px;
+  border: 2px solid rgb(230, 242, 255);
+}
+
+.icon {
+  position: relative;
+  left: -24px;
+  top: -3px;
+  pointer-events: none;
+}
+/*
+@keyframes colorchange {
+  0% {
+    border: 3px solid rgb(151, 156, 162);
+  }
+  50% {
+    border: 3px solid rgb(255, 255, 255);
+  }
+  100% {
+    border: 3px solid rgb(151, 156, 162);
+  }
+}
+*/
+
+.palette {
+  width: 25px;
+  height: 25px;
+  opacity: 0.7;
+  cursor: pointer;
+  border-radius: 75%;
+  display: inline-block;
+}

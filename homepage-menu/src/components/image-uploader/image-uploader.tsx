@@ -16,7 +16,7 @@ export class ImageUploader {
   @Element() private elementHost: HTMLElement;
   @Event() onUploadCompleted: EventEmitter<Blob>;
 
-  public onInputChange(files: FileList) {
+  public onInputChange(files) {
     // check if 1 image is uploaded
     if (files.length === 1) {
       const imageFile = files[0];
@@ -41,6 +41,10 @@ export class ImageUploader {
     }
   }
 
+  changeColor(Event) {
+    document.body.style.backgroundColor = Event;
+  }
+
   async submitForm(file) {
     let formData = new FormData();
     formData.append('file', file, file.name);
@@ -59,6 +63,7 @@ export class ImageUploader {
     }
   }
 
+
   private uploadImage(file) {
     console.log(typeof file);
     // create a new instance of HTML5 FileReader api to handle uploading
@@ -72,7 +77,6 @@ export class ImageUploader {
       console.log('uploading finished, emitting an image blob to the outside world');
       this.onUploadCompleted.emit(file);
     };
-
 
 
     reader.onloadend = () => {
@@ -103,3 +107,4 @@ export class ImageUploader {
     </div>;
   }
 }
+

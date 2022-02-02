@@ -6,11 +6,11 @@
   align-content: center;
   margin: auto;
   width: 50%;
-  border: 3px solid green;
+  border: 3px solid rgb(94, 93, 93);
   border-radius: 5px;
   padding: 10px;
   background: rgba(255, 255, 255, 0.6); 
-  backdrop-filter: blur(4px) saturate(120%) contrast(200%);
+  backdrop-filter: blur(15px) saturate(120%) contrast(200%);
 }
 
 .menu {
@@ -23,3 +23,23 @@
   display: flex;
 }
 
+.logoDiv {
+  flex: content;
+  flex-direction: row;
+  padding-left: 90%;
+}
+
+.onslipLogo {
+  width: 80%;
+}
+
+.header {
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .menuContainer {
+    width: 100%;
+  }
+}

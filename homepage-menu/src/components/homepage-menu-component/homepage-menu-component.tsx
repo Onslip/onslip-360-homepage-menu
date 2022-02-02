@@ -1,11 +1,13 @@
-import { Component, h, State, Prop } from '@stencil/core';
+import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
 import { productsWithCategory } from '../../utils/utils';
 import '@ionic/core'
 
 @Component({
   tag: 'homepage-menu-component',
   styleUrl: 'homepage-menu-component.css',
-  //shadow: true,
+  shadow: true,
+  assetsDirs: ['assets'],
+
 })
 export class HomepageMenuComponent {
 
@@ -26,6 +28,9 @@ export class HomepageMenuComponent {
   render() {
     return (
       <div class='menuContainer'>
+        <div class='header'>
+          <h1>Martins kolgrill</h1>
+        </div>
         {
           this.responsedata.map(p => {
             return (
@@ -42,7 +47,10 @@ export class HomepageMenuComponent {
             )
           })
         }
-      </div>
+        <div class='logoDiv'>
+          <img src={getAssetPath(`./assets/Onslip.png`)} class='onslipLogo' ></img>
+        </div>
+      </div >
     )
   }
 }

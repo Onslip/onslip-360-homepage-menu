@@ -6,21 +6,24 @@
   position: fixed;
   left: 8%;
   top: 50%;
+  /* display: none; */
 }
+
 
 .upload-edit {
   position: relative;
   font-family: calibri;
   width: auto;
   padding: 10px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border: 1px dashed #BBB;
   text-align: center;
   background-color: #DDD;
   cursor: pointer;
-    overflow: hidden;
+  overflow: hidden;
+}
 
+.upload:hover {
+  display: block;
 }
 
 .upload-button {
