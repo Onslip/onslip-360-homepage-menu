@@ -3,9 +3,7 @@ import { CORSFilter, CORSFilterParams, WebArguments, WebFilter, WebFilterCtor, W
 import { API, jsonType } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { access, writeFileSync } from 'fs';
-import { filterSelectors } from '@divine/uri/build/src/selectors';
-import { JSONType } from 'ajv';
+import { writeFileSync } from 'fs';
 
 
 
@@ -40,11 +38,21 @@ export class DHMService {
             })
 
             .addResource(class implements WebResource {
-                static path = /upload/;
+                static path = /updateapi/;
 
                 async POST(args: WebArguments) {
-                    let api: newApi
-                    console.log(await args.body())
+                    const api = await args.body() as newApi;
+                    console.log(api.base)
+                    svc.WritetoFile(api);
+                    return args.body()
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /imageupload/;
+
+                async POST(args: WebArguments) {
+                    await writeFileSync('./test.txt', JSON.stringify(args.body()));
                     return args.body()
                 }
             })
@@ -57,20 +65,20 @@ export class DHMService {
     }
 
 
-    private async WritetoFile(base: string, realm: string, id: string, key: string, dbURI: string) {
-        this.api = new API(base, realm, id, key);
+    private async WritetoFile(api: newApi) {
+        this.api = new API(api.base, api.realm, api.id, api.key);
         writeFileSync('./test.toml', `[listen]
 host  = 'localhost'
 port  = 8080
 
 [database]
-uri   = '${dbURI}'
+uri   = '${api.uri}'
 
 [onslip360]
-base  = '${base}'      # Onslip 360 environment
-realm = '${realm}'                          # Onslip 360 account
-id = '${id}' # ID of user's API key
-key = '${key}'                                    # User's Base64-encoded API key
+base  = '${api.base}'      # Onslip 360 environment
+realm = '${api.realm}'                          # Onslip 360 account
+id = '${api.id}' # ID of user's API key
+key = '${api.key}'                                    # User's Base64-encoded API key
                 `)
     }
 
@@ -93,7 +101,7 @@ key = '${key}'                                    # User's Base64-encoded API ke
 
     private async rootResponse() {
 
-        // this.listener.Listener();
+        this.listener.Listener();
         console.log(await this.GetProdByGroup())
         // this.WritetoFile('https://test.onslip360.com/v1/', 'bajs', 'bajs', 'bajs');
         return await this.GetProdByGroup();
