@@ -81,19 +81,19 @@ export class ApiUi {
               </div>
               <div class='inputfield'>
                 <label>API-realm</label>
-                <input type="text" value={this.base} onInput={(event) => this.handleChangeRealm(event)} />
+                <input type="text" value={this.realm} onInput={(event) => this.handleChangeRealm(event)} />
               </div>
               <div class='inputfield'>
                 <label>API-id</label>
-                <input type="text" value={this.base} onInput={(event) => this.handleChangeId(event)} />
+                <input type="text" value={this.id} onInput={(event) => this.handleChangeId(event)} />
               </div>
               <div class='inputfield'>
                 <label>API-nyckel</label>
-                <input type="text" value={this.base} onInput={(event) => this.handleChangeKey(event)} />
+                <input type="text" value={this.key} onInput={(event) => this.handleChangeKey(event)} />
               </div>
               <div class='inputfield'>
                 <label>Databas-Uri</label>
-                <input type="text" value={this.base} onInput={(event) => this.handleChangeURI(event)} />
+                <input type="text" value={this.uri} onInput={(event) => this.handleChangeURI(event)} />
               </div>
             </div>
             <div class="footer">
