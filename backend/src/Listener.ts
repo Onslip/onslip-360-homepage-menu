@@ -51,7 +51,7 @@ export class Listener {
         await this.db.query<DBQuery[]>`create table if not exists onslip.products (name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
         const getAllProducts = this.api.listProducts();
         (await getAllProducts).forEach((x) => {
-            this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, description,productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
+            this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, description, productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
         });
         this.DeleteFromDb();
     }
