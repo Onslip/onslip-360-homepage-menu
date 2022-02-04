@@ -4,10 +4,7 @@ import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { writeFileSync } from 'fs';
-<<<<<<< HEAD
-=======
 
->>>>>>> fac61fb6c468b63917d81489ae9c39f179bb6aa6
 
 
 export class DHMService {
