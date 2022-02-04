@@ -1,4 +1,5 @@
 import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
+import { json } from 'stream/consumers';
 
 @Component({
   tag: 'api-ui',
@@ -30,15 +31,15 @@ export class ApiUi {
   }
 
   PostData() {
-    const data = [this.realm, this.id, this.key, this.uri];
-    fetch('http://localhost:8080/post', {
+    const data = {realm: this.realm, id: this.id, key: this.key, uri: this.uri};
+    fetch('http://localhost:8080/upload', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-    });
+    })
     this.close();
   }
 

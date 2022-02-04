@@ -44,8 +44,8 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     let api: newApi
-
-                    return [console.log(args.log)]
+                    console.log(await args.body())
+                    return args.body()
                 }
             })
 
