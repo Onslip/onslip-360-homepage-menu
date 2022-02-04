@@ -18,6 +18,7 @@ export class HomepageMenuComponent {
     await fetch(this.url)
       .then(rsp => rsp.json())
       .then(data => this.responsedata = JSON.parse(JSON.stringify(data)))
+      .catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'))
   }
 
 

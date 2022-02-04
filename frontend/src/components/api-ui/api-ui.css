@@ -26,7 +26,7 @@
 .modal-wrapper .modal {
   background: white;
   width: 22rem;
-  height: 41%;
+  height: auto;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0px);
@@ -120,7 +120,7 @@
 
 
 
-/* CSS */
+
 .button-9 {
   appearance: button;
   backface-visibility: hidden;
@@ -134,12 +134,12 @@
   font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
   font-size: 100%;
   height: 44px;
-  line-height: 1.15;
-  margin: 12px 0 0;
+  line-height: 1;
+  /* margin: 12px 0 0; */
   outline: none;
   overflow: hidden;
   padding: 0 25px;
-  position:absolute;
+  /* position:absolute; */
   text-align: center;
   text-transform: none;
   transform: translateZ(0);
@@ -148,6 +148,11 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   width: auto;
+}
+#changekey {
+    margin: 12px 0 0;
+  position:absolute;
+
 }
 
 .button-9:disabled {
@@ -203,4 +208,9 @@ input {
   position: absolute;
   float: right;
   padding-right: 95%;
+}
+
+.inputfield {
+  padding-bottom: 0.6rem;
+  padding-top: 0.6rem;
 }
