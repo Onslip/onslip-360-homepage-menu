@@ -1,5 +1,6 @@
-import { Component, getAssetPath, h, State, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, getAssetPath, h, State, Event, EventEmitter, Element, Listen } from '@stencil/core';
 import '@ionic/core';
+import { listenerCount } from 'process';
 
 const MAX_UPLOAD_SIZE = 1024; // bytes
 const ALLOWED_FILE_TYPES = 'image.*';
@@ -15,6 +16,7 @@ export class ImageUploader {
 
   @Element() private elementHost: HTMLElement;
   @Event() onUploadCompleted: EventEmitter<Blob>;
+  @Listen('hover')
 
   public onInputChange(files) {
     // check if 1 image is uploaded
@@ -50,7 +52,7 @@ export class ImageUploader {
     formData.append('file', file, file.name);
 
     try {
-      const response = await fetch(getAssetPath('images/upload.php'), {
+      const response = await fetch('http://localhost:8080/imageupload', {
         method: 'post',
         body: formData,
       });
