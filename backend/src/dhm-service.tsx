@@ -41,10 +41,6 @@ export class DHMService {
                 static path = /updateapi/;
 
                 async POST(args: WebArguments) {
-<<<<<<< HEAD
-                    let api: newApi
-
-=======
                     const api = await args.body() as newApi;
                     console.log(api.base)
                     svc.WritetoFile(api);
@@ -57,7 +53,6 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     await writeFileSync('./test.txt', JSON.stringify(args.body()));
->>>>>>> fac61fb6c468b63917d81489ae9c39f179bb6aa6
                     return args.body()
                 }
             })
