@@ -11,7 +11,7 @@ export class ColorPicker {
   })
   onChange: EventEmitter;
 
-  @Prop() colors: any = ["red", "#232345", "#458596"];
+  @Prop() colors: any = ["red", "#232345", "#458596", "#685B39" ];
 
   @State() selectedOne: number = -1;
 
