@@ -1,12 +1,9 @@
-import { DatabaseURI, DBQuery, JSONParser, TOMLParser, URI } from '@divine/uri';
-import { CORSFilter, CORSFilterParams, WebArguments, WebFilter, WebFilterCtor, WebResource, WebResponse, WebResponses, WebService, WebStatus } from '@divine/web-service';
-import { API, jsonType } from '@onslip/onslip-360-node-api';
+import { DatabaseURI, URI } from '@divine/uri';
+import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
+import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { access, writeFileSync } from 'fs';
-import { filterSelectors } from '@divine/uri/build/src/selectors';
-import { JSONType } from 'ajv';
-
+import { writeFileSync } from 'fs';
 
 
 export class DHMService {
@@ -44,7 +41,7 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     let api: newApi
-                    console.log(await args.body())
+
                     return args.body()
                 }
             })
