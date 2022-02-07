@@ -18,3 +18,8 @@ export interface DBproduct {
 export interface DBcategory {
   name: string
 }
+
+export interface Images {
+  backgroundImage: string,
+  backgroundcolor: string
+}

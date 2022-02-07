@@ -1,5 +1,6 @@
 import { Component, getAssetPath, h, State, Event, EventEmitter, Element, Listen } from '@stencil/core';
 import '@ionic/core';
+import { Images } from '../../utils/utils';
 import { listenerCount } from 'process';
 
 const MAX_UPLOAD_SIZE = 1024; // bytes
@@ -20,6 +21,8 @@ export class ImageUploader {
 
   public onInputChange(files) {
     // check if 1 image is uploaded
+    // this.submitForm(files[0]);
+
     if (files.length === 1) {
       const imageFile = files[0];
       // check if the user isn't trying to upload a file larger then the MAX_UPLOAD_SIZE
@@ -36,7 +39,6 @@ export class ImageUploader {
       this.uploadImage(imageFile);
 
       // upload image
-      this.submitForm(files[0]);
     } else {
       console.error(files.length === 0 ? 'NO IMAGE UPLOADED' : 'YOU CAN ONLY UPLOAD ONE IMAGE AT THE TIME');
       return false;
@@ -48,13 +50,17 @@ export class ImageUploader {
   }
 
   async submitForm(file) {
+    const data: Images = { backgroundImage: file, backgroundcolor: null };
     let formData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append('file', file);
 
     try {
       const response = await fetch('http://localhost:8080/imageupload', {
         method: 'post',
-        body: formData,
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        },
       });
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -77,6 +83,7 @@ export class ImageUploader {
     reader.onload = () => {
       document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
       console.log('uploading finished, emitting an image blob to the outside world');
+      this.submitForm(`url(${reader.result})`);
       this.onUploadCompleted.emit(file);
     };
 

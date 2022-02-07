@@ -1,5 +1,5 @@
-import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
-import { productsWithCategory } from '../../utils/utils';
+import { Component, h, State, getAssetPath } from '@stencil/core';
+import { productsWithCategory, Images } from '../../utils/utils';
 import '@ionic/core'
 
 @Component({
@@ -9,10 +9,12 @@ import '@ionic/core'
   assetsDirs: ['assets'],
 
 })
-export class HomepageMenuComponent {
 
+export class HomepageMenuComponent {
   private url = 'http://localhost:8080'
   @State() responsedata: productsWithCategory[]
+
+  @State() imagedata: Images
 
   async fetchdata() {
     await fetch(this.url)
@@ -21,9 +23,20 @@ export class HomepageMenuComponent {
       .catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));
   }
 
+  async fetchbackground() {
+    await fetch('http://localhost:8080/getimage')
+      .then(rsp => rsp.json())
+      .then(data => this.imagedata = JSON.parse(JSON.stringify(data)))
+      .catch(err => console.log(err));
+  }
 
   async componentWillLoad() {
-    await this.fetchdata()
+    await this.fetchdata();
+    await this.fetchbackground();
+    document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
+
+    document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
+
   }
 
   render() {
@@ -55,5 +68,4 @@ export class HomepageMenuComponent {
     )
   }
 }
-
 
