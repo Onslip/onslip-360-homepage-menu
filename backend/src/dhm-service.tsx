@@ -1,11 +1,10 @@
-import { DatabaseURI, DBQuery, JSONParser, TOMLParser, URI } from '@divine/uri';
-import { CORSFilter, CORSFilterParams, WebArguments, WebFilter, WebFilterCtor, WebResource, WebResponse, WebResponses, WebService, WebStatus } from '@divine/web-service';
-import { API, jsonType } from '@onslip/onslip-360-node-api';
+import { DatabaseURI, URI, FormData, FormParser, Base64Encoder } from '@divine/uri';
+import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
+import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { writeFileSync } from 'fs';
-
-
+import { readFile, readFileSync, writeFileSync } from 'fs';
+import { decode } from 'querystring';
 
 export class DHMService {
     private api: API;
@@ -28,23 +27,28 @@ export class DHMService {
         const svc = this;
         return new WebService(this)
             .addResource(class implements WebResource {
-
                 static path = RegExp('');
-
                 async GET() {
-
                     return svc.rootResponse();
                 }
             })
+
+            .addResource(class implements WebResource {
+                static path = /getimage/;
+                async GET() {
+                    const data = readFileSync('./background.json').toString();
+                    return JSON.parse(data);
+                }
+            })
+
 
             .addResource(class implements WebResource {
                 static path = /updateapi/;
 
                 async POST(args: WebArguments) {
                     const api = await args.body() as newApi;
-                    console.log(api.base)
                     svc.WritetoFile(api);
-                    return args.body()
+                    return args.body();
                 }
             })
 
@@ -52,18 +56,16 @@ export class DHMService {
                 static path = /imageupload/;
 
                 async POST(args: WebArguments) {
-                    await writeFileSync('./test.txt', JSON.stringify(args.body()));
+                    console.log(await args.body());
+                    const kasd = await args.body()
+                    writeFileSync('./background.json', JSON.stringify(kasd));
                     return args.body()
                 }
             })
-
             .addFilter(class extends CORSFilter {
                 static path = /.*/;
             })
-
-
     }
-
 
     private async WritetoFile(api: newApi) {
         this.api = new API(api.base, api.realm, api.id, api.key);
@@ -101,9 +103,8 @@ key = '${api.key}'                                    # User's Base64-encoded AP
 
     private async rootResponse() {
 
-        this.listener.Listener();
-        console.log(await this.GetProdByGroup())
-        // this.WritetoFile('https://test.onslip360.com/v1/', 'bajs', 'bajs', 'bajs');
+        // this.listener.Listener();
+        // console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
     }
 }
@@ -136,4 +137,9 @@ interface newApi {
     key: string,
     id: string,
     uri: string
+}
+
+interface Images {
+    backgroundImage: string,
+    backgroundcolor: string
 }
