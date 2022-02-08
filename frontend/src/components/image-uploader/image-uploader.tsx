@@ -1,7 +1,6 @@
-import { Component, getAssetPath, h, State, Event, EventEmitter, Element, Listen } from '@stencil/core';
+import { Component, h, Event, EventEmitter, State } from '@stencil/core';
 import '@ionic/core';
 import { Images } from '../../utils/utils';
-import { listenerCount } from 'process';
 
 const MAX_UPLOAD_SIZE = 1024; // bytes
 const ALLOWED_FILE_TYPES = 'image.*';
@@ -10,32 +9,28 @@ const ALLOWED_FILE_TYPES = 'image.*';
   tag: 'image-uploader',
   styleUrl: 'image-uploader.css',
   shadow: true,
-  assetsDirs: ['images'],
-
 })
 export class ImageUploader {
 
-  @Element() private elementHost: HTMLElement;
   @Event() onUploadCompleted: EventEmitter<Blob>;
-  @Listen('hover')
+  @State() color: string;
+  @State() file: string;
+  @State() tempfile: string;
+  @State() checkImage: boolean;
 
   public onInputChange(files) {
-    // check if 1 image is uploaded
-    // this.submitForm(files[0]);
-
+    this.checkImage = true;
     if (files.length === 1) {
       const imageFile = files[0];
-      // check if the user isn't trying to upload a file larger then the MAX_UPLOAD_SIZE
       if (!this.checkFileSize(imageFile.size)) {
         console.error('Maximum file size exceeded. Max file size is: ' + MAX_UPLOAD_SIZE);
         return false;
       }
-      // check if the user isn't trying to upload anything else then an image
       else if (!this.checkFileType(imageFile.type)) {
         console.error('File type is not allowed');
         return false;
       }
-
+      this.tempfile = this.file;
       this.uploadImage(imageFile);
 
       // upload image
@@ -45,14 +40,25 @@ export class ImageUploader {
     }
   }
 
-  changeColor(Event) {
-    document.body.style.backgroundColor = Event;
+  changeColor() {
+    this.checkImage = false;
+    document.body.style.backgroundImage = null;
+    document.body.style.backgroundColor = this.color;
+    this.submitForm();
   }
 
-  async submitForm(file) {
-    const data: Images = { backgroundImage: file, backgroundcolor: null };
-    let formData = new FormData();
-    formData.append('file', file);
+
+
+
+  async submitForm() {
+    let data: Images;
+
+    if (this.checkImage) {
+      data = { backgroundImage: this.file, backgroundcolor: null }
+    }
+    else {
+      data = { backgroundImage: null, backgroundcolor: this.color }
+    }
 
     try {
       const response = await fetch('http://localhost:8080/imageupload', {
@@ -74,22 +80,19 @@ export class ImageUploader {
 
   private uploadImage(file) {
     console.log(typeof file);
-    // create a new instance of HTML5 FileReader api to handle uploading
     const reader = new FileReader();
     reader.onloadstart = () => {
       console.log('started uploading');
     }
 
     reader.onload = () => {
+
       document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
       console.log('uploading finished, emitting an image blob to the outside world');
-      this.submitForm(`url(${reader.result})`);
+      this.file = `url(${reader.result})`;
+      this.submitForm();
+      this.file = this.tempfile;
       this.onUploadCompleted.emit(file);
-    };
-
-
-    reader.onloadend = () => {
-      console.log('upload finished');
     };
 
     reader.onerror = (err) => {
@@ -110,8 +113,15 @@ export class ImageUploader {
     return <div class="upload">
       <div class="upload-edit">
         <label htmlFor="file"></label>
-        <input type="file" name="files[]" id="file" accept="image/*" class="upload-button"
-          onChange={($event: any) => this.onInputChange($event.target.files)} />
+        <div class='imageupload'>
+          <input type="file" name="files[]" id="file" accept="image/*" class="upload-button" value={this.file}
+            onChange={($event: any) => this.file = $event.target.files} />
+          <button onClick={() => { this.onInputChange(this.file); }}>Tillämpa bakgrundsbild</button>
+        </div>
+        <div class='colorupload'>
+          <input type='color' value={this.color} onChange={(event: any) => this.color = event.target.value}></input>
+          <button onClick={() => { this.changeColor(); }}>Tillämpa bakgrundsfärg</button>
+        </div>
       </div>
     </div>;
   }

@@ -204,10 +204,8 @@ input {
 }
 
 .main-button {
-  padding-left: 90%;
-  position: absolute;
   float: right;
-  padding-right: 95%;
+  padding-right: 10%;
 }
 
 .inputfield {

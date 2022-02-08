@@ -14,11 +14,6 @@ export namespace Components {
     interface CategoryComponent {
         "category": DBcategory;
     }
-    interface ColorPicker {
-        "activeColor": string;
-        "colors": any;
-        "inputValue": string;
-    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
@@ -39,12 +34,6 @@ declare global {
     var HTMLCategoryComponentElement: {
         prototype: HTMLCategoryComponentElement;
         new (): HTMLCategoryComponentElement;
-    };
-    interface HTMLColorPickerElement extends Components.ColorPicker, HTMLStencilElement {
-    }
-    var HTMLColorPickerElement: {
-        prototype: HTMLColorPickerElement;
-        new (): HTMLColorPickerElement;
     };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
@@ -67,7 +56,6 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
-        "color-picker": HTMLColorPickerElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "image-uploader": HTMLImageUploaderElement;
         "product-component": HTMLProductComponentElement;
@@ -81,12 +69,6 @@ declare namespace LocalJSX {
     interface CategoryComponent {
         "category"?: DBcategory;
     }
-    interface ColorPicker {
-        "activeColor"?: string;
-        "colors"?: any;
-        "inputValue"?: string;
-        "onColorPickedEvent"?: (event: CustomEvent<any>) => void;
-    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
@@ -98,7 +80,6 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
-        "color-picker": ColorPicker;
         "homepage-menu-component": HomepageMenuComponent;
         "image-uploader": ImageUploader;
         "product-component": ProductComponent;
@@ -110,7 +91,6 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
-            "color-picker": LocalJSX.ColorPicker & JSXBase.HTMLAttributes<HTMLColorPickerElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
