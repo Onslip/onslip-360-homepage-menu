@@ -1,10 +1,9 @@
-import { DatabaseURI, URI, FormData, FormParser, Base64Encoder } from '@divine/uri';
+import { DatabaseURI, URI } from '@divine/uri';
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { readFile, readFileSync, writeFileSync } from 'fs';
-import { decode } from 'querystring';
+import { readFileSync, writeFileSync } from 'fs';
 
 export class DHMService {
     private api: API;
@@ -57,8 +56,8 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     console.log(await args.body());
-                    const kasd = await args.body()
-                    writeFileSync('./background.json', JSON.stringify(kasd));
+                    const body = await args.body()
+                    writeFileSync('./background.json', JSON.stringify(body));
                     return args.body()
                 }
             })
@@ -103,7 +102,7 @@ key = '${api.key}'                                    # User's Base64-encoded AP
 
     private async rootResponse() {
 
-        // this.listener.Listener();
+        this.listener.Listener();
         // console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
     }
@@ -137,9 +136,4 @@ interface newApi {
     key: string,
     id: string,
     uri: string
-}
-
-interface Images {
-    backgroundImage: string,
-    backgroundcolor: string
 }
