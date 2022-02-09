@@ -4,7 +4,6 @@ import { DatabaseURI, DBQuery } from "@divine/uri";
 export class Listener {
     private api: API;
     private db: DatabaseURI;
-
     constructor(_api: API, _db: DatabaseURI) {
         this.api = _api;
         this.db = _db;
@@ -34,6 +33,8 @@ export class Listener {
 
 
     private async CreateDB() {
+        const name = (await this.api.getCompanyInfo()).name;
+        console.log(name);
         await this.db.query<DBQuery[]>`create schema if not exists onslip`;
         this.CreateGroupTable();
     }
