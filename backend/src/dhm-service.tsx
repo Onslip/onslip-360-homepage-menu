@@ -53,7 +53,6 @@ export class DHMService {
 
             .addResource(class implements WebResource {
                 static path = /imageupload/;
-
                 async POST(args: WebArguments) {
                     console.log(await args.body());
                     const body = await args.body()
@@ -101,7 +100,7 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     }
 
     private async rootResponse() {
-
+        console.log((await this.api.getCompanyInfo()).name);
         this.listener.Listener();
         // console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
