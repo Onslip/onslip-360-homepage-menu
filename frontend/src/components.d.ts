@@ -14,6 +14,8 @@ export namespace Components {
     interface CategoryComponent {
         "category": DBcategory;
     }
+    interface CompanyBanner {
+    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
@@ -34,6 +36,12 @@ declare global {
     var HTMLCategoryComponentElement: {
         prototype: HTMLCategoryComponentElement;
         new (): HTMLCategoryComponentElement;
+    };
+    interface HTMLCompanyBannerElement extends Components.CompanyBanner, HTMLStencilElement {
+    }
+    var HTMLCompanyBannerElement: {
+        prototype: HTMLCompanyBannerElement;
+        new (): HTMLCompanyBannerElement;
     };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
@@ -56,6 +64,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
+        "company-banner": HTMLCompanyBannerElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "image-uploader": HTMLImageUploaderElement;
         "product-component": HTMLProductComponentElement;
@@ -69,6 +78,8 @@ declare namespace LocalJSX {
     interface CategoryComponent {
         "category"?: DBcategory;
     }
+    interface CompanyBanner {
+    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
@@ -80,6 +91,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
+        "company-banner": CompanyBanner;
         "homepage-menu-component": HomepageMenuComponent;
         "image-uploader": ImageUploader;
         "product-component": ProductComponent;
@@ -91,6 +103,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
+            "company-banner": LocalJSX.CompanyBanner & JSXBase.HTMLAttributes<HTMLCompanyBannerElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;

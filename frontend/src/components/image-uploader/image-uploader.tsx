@@ -1,9 +1,10 @@
 import { Component, h, Event, EventEmitter, State } from '@stencil/core';
 import '@ionic/core';
 import { Images } from '../../utils/utils';
+import { PostData } from '../../utils/post';
 
-const MAX_UPLOAD_SIZE = 1024; // bytes
-const ALLOWED_FILE_TYPES = 'image.*';
+const MAX_UPLOAD_SIZE = 1024 * 1024;
+const ALLOWED_FILE_TYPES = 'image/*';
 
 @Component({
   tag: 'image-uploader',
@@ -19,21 +20,22 @@ export class ImageUploader {
   @State() checkImage: boolean;
 
   public onInputChange(files) {
-    this.checkImage = true;
+    const imageFile = files[0];
+    console.log(imageFile.size);
     if (files.length === 1) {
-      const imageFile = files[0];
-      if (!this.checkFileSize(imageFile.size)) {
-        console.error('Maximum file size exceeded. Max file size is: ' + MAX_UPLOAD_SIZE);
+      if (!this.checkFileSize(imageFile.size as number)) {
+        alert('Bilden är för stor, välj en mindre bild');
         return false;
       }
       else if (!this.checkFileType(imageFile.type)) {
-        console.error('File type is not allowed');
+        alert('Fel filtyp, välj en fil av ett bildformat')
         return false;
       }
-      this.tempfile = this.file;
-      this.uploadImage(imageFile);
-
-      // upload image
+      else {
+        this.checkImage = true;
+        this.uploadImage(imageFile);
+        return true;
+      }
     } else {
       console.error(files.length === 0 ? 'NO IMAGE UPLOADED' : 'YOU CAN ONLY UPLOAD ONE IMAGE AT THE TIME');
       return false;
@@ -47,34 +49,16 @@ export class ImageUploader {
     this.submitForm();
   }
 
-
-
-
   async submitForm() {
     let data: Images;
-
     if (this.checkImage) {
       data = { backgroundImage: this.file, backgroundcolor: null }
     }
+
     else {
       data = { backgroundImage: null, backgroundcolor: this.color }
     }
-
-    try {
-      const response = await fetch('http://localhost:8080/imageupload', {
-        method: 'post',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
+    PostData('http://localhost:8080/imageupload', data);
   }
 
 
@@ -84,14 +68,10 @@ export class ImageUploader {
     reader.onloadstart = () => {
       console.log('started uploading');
     }
-
     reader.onload = () => {
-
       document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
-      console.log('uploading finished, emitting an image blob to the outside world');
       this.file = `url(${reader.result})`;
       this.submitForm();
-      this.file = this.tempfile;
       this.onUploadCompleted.emit(file);
     };
 
@@ -102,7 +82,7 @@ export class ImageUploader {
   }
 
   private checkFileSize(size: number): boolean {
-    return (size / MAX_UPLOAD_SIZE / MAX_UPLOAD_SIZE) <= MAX_UPLOAD_SIZE;
+    return size <= MAX_UPLOAD_SIZE;
   }
 
   private checkFileType(type: string): boolean {
@@ -110,20 +90,21 @@ export class ImageUploader {
   }
 
   render() {
-    return <div class="upload">
-      <div class="upload-edit">
-        <label htmlFor="file"></label>
+    return (<ion-card-content class="upload">
+      <ion-row class="upload-edit">
         <div class='imageupload'>
-          <input type="file" name="files[]" id="file" accept="image/*" class="upload-button" value={this.file}
-            onChange={($event: any) => this.file = $event.target.files} />
-          <button onClick={() => { this.onInputChange(this.file); }}>Tillämpa bakgrundsbild</button>
+          <label htmlFor='file' class='button-9' onClick={() => { this.onInputChange(this.file) }} id='asf'>Ändra bakgrundsbild</label>
+          <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
+            onChange={($event: any) => { this.onInputChange($event.target.files) }} hidden />
+          <label id='asfd' htmlFor='color' class='button-9' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }}>Ändra bakgrundsfärg</label>
+          <input id='color' type='color' value='asfasf' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden>hello</input>
+
         </div>
         <div class='colorupload'>
-          <input type='color' value={this.color} onChange={(event: any) => this.color = event.target.value}></input>
-          <button onClick={() => { this.changeColor(); }}>Tillämpa bakgrundsfärg</button>
+          {/* <button onClick={() => this.changeColor()} class='button-9'>Tillämpa bakgrundsfärg</button> */}
         </div>
-      </div>
-    </div>;
+      </ion-row>
+    </ion-card-content>);
   }
 }
 

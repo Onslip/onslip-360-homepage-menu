@@ -1,7 +1,7 @@
 import { Component, h, State, getAssetPath } from '@stencil/core';
 import { productsWithCategory, Images } from '../../utils/utils';
 import '@ionic/core'
-
+import { GetData } from '../../utils/get';
 @Component({
   tag: 'homepage-menu-component',
   styleUrl: 'homepage-menu-component.css',
@@ -16,23 +16,10 @@ export class HomepageMenuComponent {
 
   @State() imagedata: Images
 
-  async fetchdata() {
-    await fetch(this.url)
-      .then(rsp => rsp.json())
-      .then(data => this.responsedata = JSON.parse(JSON.stringify(data)))
-      .catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));
-  }
-
-  async fetchbackground() {
-    await fetch('http://localhost:8080/getimage')
-      .then(rsp => rsp.json())
-      .then(data => this.imagedata = JSON.parse(JSON.stringify(data)))
-      .catch(err => console.log(err));
-  }
-
   async componentWillLoad() {
-    await this.fetchdata();
-    await this.fetchbackground();
+    this.responsedata = await GetData(this.url);
+    this.imagedata = await GetData('http://localhost:8080/getimage');
+
     document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
 
     document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;

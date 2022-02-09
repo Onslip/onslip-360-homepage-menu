@@ -124,7 +124,7 @@
 .button-9 {
   appearance: button;
   backface-visibility: hidden;
-  background-color: #9cc541;
+  background-color: #a4d463;
   border-radius: 6px;
   border-width: 0;
   box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
@@ -211,4 +211,8 @@ input {
 .inputfield {
   padding-bottom: 0.6rem;
   padding-top: 0.6rem;
+}
+
+.button-9:hover {
+  background-color: #647c2e;
 }

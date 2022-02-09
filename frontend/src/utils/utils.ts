@@ -21,5 +21,5 @@ export interface DBcategory {
 
 export interface Images {
   backgroundImage: string,
-  backgroundcolor: string
+  backgroundcolor: string,
 }
