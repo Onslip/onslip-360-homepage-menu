@@ -21,6 +21,8 @@ export namespace Components {
     interface ProductComponent {
         "product": DBproduct;
     }
+    interface ProductEditorComponent {
+    }
 }
 declare global {
     interface HTMLApiUiElement extends Components.ApiUi, HTMLStencilElement {
@@ -53,12 +55,19 @@ declare global {
         prototype: HTMLProductComponentElement;
         new (): HTMLProductComponentElement;
     };
+    interface HTMLProductEditorComponentElement extends Components.ProductEditorComponent, HTMLStencilElement {
+    }
+    var HTMLProductEditorComponentElement: {
+        prototype: HTMLProductEditorComponentElement;
+        new (): HTMLProductEditorComponentElement;
+    };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "image-uploader": HTMLImageUploaderElement;
         "product-component": HTMLProductComponentElement;
+        "product-editor-component": HTMLProductEditorComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -77,12 +86,15 @@ declare namespace LocalJSX {
     interface ProductComponent {
         "product"?: DBproduct;
     }
+    interface ProductEditorComponent {
+    }
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
         "homepage-menu-component": HomepageMenuComponent;
         "image-uploader": ImageUploader;
         "product-component": ProductComponent;
+        "product-editor-component": ProductEditorComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -94,6 +106,7 @@ declare module "@stencil/core" {
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
+            "product-editor-component": LocalJSX.ProductEditorComponent & JSXBase.HTMLAttributes<HTMLProductEditorComponentElement>;
         }
     }
 }
