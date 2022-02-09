@@ -79,6 +79,7 @@ declare namespace LocalJSX {
         "category"?: DBcategory;
     }
     interface CompanyBanner {
+        "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
     }
     interface HomepageMenuComponent {
     }

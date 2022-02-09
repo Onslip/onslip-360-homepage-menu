@@ -18,6 +18,7 @@ export class ImageUploader {
   @State() file: string;
   @State() tempfile: string;
   @State() checkImage: boolean;
+  @State() private url: string = 'http://localhost:8080/imageupload'
 
   public onInputChange(files) {
     const imageFile = files[0];
@@ -58,7 +59,7 @@ export class ImageUploader {
     else {
       data = { backgroundImage: null, backgroundcolor: this.color }
     }
-    PostData('http://localhost:8080/imageupload', data);
+    await PostData(this.url, data);
   }
 
 
@@ -97,14 +98,10 @@ export class ImageUploader {
           <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
             onChange={($event: any) => { this.onInputChange($event.target.files) }} hidden />
           <label id='asfd' htmlFor='color' class='button-9' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }}>Ändra bakgrundsfärg</label>
-          <input id='color' type='color' value='asfasf' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden>hello</input>
+          <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden>hello</input>
 
-        </div>
-        <div class='colorupload'>
-          {/* <button onClick={() => this.changeColor()} class='button-9'>Tillämpa bakgrundsfärg</button> */}
         </div>
       </ion-row>
     </ion-card-content>);
   }
 }
-

@@ -2,6 +2,7 @@ import { Component, h, State, getAssetPath } from '@stencil/core';
 import { productsWithCategory, Images } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
+
 @Component({
   tag: 'homepage-menu-component',
   styleUrl: 'homepage-menu-component.css',
@@ -11,26 +12,26 @@ import { GetData } from '../../utils/get';
 })
 
 export class HomepageMenuComponent {
-  private url = 'http://localhost:8080'
+  @State() private url = 'http://localhost:8080'
   @State() responsedata: productsWithCategory[]
-
   @State() imagedata: Images
+  @State() private imageurl: string = 'http://localhost:8080/getimage';
+  @State() banner: string;
+  @State() private bannerUrl: string = 'http://localhost:8080/'
 
   async componentWillLoad() {
     this.responsedata = await GetData(this.url);
-    this.imagedata = await GetData('http://localhost:8080/getimage');
+    this.imagedata = await GetData(this.imageurl);
+    this.banner = await GetData(this.bannerUrl);
 
     document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
-
     document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
-
   }
 
   render() {
     return (
       <div class='menuContainer'>
         <div class='header'>
-          <h1>Martins kolgrill</h1>
         </div>
         {
           this.responsedata.map(p => {
