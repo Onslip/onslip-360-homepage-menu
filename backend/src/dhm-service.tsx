@@ -3,7 +3,9 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { readFileSync, writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
+
+
 
 export class DHMService {
     private api: API;
@@ -26,8 +28,11 @@ export class DHMService {
         const svc = this;
         return new WebService(this)
             .addResource(class implements WebResource {
+
                 static path = RegExp('');
+
                 async GET() {
+
                     return svc.rootResponse();
                 }
             })
@@ -40,14 +45,31 @@ export class DHMService {
                 }
             })
 
+            .addResource(class implements WebResource {
+                static path = /getlogo/;
+                async GET() {
+                    const data = readFileSync('./logo.json').toString();
+                    return JSON.parse(data);
+                }
+            })
 
             .addResource(class implements WebResource {
                 static path = /updateapi/;
 
                 async POST(args: WebArguments) {
                     const api = await args.body() as newApi;
+                    console.log(api.base)
                     svc.WritetoFile(api);
-                    return args.body();
+                    return args.body()
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /imageupload/;
+
+                async POST(args: WebArguments) {
+                    await writeFileSync('./test.txt', JSON.stringify(args.body()));
+                    return args.body()
                 }
             })
 
@@ -60,10 +82,27 @@ export class DHMService {
                     return args.body()
                 }
             })
+
+            .addResource(class implements WebResource {
+                static path = /logoupload/;
+                async POST(args: WebArguments) {
+                    console.log(await args.body());
+                    const body = await args.body()
+                    writeFileSync('./logo.json', JSON.stringify(body));
+                    return args.body()
+                }
+            })
+
+
+
+
             .addFilter(class extends CORSFilter {
                 static path = /.*/;
             })
+
+
     }
+
 
     private async WritetoFile(api: newApi) {
         this.api = new API(api.base, api.realm, api.id, api.key);
@@ -100,9 +139,10 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     }
 
     private async rootResponse() {
-        console.log((await this.api.getCompanyInfo()).name);
+
         this.listener.Listener();
-        // console.log(await this.GetProdByGroup())
+        console.log(await this.GetProdByGroup())
+        // this.WritetoFile('https://test.onslip360.com/v1/', 'bajs', 'bajs', 'bajs');
         return await this.GetProdByGroup();
     }
 }

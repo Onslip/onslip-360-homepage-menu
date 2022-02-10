@@ -52,12 +52,14 @@ export class ImageUploader {
   async submitForm() {
     let data: Images;
     if (this.checkImage) {
-      data = { backgroundImage: this.file, backgroundcolor: null }
+      data = { backgroundImage: this.file, backgroundcolor: null, logoImage: null }
     }
 
     else {
-      data = { backgroundImage: null, backgroundcolor: this.color }
+      data = { backgroundImage: null, backgroundcolor: this.color, logoImage: null }
     }
+
+
     PostData('http://localhost:8080/imageupload', data);
   }
 

@@ -16,13 +16,37 @@ export class HomepageMenuComponent {
 
   @State() imagedata: Images
 
+  @State() logoData: Images
+
   async componentWillLoad() {
     this.responsedata = await GetData(this.url);
     this.imagedata = await GetData('http://localhost:8080/getimage');
+    this.logoData = await GetData('http://localhost:8080/getlogo')
+    console.log(await this.logoData)
 
     document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
 
     document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
+
+    let picc = document.createElement('logopic') as HTMLImageElement;
+    picc.src = this.logoData.logoImage;
+    //console.log(picc.src)
+    // document.getElementById('logohere').appendChild(picc);
+
+    // const logopicss = document.getElementById('logoimg') as HTMLImageElement;
+
+    // if (this.logoData == undefined || this.logoData == null) {
+
+    //   logopicss.src = "https://www.getdigital.co.uk/web/getdigital/gfx/products/__generated__resized/1100x1100/Aufkleber_MeGusta.jpg";
+    //   // document.getElementById('logoimg').setAttribute('src', "https://www.getdigital.co.uk/web/getdigital/gfx/products/__generated__resized/1100x1100/Aufkleber_MeGusta.jpg")
+
+    // }
+    // else {
+    //   // document.getElementById('logoimg').setAttribute('src', `data:image/jpg;base64,${this.logoData}`)
+    //   logopicss.src = this.logoData.logoImage;
+    //   console.log("jasdsadkaodkopakdpaokdapokdwkapokd")
+    // }
+
 
   }
 
@@ -31,6 +55,8 @@ export class HomepageMenuComponent {
       <div class='menuContainer'>
         <div class='header'>
           <h1>Martins kolgrill</h1>
+          <company-logo></company-logo>
+          <div id='logohere'></div>
         </div>
         {
           this.responsedata.map(p => {
