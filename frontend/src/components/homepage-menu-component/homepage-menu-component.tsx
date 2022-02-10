@@ -31,7 +31,7 @@ export class HomepageMenuComponent {
   render() {
     return (
       <div class='menuContainer'>
-        <div class='header'>
+        <div class='header'><company-banner></company-banner>
         </div>
         {
           this.responsedata.map(p => {

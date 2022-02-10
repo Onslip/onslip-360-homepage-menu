@@ -27,7 +27,7 @@ export class CompanyBanner {
     console.log(typeof file);
     const reader = new FileReader();
     reader.onload = () => {
-      document.querySelector('host').style.backgroundImage = `url(${reader.result})`;
+      document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
       file = `url(${reader.result})`;
       PostData(this.url, file);
       this.onUploadCompleted.emit(file);
