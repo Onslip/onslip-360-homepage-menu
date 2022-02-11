@@ -1,10 +1,10 @@
-import { DatabaseURI, DBQuery, FIELDS, FormParser, URI } from '@divine/uri';
+import { CacheURI, DatabaseURI, DBQuery, FIELDS, FileURI, FormData, FormParser, uri, URI } from '@divine/uri';
+import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
-import { API, asReadableStream } from '@onslip/onslip-360-node-api';
+import { API, asReadableStream, jsonType } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { readFileSync, writeFile, writeFileSync } from 'fs';
-import { serialize } from 'v8';
 
 export class DHMService {
     private api: API;
@@ -72,10 +72,14 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData
-                    const asd = await FormParser.serializeToBuffer(data, 'multipart/form-data')
-                    console.log(asd[0])
-                    svc.db.query<DBQuery[]>`insert into onslip.newtable (image) values (${asd[0]})`
-                    return asd[0]
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
+                    svc.db.query<DBQuery[]>`insert into onslip.newtable (image) values (${dataBuffer})`
+                    return data
+                }
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select * from onslip.newtable`
+                    return data[0]
                 }
             })
 
