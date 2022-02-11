@@ -1,16 +1,13 @@
-import { DatabaseURI, DBQuery, FIELDS, FormParser, URI } from '@divine/uri';
+import { CacheURI, DatabaseURI, DBQuery, FIELDS, FileURI, FormData, FormParser, uri, URI } from '@divine/uri';
+import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
-import { API, asReadableStream } from '@onslip/onslip-360-node-api';
+import { API, asReadableStream, jsonType } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-<<<<<<< HEAD
-import { writeFileSync, readFileSync } from 'fs';
+import { writeFileSync, readFileSync, } from 'fs';
 
 
-=======
-import { readFileSync, writeFile, writeFileSync } from 'fs';
 import { serialize } from 'v8';
->>>>>>> 2c801a4b441908401e44d345bf645f91b761b7f5
 
 export class DHMService {
     private api: API;
@@ -107,16 +104,19 @@ export class DHMService {
 
 
 
-            .addFilter(class extends CORSFilter {
-                static path = /.*/;
-                static path = /productimage-upload/
+            .addResource(class implements WebResource {
+                static path = /productimage-upload/;
 
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData
-                    const asd = await FormParser.serializeToBuffer(data, 'multipart/form-data')
-                    console.log(asd[0])
-                    svc.db.query<DBQuery[]>`insert into onslip.newtable (image) values (${asd[0]})`
-                    return asd[0]
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
+                    svc.db.query<DBQuery[]>`insert into onslip.newtable (image) values (${dataBuffer})`
+                    return data
+                }
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select * from onslip.newtable`
+                    return data[0]
                 }
             })
 
