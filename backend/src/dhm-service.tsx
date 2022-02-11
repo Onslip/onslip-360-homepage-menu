@@ -1,11 +1,16 @@
-import { DatabaseURI, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormParser, URI } from '@divine/uri';
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
-import { API } from '@onslip/onslip-360-node-api';
+import { API, asReadableStream } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
+<<<<<<< HEAD
 import { writeFileSync, readFileSync } from 'fs';
 
 
+=======
+import { readFileSync, writeFile, writeFileSync } from 'fs';
+import { serialize } from 'v8';
+>>>>>>> 2c801a4b441908401e44d345bf645f91b761b7f5
 
 export class DHMService {
     private api: API;
@@ -27,6 +32,11 @@ export class DHMService {
     asWebService(): WebService<this> {
         const svc = this;
         return new WebService(this)
+
+            .addFilter(class extends CORSFilter {
+                static path = /.*/;
+            })
+
             .addResource(class implements WebResource {
 
                 static path = RegExp('');
@@ -75,6 +85,7 @@ export class DHMService {
 
             .addResource(class implements WebResource {
                 static path = /imageupload/;
+
                 async POST(args: WebArguments) {
                     console.log(await args.body());
                     const body = await args.body()
@@ -98,6 +109,15 @@ export class DHMService {
 
             .addFilter(class extends CORSFilter {
                 static path = /.*/;
+                static path = /productimage-upload/
+
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const asd = await FormParser.serializeToBuffer(data, 'multipart/form-data')
+                    console.log(asd[0])
+                    svc.db.query<DBQuery[]>`insert into onslip.newtable (image) values (${asd[0]})`
+                    return asd[0]
+                }
             })
 
 
@@ -143,6 +163,8 @@ key = '${api.key}'                                    # User's Base64-encoded AP
         this.listener.Listener();
         console.log(await this.GetProdByGroup())
         // this.WritetoFile('https://test.onslip360.com/v1/', 'bajs', 'bajs', 'bajs');
+        //this.listener.Listener();
+        // console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
     }
 }

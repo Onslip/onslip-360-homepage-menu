@@ -27,7 +27,7 @@
     "@divine/headers": "^2.0.0",
     "@divine/synchronization": "^1.2.1",
     "@divine/sysconsole": "^2.0.0",
-    "@divine/uri": "~0.4.1",
+    "@divine/uri": "~0.4.2",
     "@divine/uri-postgres-protocol": "^0.4.0",
     "@divine/uri-x4e-parser": "^0.4.1",
     "@divine/web-service": "~0.4.0",

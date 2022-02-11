@@ -7,7 +7,7 @@ importers:
       '@divine/headers': ^2.0.0
       '@divine/synchronization': ^1.2.1
       '@divine/sysconsole': ^2.0.0
-      '@divine/uri': ~0.4.1
+      '@divine/uri': ~0.4.2
       '@divine/uri-postgres-protocol': ^0.4.0
       '@divine/uri-x4e-parser': ^0.4.1
       '@divine/web-service': ~0.4.0
@@ -31,10 +31,10 @@ importers:
       '@divine/headers': 2.0.0
       '@divine/synchronization': 1.2.1
       '@divine/sysconsole': 2.0.0
-      '@divine/uri': 0.4.1_@divine+headers@2.0.0
-      '@divine/uri-postgres-protocol': 0.4.0_@divine+uri@0.4.1
-      '@divine/uri-x4e-parser': 0.4.1_@divine+uri@0.4.1
-      '@divine/web-service': 0.4.0_0dc40a2c3412a39b1b95bc8ced56c7d8
+      '@divine/uri': 0.4.2_@divine+headers@2.0.0
+      '@divine/uri-postgres-protocol': 0.4.0_@divine+uri@0.4.2
+      '@divine/uri-x4e-parser': 0.4.1_@divine+uri@0.4.2
+      '@divine/web-service': 0.4.0_058867910d791cc322389784263b9bff
       '@onslip/onslip-360-node-api': 1.24.0-2107071611
       ajv: 8.8.2
       commander: 8.3.0
@@ -490,33 +490,33 @@ packages:
       syslog-client: 1.1.1
     dev: false
 
-  /@divine/uri-postgres-protocol/0.4.0_@divine+uri@0.4.1:
+  /@divine/uri-postgres-protocol/0.4.0_@divine+uri@0.4.2:
     resolution: {integrity: sha512-AYf9/nS55BSvfp+nif+cYnven1YNH/kSTVgvmyZnW+s1M6b0Xn2UptjdfbcRH8sQZq8PZhKytHR909ipCxuClg==}
     engines: {node: '>= 12.17.0'}
     peerDependencies:
       '@divine/uri': ~0.4.0
     dependencies:
       '@divine/commons': 0.4.0
-      '@divine/uri': 0.4.1_@divine+headers@2.0.0
+      '@divine/uri': 0.4.2_@divine+headers@2.0.0
       pg: 8.7.1
       tslib: 2.3.1
     transitivePeerDependencies:
       - pg-native
     dev: false
 
-  /@divine/uri-x4e-parser/0.4.1_@divine+uri@0.4.1:
+  /@divine/uri-x4e-parser/0.4.1_@divine+uri@0.4.2:
     resolution: {integrity: sha512-i289C7zIBQQQGck5IiYwxZrzjrcCD2xN+rcS75xJ11WN0/R3KUXZgX1Vl+gU8rsXzuQ6pOYmj5OXOZxeitiwHA==}
     engines: {node: '>= 12.17.0'}
     peerDependencies:
       '@divine/uri': ~0.4.0
     dependencies:
-      '@divine/uri': 0.4.1_@divine+headers@2.0.0
+      '@divine/uri': 0.4.2_@divine+headers@2.0.0
       '@divine/x4e': 0.4.1
       tslib: 2.3.1
     dev: false
 
-  /@divine/uri/0.4.1_@divine+headers@2.0.0:
-    resolution: {integrity: sha512-mwaph0rpgmnh8eGqqA2SZsQwQxqwAoN9TEO/XykRWJxQTAh3AfmbPek8w757tXNe2WqIqQKvPpWJqjXEI+aiVw==}
+  /@divine/uri/0.4.2_@divine+headers@2.0.0:
+    resolution: {integrity: sha512-0Xt7u/lvoPF1w/+JIpp3/Vwf4gvOFnauK7D42FEVGIVbFfsI0r9hy888+IHJAFDq9MfWSWN5wtHaI+8HmV/v2A==}
     engines: {node: '>= 12.17.0'}
     peerDependencies:
       '@divine/headers': ^2.0.0
@@ -529,7 +529,7 @@ packages:
       '@divine/headers': 2.0.0
       '@divine/synchronization': 1.2.1
       '@iarna/toml': 2.2.5
-      dicer: 0.3.0
+      dicer: 0.3.1
       iconv-lite: 0.6.3
       mime-types: 2.1.34
       papaparse: 5.3.1
@@ -538,7 +538,7 @@ packages:
       yaml: 1.10.2
     dev: false
 
-  /@divine/web-service/0.4.0_0dc40a2c3412a39b1b95bc8ced56c7d8:
+  /@divine/web-service/0.4.0_058867910d791cc322389784263b9bff:
     resolution: {integrity: sha512-1CQ0KxtV2VXpkLdV+nu2BSlLfoFZ9D/IkDRDmnw1x6hJxA93P/6xz3b2awIDfSDrqIRfZvBpBIASDvho2TTvYw==}
     engines: {node: '>= 12.17.0'}
     peerDependencies:
@@ -547,7 +547,7 @@ packages:
     dependencies:
       '@divine/commons': 0.4.0
       '@divine/headers': 2.0.0
-      '@divine/uri': 0.4.1_@divine+headers@2.0.0
+      '@divine/uri': 0.4.2_@divine+headers@2.0.0
       cuid: 2.1.8
       tslib: 2.3.1
       ua-parser-js: 0.7.31
@@ -2255,15 +2255,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /devtools-protocol/0.0.901419:
-    resolution: {integrity: sha512-4INMPwNm9XRpBukhNbF7OB6fNTTCaI8pzy/fXg0xQzAy5h3zL1P8xT3QazgKqBrb/hAYwIBizqDBZ7GtJE74QQ==}
-    dev: true
-
-  /dicer/0.3.0:
-    resolution: {integrity: sha512-MdceRRWqltEG2dZqO769g27N/3PXfcKl04VhYnBlo2YhH7zPi88VebsjTKclaOyiuMaGU72hTfw3VkUitGcVCA==}
-    engines: {node: '>=4.5.0'}
+  /dicer/0.3.1:
+    resolution: {integrity: sha512-ObioMtXnmjYs3aRtpIJt9rgQSPCIhKVkFPip+E9GUDyWl8N435znUxK/JfNwGZJ2wnn5JKQ7Ly3vOK5Q5dylGA==}
+    engines: {node: '>=10.0.0'}
     dependencies:
-      streamsearch: 0.1.2
+      streamsearch: 1.1.0
     dev: false
 
   /diff-sequences/26.6.2:
@@ -5761,6 +5757,7 @@ packages:
       xmldom: 0.1.15
     dev: false
 
+<<<<<<< HEAD
   /stream-combiner2/1.1.1:
     resolution: {integrity: sha1-+02KFCDqNidk4hrUeAOXvry0HL4=}
     dependencies:
@@ -5777,6 +5774,11 @@ packages:
   /streamsearch/0.1.2:
     resolution: {integrity: sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo=}
     engines: {node: '>=0.8.0'}
+=======
+  /streamsearch/1.1.0:
+    resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
+    engines: {node: '>=10.0.0'}
+>>>>>>> 2c801a4b441908401e44d345bf645f91b761b7f5
     dev: false
 
   /string-length/4.0.2:
