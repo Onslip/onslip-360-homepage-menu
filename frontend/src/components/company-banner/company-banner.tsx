@@ -1,6 +1,5 @@
 import { Component, Host, h, State, Event, EventEmitter, getAssetPath, Element } from '@stencil/core';
 import { PostData } from '../../utils/post';
-import { postImage } from '../../utils/postImage';
 @Component({
   tag: 'company-banner',
   styleUrl: 'company-banner.css',
