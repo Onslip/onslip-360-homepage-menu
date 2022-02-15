@@ -2,6 +2,7 @@ import { Component, h, State, Event, EventEmitter, getAssetPath, Element } from 
 import { PostData } from '../../utils/post';
 import { Banner } from '../../utils/utils';
 import { CheckImage } from '../../utils/image';
+
 @Component({
   tag: 'company-banner',
   styleUrl: 'company-banner.css',
