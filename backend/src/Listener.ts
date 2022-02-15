@@ -40,6 +40,7 @@ export class Listener {
     }
     private async CreateProductImageTable() {
         this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT REFERENCES onslip.products(id))`;
+        this.db.query<DBQuery[]>`create table if not exists onslip.backgroundimage (image bytea, id INT PRIMARY KEY);`
     }
 
     private async CreateGroupTable() {

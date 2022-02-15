@@ -15,3 +15,18 @@ export async function PostData(URL: string, data: any) {
         console.log(err);
     }
 }
+
+export async function PostImage(URL: string, data: any) {
+    try {
+        const response = await fetch(URL, {
+            method: 'post',
+            body: data,
+        });
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        console.log(response);
+    } catch (err) {
+        console.log(err);
+    }
+}

@@ -29,6 +29,11 @@ export namespace Components {
     }
     interface ProductEditorComponent {
     }
+    interface UploadImageButton {
+        "buttonvalue": string;
+        "getURL": string;
+        "postURL": string;
+    }
 }
 declare global {
     interface HTMLApiUiElement extends Components.ApiUi, HTMLStencilElement {
@@ -79,6 +84,12 @@ declare global {
         prototype: HTMLProductEditorComponentElement;
         new (): HTMLProductEditorComponentElement;
     };
+    interface HTMLUploadImageButtonElement extends Components.UploadImageButton, HTMLStencilElement {
+    }
+    var HTMLUploadImageButtonElement: {
+        prototype: HTMLUploadImageButtonElement;
+        new (): HTMLUploadImageButtonElement;
+    };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
@@ -88,6 +99,7 @@ declare global {
         "image-uploader": HTMLImageUploaderElement;
         "product-component": HTMLProductComponentElement;
         "product-editor-component": HTMLProductEditorComponentElement;
+        "upload-image-button": HTMLUploadImageButtonElement;
     }
 }
 declare namespace LocalJSX {
@@ -116,6 +128,11 @@ declare namespace LocalJSX {
     }
     interface ProductEditorComponent {
     }
+    interface UploadImageButton {
+        "buttonvalue"?: string;
+        "getURL"?: string;
+        "postURL"?: string;
+    }
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
@@ -125,6 +142,7 @@ declare namespace LocalJSX {
         "image-uploader": ImageUploader;
         "product-component": ProductComponent;
         "product-editor-component": ProductEditorComponent;
+        "upload-image-button": UploadImageButton;
     }
 }
 export { LocalJSX as JSX };
@@ -139,6 +157,7 @@ declare module "@stencil/core" {
             "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
             "product-editor-component": LocalJSX.ProductEditorComponent & JSXBase.HTMLAttributes<HTMLProductEditorComponentElement>;
+            "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;
         }
     }
 }

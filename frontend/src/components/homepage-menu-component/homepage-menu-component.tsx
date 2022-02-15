@@ -24,12 +24,12 @@ export class HomepageMenuComponent {
 
   async componentWillLoad() {
     this.responsedata = await GetData(this.url);
-    this.imagedata = await GetData(this.imageurl);
-    this.banner = await GetData(this.bannerUrl);
+    // this.imagedata = await GetData(this.imageurl);
+    // this.banner = await GetData(this.bannerUrl);
     // this.element.querySelector('company-banner').style.backgroundImage = this.banner.image;
     // document.querySelector('company-banner').style.backgroundImage = this.banner.image;
-    document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
-    document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
+    // document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
+    // document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
   }
 
   render() {

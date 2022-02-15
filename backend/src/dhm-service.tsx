@@ -46,8 +46,8 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /getimage/;
                 async GET() {
-                    const data = readFileSync('./background.json').toString();
-                    return JSON.parse(data);
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.backgroundimage`;
+                    return data[0];
                 }
             })
 
@@ -78,15 +78,6 @@ export class DHMService {
                 }
             })
 
-            // .addResource(class implements WebResource {
-            //     static path = /imageupload/;
-
-            //     async POST(args: WebArguments) {
-            //         await writeFileSync('./test.txt', JSON.stringify(args.body()));
-            //         return args.body()
-            //     }
-            // })
-
             .addResource(class implements WebResource {
                 static path = /bannerupload/;
 
@@ -100,10 +91,11 @@ export class DHMService {
                 static path = /imageupload/;
 
                 async POST(args: WebArguments) {
-                    console.log(await args.body());
-                    const body = await args.body()
-                    writeFileSync('./background.json', JSON.stringify(body));
-                    return args.body()
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
+                    svc.db.query<DBQuery[]>`upsert into onslip.backgroundimage (image, id) values (${dataBuffer}, 1)`;
+                    return data;
                 }
             })
 

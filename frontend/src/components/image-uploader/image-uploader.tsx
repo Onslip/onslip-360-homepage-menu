@@ -14,7 +14,7 @@ export class ImageUploader {
 
   @Event() onUploadCompleted: EventEmitter<Blob>;
   @State() color: string;
-  @State() file: string;
+  @State() file;
   @State() tempfile: string;
   @State() checkImage: boolean;
   @State() private url: string = 'http://localhost:8080/imageupload'
@@ -40,16 +40,17 @@ export class ImageUploader {
   }
 
 
-  private uploadImage(file) {
+  private uploadImage() {
+    console.log(this.file);
     this.checkImage = true;
-    if (CheckImage(file[0])) {
+    if (CheckImage(this.file[0])) {
       const reader = new FileReader();
       reader.onload = () => {
         document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
         this.file = `url(${reader.result})`;
         this.submitForm();
       };
-      reader.readAsDataURL(file[0]);
+      reader.readAsDataURL(this.file[0]);
     }
   }
 
@@ -59,9 +60,10 @@ export class ImageUploader {
     return (<ion-card-content class="upload">
       <ion-row class="upload-edit">
         <div class='imageupload'>
-          <label htmlFor='file' class='button-9' id='asf'>Ändra bakgrundsbild</label>
+          {/* <label htmlFor='file' class='button-9' id='asf'>Ändra bakgrundsbild</label>
           <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
-            onChange={($event: any) => { this.uploadImage($event.target.files) }} hidden />
+            onChange={($event: any) => { this.uploadImage($event.target.files) }} hidden /> */}
+          <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
           <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
           <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
 
