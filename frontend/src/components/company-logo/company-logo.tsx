@@ -1,7 +1,6 @@
 import { Component, Host, h, State, Event, EventEmitter, Element, Prop, getAssetPath } from '@stencil/core';
 import '@ionic/core';
 import { Images } from '../../utils/utils';
-import { read } from 'fs';
 
 const MAX_UPLOAD_SIZE = 1024; // bytes
 const ALLOWED_FILE_TYPES = 'image.*';

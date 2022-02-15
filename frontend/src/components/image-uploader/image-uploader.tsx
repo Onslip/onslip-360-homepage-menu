@@ -2,9 +2,8 @@ import { Component, h, Event, EventEmitter, State } from '@stencil/core';
 import '@ionic/core';
 import { Images } from '../../utils/utils';
 import { PostData } from '../../utils/post';
+import { CheckImage } from '../../utils/image';
 
-const MAX_UPLOAD_SIZE = 1024 * 1024;
-const ALLOWED_FILE_TYPES = 'image/*';
 
 @Component({
   tag: 'image-uploader',
@@ -20,28 +19,6 @@ export class ImageUploader {
   @State() checkImage: boolean;
   @State() private url: string = 'http://localhost:8080/imageupload'
 
-  public onInputChange(files) {
-    const imageFile = files[0];
-    console.log(imageFile.size);
-    if (files.length === 1) {
-      if (!this.checkFileSize(imageFile.size as number)) {
-        alert('Bilden är för stor, välj en mindre bild');
-        return false;
-      }
-      else if (!this.checkFileType(imageFile.type)) {
-        alert('Fel filtyp, välj en fil av ett bildformat')
-        return false;
-      }
-      else {
-        this.checkImage = true;
-        this.uploadImage(imageFile);
-        return true;
-      }
-    } else {
-      console.error(files.length === 0 ? 'NO IMAGE UPLOADED' : 'YOU CAN ONLY UPLOAD ONE IMAGE AT THE TIME');
-      return false;
-    }
-  }
 
   changeColor() {
     this.checkImage = false;
@@ -64,41 +41,29 @@ export class ImageUploader {
 
 
   private uploadImage(file) {
-    console.log(typeof file);
-    const reader = new FileReader();
-    reader.onloadstart = () => {
-      console.log('started uploading');
+    this.checkImage = true;
+    if (CheckImage(file[0])) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
+        this.file = `url(${reader.result})`;
+        this.submitForm();
+      };
+      reader.readAsDataURL(file[0]);
     }
-    reader.onload = () => {
-      document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
-      this.file = `url(${reader.result})`;
-      this.submitForm();
-      this.onUploadCompleted.emit(file);
-    };
-
-    reader.onerror = (err) => {
-      console.error('something went wrong...', err);
-    };
-    reader.readAsDataURL(file);
   }
 
-  private checkFileSize(size: number): boolean {
-    return size <= MAX_UPLOAD_SIZE;
-  }
 
-  private checkFileType(type: string): boolean {
-    return type.match(ALLOWED_FILE_TYPES).length > 0;
-  }
 
   render() {
     return (<ion-card-content class="upload">
       <ion-row class="upload-edit">
         <div class='imageupload'>
-          <label htmlFor='file' class='button-9' onClick={() => { this.onInputChange(this.file) }} id='asf'>Ändra bakgrundsbild</label>
+          <label htmlFor='file' class='button-9' id='asf'>Ändra bakgrundsbild</label>
           <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
-            onChange={($event: any) => { this.onInputChange($event.target.files) }} hidden />
-          <label id='asfd' htmlFor='color' class='button-9' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }}>Ändra bakgrundsfärg</label>
-          <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden>hello</input>
+            onChange={($event: any) => { this.uploadImage($event.target.files) }} hidden />
+          <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
+          <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
 
         </div>
       </ion-row>

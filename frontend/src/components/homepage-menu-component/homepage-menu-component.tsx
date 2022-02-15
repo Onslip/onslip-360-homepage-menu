@@ -1,5 +1,5 @@
-import { Component, h, State, getAssetPath } from '@stencil/core';
-import { productsWithCategory, Images } from '../../utils/utils';
+import { Component, h, State, getAssetPath, Element } from '@stencil/core';
+import { productsWithCategory, Images, Banner } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
 
@@ -16,8 +16,9 @@ export class HomepageMenuComponent {
   @State() responsedata: productsWithCategory[]
   @State() imagedata: Images
   @State() private imageurl: string = 'http://localhost:8080/getimage';
-  @State() banner: string;
-  @State() private bannerUrl: string = 'http://localhost:8080/'
+  @State() banner: Banner;
+  @State() private bannerUrl: string = 'http://localhost:8080/getbanner'
+  @Element() element: HTMLElement
 
   @State() logoData: Images
 
@@ -25,7 +26,8 @@ export class HomepageMenuComponent {
     this.responsedata = await GetData(this.url);
     this.imagedata = await GetData(this.imageurl);
     this.banner = await GetData(this.bannerUrl);
-
+    // this.element.querySelector('company-banner').style.backgroundImage = this.banner.image;
+    // document.querySelector('company-banner').style.backgroundImage = this.banner.image;
     document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
     document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
   }
@@ -33,16 +35,14 @@ export class HomepageMenuComponent {
   render() {
     return (
       <div class='menuContainer'>
-
+        {/* 
         <div class='header'>
           <h1>Martins kolgrill</h1>
           <company-logo></company-logo>
           <div id='logohere'></div>
+        </div> */}
 
-
-        </div>
-
-
+        <api-ui></api-ui>
         <company-banner class='header'></company-banner>
 
         {
