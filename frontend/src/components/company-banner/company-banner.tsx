@@ -47,16 +47,13 @@ export class CompanyBanner {
 
   render() {
     return (
-      // <Host id='host'>
-      //   <slot>
-      <div class='banner'>
-        <label htmlFor='file' class='button' ><img src={getAssetPath(`./assets/edit.svg`)} alt='edit banner' class='pic' /></label>
-        <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.Checkimagesize(event.target.files)} hidden />
-        <h1>Martins kolgrill</h1>
-      </div>
-
-      //   </slot>
-      // </Host>
+      <Host>
+          <div class='banner'>
+            <label htmlFor='file' class='button' ><img src={getAssetPath(`./assets/edit.svg`)} alt='edit banner' class='pic' /></label>
+            <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.Checkimagesize(event.target.files)} hidden />
+            <h1>Martins kolgrill</h1>
+          </div>
+      </Host>
     );
   }
 }

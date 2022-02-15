@@ -118,15 +118,12 @@ export class CompanyLogo {
   render() {
     return (
       <Host>
-
-
         <div class='imageupload'>
           <label htmlFor='file' class='button-9' onClick={() => { this.onInputChange(this.file) }} id='asf'>Ändra Logga</label>
           <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
             onChange={($event: any) => { this.onInputChange($event.target.files) }} hidden />
         </div>
         <img id='logohere' src={this.logopicImg.src} />
-
       </Host>
     );
   }
