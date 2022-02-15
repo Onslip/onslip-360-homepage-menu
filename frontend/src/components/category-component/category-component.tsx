@@ -12,11 +12,13 @@ export class CategoryComponent {
 
   render() {
     return (
-      <ion-card-header class='categoryContainer'>
-        <ion-card-title class='categoryTitle'>
-          {this.category.name}
-        </ion-card-title>
-      </ion-card-header>
+      <Host>
+        <ion-card-header class='categoryContainer'>
+          <ion-card-title class='categoryTitle'>
+            {this.category.name}
+          </ion-card-title>
+        </ion-card-header>
+      </Host>
     );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, h, State, Event, EventEmitter, getAssetPath, Element } from '@stencil/core';
+import { Component, h, State, Event, EventEmitter, getAssetPath, Element, Host } from '@stencil/core';
 import { PostData } from '../../utils/post';
 import { Banner } from '../../utils/utils';
 import { CheckImage } from '../../utils/image';
@@ -30,12 +30,14 @@ export class CompanyBanner {
 
   render() {
     return (
-      <div class='banner'>
-        <label htmlFor='file' class='button' ><img src={getAssetPath(`./assets/edit.svg`)} class='pic' /></label>
+      <Host>
+        <div class='banner'>
+          <label htmlFor='file' class='button' ><img src={getAssetPath(`./assets/edit.svg`)} class='pic' /></label>
 
-        <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.uploadImage(event.target.files)} hidden />
-        <h1>Martins kolgrill</h1>
-      </div>
+          <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.uploadImage(event.target.files)} hidden />
+          <h1>Martins kolgrill</h1>
+        </div>
+      </Host>
     );
   }
 }
