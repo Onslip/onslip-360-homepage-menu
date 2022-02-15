@@ -13,16 +13,6 @@
   backdrop-filter: blur(15px) saturate(120%) contrast(200%);
 }
 
-.menu {
-  font-family: sans-serif;
-  font-size: 14px;
-
-}
-
-.menu-item {
-  display: flex;
-}
-
 .logoDiv {
   flex: content;
   flex-direction: row;
