@@ -108,11 +108,11 @@ export class DHMService {
                     const data = await args.body() as FormData
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href']
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
-                    svc.db.query<DBQuery[]>`insert into onslip.newtable (image) values (${dataBuffer})`
+                    svc.db.query<DBQuery[]>`insert into onslip.productimages (image) values (${dataBuffer})`
                     return data
                 }
                 async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select * from onslip.newtable`
+                    const data = await svc.db.query<DBQuery[]>`select * from onslip.productimages`
                     return data[0]
                 }
             })

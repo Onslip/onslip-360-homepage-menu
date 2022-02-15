@@ -38,6 +38,9 @@ export class Listener {
         await this.db.query<DBQuery[]>`create schema if not exists onslip`;
         this.CreateGroupTable();
     }
+    private async CreateProductImageTable() {
+        this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT REFERENCES onslip.products(id))`;
+    }
 
     private async CreateGroupTable() {
         const getAllProductGroups = this.api.listProductGroups();
@@ -49,11 +52,12 @@ export class Listener {
     }
 
     private async CreateProductTable() {
-        await this.db.query<DBQuery[]>`create table if not exists onslip.products (name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.products (id INT PRIMARY KEY, name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
         const getAllProducts = this.api.listProducts();
         (await getAllProducts).forEach((x) => {
-            this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, description, productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
+            this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description, productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
         });
+        this.CreateProductImageTable();
         this.DeleteFromDb();
     }
 
@@ -61,7 +65,7 @@ export class Listener {
         const deletedProducts = (
             await this.api.listProducts(undefined, undefined, undefined, undefined, true)).filter((product) => product.deleted != undefined);
         deletedProducts.forEach((x) => {
-            this.db.query<DBQuery[]>`delete from onslip.products where rowid = ${x.id}`;
+            this.db.query<DBQuery[]>`delete from onslip.products where id = ${x.id}`;
         });
 
         const deletedGroups = (
