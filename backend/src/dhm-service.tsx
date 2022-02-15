@@ -1,13 +1,12 @@
-import { CacheURI, DatabaseURI, DBQuery, FIELDS, FileURI, FormData, FormParser, uri, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
-import { API, asReadableStream, jsonType } from '@onslip/onslip-360-node-api';
+import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { writeFileSync, readFileSync, } from 'fs';
 
 
-import { serialize } from 'v8';
 
 export class DHMService {
     private api: API;
@@ -53,6 +52,14 @@ export class DHMService {
             })
 
             .addResource(class implements WebResource {
+                static path = /getbanner/;
+                async GET() {
+                    const data = readFileSync('./banner.json').toString();
+                    return JSON.parse(data);
+                }
+            })
+
+            .addResource(class implements WebResource {
                 static path = /getlogo/;
                 async GET() {
                     const data = readFileSync('./logo.json').toString();
@@ -71,11 +78,20 @@ export class DHMService {
                 }
             })
 
+            // .addResource(class implements WebResource {
+            //     static path = /imageupload/;
+
+            //     async POST(args: WebArguments) {
+            //         await writeFileSync('./test.txt', JSON.stringify(args.body()));
+            //         return args.body()
+            //     }
+            // })
+
             .addResource(class implements WebResource {
-                static path = /imageupload/;
+                static path = /bannerupload/;
 
                 async POST(args: WebArguments) {
-                    await writeFileSync('./test.txt', JSON.stringify(args.body()));
+                    writeFileSync('./banner.json', JSON.stringify(await args.body()));
                     return args.body()
                 }
             })
@@ -116,8 +132,6 @@ export class DHMService {
                     return data[0]
                 }
             })
-
-
     }
 
 
@@ -126,10 +140,8 @@ export class DHMService {
         writeFileSync('./test.toml', `[listen]
 host  = 'localhost'
 port  = 8080
-
 [database]
 uri   = '${api.uri}'
-
 [onslip360]
 base  = '${api.base}'      # Onslip 360 environment
 realm = '${api.realm}'                          # Onslip 360 account
@@ -158,13 +170,15 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     private async rootResponse() {
 
         this.listener.Listener();
-        console.log(await this.GetProdByGroup())
-        // this.WritetoFile('https://test.onslip360.com/v1/', 'bajs', 'bajs', 'bajs');
+        console.log(await this.GetProdByGroup());
+        // await this.GetPic();
         //this.listener.Listener();
-        // console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
     }
+
+
 }
+
 interface DBproduct {
     name: string
     description: string

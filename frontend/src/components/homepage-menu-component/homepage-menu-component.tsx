@@ -1,5 +1,5 @@
-import { Component, h, Host, State, getAssetPath } from '@stencil/core';
-import { productsWithCategory, Images } from '../../utils/utils';
+import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
+import { productsWithCategory, Images, Banner } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
 
@@ -14,8 +14,9 @@ import { GetData } from '../../utils/get';
 export class HomepageMenuComponent {
   @State() imagedata: Images
   @State() private imageurl: string = 'http://localhost:8080/getimage';
-  @State() banner: string;
-  @State() private bannerUrl: string = 'http://localhost:8080/'
+  @State() banner: Banner;
+  @State() private bannerUrl: string = 'http://localhost:8080/getbanner'
+  @Element() element: HTMLElement
 
   @State() logoData: Images
 

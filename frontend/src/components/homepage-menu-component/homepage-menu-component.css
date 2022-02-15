@@ -6,9 +6,9 @@
   align-content: center;
   margin: auto;
   width: 50%;
-  border: 3px solid rgb(94, 93, 93);
-  border-radius: 5px;
-  padding: 10px;
+  border: 2px solid rgb(94, 93, 93);
+  box-shadow: 3px 3px 1px #00000056;
+  border-radius: 2px;
   background: rgba(255, 255, 255, 0.6); 
   backdrop-filter: blur(15px) saturate(120%) contrast(200%);
 }
@@ -35,7 +35,9 @@
 
 .header {
   text-align: center;
+  position: top;
   font-size: 1.3rem;
+  width: 100%;
 }
 
 @media only screen and (max-width: 768px) {

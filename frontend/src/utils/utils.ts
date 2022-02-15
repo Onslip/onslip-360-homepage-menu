@@ -24,3 +24,7 @@ export interface Images {
   backgroundcolor: string,
   logoImage: string,
 }
+
+export interface Banner {
+  image: string
+}
