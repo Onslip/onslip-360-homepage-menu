@@ -24,3 +24,9 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
+
+.background.json
+.banner.json
+.logo.json
+.test.toml
+.test.txt
