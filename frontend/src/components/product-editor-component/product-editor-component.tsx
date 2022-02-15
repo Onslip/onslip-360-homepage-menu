@@ -25,5 +25,4 @@ export class ProductEditorComponent {
         onChange={($event: any) => this.postimage($event.target.files)} />
     );
   }
-
 }
