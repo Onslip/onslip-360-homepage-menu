@@ -1,10 +1,11 @@
-import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, HEADERS, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { writeFileSync, readFileSync } from 'fs';
+import internal from 'stream';
 
 export class DHMService {
     private api: API;
@@ -92,7 +93,7 @@ export class DHMService {
                     const data = await args.body() as FormData
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href']
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
-                    svc.db.query<DBQuery[]>`upsert into onslip.backgroundimage (image, id) values (${dataBuffer}, 1)`;
+                    svc.db.query<DBQuery[]>`upsert into onslip.backgroundimage (image, id) values (${dataBuffer}, 1) where id = 1`;
                     return data;
                 }
             })
@@ -198,4 +199,9 @@ interface newApi {
     key: string,
     id: string,
     uri: string
+}
+
+interface image {
+    image: string;
+    id: bigint
 }

@@ -20,9 +20,7 @@ export interface DBcategory {
 }
 
 export interface Images {
-  backgroundImage: string,
   backgroundcolor: string,
-  logoImage: string,
 }
 
 export interface Banner {

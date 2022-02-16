@@ -18,11 +18,12 @@ export class UploadImageButton {
   private uploadImage(file) {
     const reader = new FileReader();
     let image;
+    reader.readAsDataURL(file);
+    console.log(file);
     reader.onload = () => {
       image = `url(${reader.result})`;
       document.querySelector('body').style.backgroundImage = image
     };
-    reader.readAsDataURL(file);
   }
 
   async post(file) {
@@ -31,9 +32,9 @@ export class UploadImageButton {
       fd.append('image', await file[0]);
       await PostImage(this.postURL, fd);
       const result = await GetData(this.getURL);
-      var bufferBase64 = new Buffer(result, 'binary').toString('base64');
-      // res is standered express res object
-      this.uploadImage(bufferBase64);
+      const bytes = new Uint8Array(result.image.data);
+      const blob = new Blob([bytes.buffer]);
+      this.uploadImage(blob);
     }
   }
 

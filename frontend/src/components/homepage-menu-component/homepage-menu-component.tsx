@@ -23,8 +23,10 @@ export class HomepageMenuComponent {
   async componentWillLoad() {
     this.imagedata = await GetData(this.imageurl);
     this.banner = await GetData(this.bannerUrl);
-    document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
-    document.querySelector('body').style.backgroundImage = this.imagedata.backgroundImage;
+    if (this.imagedata.backgroundcolor != null) {
+      document.querySelector('body').style.backgroundImage = null;
+      document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
+    }
   }
 
   render() {

@@ -34,9 +34,7 @@ export class CompanyLogo {
   async submitForm() {
     let data: Images;
 
-    if (this.checkImage) {
-      data = { backgroundImage: null, backgroundcolor: null, logoImage: this.file }
-    }
+
 
 
     try {
