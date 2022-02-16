@@ -1,4 +1,4 @@
-import { Component, h, Event, EventEmitter, State } from '@stencil/core';
+import { Component, h, Event, EventEmitter, State, Host } from '@stencil/core';
 import '@ionic/core';
 import { Images } from '../../utils/utils';
 import { PostData } from '../../utils/post';
@@ -57,18 +57,37 @@ export class ImageUploader {
 
 
   render() {
-    return (<ion-card-content class="upload">
-      <ion-row class="upload-edit">
-        <div class='imageupload'>
-          {/* <label htmlFor='file' class='button-9' id='asf'>Ändra bakgrundsbild</label>
-          <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
-            onChange={($event: any) => { this.uploadImage($event.target.files) }} hidden /> */}
-          <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
-          <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
-          <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
+    return (
+      // <ion-card-content class="upload">
+      //   <ion-row class="upload-edit">
+      //     <div class='imageupload'>
+      //       {/* <label htmlFor='file' class='button-9' id='asf'>Ändra bakgrundsbild</label>
+      //       <input type="file" id="file" accept="image/*" class="custom-file-input" value={this.file}
+      //         onChange={($event: any) => { this.uploadImage($event.target.files) }} hidden /> */}
+      //       <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+      //       <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
+      //       <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
 
-        </div>
-      </ion-row>
-    </ion-card-content>);
+      //     </div>
+      //   </ion-row>
+      // </ion-card-content>
+      <Host>
+        <ion-col class='upload'>
+          <ion-row>
+            <upload-image-button buttonvalue='Ändra logga' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+          </ion-row>
+          <ion-row>
+            <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+          </ion-row>
+          <ion-row>
+            <upload-image-button buttonvalue='Ändra bakgrundsbild' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+          </ion-row>
+          <ion-row>
+            <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
+            <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
+          </ion-row>
+        </ion-col>
+      </Host>
+    );
   }
 }

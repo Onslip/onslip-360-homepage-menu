@@ -35,7 +35,7 @@
     "@ionic/storage": "^3.0.6",
     "@nestjs/common": "^8.2.6",
     "@rollup/plugin-node-resolve": "^13.1.3",
-    "@stencil/core": "^2.13.0",
+    "@stencil/core": "^2.14.0",
     "common": "link:@angular/common",
     "cors": "^2.8.5",
     "fs": "^0.0.1-security",

@@ -4,7 +4,12 @@
 
 .upload {
   float: left;
-  position: top;
+  width: fit-content;
+}
+
+.upload > ion-row {
+  padding: 5px 0;
+  justify-content: center;
 }
 
 .upload-edit {
