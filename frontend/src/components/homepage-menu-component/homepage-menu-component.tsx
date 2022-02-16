@@ -23,10 +23,24 @@ export class HomepageMenuComponent {
   async componentWillLoad() {
     this.imagedata = await GetData(this.imageurl);
     this.banner = await GetData(this.bannerUrl);
+    this.uploadImage();
     if (this.imagedata.backgroundcolor != null) {
       document.querySelector('body').style.backgroundImage = null;
       document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
     }
+  }
+  private async uploadImage() {
+    const result = await GetData('http://localhost:8080/getimage');
+    const bytes = new Uint8Array(result.image.data);
+    const blob = new Blob([bytes.buffer]);
+    const reader = new FileReader();
+    let image;
+    reader.readAsDataURL(blob);
+    console.log(blob);
+    reader.onload = () => {
+      image = `url(${reader.result})`;
+      document.querySelector('body').style.backgroundImage = image
+    };
   }
 
   render() {

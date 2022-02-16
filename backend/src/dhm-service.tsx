@@ -81,19 +81,10 @@ export class DHMService {
                 static path = /imageupload/;
 
                 async POST(args: WebArguments) {
-                    await writeFileSync('./test.txt', JSON.stringify(args.body()));
-                    return args.body()
-                }
-            })
-
-            .addResource(class implements WebResource {
-                static path = /imageupload/;
-
-                async POST(args: WebArguments) {
                     const data = await args.body() as FormData
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href']
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
-                    svc.db.query<DBQuery[]>`upsert into onslip.backgroundimage (image, id) values (${dataBuffer}, 1) where id = 1`;
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.backgroundimage (image, id) values (${dataBuffer}, 1)`;
                     return data;
                 }
             })

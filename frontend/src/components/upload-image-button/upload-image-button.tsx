@@ -14,15 +14,11 @@ export class UploadImageButton {
   @Prop() buttonvalue: string;
   @Prop() postURL: string;
   @Prop() getURL: string;
-
-  private uploadImage(file) {
+  private async uploadImage(file) {
     const reader = new FileReader();
-    let image;
     reader.readAsDataURL(file);
-    console.log(file);
     reader.onload = () => {
-      image = `url(${reader.result})`;
-      document.querySelector('body').style.backgroundImage = image
+      document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
     };
   }
 
@@ -31,10 +27,7 @@ export class UploadImageButton {
       let fd = new FormData()
       fd.append('image', await file[0]);
       await PostImage(this.postURL, fd);
-      const result = await GetData(this.getURL);
-      const bytes = new Uint8Array(result.image.data);
-      const blob = new Blob([bytes.buffer]);
-      this.uploadImage(blob);
+      this.uploadImage(file[0]);
     }
   }
 
