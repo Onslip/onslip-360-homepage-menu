@@ -33,34 +33,62 @@ export class DHMService {
             })
 
             .addResource(class implements WebResource {
-
                 static path = RegExp('');
-
                 async GET() {
-
                     return svc.rootResponse();
                 }
             })
 
             .addResource(class implements WebResource {
-                static path = /getimage/;
+                static path = /background/;
                 async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select image from onslip.backgroundimage`;
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 1`;
                     return data[0];
+                }
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 1)`;
+                    return data;
                 }
             })
 
             .addResource(class implements WebResource {
-                static path = /getbanner/;
+                static path = /banner/;
                 async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select image from onslip.backgroundimage`;
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 2`;
                     return data[0];
+                }
+
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 2)`;
+                    return data;
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /logo/;
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 3`;
+                    return data[0];
+                }
+
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 3)`;
+                    return data;
                 }
             })
 
 
             .addResource(class implements WebResource {
-                static path = /getbackgroundcolor/;
+                static path = /backgroundcolor/;
                 async GET() {
                     const data = readFileSync('./background.json').toString();
                     return JSON.parse(data);
@@ -84,27 +112,12 @@ export class DHMService {
                 }
             })
 
-            .addResource(class implements WebResource {
-                static path = /imageupload/;
+            // .addResource(class implements WebResource {
+            //     static path = /imageupload/;
 
-                async POST(args: WebArguments) {
-                    const data = await args.body() as FormData
-                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    svc.db.query<DBQuery[]>`upsert into onslip.backgroundimage (image, id) values (${dataBuffer}, 1)`;
-                    return data;
-                }
-            })
 
-            .addResource(class implements WebResource {
-                static path = /logoupload/;
-                async POST(args: WebArguments) {
-                    console.log(await args.body());
-                    const body = await args.body()
-                    writeFileSync('./logo.json', JSON.stringify(body));
-                    return args.body()
-                }
-            })
+            // })
+
 
             .addResource(class implements WebResource {
                 static path = /productimage-upload/;
@@ -122,8 +135,6 @@ export class DHMService {
                     return data[0]
                 }
             })
-
-
     }
 
 

@@ -13,16 +13,16 @@ import { GetData } from '../../utils/get';
 
 export class HomepageMenuComponent {
   @State() imagedata: Images
-  @State() private imageurl: string = 'http://localhost:8080/getbackgroundcolor';
+  @State() private imageurl: string = 'http://localhost:8080/backgroundcolor';
   @State() banner: Banner;
-  @State() private bannerUrl: string = 'http://localhost:8080/getbanner'
+  @State() private bannerUrl: string = 'http://localhost:8080/banner'
   @Element() element: HTMLElement
 
   @State() logoData: Images
 
   async componentWillLoad() {
     this.imagedata = await GetData(this.imageurl);
-    this.banner = await GetData(this.bannerUrl);
+    // this.banner = await GetData(this.bannerUrl);
     if (this.imagedata.backgroundcolor != null) {
       document.querySelector('body').style.backgroundImage = null;
       document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
@@ -32,7 +32,7 @@ export class HomepageMenuComponent {
     }
   }
   private async uploadImage() {
-    const result = await GetData('http://localhost:8080/getimage');
+    const result = await GetData('http://localhost:8080/background');
     const bytes = new Uint8Array(result.image.data);
     const blob = new Blob([bytes.buffer]);
     const reader = new FileReader();
@@ -41,7 +41,9 @@ export class HomepageMenuComponent {
     console.log(blob);
     reader.onload = () => {
       image = `url(${reader.result})`;
-      document.querySelector('body').style.backgroundImage = image
+      if (image != null) {
+        document.querySelector('body').style.backgroundImage = image
+      }
     };
   }
 

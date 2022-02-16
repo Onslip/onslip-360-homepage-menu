@@ -14,19 +14,11 @@ export namespace Components {
     interface CategoryComponent {
         "category": DBcategory;
     }
-    interface CompanyBanner {
-    }
-    interface CompanyLogo {
-        "closeIcon": string;
-        "isopen": boolean;
-    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
     }
     interface MenuComponent {
-    }
-    interface MenuExample {
     }
     interface ProductComponent {
         "product": DBproduct;
@@ -52,18 +44,6 @@ declare global {
         prototype: HTMLCategoryComponentElement;
         new (): HTMLCategoryComponentElement;
     };
-    interface HTMLCompanyBannerElement extends Components.CompanyBanner, HTMLStencilElement {
-    }
-    var HTMLCompanyBannerElement: {
-        prototype: HTMLCompanyBannerElement;
-        new (): HTMLCompanyBannerElement;
-    };
-    interface HTMLCompanyLogoElement extends Components.CompanyLogo, HTMLStencilElement {
-    }
-    var HTMLCompanyLogoElement: {
-        prototype: HTMLCompanyLogoElement;
-        new (): HTMLCompanyLogoElement;
-    };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuComponentElement: {
@@ -81,12 +61,6 @@ declare global {
     var HTMLMenuComponentElement: {
         prototype: HTMLMenuComponentElement;
         new (): HTMLMenuComponentElement;
-    };
-    interface HTMLMenuExampleElement extends Components.MenuExample, HTMLStencilElement {
-    }
-    var HTMLMenuExampleElement: {
-        prototype: HTMLMenuExampleElement;
-        new (): HTMLMenuExampleElement;
     };
     interface HTMLProductComponentElement extends Components.ProductComponent, HTMLStencilElement {
     }
@@ -109,12 +83,9 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
-        "company-banner": HTMLCompanyBannerElement;
-        "company-logo": HTMLCompanyLogoElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "image-uploader": HTMLImageUploaderElement;
         "menu-component": HTMLMenuComponentElement;
-        "menu-example": HTMLMenuExampleElement;
         "product-component": HTMLProductComponentElement;
         "product-editor-component": HTMLProductEditorComponentElement;
         "upload-image-button": HTMLUploadImageButtonElement;
@@ -128,22 +99,12 @@ declare namespace LocalJSX {
     interface CategoryComponent {
         "category"?: DBcategory;
     }
-    interface CompanyBanner {
-        "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
-    }
-    interface CompanyLogo {
-        "closeIcon"?: string;
-        "isopen"?: boolean;
-        "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
-    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
         "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
     }
     interface MenuComponent {
-    }
-    interface MenuExample {
     }
     interface ProductComponent {
         "product"?: DBproduct;
@@ -158,12 +119,9 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
-        "company-banner": CompanyBanner;
-        "company-logo": CompanyLogo;
         "homepage-menu-component": HomepageMenuComponent;
         "image-uploader": ImageUploader;
         "menu-component": MenuComponent;
-        "menu-example": MenuExample;
         "product-component": ProductComponent;
         "product-editor-component": ProductEditorComponent;
         "upload-image-button": UploadImageButton;
@@ -175,12 +133,9 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
-            "company-banner": LocalJSX.CompanyBanner & JSXBase.HTMLAttributes<HTMLCompanyBannerElement>;
-            "company-logo": LocalJSX.CompanyLogo & JSXBase.HTMLAttributes<HTMLCompanyLogoElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
-            "menu-example": LocalJSX.MenuExample & JSXBase.HTMLAttributes<HTMLMenuExampleElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
             "product-editor-component": LocalJSX.ProductEditorComponent & JSXBase.HTMLAttributes<HTMLProductEditorComponentElement>;
             "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;

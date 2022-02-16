@@ -2,7 +2,6 @@ import { Component, h, Event, EventEmitter, State, Host } from '@stencil/core';
 import '@ionic/core';
 import { Images } from '../../utils/utils';
 import { PostData } from '../../utils/post';
-import { CheckImage } from '../../utils/image';
 
 
 @Component({
@@ -17,7 +16,7 @@ export class ImageUploader {
   @State() file;
   @State() tempfile: string;
   @State() checkImage: boolean;
-  @State() private url: string = 'http://localhost:8080/imageupload'
+  @State() private url: string = 'http://localhost:8080/background'
 
 
   changeColor() {
@@ -32,7 +31,7 @@ export class ImageUploader {
 
     data = { backgroundcolor: this.color }
 
-    await PostData('http://localhost:8080/getbackgroundcolor', data);
+    await PostData('http://localhost:8080/backgroundcolor', data);
   }
 
   render() {
@@ -40,13 +39,13 @@ export class ImageUploader {
       <Host>
         <ion-col class='upload'>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra logga' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+            <upload-image-button buttonvalue='Ändra logga' getURL='http://localhost:8080/background' postURL={this.url}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+            <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/background' postURL={this.url}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra bakgrundsbild' getURL='http://localhost:8080/getimage' postURL={this.url}></upload-image-button>
+            <upload-image-button buttonvalue='Ändra bakgrundsbild' getURL='http://localhost:8080/background' postURL={this.url}></upload-image-button>
           </ion-row>
           <ion-row>
             <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
