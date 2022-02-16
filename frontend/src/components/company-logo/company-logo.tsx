@@ -33,10 +33,6 @@ export class CompanyLogo {
 
   async submitForm() {
     let data: Images;
-
-
-
-
     try {
       const response = await fetch('http://localhost:8080/logoupload', {
         method: 'post',
@@ -53,8 +49,6 @@ export class CompanyLogo {
       console.log(err);
     }
   }
-
-
 
   public onInputChange(files) {
     this.checkImage = true;
