@@ -13,7 +13,7 @@ import { GetData } from '../../utils/get';
 
 export class HomepageMenuComponent {
   @State() imagedata: Images
-  @State() private imageurl: string = 'http://localhost:8080/getimage';
+  @State() private imageurl: string = 'http://localhost:8080/getbackgroundcolor';
   @State() banner: Banner;
   @State() private bannerUrl: string = 'http://localhost:8080/getbanner'
   @Element() element: HTMLElement
@@ -23,10 +23,12 @@ export class HomepageMenuComponent {
   async componentWillLoad() {
     this.imagedata = await GetData(this.imageurl);
     this.banner = await GetData(this.bannerUrl);
-    this.uploadImage();
     if (this.imagedata.backgroundcolor != null) {
       document.querySelector('body').style.backgroundImage = null;
       document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
+    }
+    else {
+      this.uploadImage();
     }
   }
   private async uploadImage() {
@@ -49,15 +51,10 @@ export class HomepageMenuComponent {
         <div class={'menuContainer'}>
           <slot>
             <div class='header'>
-              <company-logo></company-logo>
-              <div id='logohere'></div>
+              <h1>Martins kolgrill</h1>
             </div>
           </slot>
-          <slot>
-            <div>
-              <company-banner class='header'></company-banner>
-            </div>
-          </slot>
+
           <slot>
             <menu-component></menu-component>
           </slot>

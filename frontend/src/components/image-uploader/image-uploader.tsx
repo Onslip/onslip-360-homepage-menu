@@ -32,25 +32,8 @@ export class ImageUploader {
 
     data = { backgroundcolor: this.color }
 
-    await PostData(this.url, data);
+    await PostData('http://localhost:8080/getbackgroundcolor', data);
   }
-
-
-  private uploadImage() {
-    console.log(this.file);
-    this.checkImage = true;
-    if (CheckImage(this.file[0])) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
-        this.file = `url(${reader.result})`;
-        this.submitForm();
-      };
-      reader.readAsDataURL(this.file[0]);
-    }
-  }
-
-
 
   render() {
     return (

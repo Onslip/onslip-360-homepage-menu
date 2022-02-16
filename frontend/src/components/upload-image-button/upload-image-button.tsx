@@ -1,8 +1,9 @@
 import { Component, Host, h, Prop } from '@stencil/core';
 import { GetData } from '../../utils/get';
 import { CheckImage } from '../../utils/image';
-import { PostImage } from '../../utils/post';
+import { PostData, PostImage } from '../../utils/post';
 import '@ionic/core'
+import { Images } from '../../utils/utils';
 
 @Component({
   tag: 'upload-image-button',
@@ -19,6 +20,8 @@ export class UploadImageButton {
     reader.readAsDataURL(file);
     reader.onload = () => {
       document.querySelector('body').style.backgroundImage = `url(${reader.result})`;
+      const data: Images = { backgroundcolor: null }
+      PostData('http://localhost:8080/getbackgroundcolor', data);
     };
   }
 

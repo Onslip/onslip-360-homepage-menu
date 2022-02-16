@@ -58,11 +58,18 @@ export class DHMService {
                 }
             })
 
+
             .addResource(class implements WebResource {
-                static path = /getlogo/;
+                static path = /getbackgroundcolor/;
                 async GET() {
-                    const data = readFileSync('./logo.json').toString();
+                    const data = readFileSync('./background.json').toString();
                     return JSON.parse(data);
+                }
+
+                async POST(args: WebArguments) {
+                    const body = await args.body()
+                    writeFileSync('./background.json', JSON.stringify(body));
+                    return args.body();
                 }
             })
 
