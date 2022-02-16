@@ -12,8 +12,8 @@ import { Images } from '../../utils/utils';
 
 export class UploadImageButton {
   @Prop() buttonvalue: string;
-  @Prop() postURL: string;
-  @Prop() getURL: string;
+  @Prop() URL: string;
+
   private async uploadImage(file) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -28,7 +28,7 @@ export class UploadImageButton {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
-      await PostImage(this.postURL, fd);
+      await PostImage(this.URL, fd);
       this.uploadImage(file[0]);
     }
   }

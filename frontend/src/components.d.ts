@@ -26,9 +26,8 @@ export namespace Components {
     interface ProductEditorComponent {
     }
     interface UploadImageButton {
+        "URL": string;
         "buttonvalue": string;
-        "getURL": string;
-        "postURL": string;
     }
 }
 declare global {
@@ -112,9 +111,8 @@ declare namespace LocalJSX {
     interface ProductEditorComponent {
     }
     interface UploadImageButton {
+        "URL"?: string;
         "buttonvalue"?: string;
-        "getURL"?: string;
-        "postURL"?: string;
     }
     interface IntrinsicElements {
         "api-ui": ApiUi;

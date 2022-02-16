@@ -16,7 +16,9 @@ export class ImageUploader {
   @State() file;
   @State() tempfile: string;
   @State() checkImage: boolean;
-  @State() private url: string = 'http://localhost:8080/background'
+  @State() private url1: string = 'http://localhost:8080/background'
+  @State() private url2: string = 'http://localhost:8080/banner';
+  @State() private url3: string = 'http://localhost:8080/logo';
 
 
   changeColor() {
@@ -39,13 +41,13 @@ export class ImageUploader {
       <Host>
         <ion-col class='upload'>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra logga' getURL='http://localhost:8080/background' postURL={this.url}></upload-image-button>
+            <upload-image-button buttonvalue='Ändra logga' URL={this.url3}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra banner' getURL='http://localhost:8080/background' postURL={this.url}></upload-image-button>
+            <upload-image-button buttonvalue='Ändra banner' URL={this.url2}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra bakgrundsbild' getURL='http://localhost:8080/background' postURL={this.url}></upload-image-button>
+            <upload-image-button buttonvalue='Ändra bakgrundsbild' URL={this.url1}></upload-image-button>
           </ion-row>
           <ion-row>
             <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
