@@ -2,6 +2,7 @@ import { Component, Host, h, Prop } from '@stencil/core';
 import { GetData } from '../../utils/get';
 import { CheckImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
+import '@ionic/core'
 
 @Component({
   tag: 'upload-image-button',
@@ -41,12 +42,10 @@ export class UploadImageButton {
   render() {
     return (
       <Host>
-        <slot>
-          <div>
-            <label htmlFor='file' class='button-9' onChange={(event: any) => this.post(event.target.files)}>{this.buttonvalue}</label>
-            <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.post(event.target.files)} hidden />
-          </div>
-        </slot>
+        <div >
+          <label class='button-9' htmlFor='file'>{this.buttonvalue}</label>
+          <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.post(event.target.files)} hidden />
+        </div>
       </Host>
     );
   }
