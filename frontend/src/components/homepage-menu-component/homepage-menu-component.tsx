@@ -93,7 +93,7 @@ export class HomepageMenuComponent {
         <div class={'menuContainer'}>
           <slot>
             <div class='header'>
-              <img class='logo' src={this.logo}></img>
+              <img class='logo' src={this.logo} height='45'></img>
             </div>
           </slot>
 
