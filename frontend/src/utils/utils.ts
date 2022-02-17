@@ -19,7 +19,7 @@ export interface DBcategory {
   name: string
 }
 
-export interface Images {
+export interface Colorconfig {
   backgroundcolor: string,
 }
 

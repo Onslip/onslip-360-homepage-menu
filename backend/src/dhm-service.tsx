@@ -112,13 +112,6 @@ export class DHMService {
                 }
             })
 
-            // .addResource(class implements WebResource {
-            //     static path = /imageupload/;
-
-
-            // })
-
-
             .addResource(class implements WebResource {
                 static path = /productimage-upload/;
 

@@ -56,7 +56,7 @@ export class ApiUi {
   render() {
     return (
       <div>
-        <div class='main-button'>
+        <div>
           <button class='button-9' id='changekey' onClick={this.open.bind(this)}>Ändra API-nyckel</button>
         </div>
         <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>

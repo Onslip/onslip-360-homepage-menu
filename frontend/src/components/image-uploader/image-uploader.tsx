@@ -1,6 +1,6 @@
-import { Component, h, Event, EventEmitter, State, Host } from '@stencil/core';
+import { Component, h, Event, EventEmitter, State, Host, Element } from '@stencil/core';
 import '@ionic/core';
-import { Images } from '../../utils/utils';
+import { Colorconfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
 
@@ -19,6 +19,7 @@ export class ImageUploader {
   @State() private url1: string = 'http://localhost:8080/background'
   @State() private url2: string = 'http://localhost:8080/banner';
   @State() private url3: string = 'http://localhost:8080/logo';
+  @Element() element: HTMLElement;
 
 
   changeColor() {
@@ -29,7 +30,7 @@ export class ImageUploader {
   }
 
   async submitForm() {
-    let data: Images;
+    let data: Colorconfig;
 
     data = { backgroundcolor: this.color }
 
@@ -52,6 +53,9 @@ export class ImageUploader {
           <ion-row>
             <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
             <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
+          </ion-row>
+          <ion-row>
+            <api-ui></api-ui>
           </ion-row>
         </ion-col>
       </Host>

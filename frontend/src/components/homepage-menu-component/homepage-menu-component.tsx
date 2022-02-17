@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { productsWithCategory, Images, Banner } from '../../utils/utils';
+import { productsWithCategory, Colorconfig } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
 
@@ -12,40 +12,80 @@ import { GetData } from '../../utils/get';
 })
 
 export class HomepageMenuComponent {
-  @State() imagedata: Images
-  @State() private imageurl: string = 'http://localhost:8080/backgroundcolor';
-  @State() banner: Banner;
+  @State() background: Colorconfig
+  @State() private imageurl: string = 'http://localhost:8080/background';
+  @State() private colorUrl: string = 'http://localhost:8080/backgroundcolor'
   @State() private bannerUrl: string = 'http://localhost:8080/banner'
-  @Element() element: HTMLElement
+  @State() private logoUrl: string = 'http://localhost:8080/logo'
+  @Element() element: HTMLElement;
+  @State() logo
 
-  @State() logoData: Images
+
 
   async componentWillLoad() {
-    this.imagedata = await GetData(this.imageurl);
-    // this.banner = await GetData(this.bannerUrl);
-    if (this.imagedata.backgroundcolor != null) {
+    this.background = await GetData(this.colorUrl);
+    if (this.background.backgroundcolor != null) {
       document.querySelector('body').style.backgroundImage = null;
-      document.querySelector('body').style.backgroundColor = this.imagedata.backgroundcolor;
+      document.querySelector('body').style.backgroundColor = this.background.backgroundcolor;
     }
     else {
-      this.uploadImage();
+      this.LoadBackground(this.imageurl);
     }
+
+    this.LoadBanner(this.bannerUrl, '.header')
+
+    this.LoadLogo(this.logoUrl, '.logo');
   }
-  private async uploadImage() {
-    const result = await GetData('http://localhost:8080/background');
-    const bytes = new Uint8Array(result.image.data);
-    const blob = new Blob([bytes.buffer]);
+
+  private async LoadBackground(url) {
+    const background = await GetData(url);
+
+    const backgroundbyte = new Uint8Array(background.image.data);
+
+    const blob = new Blob([backgroundbyte.buffer]);
+
     const reader = new FileReader();
-    let image;
     reader.readAsDataURL(blob);
-    console.log(blob);
     reader.onload = () => {
-      image = `url(${reader.result})`;
+      const image = `url(${reader.result})`;
       if (image != null) {
         document.querySelector('body').style.backgroundImage = image
       }
     };
   }
+
+  private async LoadLogo(url, element) {
+    const logo = await GetData(url);
+    const logobyte = new Uint8Array(logo.image.data);
+    const blob = new Blob([logobyte.buffer]);
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = () => {
+      const image = `url(${reader.result})`;
+      if (image != null) {
+        this.element.shadowRoot.querySelector(element).src = reader.result;
+      }
+      else {
+        const node = document.createElement("h1");
+        node.innerText = 'Martins Kolgrill'
+        this.element.shadowRoot.querySelector('.header').appendChild(node);
+      }
+    };
+  }
+  private async LoadBanner(url, element) {
+    const banner = await GetData(url);
+    const bannerbyte = new Uint8Array(banner.image.data);
+    const blob = new Blob([bannerbyte.buffer]);
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = () => {
+      const image = `url(${reader.result})`;
+      if (image != null) {
+        this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
+      }
+    };
+  }
+
 
   render() {
     return (
@@ -53,7 +93,7 @@ export class HomepageMenuComponent {
         <div class={'menuContainer'}>
           <slot>
             <div class='header'>
-              <h1>Martins kolgrill</h1>
+              <img class='logo' src={this.logo}></img>
             </div>
           </slot>
 
