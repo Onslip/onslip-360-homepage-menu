@@ -25,6 +25,8 @@ export namespace Components {
     }
     interface ProductEditorComponent {
     }
+    interface ToolbarComponent {
+    }
     interface UploadImageButton {
         "URL": string;
         "buttonvalue": string;
@@ -73,6 +75,12 @@ declare global {
         prototype: HTMLProductEditorComponentElement;
         new (): HTMLProductEditorComponentElement;
     };
+    interface HTMLToolbarComponentElement extends Components.ToolbarComponent, HTMLStencilElement {
+    }
+    var HTMLToolbarComponentElement: {
+        prototype: HTMLToolbarComponentElement;
+        new (): HTMLToolbarComponentElement;
+    };
     interface HTMLUploadImageButtonElement extends Components.UploadImageButton, HTMLStencilElement {
     }
     var HTMLUploadImageButtonElement: {
@@ -87,6 +95,7 @@ declare global {
         "menu-component": HTMLMenuComponentElement;
         "product-component": HTMLProductComponentElement;
         "product-editor-component": HTMLProductEditorComponentElement;
+        "toolbar-component": HTMLToolbarComponentElement;
         "upload-image-button": HTMLUploadImageButtonElement;
     }
 }
@@ -110,6 +119,8 @@ declare namespace LocalJSX {
     }
     interface ProductEditorComponent {
     }
+    interface ToolbarComponent {
+    }
     interface UploadImageButton {
         "URL"?: string;
         "buttonvalue"?: string;
@@ -122,6 +133,7 @@ declare namespace LocalJSX {
         "menu-component": MenuComponent;
         "product-component": ProductComponent;
         "product-editor-component": ProductEditorComponent;
+        "toolbar-component": ToolbarComponent;
         "upload-image-button": UploadImageButton;
     }
 }
@@ -136,6 +148,7 @@ declare module "@stencil/core" {
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
             "product-editor-component": LocalJSX.ProductEditorComponent & JSXBase.HTMLAttributes<HTMLProductEditorComponentElement>;
+            "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
             "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;
         }
     }
