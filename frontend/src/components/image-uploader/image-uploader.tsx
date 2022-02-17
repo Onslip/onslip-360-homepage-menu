@@ -1,6 +1,6 @@
-import { Component, h, Event, EventEmitter, State, Host } from '@stencil/core';
+import { Component, h, Event, EventEmitter, State, Host, Element } from '@stencil/core';
 import '@ionic/core';
-import { Images } from '../../utils/utils';
+import { Colorconfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
 
@@ -19,7 +19,8 @@ export class ImageUploader {
   @State() private url1: string = 'http://localhost:8080/background'
   @State() private url2: string = 'http://localhost:8080/banner';
   @State() private url3: string = 'http://localhost:8080/logo';
-
+  @Element() element: HTMLElement;
+  @State() value: buttonvalues = { '1': 'Ändra bakgrund', '2': 'Ändra banner', '3': 'Ändra logga' }
 
   changeColor() {
     this.checkImage = false;
@@ -29,7 +30,7 @@ export class ImageUploader {
   }
 
   async submitForm() {
-    let data: Images;
+    let data: Colorconfig;
 
     data = { backgroundcolor: this.color }
 
@@ -41,20 +42,29 @@ export class ImageUploader {
       <Host>
         <ion-col class='upload'>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra logga' URL={this.url3}></upload-image-button>
+            <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra banner' URL={this.url2}></upload-image-button>
+            <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra bakgrundsbild' URL={this.url1}></upload-image-button>
+            <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
           </ion-row>
           <ion-row>
             <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
             <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
           </ion-row>
+          <ion-row>
+            <api-ui></api-ui>
+          </ion-row>
         </ion-col>
       </Host>
     );
   }
+}
+
+export interface buttonvalues {
+  1: string;
+  2: string;
+  3: string;
 }

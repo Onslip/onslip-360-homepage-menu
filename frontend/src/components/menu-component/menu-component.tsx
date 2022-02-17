@@ -1,5 +1,5 @@
 import { Component, h, Host, State, getAssetPath } from '@stencil/core';
-import { productsWithCategory, Images } from '../../utils/utils';
+import { productsWithCategory, Colorconfig } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
 
@@ -17,7 +17,7 @@ export class MenuComponent {
   @State() loading: boolean = true
 
   async componentWillLoad() {
-    this.responsedata = await GetData(this.url);
+    this.responsedata = await GetData(this.url).catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));;
   }
 
   render() {
@@ -29,7 +29,7 @@ export class MenuComponent {
               <ion-card color="primary" class='menu'>
                 <category-component category={data.category}></category-component>
                 {
-                  data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>)})
+                  data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>) })
                 }
               </ion-card>
             )
