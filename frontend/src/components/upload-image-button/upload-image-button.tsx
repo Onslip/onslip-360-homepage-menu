@@ -61,7 +61,8 @@ export class UploadImageButton {
         mainelement.shadowRoot.querySelector(element).style.height = height
         img.src = reader.result.toString();
         img.style.height = height;
-        mainelement.shadowRoot.querySelector(element).insert(img);
+        const a = mainelement.shadowRoot.querySelector(element);
+        a.removeChild(a.childNodes[0]);
         mainelement.shadowRoot.querySelector(element).appendChild(img);
       }
     };
