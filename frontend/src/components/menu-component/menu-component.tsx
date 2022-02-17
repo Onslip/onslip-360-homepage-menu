@@ -17,7 +17,7 @@ export class MenuComponent {
   @State() loading: boolean = true
 
   async componentWillLoad() {
-    this.responsedata = await GetData(this.url);
+    this.responsedata = await GetData(this.url).catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));;
   }
 
   render() {

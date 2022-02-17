@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop } from '@stencil/core';
+import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { CheckImage } from '../../utils/image';
 import { PostData, PostImage } from '../../utils/post';
 import '@ionic/core'
@@ -13,6 +13,7 @@ import { Colorconfig } from '../../utils/utils';
 export class UploadImageButton {
   @Prop() buttonvalue: string;
   @Prop() URL: string;
+  @Element() element: HTMLElement;
 
   private async uploadImage(file) {
     const reader = new FileReader();

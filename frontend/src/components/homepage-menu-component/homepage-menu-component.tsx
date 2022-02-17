@@ -18,7 +18,7 @@ export class HomepageMenuComponent {
   @State() private bannerUrl: string = 'http://localhost:8080/banner'
   @State() private logoUrl: string = 'http://localhost:8080/logo'
   @Element() element: HTMLElement;
-  @State() logo
+
 
 
 
@@ -34,7 +34,7 @@ export class HomepageMenuComponent {
 
     this.LoadBanner(this.bannerUrl, '.header')
 
-    this.LoadLogo(this.logoUrl, '.logo');
+    this.LoadLogo(this.logoUrl, '.header');
   }
 
   private async LoadBackground(url) {
@@ -55,7 +55,11 @@ export class HomepageMenuComponent {
   }
 
   private async LoadLogo(url, element) {
-    const logo = await GetData(url);
+    const logo = await GetData(url).catch(() => {
+      const node = document.createElement("h1");
+      node.innerText = 'Martins Kolgrill'
+      this.element.shadowRoot.querySelector(element).appendChild(node)
+    });
     const logobyte = new Uint8Array(logo.image.data);
     const blob = new Blob([logobyte.buffer]);
     const reader = new FileReader();
@@ -63,15 +67,13 @@ export class HomepageMenuComponent {
     reader.onload = () => {
       const image = `url(${reader.result})`;
       if (image != null) {
-        this.element.shadowRoot.querySelector(element).src = reader.result;
-      }
-      else {
-        const node = document.createElement("h1");
-        node.innerText = 'Martins Kolgrill'
-        this.element.shadowRoot.querySelector('.header').appendChild(node);
+        const img = document.createElement('img');
+        img.src = reader.result.toString();
+        this.element.shadowRoot.querySelector(element).appendChild(img);
       }
     };
   }
+
   private async LoadBanner(url, element) {
     const banner = await GetData(url);
     const bannerbyte = new Uint8Array(banner.image.data);
@@ -93,7 +95,6 @@ export class HomepageMenuComponent {
         <div class={'menuContainer'}>
           <slot>
             <div class='header'>
-              <img class='logo' src={this.logo} height='45'></img>
             </div>
           </slot>
 
