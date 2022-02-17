@@ -36,7 +36,7 @@ export class UploadImageButton {
     }
   }
 
-  private async LoadBackground(file) {
+  private LoadBackground(file) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -49,7 +49,7 @@ export class UploadImageButton {
     };
   }
 
-  private async LoadLogo(file, element) {
+  private LoadLogo(file, element) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -57,24 +57,24 @@ export class UploadImageButton {
       if (image != null) {
         const img = document.createElement('img');
         const height = '200px'
-        document.querySelector('homepage-menu-component').querySelector(element).style.height = height
+        const mainelement = document.querySelector('homepage-menu-component');
+        mainelement.shadowRoot.querySelector(element).style.height = height
         img.src = reader.result.toString();
         img.style.height = height;
-        document.querySelector('homepage-menu-component').querySelector(element).appendChild(img);
+        mainelement.shadowRoot.querySelector(element).insert(img);
+        mainelement.shadowRoot.querySelector(element).appendChild(img);
       }
     };
   }
 
-  private async LoadBanner(file, element) {
+  private LoadBanner(file, element) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       const image = `url(${reader.result})`;
       if (image != null) {
-        this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
-        const a = document.querySelector('homepage-menu-component');
-        a.querySelector(element).style.backgroundImage = image;
-
+        const mainelement = document.querySelector('homepage-menu-component');
+        mainelement.shadowRoot.querySelector(element).style.backgroundImage = image;
       }
     };
   }
