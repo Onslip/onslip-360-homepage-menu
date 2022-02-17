@@ -2,6 +2,7 @@ import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core'
 import { productsWithCategory, Colorconfig } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
+import { throws } from 'assert';
 
 @Component({
   tag: 'homepage-menu-component',
@@ -41,9 +42,7 @@ export class HomepageMenuComponent {
     const background = await GetData(url);
 
     const backgroundbyte = new Uint8Array(background.image.data);
-
     const blob = new Blob([backgroundbyte.buffer]);
-
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onload = () => {
@@ -68,7 +67,10 @@ export class HomepageMenuComponent {
       const image = `url(${reader.result})`;
       if (image != null) {
         const img = document.createElement('img');
+        const height = '200px'
+        this.element.shadowRoot.querySelector(element).style.height = height
         img.src = reader.result.toString();
+        img.style.height = height;
         this.element.shadowRoot.querySelector(element).appendChild(img);
       }
     };
@@ -92,6 +94,8 @@ export class HomepageMenuComponent {
   render() {
     return (
       <Host>
+        <image-uploader></image-uploader>
+
         <div class={'menuContainer'}>
           <slot>
             <div class='header'>

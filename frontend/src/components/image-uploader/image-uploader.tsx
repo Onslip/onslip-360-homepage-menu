@@ -20,7 +20,7 @@ export class ImageUploader {
   @State() private url2: string = 'http://localhost:8080/banner';
   @State() private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
-
+  @State() value: buttonvalues = { '1': 'Ändra bakgrund', '2': 'Ändra banner', '3': 'Ändra logga' }
 
   changeColor() {
     this.checkImage = false;
@@ -42,13 +42,13 @@ export class ImageUploader {
       <Host>
         <ion-col class='upload'>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra logga' URL={this.url3}></upload-image-button>
+            <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra banner' URL={this.url2}></upload-image-button>
+            <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
           </ion-row>
           <ion-row>
-            <upload-image-button buttonvalue='Ändra bakgrundsbild' URL={this.url1}></upload-image-button>
+            <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
           </ion-row>
           <ion-row>
             <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
@@ -61,4 +61,10 @@ export class ImageUploader {
       </Host>
     );
   }
+}
+
+export interface buttonvalues {
+  1: string;
+  2: string;
+  3: string;
 }
