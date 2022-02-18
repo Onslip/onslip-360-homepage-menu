@@ -1,4 +1,5 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, State } from '@stencil/core';
+import { hostname } from 'os';
 
 @Component({
   tag: 'toolbar-component',
@@ -7,32 +8,25 @@ import { Component, Host, h } from '@stencil/core';
 })
 export class ToolbarComponent {
 
+  @State() menuopen: boolean = false
 
   render() {
     return (
-      <ion-app>
+      <Host>
         <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot='start'>
-              <ion-menu-button autoHide="false"></ion-menu-button>
+          <ion-toolbar color="success">
+            <ion-title slot="end"> The Title </ion-title>
+            <ion-buttons slot="primary">
+              <ion-button onClick={() => { this.menuopen = !this.menuopen; console.log(this.menuopen) }}>
+                <ion-icon name="menu"></ion-icon>
+              </ion-button>
             </ion-buttons>
-            <ion-title slot="end">Onslip dynamic menu</ion-title>
           </ion-toolbar>
+          <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
+            <image-uploader></image-uploader>
+          </div>
         </ion-header>
-        <ion-menu side="start" menuId="first" contentId="main-content" reflect>
-          <ion-header>
-            <ion-toolbar>
-              <ion-title>Menu</ion-title>
-            </ion-toolbar>
-          </ion-header>
-          <ion-content id="main-content">
-            <ion-list>
-              <ion-item>Menu Item</ion-item>
-              <ion-item>Menu Item</ion-item>
-            </ion-list>
-          </ion-content>
-        </ion-menu>
-      </ion-app>
+      </Host>
     );
   }
 

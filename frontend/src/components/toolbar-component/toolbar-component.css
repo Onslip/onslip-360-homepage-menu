@@ -1,3 +1,33 @@
 :host {
   display: block;
 }
+
+.menu_box_closed {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: min-content;
+  height: 100%;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: #ECEFF1;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+  transition-duration: .25s;
+}
+
+.menu_box {
+  left: 0;
+  display: block;
+  position: fixed;
+  top: 0;
+  width: min-content;
+  height: 100%;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: #ECEFF1;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+  transition-duration: .25s;
+}
