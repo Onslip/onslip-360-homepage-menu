@@ -1,4 +1,4 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, h } from '@stencil/core';
 
 @Component({
   tag: 'toolbar-component',
@@ -14,12 +14,12 @@ export class ToolbarComponent {
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot='start'>
-              <ion-menu-button autoHide="false"></ion-menu-button>
+              <ion-menu-button auto-Hide="false"></ion-menu-button>
             </ion-buttons>
             <ion-title slot="end">Onslip dynamic menu</ion-title>
           </ion-toolbar>
         </ion-header>
-        <ion-menu side="start" menuId="first" contentId="main-content" reflect>
+        <ion-menu side="start" menuId="first" contentId="main-content">
           <ion-header>
             <ion-toolbar>
               <ion-title>Menu</ion-title>
