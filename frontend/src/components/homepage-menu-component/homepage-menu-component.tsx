@@ -67,10 +67,7 @@ export class HomepageMenuComponent {
       const image = `url(${reader.result})`;
       if (image != null) {
         const img = document.createElement('img');
-        const height = '200px'
-        this.element.shadowRoot.querySelector(element).style.height = height
         img.src = reader.result.toString();
-        img.style.height = height;
         this.element.shadowRoot.querySelector(element).appendChild(img);
       }
     };

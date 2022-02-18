@@ -17,13 +17,11 @@ export class UploadImageButton {
   @Element() element: HTMLElement;
   @State() value: buttonvalues = { '1': 'Ändra bakgrund', '2': 'Ändra banner', '3': 'Ändra logga' }
 
-
   async post(file) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
       await PostImage(this.URL, fd);
-      // this.uploadImage(file[0]);
       if (this.buttonvalue == this.value[1]) {
         this.LoadBackground(file[0]);
       }
