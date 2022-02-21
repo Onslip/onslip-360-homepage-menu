@@ -91,8 +91,9 @@ export class HomepageMenuComponent {
   render() {
     return (
       <Host>
-        <image-uploader></image-uploader>
-
+        <toolbar-component>
+        </toolbar-component>
+        {/* <image-uploader></image-uploader> */}
         <div class={'menuContainer'}>
           <slot>
             <div class='header'>

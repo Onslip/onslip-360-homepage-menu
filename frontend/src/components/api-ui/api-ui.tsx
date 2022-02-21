@@ -57,7 +57,8 @@ export class ApiUi {
     return (
       <div>
         <div>
-          <button class='button-9' id='changekey' onClick={this.open.bind(this)}>Ändra API-nyckel</button>
+          <label htmlFor='changekey' class={"button-9"}>Ändra API-nyckel</label>
+          <button id='changekey' onClick={this.open.bind(this)} hidden>Ändra API-nyckel</button>
         </div>
         <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
           <div class="modal-overlay" onClick={this.close.bind(this)}></div>

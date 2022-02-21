@@ -52,7 +52,7 @@ export class ImageUploader {
           </ion-row>
           <ion-row>
             <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
-            <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
+            <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} hidden />
           </ion-row>
           <ion-row>
             <api-ui></api-ui>
