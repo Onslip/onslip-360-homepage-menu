@@ -34,7 +34,6 @@ export class ProductComponent {
               <div>{this.product.price}kr</div>
             </ion-col>
           </ion-row>
-
         </ion-card-content>
       </Host>
     );

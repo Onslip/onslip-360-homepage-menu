@@ -81,8 +81,8 @@ export class UploadImageButton {
   render() {
     return (
       <Host>
-        <div >
-          <label class='button-9' htmlFor='file'>{this.buttonvalue}</label>
+        <div>
+          <label class='button-9' htmlFor='file'>{this.buttonvalue} <ion-icon class="icon" name="folder-sharp"></ion-icon></label>
           <input type='file' id='file' name='files[]' accept="image/*" onChange={(event: any) => this.post(event.target.files)} hidden />
         </div>
       </Host>
