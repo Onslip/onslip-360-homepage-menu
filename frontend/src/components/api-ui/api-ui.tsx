@@ -57,7 +57,8 @@ export class ApiUi {
     return (
       <div>
         <div>
-          <button class='button-9' id='changekey' onClick={this.open.bind(this)}>Ändra API-nyckel</button>
+          <label class={'button-9'} htmlFor='changekey'>Ändra API-nyckel <ion-icon class="icon" name="settings-sharp"></ion-icon></label>
+          <button id='changekey' onClick={this.open.bind(this)} hidden>Ändra API-nyckel</button>
         </div>
         <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
           <div class="modal-overlay" onClick={this.close.bind(this)}></div>
@@ -92,7 +93,7 @@ export class ApiUi {
               </div>
             </div>
             <div class="footer">
-              <button class='button-9' onClick={this.PostData.bind(this)} type="submit" value="Submit">Spara</button>
+              <button class='button-save' onClick={this.PostData.bind(this)} type="submit" value="Submit">Spara</button>
             </div>
           </div>
         </div >

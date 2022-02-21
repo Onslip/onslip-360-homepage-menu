@@ -1,38 +1,38 @@
-import { Component, h } from '@stencil/core';
+import { Component, Host, h, State, getAssetPath } from '@stencil/core';
 
 @Component({
   tag: 'toolbar-component',
   styleUrl: 'toolbar-component.css',
+  assetsDirs: ['assets'],
   shadow: true,
 })
 export class ToolbarComponent {
 
+  @State() menuopen: boolean = false
 
   render() {
     return (
-      <ion-app>
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot='start'>
-              <ion-menu-button auto-Hide="false"></ion-menu-button>
-            </ion-buttons>
-            <ion-title slot="end">Onslip dynamic menu</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-menu side="start" menuId="first" contentId="main-content">
-          <ion-header>
+      <Host>
+        <ion-nav>
+          <ion-header class="header">
             <ion-toolbar>
-              <ion-title>Menu</ion-title>
+              <ion-title slot="end"> Digital Dynamic Menu </ion-title>
+              <img slot='primary' class="logo" src={getAssetPath('./assets/Onslip.png')}></img>
+              <ion-buttons slot="start">
+                <ion-button onClick={() => { this.menuopen = !this.menuopen; console.log(this.menuopen) }}>
+                  <ion-icon name={this.menuopen ? "arrow-back" : "menu"}></ion-icon>
+                </ion-button>
+              </ion-buttons>
             </ion-toolbar>
           </ion-header>
-          <ion-content id="main-content">
-            <ion-list>
-              <ion-item>Menu Item</ion-item>
-              <ion-item>Menu Item</ion-item>
-            </ion-list>
-          </ion-content>
-        </ion-menu>
-      </ion-app>
+          <div>
+            <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
+              <image-uploader></image-uploader>
+            </div>
+          </div>
+        </ion-nav>
+
+      </Host>
     );
   }
 

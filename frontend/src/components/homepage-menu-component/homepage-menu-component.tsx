@@ -91,22 +91,27 @@ export class HomepageMenuComponent {
   render() {
     return (
       <Host>
-        <image-uploader></image-uploader>
+        <div>
+          <toolbar-component>
+          </toolbar-component>
+        </div>
+        {/* <image-uploader></image-uploader> */}
 
-        <div class={'menuContainer'}>
-          <slot>
-            <div class='header'>
-            </div>
-          </slot>
-
-          <slot>
-            <menu-component></menu-component>
-          </slot>
-          <slot>
-            <div class='logoDiv'>
-              <img src={getAssetPath(`./assets/Onslip.png`)} class='onslipLogo' ></img>
-            </div>
-          </slot>
+        <div slot='primary' class={'menuContainer'}>
+          <div>
+            <slot>
+              <div class='header'>
+              </div>
+            </slot>
+            <slot>
+              <menu-component></menu-component>
+            </slot>
+            <slot>
+              <div class='logoDiv'>
+                <img src={getAssetPath(`./assets/Onslip.png`)} class='onslipLogo' ></img>
+              </div>
+            </slot>
+          </div>
         </div>
       </Host>
     )

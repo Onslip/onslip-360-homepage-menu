@@ -40,7 +40,7 @@ export class ImageUploader {
   render() {
     return (
       <Host>
-        <ion-col class='upload'>
+        <ion-col>
           <ion-row>
             <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
           </ion-row>
@@ -51,8 +51,8 @@ export class ImageUploader {
             <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
           </ion-row>
           <ion-row>
-            <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg</label>
-            <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} class='button-9' hidden />
+            <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+            <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} hidden />
           </ion-row>
           <ion-row>
             <api-ui></api-ui>
