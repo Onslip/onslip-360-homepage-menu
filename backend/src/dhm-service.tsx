@@ -132,7 +132,6 @@ export class DHMService {
             })
     }
 
-
     private async WritetoFile(api: newApi) {
         this.api = new API(api.base, api.realm, api.id, api.key);
         this.db = new URI(api.uri) as DatabaseURI;
@@ -154,17 +153,17 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`
-        const images = await this.db.query<DBImage[]>`select * from onslip.products`
+        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`
+        images.filter(x => x.product_id == 21).map(z => console.log(z.image))
         return categories.map(c => ({
             category: {
                 name: c.name
             },
             products: products.filter(p => p.productcategory_id == c.id).map(p => ({
-                id: p.id,
                 name: p.name,
                 price: p.price,
                 description: p.description,
-                image: images.filter(x => x.product_id == p.id).map(z => z.image)
+                image: images.filter(x => x.product_id == p.id).map(z => z.image) ?? null
             }))
         } as productsWithCategory))
     }
@@ -197,7 +196,6 @@ interface productsWithCategory {
         name: string
     }
     products: {
-        id: number;
         name: string,
         price: string,
         description: string
