@@ -1,5 +1,5 @@
-import { Component, h, Host, State, getAssetPath } from '@stencil/core';
-import { productsWithCategory, Colorconfig } from '../../utils/utils';
+import { Component, h, Host, State } from '@stencil/core';
+import { productsWithCategory } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
 
