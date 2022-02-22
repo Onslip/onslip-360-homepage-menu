@@ -13,16 +13,31 @@ import { DBproduct } from '../../utils/utils';
 export class ProductComponent {
   @Element() element: HTMLElement;
   @Prop() product: DBproduct;
-  @State() url: 'http://localhost:8080/products'
+  @State() url: 'http://localhost:8080/productimage-upload'
   async componentWillLoad() {
+    await this.loadImage('.productIcon');
+  }
 
+  async loadImage(element) {
+    const backgroundbyte = new Uint8Array(this.product.image.data);
+    console.log(this.product.image.data);
+    const blob = new Blob([backgroundbyte.buffer]);
+    console.log(blob);
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = () => {
+      const image = `url(${reader.result})`;
+      if (image != null) {
+        this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
+      }
+    };
   }
 
   async uploadImage(file, element, id) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
-      fd.append('id', id);
+      fd.append('id', await id);
       await PostImage('http://localhost:8080/productimage-upload', fd);
       const reader = new FileReader();
       reader.onload = () => {
