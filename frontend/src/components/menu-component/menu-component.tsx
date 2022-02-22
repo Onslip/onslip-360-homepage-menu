@@ -23,18 +23,18 @@ export class MenuComponent {
   render() {
     return (
       <Host>
-        {
-          this.responsedata.map(data => {
-            return (
-              <ion-card color="" class='menu'>
-                <category-component category={data.category}></category-component>
-                {
-                  data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>) })
-                }
-              </ion-card>
-            )
-          })
-        }
+          {
+            this.responsedata.map(data => {
+              return (
+                <ion-card color="secondary" class='menu'>
+                  <category-component category={data.category}></category-component>
+                  {
+                    data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>) })
+                  }
+                </ion-card>
+              )
+            })
+          }
       </Host>
     )
   }

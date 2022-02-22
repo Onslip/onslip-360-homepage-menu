@@ -52,27 +52,38 @@ export class ToolbarComponent {
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
-            <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
-              <ion-col>
-                <ion-row>
-                  <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
-                </ion-row>
-                <ion-row>
-                  <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
-                </ion-row>
-                <ion-row>
-                  <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
-                </ion-row>
-                <ion-row>
-                  <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                  <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} hidden />
-                </ion-row>
-                <ion-row>
-                  <api-ui></api-ui>
-                </ion-row>
-              </ion-col>
-            </div>
         </ion-nav>
+        <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
+          <ion-row>
+            <ion-col class="menu-col">
+              <ion-row>
+                <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
+              </ion-row>
+              <ion-row>
+                <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
+              </ion-row>
+              <ion-row>
+                <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
+              </ion-row>
+              <ion-row>
+                <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} hidden />
+              </ion-row>
+              <ion-row>
+                <api-ui></api-ui>
+              </ion-row>
+            </ion-col>
+
+            <ion-col class="menu-row">
+              <ion-row>
+                <ion-item class="toggle">
+                  <ion-label>Använd Produktbilder:</ion-label>
+                  <ion-toggle></ion-toggle>
+                </ion-item>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </div>
       </Host>
     );
   }
