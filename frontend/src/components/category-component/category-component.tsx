@@ -13,7 +13,7 @@ export class CategoryComponent {
   render() {
     return (
       <Host>
-        <ion-card-header class='categoryContainer'>
+        <ion-card-header>
           <ion-card-title class='categoryTitle'>
             {this.category.name}
           </ion-card-title>

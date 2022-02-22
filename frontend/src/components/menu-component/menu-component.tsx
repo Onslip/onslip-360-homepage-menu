@@ -26,7 +26,7 @@ export class MenuComponent {
         {
           this.responsedata.map(data => {
             return (
-              <ion-card color="primary" class='menu'>
+              <ion-card color="" class='menu'>
                 <category-component category={data.category}></category-component>
                 {
                   data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>) })

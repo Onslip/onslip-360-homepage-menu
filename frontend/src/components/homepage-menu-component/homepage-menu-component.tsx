@@ -95,22 +95,12 @@ export class HomepageMenuComponent {
           <toolbar-component>
           </toolbar-component>
         </div>
-        {/* <image-uploader></image-uploader> */}
 
-        <div slot='primary' class={'menuContainer'}>
-          <div>
-            <slot>
-              <div class='header'>
-              </div>
-            </slot>
-            <slot>
-              <menu-component></menu-component>
-            </slot>
-            <slot>
-              <div class='logoDiv'>
-                <img src={getAssetPath(`./assets/Onslip.png`)} class='onslipLogo' ></img>
-              </div>
-            </slot>
+        <div class={'menuContainer'}>
+          <div class='header'></div>
+          <menu-component></menu-component>
+          <div class='logoDiv'>
+            <img src={getAssetPath(`./assets/Onslip.png`)} class='onslipLogo'></img>
           </div>
         </div>
       </Host>
