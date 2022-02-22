@@ -17,7 +17,7 @@ export class ToolbarComponent {
           <ion-header>
             <ion-toolbar class="toolbar">
               <ion-title slot="end"> Digital Dynamic Menu </ion-title>
-              <img slot='primary' class="logo" src={getAssetPath('./assets/Onslip.png')}></img>
+              <img slot='primary' class="logo" src={getAssetPath('./assets/onslip-brand-full.png')}></img>
               <ion-buttons slot="start">
                 <ion-button onClick={() => { this.menuopen = !this.menuopen; console.log(this.menuopen) }}>
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
