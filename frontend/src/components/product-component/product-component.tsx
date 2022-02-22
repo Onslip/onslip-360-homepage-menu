@@ -19,10 +19,8 @@ export class ProductComponent {
   }
 
   async loadImage(element) {
-    const backgroundbyte = new Uint8Array(this.product.image.data);
-    console.log(this.product.image.data);
+    const backgroundbyte = new Uint8Array(this.product.image[0]?.data);
     const blob = new Blob([backgroundbyte.buffer]);
-    console.log(blob);
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onload = () => {

@@ -1,4 +1,4 @@
-import { Component, Host, h, State, getAssetPath, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, State, getAssetPath, Event, EventEmitter, Element, Listen } from '@stencil/core';
 import { Colorconfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
@@ -11,7 +11,6 @@ import { PostData } from '../../utils/post';
 export class ToolbarComponent {
 
   @State() menuopen: boolean = false
-  @Event() onUploadCompleted: EventEmitter<Blob>;
   @State() color: string;
   @State() file;
   @State() tempfile: string;
@@ -46,7 +45,7 @@ export class ToolbarComponent {
               <ion-title slot="end"> Digital Dynamic Menu </ion-title>
               <img slot='primary' class="logo" src={getAssetPath('./assets/onslip-brand-full.png')}></img>
               <ion-buttons slot="start">
-                <ion-button onClick={() => { this.menuopen = !this.menuopen; console.log(this.menuopen) }}>
+                <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                 </ion-button>
               </ion-buttons>
