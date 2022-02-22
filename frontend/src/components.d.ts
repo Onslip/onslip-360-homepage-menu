@@ -120,6 +120,7 @@ declare namespace LocalJSX {
     interface ProductEditorComponent {
     }
     interface ToolbarComponent {
+        "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
     }
     interface UploadImageButton {
         "URL"?: string;

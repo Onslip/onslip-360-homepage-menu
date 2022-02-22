@@ -1,6 +1,5 @@
 :host {
   display: block;
-  
 }
 
 .toolbar {
@@ -18,7 +17,7 @@
   position: absolute;
   width: max-content;
   /* left: -100%; */
-  margin: 0;
+
   transition-duration: .4s;
   transform: translateY(-100%);
   color: white;
@@ -34,9 +33,37 @@
   transition-duration: .4s;
   background-color: rgb(51, 51, 51);
   color: white;
-  z-index: 1;
 }
 
-ion-nav {
-  z-index: 2;
+.icon {
+  float: right;
+}
+
+.button-9 {
+  display: block;
+  backface-visibility: hidden;
+  border-width: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+  font-size: 100%;
+  line-height: 1;
+  outline: none;
+  overflow: hidden;
+  padding: 15px 5px;
+  text-transform: none;
+  transition: all .2s,box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  height: max-content;
+  width: 100%;
+}
+
+.button-9:hover {
+  background-color: var(--primary);
+}
+
+api-ui {
+  width: 100%;
 }

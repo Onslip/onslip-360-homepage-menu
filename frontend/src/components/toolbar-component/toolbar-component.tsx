@@ -1,4 +1,6 @@
-import { Component, Host, h, State, getAssetPath } from '@stencil/core';
+import { Component, Host, h, State, getAssetPath, Event, EventEmitter, Element } from '@stencil/core';
+import { Colorconfig } from '../../utils/utils';
+import { PostData } from '../../utils/post';
 
 @Component({
   tag: 'toolbar-component',
@@ -9,6 +11,31 @@ import { Component, Host, h, State, getAssetPath } from '@stencil/core';
 export class ToolbarComponent {
 
   @State() menuopen: boolean = false
+  @Event() onUploadCompleted: EventEmitter<Blob>;
+  @State() color: string;
+  @State() file;
+  @State() tempfile: string;
+  @State() checkImage: boolean;
+  @State() private url1: string = 'http://localhost:8080/background'
+  @State() private url2: string = 'http://localhost:8080/banner';
+  @State() private url3: string = 'http://localhost:8080/logo';
+  @Element() element: HTMLElement;
+  @State() value: buttonvalues = { '1': 'Ändra bakgrund', '2': 'Ändra banner', '3': 'Ändra logga' }
+
+  changeColor() {
+    this.checkImage = false;
+    document.body.style.backgroundImage = null;
+    document.body.style.backgroundColor = this.color;
+    this.submitForm();
+  }
+
+  async submitForm() {
+    let data: Colorconfig;
+
+    data = { backgroundcolor: this.color }
+
+    await PostData('http://localhost:8080/backgroundcolor', data);
+  }
 
   render() {
     return (
@@ -25,15 +52,35 @@ export class ToolbarComponent {
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
-          <div>
             <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
-              <image-uploader></image-uploader>
+              <ion-col>
+                <ion-row>
+                  <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
+                </ion-row>
+                <ion-row>
+                  <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
+                </ion-row>
+                <ion-row>
+                  <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
+                </ion-row>
+                <ion-row>
+                  <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                  <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} hidden />
+                </ion-row>
+                <ion-row>
+                  <api-ui></api-ui>
+                </ion-row>
+              </ion-col>
             </div>
-          </div>
         </ion-nav>
-
       </Host>
     );
   }
 
+}
+
+export interface buttonvalues {
+  1: string;
+  2: string;
+  3: string;
 }
