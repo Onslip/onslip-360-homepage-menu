@@ -122,7 +122,7 @@ export class DHMService {
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
                     const id = prod.map(x => x.id)[0] as number;
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (image, product_id) values (${dataBuffer}, ${id})`
+                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
                     return data;
                 }
                 async GET() {
@@ -163,7 +163,7 @@ key = '${api.key}'                                    # User's Base64-encoded AP
                 name: p.name,
                 price: p.price,
                 description: p.description,
-                image: images.filter(x => x.product_id == p.id).map(z => z.image) ?? null
+                image: images.filter(x => x.product_id == p.id).map(z => z.image) ?? undefined
             }))
         } as productsWithCategory))
     }
