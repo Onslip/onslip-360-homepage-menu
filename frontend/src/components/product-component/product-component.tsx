@@ -23,27 +23,15 @@ export class ProductComponent {
       let fd = new FormData()
       fd.append('image', await file[0]);
       fd.append('id', id);
-      await PostImage('http://localhost:8080/products', fd);
+      await PostImage('http://localhost:8080/productimage-upload', fd);
       const reader = new FileReader();
-      reader.readAsDataURL(file[0]);
-
       reader.onload = () => {
         const image = `url(${reader.result})`;
-
         if (image != null) {
-          const img = document.createElement('img');
-
-          const height = '200px'
-          const mainelement = document.querySelector('homepage-menu-component');
-          mainelement.shadowRoot.querySelector(element).style.height = height
-          img.src = reader.result.toString();
-          img.style.height = height;
-          const a = mainelement.shadowRoot.querySelector(element);
-          a.removeChild(a.childNodes[0]);
-          mainelement.shadowRoot.querySelector(element).appendChild(img);
+          this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
         }
       };
-
+      reader.readAsDataURL(file[0]);
     }
   }
 
@@ -54,7 +42,7 @@ export class ProductComponent {
           <ion-row>
             <ion-col class='productIcon'>
               <label htmlFor='file' class='uploadbutton'>Upload</label>
-              <input id='file' type='file' onChange={(event) => this.uploadImage(event, '.productIcon', this.product.name)} hidden />
+              <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', this.product.name)} hidden />
             </ion-col>
             <ion-col size="7">
               <ion-row class="productName">
@@ -72,7 +60,6 @@ export class ProductComponent {
               <div>{this.product.price}kr</div>
             </ion-col>
           </ion-row>
-
         </ion-card-content>
       </Host>
     );
