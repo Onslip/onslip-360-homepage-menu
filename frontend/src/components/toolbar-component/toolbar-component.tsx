@@ -77,7 +77,7 @@ export class ToolbarComponent {
             <ion-col class="menu-row">
               <ion-row>
                 <ion-item class="toggle">
-                  <ion-label>Använd Produktbilder</ion-label>
+                  <ion-label>Använd Produktbilder:</ion-label>
                   <ion-toggle></ion-toggle>
                 </ion-item>
               </ion-row>

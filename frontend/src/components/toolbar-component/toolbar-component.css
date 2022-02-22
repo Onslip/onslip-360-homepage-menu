@@ -37,7 +37,7 @@ ion-nav {
   transition-duration: .4s;
   background-color: rgb(51, 51, 51);
   color: white;
-  top: 50px;
+  top: 55px;
   left: 0;
   z-index: 1;
 }
@@ -72,15 +72,21 @@ ion-nav {
 }
 
 .toggle {
+  font-size: large;
+  --min-height: 0;
   --background: transparent;
   --color: white;
   --border-style: none;
 }
 
 ion-toggle {
+  --background: var(--faded);
   --background-checked: var(--primary);
-  --handle-background: var(--primary);
+  --handle-background: var(--faded);
   --handle-background-checked: var(--primary);
+  --border-radius: 5px;
+  --handle-border-radius: 5px;
+  --handle-width: 15px
 }
 
 .menu-col {
