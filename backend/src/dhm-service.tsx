@@ -116,12 +116,14 @@ export class DHMService {
                 static path = /productimage-upload/;
 
                 async POST(args: WebArguments) {
-                    const data = await args.body() as FormData
-                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes)
-
-                    svc.db.query<DBQuery[]>`insert into onslip.productimages (image) values (${dataBuffer})`
-                    return data
+                    const data = await args.body() as FormData;
+                    const name = data[FIELDS]?.find(x => x.name == 'id')?.value as string;
+                    const prod = await svc.db.query<DBproduct[]>`select * from onslip.products where name = ${name}`;
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
+                    const id = prod.map(x => x.id)[0] as number;
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (image, product_id) values (${dataBuffer}, ${id})`
+                    return data;
                 }
                 async GET() {
                     const data = await svc.db.query<DBQuery[]>`select * from onslip.productimages`
@@ -149,31 +151,31 @@ key = '${api.key}'                                    # User's Base64-encoded AP
                 `)
     }
 
-
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`
-        this.api.listButtonMaps()
+        const images = await this.db.query<DBImage[]>`select * from onslip.products`
         return categories.map(c => ({
             category: {
                 name: c.name
             },
             products: products.filter(p => p.productcategory_id == c.id).map(p => ({
+                id: p.id,
                 name: p.name,
                 price: p.price,
-                description: p.description
+                description: p.description,
+                image: images.filter(x => x.product_id == p.id).map(z => z.image)
             }))
         } as productsWithCategory))
     }
 
     private async rootResponse() {
-
         this.listener.Listener();
-        console.log(await this.GetProdByGroup())
         return await this.GetProdByGroup();
     }
 }
 interface DBproduct {
+    id: number
     name: string
     description: string
     price: string
@@ -185,14 +187,21 @@ interface DBcategory {
     id: number
 }
 
+interface DBImage {
+    image: any
+    product_id: number
+}
+
 interface productsWithCategory {
     category: {
         name: string
     }
     products: {
+        id: number;
         name: string,
         price: string,
         description: string
+        image: any
     }[]
 }
 
@@ -202,9 +211,4 @@ interface newApi {
     key: string,
     id: string,
     uri: string
-}
-
-interface image {
-    image: string;
-    id: bigint
 }

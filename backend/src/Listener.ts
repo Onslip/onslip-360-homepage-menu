@@ -39,13 +39,13 @@ export class Listener {
         this.CreateGroupTable();
     }
     private async CreateProductImageTable() {
-        this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT REFERENCES onslip.products(id))`;
-        this.db.query<DBQuery[]>`create table if not exists onslip.images (image bytea, id INT PRIMARY KEY);`
+        await this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT REFERENCES onslip.products(id))`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.images (image bytea, id INT PRIMARY KEY);`
     }
 
     private async CreateGroupTable() {
         const getAllProductGroups = this.api.listProductGroups();
-        this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL)`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL)`;
         (await getAllProductGroups).forEach((x) => {
             this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${x.id}, ${x.name})`
         });
@@ -58,7 +58,7 @@ export class Listener {
         (await getAllProducts).forEach((x) => {
             this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description, productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
         });
-        this.CreateProductImageTable();
+        await this.CreateProductImageTable();
         this.DeleteFromDb();
     }
 

@@ -6,6 +6,7 @@ export interface productsWithCategory {
     name: string,
     price: string,
     description: string
+    image: any
   }[]
 }
 
@@ -13,6 +14,7 @@ export interface DBproduct {
   name: string
   description: string
   price: string
+  image: any
 }
 
 export interface DBcategory {

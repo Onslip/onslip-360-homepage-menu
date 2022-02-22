@@ -1,8 +1,7 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { productsWithCategory, Colorconfig } from '../../utils/utils';
+import { Colorconfig } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
-import { throws } from 'assert';
 
 @Component({
   tag: 'homepage-menu-component',
@@ -19,9 +18,6 @@ export class HomepageMenuComponent {
   @State() private bannerUrl: string = 'http://localhost:8080/banner'
   @State() private logoUrl: string = 'http://localhost:8080/logo'
   @Element() element: HTMLElement;
-
-
-
 
   async componentWillLoad() {
     this.background = await GetData(this.colorUrl);
