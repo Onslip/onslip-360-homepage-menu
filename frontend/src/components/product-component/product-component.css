@@ -14,15 +14,11 @@
   object-fit: cover;
   margin-bottom: 0.5rem;
   background-image: url('https://cdn-icons-png.flaticon.com/512/198/198416.png');
-  background-size: 80px;
+  background-size: contain;
   background-repeat: no-repeat;
   /* border: 2px solid black; */
   border-radius: 10%;
   height: 80px;
-  width: 80px;
-}
-.productIcon > img {
-  width: 80px;
 }
 
 .productName {
@@ -65,4 +61,3 @@
   background-color: rgba(0, 0, 0, 0.644);
   border: 3px solid black 
 }
-

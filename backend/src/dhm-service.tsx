@@ -133,6 +133,7 @@ export class DHMService {
 
     private async WritetoFile(api: newApi) {
         this.api = new API(api.base, api.realm, api.id, api.key);
+        this.db = new URI(api.uri) as DatabaseURI;
         writeFileSync('./test.toml', `[listen]
 host  = 'localhost'
 port  = 8080

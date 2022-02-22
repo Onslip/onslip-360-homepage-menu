@@ -11,28 +11,35 @@
   width: 6.5rem;
 }
 
+ion-nav {
+  position: fixed;
+  height: min-content;
+  z-index: 2;
+}
+
 .menu_box_closed {
   font-size: large;
   display: block;
-  position: absolute;
-  width: max-content;
-  /* left: -100%; */
-
+  position: fixed;
   transition-duration: .4s;
   transform: translateY(-100%);
   color: white;
   opacity: 0;
+  top: 50px;
+  left: 0;
+  z-index: 1;
 }
 
 .menu_box {
   font-size: large;
-  display: block;
-  position: absolute;
-  /* left: 0; */
-  width: max-content;
+  display: inline-block;
+  position: fixed;
   transition-duration: .4s;
   background-color: rgb(51, 51, 51);
   color: white;
+  top: 50px;
+  left: 0;
+  z-index: 1;
 }
 
 .icon {
@@ -62,6 +69,22 @@
 
 .button-9:hover {
   background-color: var(--primary);
+}
+
+.toggle {
+  --background: transparent;
+  --color: white;
+  --border-style: none;
+}
+
+ion-toggle {
+  --background-checked: var(--primary);
+  --handle-background: var(--primary);
+  --handle-background-checked: var(--primary);
+}
+
+.menu-col {
+  padding: 0;
 }
 
 api-ui {
