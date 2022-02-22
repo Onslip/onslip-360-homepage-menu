@@ -12,25 +12,24 @@
 
 .productIcon {
   text-align: left;
-  object-fit: cover;
-  margin-bottom: 0.5rem;
 }
 .productIcon > img {
   width: 80px;
 }
 
-
 .productName {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  text-decoration: underline;
 }
 
 .productPrice {
   text-align: right;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  text-decoration: underline;
 }
 
 .productDesc {
-  line-height: 1.6;
+  font-size: 0.8rem;
 }
 
 

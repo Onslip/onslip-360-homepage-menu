@@ -18,8 +18,8 @@ export class ProductComponent {
             <ion-col class='productIcon'>
               <img src='https://expo.se/sites/default/files/symbols/Pepe.gif' width={100}></img>
             </ion-col>
-            <ion-col>
-              <ion-row class='productName'>
+            <ion-col size="7">
+              <ion-row class="productName">
                 <ion-col>
                   <div>{this.product.name}</div>
                 </ion-col>
@@ -34,6 +34,7 @@ export class ProductComponent {
               <div>{this.product.price}kr</div>
             </ion-col>
           </ion-row>
+
         </ion-card-content>
       </Host>
     );

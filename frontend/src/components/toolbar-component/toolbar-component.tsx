@@ -14,13 +14,13 @@ export class ToolbarComponent {
     return (
       <Host>
         <ion-nav>
-          <ion-header class="header">
-            <ion-toolbar>
+          <ion-header>
+            <ion-toolbar class="toolbar">
               <ion-title slot="end"> Digital Dynamic Menu </ion-title>
               <img slot='primary' class="logo" src={getAssetPath('./assets/Onslip.png')}></img>
               <ion-buttons slot="start">
                 <ion-button onClick={() => { this.menuopen = !this.menuopen; console.log(this.menuopen) }}>
-                  <ion-icon name={this.menuopen ? "arrow-back" : "menu"}></ion-icon>
+                  <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                 </ion-button>
               </ion-buttons>
             </ion-toolbar>
