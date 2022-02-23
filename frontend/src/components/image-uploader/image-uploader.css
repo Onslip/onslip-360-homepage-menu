@@ -1,0 +1,68 @@
+:host {
+  display: block;
+}
+
+.upload {
+  width: fit-content;
+}
+
+.upload-edit {
+  flex: content;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.colorupload {
+  padding-top: 5%;
+}
+
+api-ui {
+  width: 100%;
+}
+
+.icon {
+  float: right;
+}
+
+.button-9 {
+  display: block;
+  backface-visibility: hidden;
+  border-width: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
+  font-size: 100%;
+  line-height: 1;
+  outline: none;
+  overflow: hidden;
+  padding: 15px 5px;
+  text-transform: none;
+  transition: all .2s,box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  height: max-content;
+  width: 100%;
+}
+
+.button-9:hover {
+  background-color: var(--primary);
+}
+
+.custom-file-input {
+  width:15%
+}
+
+.label {
+  background-color: indigo;
+  color: white;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  margin-top: 1rem;
+
+}
+
+

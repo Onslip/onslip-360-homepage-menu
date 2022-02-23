@@ -13,10 +13,10 @@ export interface DHMConfig {
     }
 
     onslip360: {
-        base:  string;
+        base: string;
         realm: string;
-        id:    string;
-        key:   string;
+        id: string;
+        key: string;
     }
 }
 
@@ -25,8 +25,8 @@ interface Definitions {
 }
 
 const ajv = new Ajv({
-    allErrors:    true,
-    schemas:      [ schema ],
+    allErrors: true,
+    schemas: [schema],
 });
 
 const validators: { [K in keyof Definitions]?: ValidateFunction } = {}

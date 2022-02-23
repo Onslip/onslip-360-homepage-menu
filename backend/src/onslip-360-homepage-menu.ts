@@ -8,24 +8,26 @@ import { writeFile } from 'fs/promises';
 import pkg from '../package.json';
 import { DHMService } from './dhm-service';
 import { validate } from './schema';
-
 import '@divine/uri-postgres-protocol'
 
+
+
 SysConsole.replaceConsole({ title: pkg.name, showFile: false, showLine: false, syslogMsgId: true },
-                          { depth: null, maxArrayLength: null, colors: true });
+    { depth: null, maxArrayLength: null, colors: true });
 
 API.initialize(nodeRequestHandler({ userAgent: `${pkg.name}/${pkg.version}` }));
 
 export async function main(_prog: string, ..._args: string[]): Promise<void> {
+
     const cmd = program
         .name(pkg.name)
         .description(pkg.description)
         .version(pkg.version)
-        .option('    --config <file>',   'Read configuration from this file')
-        .option('    --pidfile <file>',  'Fork and write PID to this file')
-        .option('    --user <user>',     'Run as this user')
+        .option('    --config <file>', 'Read configuration from this file')
+        .option('    --pidfile <file>', 'Fork and write PID to this file')
+        .option('    --user <user>', 'Run as this user')
         .parse(process.argv);
-
+    
     const argv = cmd.opts();
 
     function check(cond: boolean, message: string) {
@@ -34,7 +36,7 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
             process.exit(64);
         }
     }
-
+    
     check(!!argv.config, '--config is required');
 
     const config = validate('DHMConfig', await new URI(argv.config).load());
@@ -53,6 +55,7 @@ export async function main(_prog: string, ..._args: string[]): Promise<void> {
 
     try {
         console.info(`${pkg.name} listening on <http://${websvc.addressInfo.address}:${websvc.addressInfo.port}/>.`);
+
         await websvc.wait();
     } finally {
         console.log(`${pkg.name} stopped`);
