@@ -7,7 +7,7 @@ import { GetData } from '../../utils/get';
   tag: 'homepage-menu-component',
   styleUrl: 'homepage-menu-component.css',
   shadow: true,
-  assetsDirs: ['assets'],
+  assetsDirs: ['../../../assets'],
 
 })
 
@@ -96,7 +96,7 @@ export class HomepageMenuComponent {
           <div class='header'></div>
           <menu-component></menu-component>
           <div class='logoDiv'>
-            <img src={getAssetPath(`./assets/Onslip.png`)} class='onslipLogo'></img>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
           </div>
         </div>
       </Host>

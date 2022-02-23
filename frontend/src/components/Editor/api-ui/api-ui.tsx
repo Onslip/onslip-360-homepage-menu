@@ -66,7 +66,7 @@ export class ApiUi {
             <div class="header">
               <h6>Ändra api-nyckel</h6>
               <button class='button-close' onClick={this.close.bind(this)}>
-                <img src={getAssetPath(`./assets/${this.closeIcon}`)} alt='close icon' />
+                <ion-icon name="close"></ion-icon>
               </button>
             </div>
             <div class="body">
