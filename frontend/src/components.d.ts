@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { DBcategory, DBproduct } from "./utils/utils";
+import { DBcategory, DBproduct } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
         "closeIcon": string;

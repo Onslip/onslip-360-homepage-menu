@@ -1,11 +1,11 @@
-import { Component, Host, h, State, getAssetPath, Event, EventEmitter, Element, Listen } from '@stencil/core';
+import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
 import { Colorconfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
 @Component({
   tag: 'toolbar-component',
   styleUrl: 'toolbar-component.css',
-  assetsDirs: ['assets'],
+  assetsDirs: ['../../../assets'],
   shadow: true,
 })
 export class ToolbarComponent {
@@ -43,7 +43,7 @@ export class ToolbarComponent {
           <ion-header>
             <ion-toolbar class="toolbar">
               <ion-title slot="end"> Digital Dynamic Menu </ion-title>
-              <img slot='primary' class="logo" src={getAssetPath('./assets/onslip-brand-full.png')}></img>
+              <img slot='primary' class="logo" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
               <ion-buttons slot="start">
                 <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>

@@ -28,3 +28,9 @@ export interface Colorconfig {
 export interface Banner {
   image: string
 }
+
+export interface Styleconfig {
+  backgroundcolor: string,
+  useProductImages: boolean,
+  
+}
