@@ -24,6 +24,7 @@ export namespace Components {
         "product": DBproduct;
     }
     interface ProductEditorComponent {
+        "product": DBproduct;
     }
     interface ToolbarComponent {
     }
@@ -118,6 +119,7 @@ declare namespace LocalJSX {
         "product"?: DBproduct;
     }
     interface ProductEditorComponent {
+        "product"?: DBproduct;
     }
     interface ToolbarComponent {
     }

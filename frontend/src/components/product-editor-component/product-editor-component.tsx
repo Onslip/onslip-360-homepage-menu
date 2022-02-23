@@ -1,4 +1,7 @@
-import { Component, h, Host, State, Element } from '@stencil/core';
+import { Component, h, Prop, Host, State, Element } from '@stencil/core';
+import { CheckImage } from '../../utils/image';
+import { PostImage } from '../../utils/post';
+import { DBproduct } from '../../utils/utils';
 
 @Component({
   tag: 'product-editor-component',
@@ -6,53 +9,69 @@ import { Component, h, Host, State, Element } from '@stencil/core';
   shadow: true,
 })
 export class ProductEditorComponent {
-  @Element() document: HTMLElement
-  @State() image: string
-  @State() status: string = 'Start upload'
-
-  async postimage(file) {
-    let fd = new FormData()
-    fd.append('image', await file[0])
-
-    await fetch('http://localhost:8080/productimage-upload', {
-      method: 'POST',
-      body: fd
-    })
-      .then(response => console.log(response))
-      .catch(err => console.log(err))
+  @Element() element: HTMLElement;
+  @Prop() product: DBproduct;
+  @State() url: 'http://localhost:8080/productimage-upload'
+  async componentWillLoad() {
+    await this.loadImage('.productIcon');
   }
 
-  async loadimage(file) {
+  async loadImage(element) {
+    const backgroundbyte = new Uint8Array(this.product.image[0]?.data);
+    const blob = new Blob([backgroundbyte.buffer]);
     const reader = new FileReader();
-    reader.onloadstart = () => {
-      this.status = 'started uploading'
-      console.log('started uploading');
-    }
-
+    reader.readAsDataURL(blob);
     reader.onload = () => {
-      this.image = `url(${reader.result})`;
-      this.status = 'uploading finished, emitting an image blob to the outside world'
-      console.log('uploading finished, emitting an image blob to the outside world');
-      console.log(this.image)
-      this.document.style.backgroundImage = this.image
+      const image = `url(${reader.result})`;
+      if (image != null) {
+        this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
+      }
     };
+  }
 
-    reader.onerror = (err) => {
-      this.status = 'something went wrong...'
-      console.error('something went wrong...', err);
-    };
-    reader.readAsDataURL(file);
+  async uploadImage(file, element, id) {
+    if (CheckImage(file[0])) {
+      let fd = new FormData()
+      fd.append('image', await file[0]);
+      fd.append('id', await id);
+      await PostImage('http://localhost:8080/productimage-upload', fd);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = `url(${reader.result})`;
+        if (image != null) {
+          this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
+        }
+      };
+      reader.readAsDataURL(file[0]);
+    }
   }
 
   render() {
     return (
       <Host>
-        <slot>
-          <p>{this.status}</p>
-        </slot>
-        <slot>
-          <input type="file" name="files[]" id="file" accept="image/*" onChange={($event: any) => { this.postimage($event.target.files); this.loadimage($event.target.files[0]) }} />
-        </slot>
+        <ion-card-content class='productContainer'>
+          <ion-row>
+            <ion-col class='productIcon'>
+              <label htmlFor='file' class='uploadbutton'>Upload</label>
+              <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', this.product.name)} hidden />
+            </ion-col>
+            <ion-col>
+              <ion-row>
+                <ion-col class="productName">
+                  <div>{this.product.name}</div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col class='productDesc'>
+                  <div>{this.product.description}</div>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col class='productPrice'>
+              <div>{this.product.price}kr</div>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
       </Host>
     );
   }

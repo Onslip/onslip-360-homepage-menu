@@ -15,6 +15,7 @@ ion-nav {
   position: fixed;
   height: min-content;
   z-index: 2;
+  overflow: visible;
 }
 
 .menu_box_closed {

@@ -57,7 +57,7 @@ export class ProductComponent {
               <label htmlFor='file' class='uploadbutton'>Upload</label>
               <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', this.product.name)} hidden />
             </ion-col>
-            <ion-col size="auto">
+            <ion-col>
               <ion-row>
                 <ion-col class="productName">
                   <div>{this.product.name}</div>
