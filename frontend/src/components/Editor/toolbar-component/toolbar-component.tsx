@@ -13,18 +13,20 @@ import { GetData } from '../../utils/get';
 export class ToolbarComponent {
 
   @State() menuopen: boolean = false
-  @State() private value: buttonvalues
   private url1: string = 'http://localhost:8080/background'
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
   private config: Styleconfig
 
   async componentWillLoad() {
-    await this.getConfig()
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
   }
 
-  @Method() async getConfig() {
+  async useProductImages(event) {
     this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config.useProductImages = event.detail.checked
+    this.submitForm()
+    location.reload()
   }
 
   changeColor() {
@@ -36,7 +38,6 @@ export class ToolbarComponent {
 
   async submitForm() {
     await PostData('http://localhost:8080/backgroundcolor', this.config);
-    location.reload()
   }
 
   render() {
@@ -59,13 +60,13 @@ export class ToolbarComponent {
           <ion-row>
             <ion-col class="menu-col">
               <ion-row>
-                <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
+                <upload-image-button buttonvalue={buttonvalues.logo} URL={this.url3}></upload-image-button>
               </ion-row>
               <ion-row>
-                <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
+                <upload-image-button buttonvalue={buttonvalues.banner} URL={this.url2}></upload-image-button>
               </ion-row>
               <ion-row>
-                <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
+                <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
               </ion-row>
               <ion-row>
                 <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
@@ -80,7 +81,7 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => {this.config.useProductImages = ev.detail.checked; this.submitForm()}}></ion-toggle>
+                  <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev)}}></ion-toggle>
                 </ion-item>
               </ion-row>
             </ion-col>

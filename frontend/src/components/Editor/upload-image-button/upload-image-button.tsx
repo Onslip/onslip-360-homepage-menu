@@ -16,7 +16,6 @@ export class UploadImageButton {
   @Prop() buttonvalue: string;
   @Prop() URL: string;
   @Element() element: HTMLElement;
-  @State() value: buttonvalues
   @State() config: Styleconfig
 
   async componentWillLoad() {
@@ -28,19 +27,24 @@ export class UploadImageButton {
       let fd = new FormData()
       fd.append('image', await file[0]);
       await PostImage(this.URL, fd);
-      if (this.buttonvalue === this.value[1]) {
-        this.LoadBackground(file[0]);
-      }
-      if (this.buttonvalue === this.value[2]) {
-        this.LoadBanner(file[0], '.header')
-      }
-      if (this.buttonvalue === this.value[3]) {
-        this.LoadLogo(file[0], '.header')
+      switch (this.buttonvalue) {
+        case buttonvalues.background: {
+          this.LoadBackground(file[0]);
+          break;
+        }
+        case buttonvalues.banner: {
+          this.LoadBanner(file[0], '.header')
+          break;
+        }
+        case buttonvalues.logo: {
+          this.LoadLogo(file[0], '.header')
+          break;
+        }
       }
     }
   }
 
-  private LoadBackground(file) {
+  private async LoadBackground(file) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -49,13 +53,11 @@ export class UploadImageButton {
         document.querySelector('body').style.backgroundImage = image
         this.config.background.enabled = false
         PostData('http://localhost:8080/backgroundcolor', this.config);
-        const toolbar = document.querySelector('toolbar-component')
-        toolbar.getConfig()
       }
     };
   }
 
-  private LoadLogo(file, element) {
+  private async LoadLogo(file, element) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -71,7 +73,7 @@ export class UploadImageButton {
     };
   }
 
-  private LoadBanner(file, element) {
+  private async LoadBanner(file, element) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {

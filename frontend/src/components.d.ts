@@ -32,7 +32,6 @@ export namespace Components {
         "render2": () => Promise<void>;
     }
     interface ToolbarComponent {
-        "getConfig": () => Promise<void>;
     }
     interface UploadImageButton {
         "URL": string;

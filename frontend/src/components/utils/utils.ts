@@ -37,8 +37,8 @@ export interface Styleconfig {
   useProductImages: true,
 }
 
-export interface buttonvalues {
-  1: 'Ändra bakgrund', 
-  2: 'Ändra banner', 
-  3: 'Ändra logga'
+export enum buttonvalues {
+  background = "Ändra bakgrund",
+  banner = "Ändra banner",
+  logo = "Ändra logga"
 }
