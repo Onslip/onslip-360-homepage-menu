@@ -1,9 +1,10 @@
 import { Component, Host, h, Prop, Element, State } from '@stencil/core';
 import { CheckImage } from '../../utils/image';
 import { PostData, PostImage } from '../../utils/post';
+import { Styleconfig } from '../../utils/utils';
+import { buttonvalues } from '../../utils/utils';
 import '@ionic/core'
-import { Colorconfig } from '../../utils/utils';
-import { buttonvalues } from '../image-uploader/image-uploader';
+import { GetData } from '../../utils/get';
 
 @Component({
   tag: 'upload-image-button',
@@ -15,20 +16,25 @@ export class UploadImageButton {
   @Prop() buttonvalue: string;
   @Prop() URL: string;
   @Element() element: HTMLElement;
-  @State() value: buttonvalues = { '1': 'Ändra bakgrund', '2': 'Ändra banner', '3': 'Ändra logga' }
+  @State() value: buttonvalues
+  @State() config: Styleconfig
+
+  async componentWillLoad() {
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
+  }
 
   async post(file) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
       await PostImage(this.URL, fd);
-      if (this.buttonvalue == this.value[1]) {
+      if (this.buttonvalue === this.value[1]) {
         this.LoadBackground(file[0]);
       }
-      if (this.buttonvalue == this.value[2]) {
+      if (this.buttonvalue === this.value[2]) {
         this.LoadBanner(file[0], '.header')
       }
-      if (this.buttonvalue == this.value[3]) {
+      if (this.buttonvalue === this.value[3]) {
         this.LoadLogo(file[0], '.header')
       }
     }
@@ -41,8 +47,10 @@ export class UploadImageButton {
       const image = `url(${reader.result})`;
       if (image != null) {
         document.querySelector('body').style.backgroundImage = image
-        const data: Colorconfig = { backgroundcolor: null }
-        PostData('http://localhost:8080/backgroundcolor', data);
+        this.config.background.enabled = false
+        PostData('http://localhost:8080/backgroundcolor', this.config);
+        const toolbar = document.querySelector('toolbar-component')
+        toolbar.getConfig()
       }
     };
   }
@@ -54,11 +62,8 @@ export class UploadImageButton {
       const image = `url(${reader.result})`;
       if (image != null) {
         const img = document.createElement('img');
-        const height = '200px'
-        const mainelement = document.querySelector('homepage-menu-component');
-        mainelement.shadowRoot.querySelector(element).style.height = height
+        const mainelement = document.querySelector('homepage-menu-editor-component');
         img.src = reader.result.toString();
-        img.style.height = height;
         const a = mainelement.shadowRoot.querySelector(element);
         a.removeChild(a.childNodes[0]);
         mainelement.shadowRoot.querySelector(element).appendChild(img);
@@ -72,7 +77,7 @@ export class UploadImageButton {
     reader.onload = () => {
       const image = `url(${reader.result})`;
       if (image != null) {
-        const mainelement = document.querySelector('homepage-menu-component');
+        const mainelement = document.querySelector('homepage-menu-editor-component');
         mainelement.shadowRoot.querySelector(element).style.backgroundImage = image;
       }
     };

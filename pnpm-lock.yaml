@@ -80,12 +80,12 @@ importers:
       stream: ^0.0.2
       toml: ^3.0.0
     dependencies:
-      '@angular/common': 13.2.3_@angular+core@13.2.3
-      '@angular/core': 13.2.3
+      '@angular/common': 13.2.4_@angular+core@13.2.4
+      '@angular/core': 13.2.4
       '@iarna/toml': 2.2.5
-      '@ionic/angular': 6.0.8_@angular+core@13.2.3
+      '@ionic/angular': 6.0.9_@angular+core@13.2.4
       '@ionic/cli': 6.18.1
-      '@ionic/core': 6.0.8
+      '@ionic/core': 6.0.9
       '@ionic/storage': 3.0.6
       '@nestjs/common': 8.3.1
       '@rollup/plugin-node-resolve': 13.1.3
@@ -108,19 +108,19 @@ importers:
 
 packages:
 
-  /@angular/common/13.2.3_@angular+core@13.2.3:
-    resolution: {integrity: sha512-aK42bLd8VIVsUPcIaPw+dwD3c1d7rigTUMbNQ7zqyEQMCajLPakpzM9QEnywdzWSJTJFUbp3h39jD7ZzQPuTTQ==}
+  /@angular/common/13.2.4_@angular+core@13.2.4:
+    resolution: {integrity: sha512-telHfROR8QYZ0IE7rZF8yQG4PkKIZ9oKpl3HwybSzTTbvWwHPtScqvr4b1oKjb0Q6F4OkH3QtrZ+PXMAp0Hv/w==}
     engines: {node: ^12.20.0 || ^14.15.0 || >=16.10.0}
     peerDependencies:
-      '@angular/core': 13.2.3
+      '@angular/core': 13.2.4
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
-      '@angular/core': 13.2.3
+      '@angular/core': 13.2.4
       tslib: 2.3.1
     dev: false
 
-  /@angular/core/13.2.3:
-    resolution: {integrity: sha512-81QtWR+UQgCo5xJwExzKaRUd9aXJoOGbWfh3MZSUkiv+PTMXwmfU3lZxpz9S/y2uwvaVqZdW5MN/RzpKv6tHxA==}
+  /@angular/core/13.2.4:
+    resolution: {integrity: sha512-cCgf8Crx86hvZQX8lc7Yy5fedRI4trAXYsysrJ7ISRohfFk31Z/W5BEpKO8CkX51Ja5IfJPyoI2DVVTvrwzsEQ==}
     engines: {node: ^12.20.0 || ^14.15.0 || >=16.10.0}
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
@@ -566,8 +566,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: false
 
-  /@ionic/angular/6.0.8_@angular+core@13.2.3:
-    resolution: {integrity: sha512-sPXQ17SCym0Skx1vbFmhHyPCNH5NoKIyuHee8ROZcTvNizavJYajoU+YTcr6v3w37CecsTz/JgpCXbAUHxxrcQ==}
+  /@ionic/angular/6.0.9_@angular+core@13.2.4:
+    resolution: {integrity: sha512-6EfzY0e/BUSQwhNlXk3sF3U2S8+emF8MFBjSVaYs7V9CjDRpqZoHL5cMLq9fiiLhwVPqV7ZE6Lko9RVySn053A==}
     peerDependencies:
       '@angular/core': '>=12.0.0'
       '@angular/forms': '>=12.0.0'
@@ -575,8 +575,8 @@ packages:
       rxjs: '>=6.6.0'
       zone.js: '>=0.11.0'
     dependencies:
-      '@angular/core': 13.2.3
-      '@ionic/core': 6.0.8
+      '@angular/core': 13.2.4
+      '@ionic/core': 6.0.9
       jsonc-parser: 3.0.0
       tslib: 2.3.1
     dev: false
@@ -662,8 +662,8 @@ packages:
       - supports-color
     dev: false
 
-  /@ionic/core/6.0.8:
-    resolution: {integrity: sha512-sfkms6Rj8MPuZOo+bdjL75ewTmr8oKsMepFL3MM7Nfu+GfNsAuauf1fRYwoD34f0jVgfUnJvhvT3V3NVVTQwHQ==}
+  /@ionic/core/6.0.9:
+    resolution: {integrity: sha512-F5osKZbeVJnFbe+xqxGtFP9dMJfge5XyKJY6p3Ic+ZZ9rP5RiQw2j8RTbO4jRvFnpxEaltmXQzF3eXtmU3yybg==}
     dependencies:
       '@stencil/core': 2.13.0
       ionicons: 6.0.1

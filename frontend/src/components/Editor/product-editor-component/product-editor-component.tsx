@@ -1,7 +1,9 @@
-import { Component, h, Prop, Host, State, Element } from '@stencil/core';
+import { Component, h, Prop, Host, State, Element, Method } from '@stencil/core';
+import { GetData } from '../../utils/get';
 import { CheckImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 import { DBproduct } from '../../utils/utils';
+import { Styleconfig } from '../../utils/utils';
 
 @Component({
   tag: 'product-editor-component',
@@ -12,7 +14,10 @@ export class ProductEditorComponent {
   @Element() element: HTMLElement;
   @Prop() product: DBproduct;
   @State() url: 'http://localhost:8080/productimage-upload'
+  @State() config: Styleconfig
+
   async componentWillLoad() {
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
     await this.loadImage('.productIcon');
   }
 
@@ -45,17 +50,20 @@ export class ProductEditorComponent {
       reader.readAsDataURL(file[0]);
     }
   }
+  @Method() render2() {
+    this.render()
+  }
 
   render() {
     return (
       <Host>
-        <ion-card-content class='productContainer'>
+        <ion-card-content class={this.config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
           <ion-row>
-            <ion-col class='productIcon'>
+            <ion-col size="1" class='productIcon' hidden={!this.config.useProductImages}>
               <label htmlFor='file' class='uploadbutton'>Upload</label>
               <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', this.product.name)} hidden />
             </ion-col>
-            <ion-col>
+            <ion-col size="10">
               <ion-row>
                 <ion-col class="productName">
                   <div>{this.product.name}</div>
@@ -67,7 +75,7 @@ export class ProductEditorComponent {
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col class='productPrice'>
+            <ion-col size="1" class='productPrice'>
               <div>{this.product.price}kr</div>
             </ion-col>
           </ion-row>

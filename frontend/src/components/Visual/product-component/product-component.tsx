@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Element, State } from '@stencil/core';
-import { DBproduct } from '../../utils/utils';
+import { GetData } from '../../utils/get';
+import { DBproduct, Styleconfig } from '../../utils/utils';
 
 @Component({
   tag: 'product-component',
@@ -11,7 +12,11 @@ export class ProductComponent {
   @Element() element: HTMLElement;
   @Prop() product: DBproduct;
   @State() url: 'http://localhost:8080/productimage-upload'
+  @State() config: Styleconfig
+
   async componentWillLoad() {
+    await this.loadImage('.productIcon');
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
     await this.loadImage('.productIcon');
   }
 
@@ -31,23 +36,23 @@ export class ProductComponent {
   render() {
     return (
       <Host>
-        <ion-card-content class='productContainer'>
+        <ion-card-content class={this.config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
           <ion-row>
-            <ion-col class='productIcon'>
+            <ion-col hidden={!this.config.useProductImages} size="1" class='productIcon'>
             </ion-col>
-            <ion-col>
-              <ion-row>
-                <ion-col class="productName">
+            <ion-col size="10">
+              <ion-row class="productName">
+                <ion-col>
                   <div>{this.product.name}</div>
                 </ion-col>
               </ion-row>
-              <ion-row>
-                <ion-col class='productDesc'>
+              <ion-row class='productDesc'>
+                <ion-col>
                   <div>{this.product.description}</div>
                 </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col class='productPrice'>
+            <ion-col size="1" class='productPrice'>
               <div>{this.product.price}kr</div>
             </ion-col>
           </ion-row>
