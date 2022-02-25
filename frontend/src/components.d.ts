@@ -8,6 +8,7 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { DBcategory, DBproduct } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
+        "closeIcon": string;
         "isopen": boolean;
     }
     interface CategoryComponent {
@@ -129,6 +130,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface ApiUi {
+        "closeIcon"?: string;
         "isopen"?: boolean;
     }
     interface CategoryComponent {
