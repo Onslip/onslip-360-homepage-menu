@@ -14,6 +14,8 @@ export namespace Components {
     interface CategoryComponent {
         "category": DBcategory;
     }
+    interface FontSelector {
+    }
     interface HomepageMenuComponent {
     }
     interface ImageUploader {
@@ -45,6 +47,12 @@ declare global {
     var HTMLCategoryComponentElement: {
         prototype: HTMLCategoryComponentElement;
         new (): HTMLCategoryComponentElement;
+    };
+    interface HTMLFontSelectorElement extends Components.FontSelector, HTMLStencilElement {
+    }
+    var HTMLFontSelectorElement: {
+        prototype: HTMLFontSelectorElement;
+        new (): HTMLFontSelectorElement;
     };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
@@ -91,6 +99,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
+        "font-selector": HTMLFontSelectorElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "image-uploader": HTMLImageUploaderElement;
         "menu-component": HTMLMenuComponentElement;
@@ -107,6 +116,8 @@ declare namespace LocalJSX {
     }
     interface CategoryComponent {
         "category"?: DBcategory;
+    }
+    interface FontSelector {
     }
     interface HomepageMenuComponent {
     }
@@ -130,6 +141,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
+        "font-selector": FontSelector;
         "homepage-menu-component": HomepageMenuComponent;
         "image-uploader": ImageUploader;
         "menu-component": MenuComponent;
@@ -145,6 +157,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
+            "font-selector": LocalJSX.FontSelector & JSXBase.HTMLAttributes<HTMLFontSelectorElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
