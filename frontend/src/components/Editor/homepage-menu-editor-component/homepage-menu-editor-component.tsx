@@ -20,7 +20,12 @@ export class HomepageMenuEditorComponent {
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    this.config = await GetData(this.colorUrl);
+    await GetData(this.colorUrl)
+    .then(response => {this.config = response; this.dataIsOk()})
+    .catch(err => console.log(`${err} Kunde inte hämta data`))
+  }
+
+  async dataIsOk() {
     if (this.config.background.enabled) {
       document.querySelector('body').style.backgroundImage = null;
       document.querySelector('body').style.background = this.config.background.color;

@@ -29,7 +29,6 @@ export namespace Components {
     }
     interface ProductEditorComponent {
         "product": DBproduct;
-        "render2": () => Promise<void>;
     }
     interface ToolbarComponent {
     }

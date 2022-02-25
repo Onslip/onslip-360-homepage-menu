@@ -39,7 +39,7 @@ export class ProductEditorComponent {
       let fd = new FormData()
       fd.append('image', await file[0]);
       fd.append('id', await id);
-      await PostImage('http://localhost:8080/productimage-upload', fd);
+      await PostImage(this.url, fd);
       const reader = new FileReader();
       reader.onload = () => {
         const image = `url(${reader.result})`;
@@ -49,9 +49,6 @@ export class ProductEditorComponent {
       };
       reader.readAsDataURL(file[0]);
     }
-  }
-  @Method() render2() {
-    this.render()
   }
 
   render() {
