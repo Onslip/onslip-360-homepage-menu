@@ -1,10 +1,11 @@
-import { Component, h, State, Prop } from '@stencil/core';
+import { Component, h, State, Prop, getAssetPath, Host, Listen } from '@stencil/core';
 import { PostData } from '../../utils/post';
 
 @Component({
   tag: 'api-ui',
   styleUrl: 'api-ui.css',
   shadow: true,
+  assetsDirs: ['assets'],
 })
 export class ApiUi {
   @State() realm: string;
@@ -13,13 +14,19 @@ export class ApiUi {
   @State() uri: string;
   @State() base: string;
   @State() private url = 'http://localhost:8080/updateapi'
-
   @Prop({
     mutable: true,
     reflect: true,
   })
   @Prop() isopen: boolean;
+  @Prop() closeIcon = 'x.svg';
+  @Listen('click')
+  handleClick(ev: MouseEvent) {
+    if (ev.button === 1) {
 
+      console.log('down arrow pressed')
+    }
+  }
 
   open() {
     this.isopen = true;
@@ -53,6 +60,7 @@ export class ApiUi {
 
   render() {
     return (
+
       <div>
         <div>
           <label class={'button-9'} htmlFor='changekey'>Ändra API-nyckel <ion-icon class="icon" name="settings-sharp"></ion-icon></label>
@@ -96,7 +104,10 @@ export class ApiUi {
           </div>
         </div >
       </div>
+
     );
   }
 
 }
+
+
