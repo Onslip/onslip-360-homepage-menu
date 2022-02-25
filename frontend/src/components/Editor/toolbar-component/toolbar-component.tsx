@@ -56,7 +56,7 @@ export class ToolbarComponent {
                 <font-selector></font-selector>
               </ion-buttons>
               <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
-              <ion-title slot="end"> Digital Dynamic Menu </ion-title>
+              <ion-title slot="end">Digital Dynamic Menu</ion-title>
             </ion-toolbar>
           </ion-header>
         </ion-nav>

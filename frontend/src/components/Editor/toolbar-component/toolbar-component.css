@@ -10,7 +10,7 @@
 .logo {
   position: absolute;
   left: 50%;
-  transform: translate(-50%, -50%) 
+  transform: translateX(-50%);
 }
 
 
@@ -56,7 +56,6 @@ ion-nav {
   border-width: 0;
   box-sizing: border-box;
   cursor: pointer;
-  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
   font-size: 100%;
   line-height: 1;
   outline: none;
@@ -91,6 +90,10 @@ ion-toggle {
   --border-radius: 5px;
   --handle-border-radius: 5px;
   --handle-width: 15px
+}
+
+ion-button:hover {
+  background-color: var(--primary);
 }
 
 .menu-col {
