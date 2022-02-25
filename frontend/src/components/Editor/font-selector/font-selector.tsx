@@ -22,20 +22,20 @@ export class FontSelector {
     `'Courier New', Courier, monospace`]
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/backgroundcolor')
+    await GetData('http://localhost:8080/config')
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
   async ChangeFont(font, element) {
-    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config = await GetData('http://localhost:8080/config')
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
 
     const menuelement = document.querySelector('homepage-menu-editor-component');
     menuelement.shadowRoot.querySelector(element).style.fontFamily = font;
     this.config.font = font;
-    PostData('http://localhost:8080/backgroundcolor', this.config)
+    PostData('http://localhost:8080/config', this.config)
   }
 
   render() {

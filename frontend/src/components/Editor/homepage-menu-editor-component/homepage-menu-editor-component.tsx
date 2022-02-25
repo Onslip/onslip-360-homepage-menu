@@ -14,13 +14,13 @@ export class HomepageMenuEditorComponent {
 
   @State() config: Styleconfig;
   @State() private imageurl: string = 'http://localhost:8080/background';
-  @State() private colorUrl: string = 'http://localhost:8080/backgroundcolor';
+  @State() private configurl: string = 'http://localhost:8080/config';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
   @State() private logoUrl: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    await GetData(this.colorUrl)
+    await GetData(this.configurl)
       .then(response => { this.config = response; this.dataIsOk() })
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }

@@ -14,13 +14,13 @@ import '@ionic/core'
 export class HomepageMenuComponent {
   @State() config: Styleconfig;
   @State() private imageurl: string = 'http://localhost:8080/background';
-  @State() private colorUrl: string = 'http://localhost:8080/backgroundcolor';
+  @State() private configurl: string = 'http://localhost:8080/config';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
   @State() private logoUrl: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    this.config = await GetData(this.colorUrl);
+    this.config = await GetData(this.configurl);
     if (this.config.background.enabled) {
       document.querySelector('body').style.backgroundImage = null;
       document.querySelector('body').style.background = this.config.background.color;

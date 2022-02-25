@@ -13,11 +13,11 @@ import { Styleconfig } from '../../utils/utils';
 export class ProductEditorComponent {
   @Element() element: HTMLElement;
   @Prop() product: DBproduct;
-  @State() url: 'http://localhost:8080/productimage-upload'
+  private url: string = 'http://localhost:8080/productimage-upload';
   @State() config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config = await GetData('http://localhost:8080/config')
     await this.loadImage('.productIcon');
   }
 
@@ -34,11 +34,11 @@ export class ProductEditorComponent {
     };
   }
 
-  async uploadImage(file, element, id) {
+  async uploadImage(file, element, name) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
-      fd.append('id', await id);
+      fd.append('id', await name);
       await PostImage(this.url, fd);
       const reader = new FileReader();
       reader.onload = () => {

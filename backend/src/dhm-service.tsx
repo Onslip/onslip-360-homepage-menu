@@ -87,7 +87,7 @@ export class DHMService {
 
 
             .addResource(class implements WebResource {
-                static path = /backgroundcolor/;
+                static path = /config/;
                 async GET() {
                     const data = readFileSync('./background.json').toString();
                     return JSON.parse(data);

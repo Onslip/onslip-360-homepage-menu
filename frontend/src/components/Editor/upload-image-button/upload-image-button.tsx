@@ -20,7 +20,7 @@ export class UploadImageButton {
   @State() config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config = await GetData('http://localhost:8080/config')
   }
 
   async post(file) {
@@ -53,7 +53,7 @@ export class UploadImageButton {
       if (image != null) {
         document.querySelector('body').style.backgroundImage = image
         this.config.background.enabled = false
-        PostData('http://localhost:8080/backgroundcolor', this.config);
+        PostData('http://localhost:8080/config', this.config);
 
       }
     };

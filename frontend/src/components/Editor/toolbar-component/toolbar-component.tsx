@@ -19,13 +19,13 @@ export class ToolbarComponent {
   private config: Styleconfig
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/backgroundcolor')
+    await GetData('http://localhost:8080/config')
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
   async useProductImages(event) {
-    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config = await GetData('http://localhost:8080/config')
     this.config.useProductImages = event.detail.checked
     await this.submitForm()
     location.reload()
@@ -39,7 +39,7 @@ export class ToolbarComponent {
   }
 
   async submitForm() {
-    await PostData('http://localhost:8080/backgroundcolor', this.config);
+    await PostData('http://localhost:8080/config', this.config);
   }
 
   render() {

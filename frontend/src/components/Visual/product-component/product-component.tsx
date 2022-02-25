@@ -15,7 +15,7 @@ export class ProductComponent {
   @State() config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config = await GetData('http://localhost:8080/config')
     await this.loadImage('.productIcon');
   }
 
