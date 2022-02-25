@@ -2,7 +2,6 @@ import { Component, Host, h, State, Element } from '@stencil/core';
 import { GetData } from '../../utils/get';
 import { PostData } from '../../utils/post';
 import { Styleconfig } from '../../utils/utils';
-
 @Component({
   tag: 'font-selector',
   styleUrl: 'font-selector.css',
@@ -28,6 +27,7 @@ export class FontSelector {
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
     this.initialvalue = this.config.font;
+
   }
 
   ChangeFont(font, element) {
@@ -42,7 +42,8 @@ export class FontSelector {
     return (
       <Host >
         <ion-row>
-          <ion-select onIonChange={(event) => { this.ChangeFont(event.target.value, '.menuContainer'); }} class={this.menu ? 'is-open' : 'is-closed'} value={this.initialvalue}>
+
+          <ion-select onIonChange={(event) => { this.ChangeFont(event.target.value, '.menuContainer'); }} class={this.menu ? 'is-open' : 'is-closed'} value={this.initialvalue} interface='action-sheet'>
             {this.fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
           </ion-select>
           <ion-button onClick={() => { this.menu = !this.menu }} class='label'>

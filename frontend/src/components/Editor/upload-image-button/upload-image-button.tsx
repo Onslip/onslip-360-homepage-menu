@@ -5,6 +5,7 @@ import { Styleconfig } from '../../utils/utils';
 import { buttonvalues } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
+import { fileURLToPath, urlToHttpOptions } from 'url';
 
 @Component({
   tag: 'upload-image-button',
@@ -53,6 +54,7 @@ export class UploadImageButton {
         document.querySelector('body').style.backgroundImage = image
         this.config.background.enabled = false
         PostData('http://localhost:8080/backgroundcolor', this.config);
+
       }
     };
   }

@@ -3,7 +3,6 @@ import { Styleconfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
-import { loadCordovaConfig } from '@ionic/cli/lib/integrations/cordova/config';
 
 @Component({
   tag: 'homepage-menu-editor-component',
