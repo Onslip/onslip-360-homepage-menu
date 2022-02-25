@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { Colorconfig } from '../../utils/utils';
+import { Styleconfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
@@ -12,7 +12,7 @@ import '@ionic/core'
 })
 
 export class HomepageMenuComponent {
-  @State() background: Colorconfig;
+  @State() config: Styleconfig;
   @State() private imageurl: string = 'http://localhost:8080/background';
   @State() private colorUrl: string = 'http://localhost:8080/backgroundcolor';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
@@ -20,10 +20,10 @@ export class HomepageMenuComponent {
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    this.background = await GetData(this.colorUrl);
-    if (this.background.backgroundcolor != null) {
+    this.config = await GetData(this.colorUrl);
+    if (this.config.background.enabled) {
       document.querySelector('body').style.backgroundImage = null;
-      document.querySelector('body').style.backgroundColor = this.background.backgroundcolor;
+      document.querySelector('body').style.background = this.config.background.color;
     }
     else {
       this.LoadBackground(this.imageurl);
@@ -57,7 +57,6 @@ export class HomepageMenuComponent {
   private async LoadBanner(url, element) {
     const banner = await GetData(url);
     const image = await loadImage(banner)
-    console.log(image)
     if (image != null) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
     }

@@ -19,17 +19,19 @@ export class ToolbarComponent {
   private config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    await GetData('http://localhost:8080/backgroundcolor')
+      .then(response => this.config = response)
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
   async useProductImages(event) {
     this.config = await GetData('http://localhost:8080/backgroundcolor')
     this.config.useProductImages = event.detail.checked
-    this.submitForm()
+    await this.submitForm()
     location.reload()
   }
 
-  changeColor() {
+  async changeColor() {
     this.config.background.enabled = true
     document.body.style.backgroundImage = null;
     document.body.style.backgroundColor = this.config.background.color;
@@ -46,14 +48,15 @@ export class ToolbarComponent {
         <ion-nav>
           <ion-header>
             <ion-toolbar class="toolbar">
-              <ion-title slot="end"> Digital Dynamic Menu </ion-title>
-              <img class="logo" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
               <ion-buttons slot="start">
                 <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
+                  <ion-label>MENY</ion-label>
                 </ion-button>
                 <font-selector></font-selector>
               </ion-buttons>
+              <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
+              <ion-title slot="end"> Digital Dynamic Menu </ion-title>
             </ion-toolbar>
           </ion-header>
         </ion-nav>
@@ -77,18 +80,21 @@ export class ToolbarComponent {
                 <api-ui></api-ui>
               </ion-row>
             </ion-col>
-
             <ion-col class="menu-row">
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
-                </ion-item>
-              </ion-row>
-            </ion-col>
-          </ion-row>
-        </div>
-      </Host>
+<<<<<<< HEAD
+    <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
+=======
+                  <ion-toggle checked={this.config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
+>>>>>>> 3d79c1b6f166f52accf1b7915fd10f928d20690a
+                </ion - item >
+              </ion - row >
+            </ion - col >
+          </ion - row >
+        </div >
+      </Host >
     );
   }
 

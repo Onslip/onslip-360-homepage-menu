@@ -101,6 +101,14 @@ api-ui {
   width: 100%;
 }
 
+<<<<<<< HEAD
 font-selector {
   width: fit-content;
+=======
+.fontselector {
+  --color:white;
+  --background:none;
+  max-width: 100px;
+  font-family: unset;
+>>>>>>> 3d79c1b6f166f52accf1b7915fd10f928d20690a
 }
