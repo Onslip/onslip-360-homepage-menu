@@ -6,13 +6,27 @@
   opacity: 1;
   visibility: visible;
   transition: visbility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-  color: black;
+  color: white;
   z-index: 10;
+  max-width: 100px;
 }
 
 .is-closed {
-    visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
   z-index: 10;
-  opacity: 0
+  width: 0%;
+  height: 0%;
+  max-width: 0px;
+  size: 0;
+}
+
+ion-row {
+  width: fit-content;
+}
+.label {
+   --background: none;
+  --color: white;
+  --box-shadow: none;
 }

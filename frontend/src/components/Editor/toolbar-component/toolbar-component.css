@@ -8,8 +8,11 @@
 }
 
 .logo {
-  width: 6.5rem;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) 
 }
+
 
 ion-nav {
   position: fixed;
@@ -96,4 +99,8 @@ ion-toggle {
 
 api-ui {
   width: 100%;
+}
+
+font-selector {
+  width: fit-content;
 }

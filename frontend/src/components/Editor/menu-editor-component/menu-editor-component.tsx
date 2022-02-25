@@ -20,18 +20,18 @@ export class MenuEditorComponent {
   render() {
     return (
       <Host>
-          {
-            this.responsedata.map(data => {
-              return (
-                <ion-card color="secondary" class='menu'>
-                  <category-editor-component category={data.category}></category-editor-component>
-                  {
-                    data.products.map(product => { return (<product-editor-component class='menu-item' product={product}></product-editor-component>) })
-                  }
-                </ion-card>
-              )
-            })
-          }
+        {
+          this.responsedata.map(data => {
+            return (
+              <ion-card color="secondary" class='menu'>
+                <category-editor-component category={data.category}></category-editor-component>
+                {
+                  data.products.map(product => { return (<product-editor-component class='menu-item' product={product}></product-editor-component>) })
+                }
+              </ion-card>
+            )
+          })
+        }
       </Host>
     )
   }

@@ -47,11 +47,12 @@ export class ToolbarComponent {
           <ion-header>
             <ion-toolbar class="toolbar">
               <ion-title slot="end"> Digital Dynamic Menu </ion-title>
-              <img slot='primary' class="logo" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
+              <img class="logo" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
               <ion-buttons slot="start">
                 <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                 </ion-button>
+                <font-selector></font-selector>
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
@@ -81,7 +82,7 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev)}}></ion-toggle>
+                  <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
                 </ion-item>
               </ion-row>
             </ion-col>

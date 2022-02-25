@@ -13,12 +13,10 @@ export namespace Components {
     interface CategoryComponent {
         "category": DBcategory;
     }
-<<<<<<< HEAD
-    interface FontSelector {
-=======
     interface CategoryEditorComponent {
         "category": DBcategory;
->>>>>>> 184efb84c2c1530203f1961f04364b11105eb246
+    }
+    interface FontSelector {
     }
     interface HomepageMenuComponent {
     }
@@ -55,19 +53,17 @@ declare global {
         prototype: HTMLCategoryComponentElement;
         new (): HTMLCategoryComponentElement;
     };
-<<<<<<< HEAD
-    interface HTMLFontSelectorElement extends Components.FontSelector, HTMLStencilElement {
-    }
-    var HTMLFontSelectorElement: {
-        prototype: HTMLFontSelectorElement;
-        new (): HTMLFontSelectorElement;
-=======
     interface HTMLCategoryEditorComponentElement extends Components.CategoryEditorComponent, HTMLStencilElement {
     }
     var HTMLCategoryEditorComponentElement: {
         prototype: HTMLCategoryEditorComponentElement;
         new (): HTMLCategoryEditorComponentElement;
->>>>>>> 184efb84c2c1530203f1961f04364b11105eb246
+    };
+    interface HTMLFontSelectorElement extends Components.FontSelector, HTMLStencilElement {
+    }
+    var HTMLFontSelectorElement: {
+        prototype: HTMLFontSelectorElement;
+        new (): HTMLFontSelectorElement;
     };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
@@ -120,11 +116,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
-<<<<<<< HEAD
-        "font-selector": HTMLFontSelectorElement;
-=======
         "category-editor-component": HTMLCategoryEditorComponentElement;
->>>>>>> 184efb84c2c1530203f1961f04364b11105eb246
+        "font-selector": HTMLFontSelectorElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "menu-component": HTMLMenuComponentElement;
@@ -142,12 +135,10 @@ declare namespace LocalJSX {
     interface CategoryComponent {
         "category"?: DBcategory;
     }
-<<<<<<< HEAD
-    interface FontSelector {
-=======
     interface CategoryEditorComponent {
         "category"?: DBcategory;
->>>>>>> 184efb84c2c1530203f1961f04364b11105eb246
+    }
+    interface FontSelector {
     }
     interface HomepageMenuComponent {
     }
@@ -172,11 +163,8 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
-<<<<<<< HEAD
-        "font-selector": FontSelector;
-=======
         "category-editor-component": CategoryEditorComponent;
->>>>>>> 184efb84c2c1530203f1961f04364b11105eb246
+        "font-selector": FontSelector;
         "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "menu-component": MenuComponent;
@@ -193,11 +181,8 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
-<<<<<<< HEAD
-            "font-selector": LocalJSX.FontSelector & JSXBase.HTMLAttributes<HTMLFontSelectorElement>;
-=======
             "category-editor-component": LocalJSX.CategoryEditorComponent & JSXBase.HTMLAttributes<HTMLCategoryEditorComponentElement>;
->>>>>>> 184efb84c2c1530203f1961f04364b11105eb246
+            "font-selector": LocalJSX.FontSelector & JSXBase.HTMLAttributes<HTMLFontSelectorElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
