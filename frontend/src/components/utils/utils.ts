@@ -35,6 +35,7 @@ export interface Styleconfig {
     color: string,
   },
   useProductImages: true,
+  font: string,
 }
 
 export enum buttonvalues {

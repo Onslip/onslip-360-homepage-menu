@@ -3,6 +3,7 @@ import { Styleconfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
+import { loadCordovaConfig } from '@ionic/cli/lib/integrations/cordova/config';
 
 @Component({
   tag: 'homepage-menu-editor-component',
@@ -21,8 +22,8 @@ export class HomepageMenuEditorComponent {
 
   async componentWillLoad() {
     await GetData(this.colorUrl)
-    .then(response => {this.config = response; this.dataIsOk()})
-    .catch(err => console.log(`${err} Kunde inte hämta data`))
+      .then(response => { this.config = response; this.dataIsOk() })
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
   async dataIsOk() {
@@ -31,10 +32,15 @@ export class HomepageMenuEditorComponent {
       document.querySelector('body').style.background = this.config.background.color;
     }
     else {
-      this.LoadBackground(this.imageurl);
+      await this.LoadBackground(this.imageurl);
     }
-    this.LoadBanner(this.bannerUrl, '.header')
-    this.LoadLogo(this.logoUrl, '.header')
+    await this.LoadBanner(this.bannerUrl, '.header')
+    await this.LoadLogo(this.logoUrl, '.header')
+    await this.LoadConfig('.menuContainer');
+
+  }
+  private async LoadConfig(element) {
+    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config.font;
   }
 
   private async LoadBackground(url) {
@@ -75,7 +81,7 @@ export class HomepageMenuEditorComponent {
           </toolbar-component>
         </div>
 
-        <div class={'menuContainer'}>
+        <div class='menuContainer'>
           <div class='header'></div>
           <menu-editor-component></menu-editor-component>
           <div class='logoDiv'>
