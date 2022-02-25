@@ -30,7 +30,15 @@ export interface Banner {
 }
 
 export interface Styleconfig {
-  backgroundcolor: string,
-  useProductImages: boolean,
-  
+  background: {
+    enabled: boolean
+    color: string,
+  },
+  useProductImages: true,
+}
+
+export enum buttonvalues {
+  background = "Ändra bakgrund",
+  banner = "Ändra banner",
+  logo = "Ändra logga"
 }

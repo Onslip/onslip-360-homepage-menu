@@ -1,18 +1,18 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { Colorconfig } from '../../utils/utils';
+import { Styleconfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
 
 @Component({
-  tag: 'homepage-menu-component',
-  styleUrl: 'homepage-menu-component.css',
+  tag: 'homepage-menu-editor-component',
+  styleUrl: 'homepage-menu-editor-component.css',
   shadow: true,
   assetsDirs: ['../../../assets'],
 })
+export class HomepageMenuEditorComponent {
 
-export class HomepageMenuComponent {
-  @State() background: Colorconfig;
+  @State() config: Styleconfig;
   @State() private imageurl: string = 'http://localhost:8080/background';
   @State() private colorUrl: string = 'http://localhost:8080/backgroundcolor';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
@@ -20,10 +20,10 @@ export class HomepageMenuComponent {
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    this.background = await GetData(this.colorUrl);
-    if (this.background.backgroundcolor != null) {
+    this.config = await GetData(this.colorUrl);
+    if (this.config.background.enabled) {
       document.querySelector('body').style.backgroundImage = null;
-      document.querySelector('body').style.backgroundColor = this.background.backgroundcolor;
+      document.querySelector('body').style.background = this.config.background.color;
     }
     else {
       this.LoadBackground(this.imageurl);
@@ -57,7 +57,6 @@ export class HomepageMenuComponent {
   private async LoadBanner(url, element) {
     const banner = await GetData(url);
     const image = await loadImage(banner)
-    console.log(image)
     if (image != null) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
     }
@@ -66,9 +65,14 @@ export class HomepageMenuComponent {
   render() {
     return (
       <Host>
+        <div>
+          <toolbar-component>
+          </toolbar-component>
+        </div>
+
         <div class={'menuContainer'}>
           <div class='header'></div>
-          <menu-component></menu-component>
+          <menu-editor-component></menu-editor-component>
           <div class='logoDiv'>
             <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
           </div>
@@ -77,4 +81,3 @@ export class HomepageMenuComponent {
     )
   }
 }
-

@@ -2,9 +2,13 @@
   display: block;
 }
 
+.prodContainer-no-image {
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
 .productContainer {
   text-align: center;
-  border-bottom: solid tomato 2px;
   margin-bottom: 0.5rem;
 
 }
@@ -34,6 +38,7 @@
 
 .productDesc {
   font-size: 0.8rem;
+  margin: 0 10px;
 }
 
 .uploadbutton {

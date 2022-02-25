@@ -1,6 +1,7 @@
-import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
-import { Colorconfig } from '../../utils/utils';
+import { Component, Host, h, State, getAssetPath, Method } from '@stencil/core';
+import { Styleconfig, buttonvalues } from '../../utils/utils';
 import { PostData } from '../../utils/post';
+import { GetData } from '../../utils/get';
 
 @Component({
   tag: 'toolbar-component',
@@ -8,32 +9,35 @@ import { PostData } from '../../utils/post';
   assetsDirs: ['../../../assets'],
   shadow: true,
 })
+
 export class ToolbarComponent {
 
   @State() menuopen: boolean = false
-  @State() color: string;
-  @State() file;
-  @State() tempfile: string;
-  @State() checkImage: boolean;
-  @State() private url1: string = 'http://localhost:8080/background'
-  @State() private url2: string = 'http://localhost:8080/banner';
-  @State() private url3: string = 'http://localhost:8080/logo';
-  @Element() element: HTMLElement;
-  @State() value: buttonvalues = { '1': 'Ändra bakgrund', '2': 'Ändra banner', '3': 'Ändra logga' }
+  private url1: string = 'http://localhost:8080/background'
+  private url2: string = 'http://localhost:8080/banner';
+  private url3: string = 'http://localhost:8080/logo';
+  private config: Styleconfig
+
+  async componentWillLoad() {
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
+  }
+
+  async useProductImages(event) {
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
+    this.config.useProductImages = event.detail.checked
+    this.submitForm()
+    location.reload()
+  }
 
   changeColor() {
-    this.checkImage = false;
+    this.config.background.enabled = true
     document.body.style.backgroundImage = null;
-    document.body.style.backgroundColor = this.color;
+    document.body.style.backgroundColor = this.config.background.color;
     this.submitForm();
   }
 
   async submitForm() {
-    let data: Colorconfig;
-
-    data = { backgroundcolor: this.color }
-
-    await PostData('http://localhost:8080/backgroundcolor', data);
+    await PostData('http://localhost:8080/backgroundcolor', this.config);
   }
 
   render() {
@@ -56,17 +60,17 @@ export class ToolbarComponent {
           <ion-row>
             <ion-col class="menu-col">
               <ion-row>
-                <upload-image-button buttonvalue={this.value[3]} URL={this.url3}></upload-image-button>
+                <upload-image-button buttonvalue={buttonvalues.logo} URL={this.url3}></upload-image-button>
               </ion-row>
               <ion-row>
-                <upload-image-button buttonvalue={this.value[2]} URL={this.url2}></upload-image-button>
+                <upload-image-button buttonvalue={buttonvalues.banner} URL={this.url2}></upload-image-button>
               </ion-row>
               <ion-row>
-                <upload-image-button buttonvalue={this.value[1]} URL={this.url1}></upload-image-button>
+                <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
               </ion-row>
               <ion-row>
                 <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='color' type='color' onChange={(event: any) => { this.color = event.target.value; this.changeColor() }} hidden />
+                <input id='color' type='color' onChange={(event: any) => { this.config.background.color = event.target.value; this.changeColor() }} hidden />
               </ion-row>
               <ion-row>
                 <api-ui></api-ui>
@@ -77,7 +81,7 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle></ion-toggle>
+                  <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev)}}></ion-toggle>
                 </ion-item>
               </ion-row>
             </ion-col>
@@ -87,10 +91,4 @@ export class ToolbarComponent {
     );
   }
 
-}
-
-export interface buttonvalues {
-  1: string;
-  2: string;
-  3: string;
 }

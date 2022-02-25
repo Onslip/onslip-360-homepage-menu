@@ -5,7 +5,6 @@ import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { writeFileSync, readFileSync } from 'fs';
-import internal from 'stream';
 
 export class DHMService {
     private api: API;

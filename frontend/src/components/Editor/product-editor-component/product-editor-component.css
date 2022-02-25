@@ -1,63 +1,66 @@
 :host {
-    display: block;
-  }
-  
-  .productContainer {
-    text-align: center;
-    border-bottom: solid tomato 2px;
-    margin-bottom: 0.5rem;
-  
-  }
-  
-  .productIcon {
-    text-align: left;
-    object-fit: cover;
-    margin-bottom: 0.5rem;
-    background-image: url('https://cdn-icons-png.flaticon.com/512/198/198416.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    /* border: 2px solid black; */
-    border-radius: 10%;
-    height: 80px;
-  }
-  
-  .productName {
-    font-size: 1rem;
-    text-decoration: underline;
-  }
-  
-  .productPrice {
-    text-align: right;
-    font-size: 1rem;
-    text-decoration: underline;
-  }
-  
-  .productDesc {
-    font-size: 0.8rem;
-  }
-  
-  .uploadbutton {
-    opacity: 0;
-    text-align: center;
-    font-size: large;
-    color: white;
-    position: absolute;
-    width: fit-content  ;
-    height: 100%;
-    background: transparent;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    display: flex;
-    font-size: 1.5rem;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  
-  .uploadbutton:hover {
-    opacity: 100%;
-    background-color: rgba(0, 0, 0, 0.644);
-    border: 3px solid black 
-  }
+  display: block;
+}
+
+.prodContainer-no-image {
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.productContainer {
+  text-align: center;
+  margin-bottom: 0.5rem;
+
+}
+
+.productIcon {
+  text-align: left;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  background-image: url('https://cdn-icons-png.flaticon.com/512/198/198416.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* border: 2px solid black; */
+  border-radius: 10%;
+  height: 80px;
+}
+
+.productName {
+  font-size: 1rem;
+}
+
+.productPrice {
+  text-align: right;
+  font-size: 1rem;
+}
+
+.productDesc {
+  font-size: 0.8rem;
+  margin: 0 10px;
+}
+
+.uploadbutton {
+  opacity: 0;
+  text-align: center;
+  font-size: large;
+  color: white;
+  position: absolute;
+  width: fit-content  ;
+  height: 100%;
+  background: transparent;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  display: flex;
+  font-size: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.uploadbutton:hover {
+  opacity: 100%;
+  background-color: rgba(0, 0, 0, 0.644);
+  border: 3px solid black 
+}

@@ -1,11 +1,10 @@
-import { Component, h, State, Prop, getAssetPath } from '@stencil/core';
+import { Component, h, State, Prop } from '@stencil/core';
 import { PostData } from '../../utils/post';
 
 @Component({
   tag: 'api-ui',
   styleUrl: 'api-ui.css',
   shadow: true,
-  assetsDirs: ['assets'],
 })
 export class ApiUi {
   @State() realm: string;
@@ -20,7 +19,6 @@ export class ApiUi {
     reflect: true,
   })
   @Prop() isopen: boolean;
-  @Prop() closeIcon = 'x.svg';
 
 
   open() {
