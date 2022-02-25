@@ -11,7 +11,6 @@ export class FontSelector {
   @State() config: Styleconfig
   @State() selectedfont: string;
   @Element() element: HTMLElement;
-  @State() initialvalue: string;
   @State() menu: boolean = false;
   @State() fonts = ['Arial, Helvetica, sans-serif',
     'Verdana, Geneva, Tahoma, sans-serif',
@@ -26,12 +25,13 @@ export class FontSelector {
     await GetData('http://localhost:8080/backgroundcolor')
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
-    this.initialvalue = this.config.font;
-
   }
 
-  ChangeFont(font, element) {
-    this.initialvalue = font;
+  async ChangeFont(font, element) {
+    this.config = await GetData('http://localhost:8080/backgroundcolor')
+      .then(response => this.config = response)
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
+
     const menuelement = document.querySelector('homepage-menu-editor-component');
     menuelement.shadowRoot.querySelector(element).style.fontFamily = font;
     this.config.font = font;
@@ -43,7 +43,7 @@ export class FontSelector {
       <Host >
         <ion-row>
 
-          <ion-select onIonChange={(event) => { this.ChangeFont(event.target.value, '.menuContainer'); }} class={this.menu ? 'is-open' : 'is-closed'} value={this.initialvalue} interface='action-sheet'>
+          <ion-select onIonChange={(event) => { this.ChangeFont(event.target.value, '.menuContainer'); }} class={this.menu ? 'is-open' : 'is-closed'} value={this.config.font} interface='action-sheet'>
             {this.fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
           </ion-select>
           <ion-button onClick={() => { this.menu = !this.menu }} class='label'>
