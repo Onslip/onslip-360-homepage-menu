@@ -84,15 +84,11 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-<<<<<<< HEAD
-    <ion-toggle checked={this.config.useProductImages} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
-=======
                   <ion-toggle checked={this.config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
->>>>>>> 3d79c1b6f166f52accf1b7915fd10f928d20690a
-                </ion - item >
-              </ion - row >
-            </ion - col >
-          </ion - row >
+                </ion-item>
+              </ion-row>
+            </ion-col>
+          </ion-row>
         </div >
       </Host >
     );
