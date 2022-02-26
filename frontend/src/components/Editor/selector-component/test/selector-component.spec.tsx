@@ -1,18 +1,18 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { FontSelector } from '../font-selector';
+import { SelectorComponent } from '../selector-component';
 
-describe('font-selector', () => {
+describe('selector-component', () => {
   it('renders', async () => {
     const page = await newSpecPage({
-      components: [FontSelector],
-      html: `<font-selector></font-selector>`,
+      components: [SelectorComponent],
+      html: `<selector-component></selector-component>`,
     });
     expect(page.root).toEqualHtml(`
-      <font-selector>
+      <selector-component>
         <mock:shadow-root>
           <slot></slot>
         </mock:shadow-root>
-      </font-selector>
+      </selector-component>
     `);
   });
 });

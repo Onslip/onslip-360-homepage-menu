@@ -17,8 +17,6 @@ export namespace Components {
     interface CategoryEditorComponent {
         "category": DBcategory;
     }
-    interface FontSelector {
-    }
     interface HomepageMenuComponent {
     }
     interface HomepageMenuEditorComponent {
@@ -32,6 +30,12 @@ export namespace Components {
     }
     interface ProductEditorComponent {
         "product": DBproduct;
+    }
+    interface SelectorComponent {
+        "DropDownvalues": string[];
+        "IconName": string;
+        "element": string;
+        "value": string;
     }
     interface ToolbarComponent {
     }
@@ -58,12 +62,6 @@ declare global {
     var HTMLCategoryEditorComponentElement: {
         prototype: HTMLCategoryEditorComponentElement;
         new (): HTMLCategoryEditorComponentElement;
-    };
-    interface HTMLFontSelectorElement extends Components.FontSelector, HTMLStencilElement {
-    }
-    var HTMLFontSelectorElement: {
-        prototype: HTMLFontSelectorElement;
-        new (): HTMLFontSelectorElement;
     };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
@@ -101,6 +99,12 @@ declare global {
         prototype: HTMLProductEditorComponentElement;
         new (): HTMLProductEditorComponentElement;
     };
+    interface HTMLSelectorComponentElement extends Components.SelectorComponent, HTMLStencilElement {
+    }
+    var HTMLSelectorComponentElement: {
+        prototype: HTMLSelectorComponentElement;
+        new (): HTMLSelectorComponentElement;
+    };
     interface HTMLToolbarComponentElement extends Components.ToolbarComponent, HTMLStencilElement {
     }
     var HTMLToolbarComponentElement: {
@@ -117,13 +121,13 @@ declare global {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
         "category-editor-component": HTMLCategoryEditorComponentElement;
-        "font-selector": HTMLFontSelectorElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "menu-component": HTMLMenuComponentElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
         "product-component": HTMLProductComponentElement;
         "product-editor-component": HTMLProductEditorComponentElement;
+        "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
         "upload-image-button": HTMLUploadImageButtonElement;
     }
@@ -139,8 +143,6 @@ declare namespace LocalJSX {
     interface CategoryEditorComponent {
         "category"?: DBcategory;
     }
-    interface FontSelector {
-    }
     interface HomepageMenuComponent {
     }
     interface HomepageMenuEditorComponent {
@@ -155,6 +157,12 @@ declare namespace LocalJSX {
     interface ProductEditorComponent {
         "product"?: DBproduct;
     }
+    interface SelectorComponent {
+        "DropDownvalues"?: string[];
+        "IconName"?: string;
+        "element"?: string;
+        "value"?: string;
+    }
     interface ToolbarComponent {
     }
     interface UploadImageButton {
@@ -165,13 +173,13 @@ declare namespace LocalJSX {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
         "category-editor-component": CategoryEditorComponent;
-        "font-selector": FontSelector;
         "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "menu-component": MenuComponent;
         "menu-editor-component": MenuEditorComponent;
         "product-component": ProductComponent;
         "product-editor-component": ProductEditorComponent;
+        "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
         "upload-image-button": UploadImageButton;
     }
@@ -183,13 +191,13 @@ declare module "@stencil/core" {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
             "category-editor-component": LocalJSX.CategoryEditorComponent & JSXBase.HTMLAttributes<HTMLCategoryEditorComponentElement>;
-            "font-selector": LocalJSX.FontSelector & JSXBase.HTMLAttributes<HTMLFontSelectorElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
             "product-editor-component": LocalJSX.ProductEditorComponent & JSXBase.HTMLAttributes<HTMLProductEditorComponentElement>;
+            "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
             "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;
         }

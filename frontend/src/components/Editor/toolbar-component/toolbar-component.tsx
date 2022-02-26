@@ -1,5 +1,5 @@
 import { Component, Host, h, State, getAssetPath, Method } from '@stencil/core';
-import { Styleconfig, buttonvalues } from '../../utils/utils';
+import { Styleconfig, buttonvalues, Fonts, Presets } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -53,7 +53,9 @@ export class ToolbarComponent {
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                   <ion-label>MENY</ion-label>
                 </ion-button>
-                <font-selector></font-selector>
+                <selector-component value={this.config.font} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer'></selector-component>
+                <selector-component value={this.config.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer'></selector-component>
+
               </ion-buttons>
               <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
               <ion-title slot="end">Digital Dynamic Menu</ion-title>

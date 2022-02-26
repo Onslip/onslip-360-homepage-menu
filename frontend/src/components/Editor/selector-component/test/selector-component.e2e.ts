@@ -1,11 +1,11 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('font-selector', () => {
+describe('selector-component', () => {
   it('renders', async () => {
     const page = await newE2EPage();
-    await page.setContent('<font-selector></font-selector>');
+    await page.setContent('<selector-component></selector-component>');
 
-    const element = await page.find('font-selector');
+    const element = await page.find('selector-component');
     expect(element).toHaveClass('hydrated');
   });
 });
