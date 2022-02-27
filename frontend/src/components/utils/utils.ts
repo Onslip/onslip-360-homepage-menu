@@ -36,7 +36,8 @@ export interface Styleconfig {
   },
   useProductImages: true,
   font: string,
-  preset: string
+  preset: string,
+  menuBackground: string,
 }
 
 export enum buttonvalues {

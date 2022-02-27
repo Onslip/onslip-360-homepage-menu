@@ -3,7 +3,8 @@
   align-content: center;
 }
 
-.menuContainer {
+
+.menuContainer[data-status='Preset 1'] {
   margin: 100px auto;
   width: 65%;
   border: 2px solid rgb(94, 93, 93);
@@ -11,6 +12,18 @@
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.6); 
   backdrop-filter: blur(15px) saturate(120%) contrast(200%);
+}
+
+.menuContainer[data-status='Preset 2'] {
+  width: 65%;
+  box-shadow: 0 30px 40px rgba(0,0,0,.1);
+  margin: 100px auto;
+  
+
+}
+
+.menuContainer[data-status='Preset 3'] {
+  
 }
 
 .logoDiv {

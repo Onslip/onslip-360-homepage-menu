@@ -1,0 +1,10 @@
+{
+    "useProductImages": true,
+    "background": {
+        "color": "#221111",
+        "enabled": true
+    },
+    "font": "Verdana, Geneva, Tahoma, sans-serif",
+    "preset": "Preset 2",
+    "menuBackground": "#8d4e4e"
+}

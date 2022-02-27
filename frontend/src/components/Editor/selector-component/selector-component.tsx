@@ -15,7 +15,7 @@ export class SelectorComponent {
   @Prop() IconName: string
   @State() config: Styleconfig
   @State() selectedfont: string;
-  @State() menu: boolean = false;
+  @State() menu: boolean;
   @Prop() element: string
 
   async componentWillLoad() {
@@ -24,9 +24,10 @@ export class SelectorComponent {
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
-  async action(event, element) {
+  action(event, element) {
     if (this.value == this.config.font) {
-      await this.componentWillLoad();
+      console.log(event);
+      this.componentWillLoad();
       const menuelement = document.querySelector('homepage-menu-editor-component');
       menuelement.shadowRoot.querySelector(element).style.fontFamily = event;
       this.config.font = event;
@@ -35,7 +36,7 @@ export class SelectorComponent {
 
     }
     if (this.value == this.config.preset) {
-      await this.componentWillLoad();
+      this.componentWillLoad();
       const menuelement = document.querySelector('homepage-menu-editor-component');
       menuelement.shadowRoot.querySelector(element).style = event;
       this.config.preset = event;
@@ -47,7 +48,7 @@ export class SelectorComponent {
     return (
       <Host >
         <ion-row>
-          <ion-select onIonChange={(event) => { this.action(event.target.value, this.element); }} class={this.menu ? 'is-open' : 'is-closed'} value={this.value} interface='action-sheet'>
+          <ion-select onIonChange={(event: any) => this.action(event.target.value, this.element)} class={this.menu ? 'is-open' : 'is-closed'} value={this.value} interface='action-sheet'>
             {this.DropDownvalues.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
           </ion-select>
           <ion-button onClick={() => { this.menu = !this.menu }} class='label'>

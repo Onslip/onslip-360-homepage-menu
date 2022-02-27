@@ -38,6 +38,13 @@ export class ToolbarComponent {
     this.submitForm();
   }
 
+  async ChangeMenuColor(element) {
+    const a = document.querySelector('homepage-menu-editor-component');
+    a.shadowRoot.querySelector(element).style.background = this.config.menuBackground;
+    // a.style.background = this.config.menuBackground;
+    this.submitForm();
+  }
+
   async submitForm() {
     await PostData('http://localhost:8080/config', this.config);
   }
@@ -53,7 +60,7 @@ export class ToolbarComponent {
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                   <ion-label>MENY</ion-label>
                 </ion-button>
-                <selector-component value={this.config.font} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer'></selector-component>
+                <selector-component value={this.config.font} DropDownvalues={Fonts} IconName='text-sharp' element='.mainMenu'></selector-component>
                 <selector-component value={this.config.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer'></selector-component>
 
               </ion-buttons>
@@ -77,6 +84,10 @@ export class ToolbarComponent {
               <ion-row>
                 <label id='asfd' htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                 <input id='color' type='color' onChange={(event: any) => { this.config.background.color = event.target.value; this.changeColor() }} hidden />
+              </ion-row>
+              <ion-row>
+                <label id='asfd' htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                <input id='menucolor' type='color' onChange={(event: any) => { this.config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
               </ion-row>
               <ion-row>
                 <api-ui></api-ui>

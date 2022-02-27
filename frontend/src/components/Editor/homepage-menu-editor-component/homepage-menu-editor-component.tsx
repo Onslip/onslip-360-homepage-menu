@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { Styleconfig } from '../../utils/utils';
+import { Styleconfig, Presets } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
@@ -40,6 +40,7 @@ export class HomepageMenuEditorComponent {
   }
   private async LoadConfig(element) {
     document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config.font;
+    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config.menuBackground;
   }
 
   private async LoadBackground(url) {
@@ -76,15 +77,15 @@ export class HomepageMenuEditorComponent {
     return (
       <Host>
         <div>
-          <toolbar-component>
-          </toolbar-component>
+          <toolbar-component></toolbar-component>
         </div>
-
-        <div class='menuContainer'>
-          <div class='header'></div>
-          <menu-editor-component></menu-editor-component>
-          <div class='logoDiv'>
-            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+        <div class='mainMenu'>
+          <div class='menuContainer' data-status={this.config.preset}>
+            <div class='header'></div>
+            <menu-editor-component></menu-editor-component>
+            <div class='logoDiv'>
+              <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+            </div>
           </div>
         </div>
       </Host>

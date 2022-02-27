@@ -89,13 +89,13 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const data = readFileSync('./background.json').toString();
+                    const data = readFileSync('./config.json').toString();
                     return JSON.parse(data);
                 }
 
                 async POST(args: WebArguments) {
                     const body = await args.body()
-                    writeFileSync('./background.json', JSON.stringify(body));
+                    writeFileSync('./config.json', JSON.stringify(body));
                     return args.body();
                 }
             })
