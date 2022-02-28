@@ -17,6 +17,7 @@ export class SelectorComponent {
   @State() selectedfont: string;
   @State() menu: boolean;
   @Prop() element: string
+  @Prop() type: string
 
   async componentWillLoad() {
     await GetData('http://localhost:8080/config')
@@ -24,23 +25,22 @@ export class SelectorComponent {
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
-  action(event, element) {
-    if (this.value == this.config.font) {
+
+  async action(event, element) {
+    await this.componentWillLoad();
+    if (this.type == 'font') {
       console.log(event);
-      this.componentWillLoad();
       const menuelement = document.querySelector('homepage-menu-editor-component');
       menuelement.shadowRoot.querySelector(element).style.fontFamily = event;
       this.config.font = event;
-
-      PostData('http://localhost:8080/config', this.config)
-
+      await PostData('http://localhost:8080/config', this.config)
     }
-    if (this.value == this.config.preset) {
-      this.componentWillLoad();
+
+    else if (this.type == 'preset') {
       const menuelement = document.querySelector('homepage-menu-editor-component');
       menuelement.shadowRoot.querySelector(element).style = event;
       this.config.preset = event;
-      PostData('http://localhost:8080/config', this.config)
+      await PostData('http://localhost:8080/config', this.config)
     }
   }
 

@@ -26,10 +26,17 @@ export class HomepageMenuComponent {
       document.querySelector('body').style.background = this.config.background.color;
     }
     else {
-      this.LoadBackground(this.imageurl);
+      await this.LoadBackground(this.imageurl);
     }
-    this.LoadBanner(this.bannerUrl, '.header')
-    this.LoadLogo(this.logoUrl, '.header')
+    await this.LoadBanner(this.bannerUrl, '.header')
+    await this.LoadLogo(this.logoUrl, '.header')
+    await this.LoadConfig('.menuContainer');
+
+  }
+
+  private async LoadConfig(element) {
+    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config.font;
+    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config.menuBackground;
   }
 
   private async LoadBackground(url) {

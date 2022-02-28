@@ -60,8 +60,8 @@ export class ToolbarComponent {
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                   <ion-label>MENY</ion-label>
                 </ion-button>
-                <selector-component value={this.config.font} DropDownvalues={Fonts} IconName='text-sharp' element='.mainMenu'></selector-component>
-                <selector-component value={this.config.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer'></selector-component>
+                <selector-component value={this.config.font} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>
+                <selector-component value={this.config.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
 
               </ion-buttons>
               <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>

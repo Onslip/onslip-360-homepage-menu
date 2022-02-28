@@ -1,10 +1,1 @@
-{
-    "useProductImages": true,
-    "background": {
-        "color": "#221111",
-        "enabled": true
-    },
-    "font": "Verdana, Geneva, Tahoma, sans-serif",
-    "preset": "Preset 2",
-    "menuBackground": "#8d4e4e"
-}
+{"useProductImages":true,"background":{"color":"#400040","enabled":true},"font":"BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif","preset":"Preset 1","menuBackground":"#ffffff"}

@@ -35,6 +35,7 @@ export namespace Components {
         "DropDownvalues": string[];
         "IconName": string;
         "element": string;
+        "type": string;
         "value": string;
     }
     interface ToolbarComponent {
@@ -161,6 +162,7 @@ declare namespace LocalJSX {
         "DropDownvalues"?: string[];
         "IconName"?: string;
         "element"?: string;
+        "type"?: string;
         "value"?: string;
     }
     interface ToolbarComponent {
