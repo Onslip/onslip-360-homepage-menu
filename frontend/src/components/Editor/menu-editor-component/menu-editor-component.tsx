@@ -14,7 +14,7 @@ export class MenuEditorComponent {
   @State() loading: boolean = true
 
   async componentWillLoad() {
-    GetData(this.url)
+    await GetData(this.url)
       .then(response => this.responsedata = response)
       .catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));
   }

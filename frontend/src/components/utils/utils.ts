@@ -58,3 +58,5 @@ export const Fonts = ['Arial, Helvetica, sans-serif',
 export const Presets = [
   'Preset 1', 'Preset 2', 'Preset 3'
 ]
+
+export const editorvisual: boolean = false;

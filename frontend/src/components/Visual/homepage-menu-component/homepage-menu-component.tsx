@@ -74,6 +74,7 @@ export class HomepageMenuComponent {
 
 
   render() {
+
     return (
       <Host>
         <div class={'menuContainer'}>
@@ -85,6 +86,7 @@ export class HomepageMenuComponent {
         </div>
       </Host>
     )
+
   }
 }
 

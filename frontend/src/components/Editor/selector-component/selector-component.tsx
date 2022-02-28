@@ -1,4 +1,4 @@
-import { Component, Host, h, State, Prop } from '@stencil/core';
+import { Component, Host, h, State, Prop, Element } from '@stencil/core';
 import { GetData } from '../../utils/get';
 import { PostData } from '../../utils/post';
 import { Styleconfig } from '../../utils/utils';
@@ -18,30 +18,32 @@ export class SelectorComponent {
   @State() menu: boolean;
   @Prop() element: string
   @Prop() type: string
+  @Element() asf: HTMLElement;
 
   async componentWillLoad() {
-    GetData('http://localhost:8080/config')
+    await GetData('http://localhost:8080/config')
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
 
   async action(event, element) {
-    await this.componentWillLoad();
+    this.componentWillLoad();
+    // this.asf.shadowRoot.querySelector('homepage-menu-editor-component').querySelector(element).style.fontFamily;
+
     if (this.type == 'font') {
       console.log(event);
-      const menuelement = document.querySelector('homepage-menu-editor-component');
-      menuelement.shadowRoot.querySelector(element).style.fontFamily = event;
+      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
       this.config.font = event;
-      await PostData('http://localhost:8080/config', this.config)
     }
 
     else if (this.type == 'preset') {
-      const menuelement = document.querySelector('homepage-menu-editor-component');
-      menuelement.shadowRoot.querySelector(element).style = event;
+      console.log(event);
+      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
       this.config.preset = event;
-      await PostData('http://localhost:8080/config', this.config)
     }
+    await PostData('http://localhost:8080/config', this.config)
+
   }
 
   render() {

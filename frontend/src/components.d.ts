@@ -17,6 +17,8 @@ export namespace Components {
     interface CategoryEditorComponent {
         "category": DBcategory;
     }
+    interface EditorVisualCheck {
+    }
     interface HomepageMenuComponent {
     }
     interface HomepageMenuEditorComponent {
@@ -63,6 +65,12 @@ declare global {
     var HTMLCategoryEditorComponentElement: {
         prototype: HTMLCategoryEditorComponentElement;
         new (): HTMLCategoryEditorComponentElement;
+    };
+    interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
+    }
+    var HTMLEditorVisualCheckElement: {
+        prototype: HTMLEditorVisualCheckElement;
+        new (): HTMLEditorVisualCheckElement;
     };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
@@ -122,6 +130,7 @@ declare global {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
         "category-editor-component": HTMLCategoryEditorComponentElement;
+        "editor-visual-check": HTMLEditorVisualCheckElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "menu-component": HTMLMenuComponentElement;
@@ -143,6 +152,8 @@ declare namespace LocalJSX {
     }
     interface CategoryEditorComponent {
         "category"?: DBcategory;
+    }
+    interface EditorVisualCheck {
     }
     interface HomepageMenuComponent {
     }
@@ -175,6 +186,7 @@ declare namespace LocalJSX {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
         "category-editor-component": CategoryEditorComponent;
+        "editor-visual-check": EditorVisualCheck;
         "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "menu-component": MenuComponent;
@@ -193,6 +205,7 @@ declare module "@stencil/core" {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
             "category-editor-component": LocalJSX.CategoryEditorComponent & JSXBase.HTMLAttributes<HTMLCategoryEditorComponentElement>;
+            "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;

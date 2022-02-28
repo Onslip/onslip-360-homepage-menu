@@ -20,7 +20,7 @@ export class HomepageMenuEditorComponent {
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    GetData(this.configurl)
+    await GetData(this.configurl)
       .then(response => { this.config = response; this.dataIsOk() })
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
@@ -33,16 +33,18 @@ export class HomepageMenuEditorComponent {
     else {
       await this.LoadBackground(this.imageurl);
     }
-    await this.LoadBanner(this.bannerUrl, '.header')
-    await this.LoadLogo(this.logoUrl, '.header')
-    await this.LoadConfig('.menuContainer');
+    this.LoadBanner(this.bannerUrl, '.header')
+    this.LoadLogo(this.logoUrl, '.header')
 
   }
-  private async LoadConfig(element) {
-    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config?.font;
-    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
+  private LoadConfig(element) {
+    this.element.shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config?.font;
+    this.element.shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
   }
+  componentHasLoaded() {
+    this.LoadConfig('.menuContainer');
 
+  }
   private async LoadBackground(url) {
     const background = await GetData(url);
     const image = await loadImage(background)
@@ -74,8 +76,9 @@ export class HomepageMenuEditorComponent {
   }
 
   render() {
+
     return (
-      <Host>
+      < Host >
         <div>
           <toolbar-component></toolbar-component>
         </div>
@@ -88,7 +91,8 @@ export class HomepageMenuEditorComponent {
             </div>
           </div>
         </div>
-      </Host>
+      </Host >
     )
+
   }
 }
