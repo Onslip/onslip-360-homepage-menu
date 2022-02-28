@@ -5,7 +5,6 @@ import { Styleconfig } from '../../utils/utils';
 import { buttonvalues } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
-import { fileURLToPath, urlToHttpOptions } from 'url';
 
 @Component({
   tag: 'upload-image-button',
@@ -20,7 +19,9 @@ export class UploadImageButton {
   @State() config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/config')
+    GetData('http://localhost:8080/config')
+      .then(response => this.config = response)
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
 
   async post(file) {

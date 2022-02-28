@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, getAssetPath, Host, Listen } from '@stencil/core';
+import { Component, h, State, Prop, Listen } from '@stencil/core';
 import { PostData } from '../../utils/post';
 
 @Component({

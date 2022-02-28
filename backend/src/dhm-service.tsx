@@ -31,6 +31,8 @@ export class DHMService {
                 static path = /.*/;
             })
 
+
+
             .addResource(class implements WebResource {
                 static path = RegExp('');
                 async GET() {

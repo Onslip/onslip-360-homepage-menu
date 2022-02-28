@@ -1,4 +1,4 @@
-import { Component, h, Prop, Host, State, Element, Method } from '@stencil/core';
+import { Component, h, Prop, Host, State, Element } from '@stencil/core';
 import { GetData } from '../../utils/get';
 import { CheckImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
@@ -17,7 +17,9 @@ export class ProductEditorComponent {
   @State() config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/config')
+    await GetData('http://localhost:8080/config')
+      .then(response => this.config = response)
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
     await this.loadImage('.productIcon');
   }
 

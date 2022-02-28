@@ -20,7 +20,9 @@ export class HomepageMenuComponent {
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    this.config = await GetData(this.configurl);
+    await GetData(this.configurl)
+      .then(response => this.config = response)
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
     if (this.config.background.enabled) {
       document.querySelector('body').style.backgroundImage = null;
       document.querySelector('body').style.background = this.config.background.color;
@@ -28,15 +30,15 @@ export class HomepageMenuComponent {
     else {
       await this.LoadBackground(this.imageurl);
     }
-    await this.LoadBanner(this.bannerUrl, '.header')
-    await this.LoadLogo(this.logoUrl, '.header')
-    await this.LoadConfig('.menuContainer');
+    this.LoadBanner(this.bannerUrl, '.header');
+    this.LoadLogo(this.logoUrl, '.header');
+    this.LoadConfig('.menuContainer');
 
   }
 
   private async LoadConfig(element) {
-    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config.font;
-    document.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config.menuBackground;
+    document.querySelector('homepage-menu-component').shadowRoot.querySelector(element).style.fontFamily = this.config.font;
+    document.querySelector('homepage-menu-component').shadowRoot.querySelector(element).style.background = this.config.menuBackground;
   }
 
   private async LoadBackground(url) {
@@ -65,9 +67,11 @@ export class HomepageMenuComponent {
     const banner = await GetData(url);
     const image = await loadImage(banner)
     if (image != null) {
+      // document.querySelector('homepage-menu-component').shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
     }
   }
+
 
   render() {
     return (

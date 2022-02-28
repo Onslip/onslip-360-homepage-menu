@@ -15,7 +15,9 @@ export class ProductComponent {
   @State() config: Styleconfig
 
   async componentWillLoad() {
-    this.config = await GetData('http://localhost:8080/config')
+    await GetData('http://localhost:8080/config')
+      .then(response => this.config = response)
+      .catch(err => console.log(`${err} Kunde inte hämta data`))
     await this.loadImage('.productIcon');
   }
 

@@ -15,24 +15,26 @@ export class MenuComponent {
   @State() loading: boolean = true
 
   async componentWillLoad() {
-    this.responsedata = await GetData(this.url).catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));
+    await GetData(this.url)
+      .then(response => this.responsedata = response)
+      .catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'))
   }
 
   render() {
     return (
       <Host>
-          {
-            this.responsedata.map(data => {
-              return (
-                <ion-card color="secondary" class='menu'>
-                  <category-component category={data.category}></category-component>
-                  {
-                    data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>) })
-                  }
-                </ion-card>
-              )
-            })
-          }
+        {
+          this.responsedata.map(data => {
+            return (
+              <ion-card color="secondary" class='menu'>
+                <category-component category={data.category}></category-component>
+                {
+                  data.products.map(product => { return (<product-component class='menu-item' product={product}></product-component>) })
+                }
+              </ion-card>
+            )
+          })
+        }
       </Host>
     )
   }

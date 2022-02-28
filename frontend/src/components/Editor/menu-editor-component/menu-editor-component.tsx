@@ -1,7 +1,6 @@
 import { Component, State, Host, h } from '@stencil/core';
 import { productsWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
-import { json } from 'stream/consumers';
 
 @Component({
   tag: 'menu-editor-component',
@@ -15,7 +14,7 @@ export class MenuEditorComponent {
   @State() loading: boolean = true
 
   async componentWillLoad() {
-    await GetData(this.url)
+    GetData(this.url)
       .then(response => this.responsedata = response)
       .catch(err => alert(err + ': Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info'));
   }
@@ -26,14 +25,12 @@ export class MenuEditorComponent {
         {
           this.responsedata?.map(data => {
             return (
-
               <ion-card color="secondary">
                 <category-editor-component category={data.category}></category-editor-component>
                 {
                   data.products.map(product => { return (<product-editor-component class='menu-item' product={product}></product-editor-component>) })
                 }
               </ion-card>
-
             )
           })
         }

@@ -1,4 +1,4 @@
-import { Component, Host, h, State, Element, Prop } from '@stencil/core';
+import { Component, Host, h, State, Prop } from '@stencil/core';
 import { GetData } from '../../utils/get';
 import { PostData } from '../../utils/post';
 import { Styleconfig } from '../../utils/utils';
@@ -20,7 +20,7 @@ export class SelectorComponent {
   @Prop() type: string
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/config')
+    GetData('http://localhost:8080/config')
       .then(response => this.config = response)
       .catch(err => console.log(`${err} Kunde inte hämta data`))
   }
