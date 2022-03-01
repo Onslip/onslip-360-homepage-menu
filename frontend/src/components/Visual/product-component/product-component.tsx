@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Element, State } from '@stencil/core';
 import { GetData } from '../../utils/get';
-import { DBproduct, Styleconfig } from '../../utils/utils';
+import { DBproduct, Styleconfig, config } from '../../utils/utils';
 
 @Component({
   tag: 'product-component',
@@ -12,12 +12,9 @@ export class ProductComponent {
   @Element() element: HTMLElement;
   @Prop() product: DBproduct;
   @State() url: 'http://localhost:8080/productimage-upload'
-  @State() config: Styleconfig
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/config')
-      .then(response => this.config = response)
-      .catch(err => console.log(`${err} Kunde inte hämta data`))
+
     await this.loadImage('.productIcon');
   }
 
@@ -37,9 +34,9 @@ export class ProductComponent {
   render() {
     return (
       <Host>
-        <ion-card-content class={this.config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
+        <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
           <ion-row>
-            <ion-col hidden={!this.config.useProductImages} size="1" class='productIcon'>
+            <ion-col hidden={!config.useProductImages} size="1" class='productIcon'>
             </ion-col>
             <ion-col size="10">
               <ion-row class="productName">

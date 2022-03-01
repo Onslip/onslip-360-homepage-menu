@@ -1,5 +1,5 @@
 import { Component, Host, h, State, getAssetPath } from '@stencil/core';
-import { Styleconfig, buttonvalues, Fonts, Presets } from '../../utils/utils';
+import { Styleconfig, buttonvalues, Fonts, Presets, config } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -18,35 +18,28 @@ export class ToolbarComponent {
   private url3: string = 'http://localhost:8080/logo';
   private config: Styleconfig
 
-  async componentWillLoad() {
-    await GetData('http://localhost:8080/config')
-      .then(response => this.config = response)
-      .catch(err => console.log(`${err} Kunde inte hämta data`))
-  }
-
+  
   async useProductImages(event) {
-    await GetData('http://localhost:8080/config')
-      .then(response => this.config = response)
-      .catch(err => console.log(`${err} Kunde inte hämta data`))
-    this.config.useProductImages = event.detail.checked
+    config.useProductImages = event.detail.checked
     await this.submitForm()
     location.reload()
   }
 
   async changeColor() {
-    this.config.background.enabled = true
+    config.background.enabled = true
     document.body.style.backgroundImage = null;
-    document.body.style.backgroundColor = this.config?.background.color;
+    document.body.style.backgroundColor = config?.background.color;
     this.submitForm();
   }
 
   async ChangeMenuColor(element) {
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
+    console.log(config)
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
     this.submitForm();
   }
 
   async submitForm() {
-    await PostData('http://localhost:8080/config', this.config);
+    await PostData('http://localhost:8080/config', config);
   }
 
   render() {
@@ -60,11 +53,10 @@ export class ToolbarComponent {
                   <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
                   <ion-label>MENY</ion-label>
                 </ion-button>
-                {this.config ? [
-                  <selector-component value={this.config?.font} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
-                  <selector-component value={this.config?.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+                {config ? [
+                  <selector-component value={config?.font} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
+                  <selector-component value={config?.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
                 ] : null}
-
               </ion-buttons>
               <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
               <ion-title slot="end">Digital Dynamic Menu</ion-title>
@@ -85,11 +77,11 @@ export class ToolbarComponent {
               </ion-row>
               <ion-row>
                 <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='color' type='color' onChange={(event: any) => { this.config.background.color = event.target.value; this.changeColor() }} hidden />
+                <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
               </ion-row>
               <ion-row>
                 <label htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='menucolor' type='color' onChange={(event: any) => { this.config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
+                <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
               </ion-row>
               <ion-row>
                 <api-ui></api-ui>
@@ -99,7 +91,7 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={this?.config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
+                  <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
                 </ion-item>
               </ion-row>
             </ion-col>

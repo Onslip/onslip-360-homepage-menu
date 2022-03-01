@@ -1,9 +1,8 @@
 import { Component, h, Prop, Host, State, Element } from '@stencil/core';
-import { GetData } from '../../utils/get';
 import { CheckImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 import { DBproduct } from '../../utils/utils';
-import { Styleconfig } from '../../utils/utils';
+import { config } from '../../utils/utils';
 
 @Component({
   tag: 'product-editor-component',
@@ -14,12 +13,8 @@ export class ProductEditorComponent {
   @Element() element: HTMLElement;
   @Prop() product: DBproduct;
   private url: string = 'http://localhost:8080/productimage-upload';
-  @State() config: Styleconfig
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/config')
-      .then(response => this.config = response)
-      .catch(err => console.log(`${err} Kunde inte hämta data`))
     await this.loadImage('.productIcon');
   }
 
@@ -56,9 +51,9 @@ export class ProductEditorComponent {
   render() {
     return (
       <Host>
-        <ion-card-content class={this.config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
+        <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
           <ion-row>
-            <ion-col size="1" class='productIcon' hidden={!this.config.useProductImages}>
+            <ion-col size="1" class='productIcon' hidden={!config.useProductImages}>
               <label htmlFor='file' class='uploadbutton'>Upload</label>
               <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', this.product.name)} hidden />
             </ion-col>
