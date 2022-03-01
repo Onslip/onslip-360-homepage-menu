@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { Styleconfig } from '../../utils/utils';
+import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
@@ -12,23 +12,19 @@ import '@ionic/core'
 })
 export class HomepageMenuEditorComponent {
 
-  @State() config: Styleconfig;
   @State() private imageurl: string = 'http://localhost:8080/background';
-  @State() private configurl: string = 'http://localhost:8080/config';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
   @State() private logoUrl: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
 
   async componentWillLoad() {
-    await GetData(this.configurl)
-      .then(response => { this.config = response; this.dataIsOk() })
-      .catch(err => console.log(`${err} Kunde inte hämta data`))
+    await this.dataIsOk();
   }
 
   async dataIsOk() {
-    if (this.config.background.enabled) {
+    if (config?.background?.enabled) {
       document.querySelector('body').style.backgroundImage = null;
-      document.querySelector('body').style.background = this.config.background.color;
+      document.querySelector('body').style.background = config.background.color;
     }
     else {
       await this.LoadBackground(this.imageurl);
@@ -37,17 +33,19 @@ export class HomepageMenuEditorComponent {
     this.LoadLogo(this.logoUrl, '.header')
   }
   private LoadConfig(element) {
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config?.font;
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
+    console.log(config)
+  
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
   }
   componentDidLoad() {
     this.LoadConfig('.menuContainer');
 
   }
   private async LoadBackground(url) {
-    const background = await GetData(url);
-    const image = await loadImage(background)
-    if (image != null) {
+    const background = await GetData(url).catch(err => err);
+    if (background != null || background != undefined) {
+      const image = await loadImage(background).catch(err => err)
       document.querySelector('body').style.backgroundImage = `url(${image})`
     }
   }
@@ -67,8 +65,8 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadBanner(url, element) {
-    const banner = await GetData(url);
-    const image = await loadImage(banner)
+    const banner = await GetData(url).catch(err => err);
+    const image = await loadImage(banner).catch(err => err);
     if (image != null) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
     }
@@ -81,7 +79,7 @@ export class HomepageMenuEditorComponent {
         <div>
           <toolbar-component></toolbar-component>
         </div>
-          <div class='menuContainer' data-status={this.config?.preset}>
+          <div class='menuContainer' data-status={config?.preset}>
             <div class='header'></div>
             <menu-editor-component></menu-editor-component>
             <div class='logoDiv'>
