@@ -7,6 +7,8 @@
   margin: 100px auto;
   width: 65%;
   backdrop-filter: blur(15px) saturate(120%) contrast(200%);
+  font-weight: bold;
+  font-style: italic;
 }
 
 .menuContainer[data-status='Preset 1'] {

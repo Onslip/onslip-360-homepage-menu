@@ -1,7 +1,6 @@
 import { Component, Host, h, State, getAssetPath } from '@stencil/core';
-import { Styleconfig, buttonvalues, Fonts, Presets, config } from '../../utils/utils';
+import { buttonvalues, Fonts, Presets, config } from '../../utils/utils';
 import { PostData } from '../../utils/post';
-import { GetData } from '../../utils/get';
 
 @Component({
   tag: 'toolbar-component',
@@ -16,9 +15,8 @@ export class ToolbarComponent {
   private url1: string = 'http://localhost:8080/background'
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
-  private config: Styleconfig
 
-  
+
   async useProductImages(event) {
     config.useProductImages = event.detail.checked
     await this.submitForm()
@@ -54,7 +52,7 @@ export class ToolbarComponent {
                   <ion-label>MENY</ion-label>
                 </ion-button>
                 {config ? [
-                  <selector-component value={config?.font} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
+                  <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
                   <selector-component value={config?.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
                 ] : null}
               </ion-buttons>

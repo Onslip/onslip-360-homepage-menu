@@ -34,8 +34,9 @@ export class HomepageMenuEditorComponent {
   }
   private LoadConfig(element) {
     console.log(config)
-  
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = config?.font?.fontWeight;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = config?.font?.fontStyle;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
   }
   componentDidLoad() {
@@ -79,13 +80,13 @@ export class HomepageMenuEditorComponent {
         <div>
           <toolbar-component></toolbar-component>
         </div>
-          <div class='menuContainer' data-status={config?.preset}>
-            <div class='header'></div>
-            <menu-editor-component></menu-editor-component>
-            <div class='logoDiv'>
-              <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-            </div>
+        <div class='menuContainer' data-status={config?.preset}>
+          <div class='header'></div>
+          <menu-editor-component></menu-editor-component>
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
           </div>
+        </div>
       </Host >
     )
 

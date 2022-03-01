@@ -126,10 +126,6 @@ export class DHMService {
                     await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
                     return data;
                 }
-                async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select * from onslip.productimages`
-                    return data[0]
-                }
             })
     }
 
@@ -152,6 +148,7 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
+        const config = readFileSync('')
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`
         const images = await this.db.query<DBImage[]>`select * from onslip.productimages`

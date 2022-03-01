@@ -1,10 +1,9 @@
 import { Component, Host, h, Prop, Element, State } from '@stencil/core';
 import { CheckImage } from '../../utils/image';
 import { PostData, PostImage } from '../../utils/post';
-import { Styleconfig } from '../../utils/utils';
+import { config } from '../../utils/utils';
 import { buttonvalues } from '../../utils/utils';
 import '@ionic/core'
-import { GetData } from '../../utils/get';
 
 @Component({
   tag: 'upload-image-button',
@@ -16,13 +15,7 @@ export class UploadImageButton {
   @Prop() buttonvalue: string;
   @Prop() URL: string;
   @Element() element: HTMLElement;
-  @State() config: Styleconfig
 
-  async componentWillLoad() {
-    GetData('http://localhost:8080/config')
-      .then(response => this.config = response)
-      .catch(err => console.log(`${err} Kunde inte hämta data`))
-  }
 
   async post(file) {
     if (CheckImage(file[0])) {
@@ -53,8 +46,8 @@ export class UploadImageButton {
       const image = `url(${reader.result})`;
       if (image != null) {
         document.querySelector('body').style.backgroundImage = image
-        this.config.background.enabled = false
-        PostData('http://localhost:8080/config', this.config);
+        config.background.enabled = false
+        PostData('http://localhost:8080/config', config);
 
       }
     };
