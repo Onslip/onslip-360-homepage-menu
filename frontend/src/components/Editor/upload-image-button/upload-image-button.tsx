@@ -16,7 +16,6 @@ export class UploadImageButton {
   @Prop() URL: string;
   @Element() element: HTMLElement;
 
-
   async post(file) {
     if (CheckImage(file[0])) {
       let fd = new FormData()

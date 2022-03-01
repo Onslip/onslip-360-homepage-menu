@@ -16,22 +16,14 @@ export class HomepageMenuEditorComponent {
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
   @State() private logoUrl: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
+  @State() loading: boolean = true;
 
   async componentWillLoad() {
-    await this.dataIsOk();
+    GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+    GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
   }
 
-  async dataIsOk() {
-    if (config?.background?.enabled) {
-      document.querySelector('body').style.backgroundImage = null;
-      document.querySelector('body').style.background = config.background.color;
-    }
-    else {
-      await this.LoadBackground(this.imageurl);
-    }
-    this.LoadBanner(this.bannerUrl, '.header')
-    this.LoadLogo(this.logoUrl, '.header')
-  }
   private LoadConfig(element) {
     console.log(config)
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = config?.font?.fontWeight;
@@ -39,38 +31,35 @@ export class HomepageMenuEditorComponent {
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
   }
+
   componentDidLoad() {
     this.LoadConfig('.menuContainer');
 
   }
-  private async LoadBackground(url) {
-    const background = await GetData(url).catch(err => err);
-    if (background != null || background != undefined) {
-      const image = await loadImage(background).catch(err => err)
-      document.querySelector('body').style.backgroundImage = `url(${image})`
+  private async LoadBackground(image) {
+    if (config?.background?.enabled) {
+      document.querySelector('body').style.background = config.background.color;
+    }
+    else {
+      const loadedImage = await loadImage(image).catch(err => err)
+      document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
     }
   }
 
-  private async LoadLogo(url, element) {
-    const logo = await GetData(url).catch(() => {
+  private async LoadLogo(image, element) {
+    const loadedImage = await loadImage(image).catch(() => {
       const node = document.createElement("h1");
       node.innerText = 'Martins Kolgrill'
       this.element.shadowRoot.querySelector(element).appendChild(node)
-    });
-    const image = await loadImage(logo)
-    if (image != null) {
-      const img = document.createElement('img');
-      img.src = image.toString();
-      this.element.shadowRoot.querySelector(element).appendChild(img);
-    }
+    })
+    const img = document.createElement('img');
+    img.src = loadedImage.toString();
+    this.element.shadowRoot.querySelector(element).appendChild(img);
   }
 
-  private async LoadBanner(url, element) {
-    const banner = await GetData(url).catch(err => err);
-    const image = await loadImage(banner).catch(err => err);
-    if (image != null) {
-      this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
-    }
+  private async LoadBanner(image, element) {
+    const loadedImage = await loadImage(image).catch(err => err);
+    this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
   }
 
   render() {
@@ -80,14 +69,24 @@ export class HomepageMenuEditorComponent {
         <div>
           <toolbar-component></toolbar-component>
         </div>
-        <div class='menuContainer' data-status={config?.preset}>
-          <div class='header'></div>
-          <menu-editor-component></menu-editor-component>
-          <div class='logoDiv'>
-            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-          </div>
-        </div>
-      </Host >
+<<<<<<< HEAD
+    <div class='menuContainer' data-status={config?.preset}>
+      <div class='header'></div>
+      <menu-editor-component></menu-editor-component>
+      <div class='logoDiv'>
+        <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+      </div>
+=======
+        <div class='menuContainer' >
+        <div class='header'></div>
+        <menu-editor-component></menu-editor-component>
+      </div>
+
+      <div class='logoDiv'>
+        <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+>>>>>>> b291c33f3c9262c6e549aaad66edf96eb8ecece1
+      </div>
+    </Host >
     )
 
   }

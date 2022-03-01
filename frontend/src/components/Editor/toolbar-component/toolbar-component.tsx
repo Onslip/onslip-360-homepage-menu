@@ -37,7 +37,7 @@ export class ToolbarComponent {
   }
 
   async submitForm() {
-    await PostData('http://localhost:8080/config', config);
+    PostData('http://localhost:8080/config', config);
   }
 
   render() {
