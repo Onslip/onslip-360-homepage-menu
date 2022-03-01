@@ -37,9 +37,14 @@ export interface Styleconfig {
     color: string,
   },
   useProductImages: true,
-  font: string,
+
   preset: string,
   menuBackground: string,
+  font: {
+    fontFamily: string,
+    fontWeight: boolean;
+    fontStyle: boolean;
+  }
 }
 
 export enum buttonvalues {

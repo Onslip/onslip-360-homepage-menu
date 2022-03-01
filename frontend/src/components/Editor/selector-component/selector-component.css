@@ -26,3 +26,11 @@ ion-row {
   --color: white;
   --box-shadow: none;
 }
+
+.bold-button {
+  font-weight: bold;
+}
+
+.cursive-button {
+  font-style: italic;
+}
