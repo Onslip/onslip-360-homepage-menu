@@ -16,9 +16,8 @@ export class ToolbarComponent {
   private url1: string = 'http://localhost:8080/background'
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
-  private config: Styleconfig
 
-  
+
   async useProductImages(event) {
     config.useProductImages = event.detail.checked
     await this.submitForm()
@@ -39,7 +38,7 @@ export class ToolbarComponent {
   }
 
   async submitForm() {
-    await PostData('http://localhost:8080/config', config);
+    PostData('http://localhost:8080/config', config);
   }
 
   render() {
