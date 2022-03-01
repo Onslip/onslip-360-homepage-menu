@@ -35,13 +35,12 @@ export class HomepageMenuEditorComponent {
     }
     this.LoadBanner(this.bannerUrl, '.header')
     this.LoadLogo(this.logoUrl, '.header')
-
   }
   private LoadConfig(element) {
-    this.element.shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config?.font;
-    this.element.shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = this.config?.font;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
   }
-  componentHasLoaded() {
+  componentDidLoad() {
     this.LoadConfig('.menuContainer');
 
   }
@@ -82,7 +81,6 @@ export class HomepageMenuEditorComponent {
         <div>
           <toolbar-component></toolbar-component>
         </div>
-        <div class='mainMenu'>
           <div class='menuContainer' data-status={this.config?.preset}>
             <div class='header'></div>
             <menu-editor-component></menu-editor-component>
@@ -90,7 +88,6 @@ export class HomepageMenuEditorComponent {
               <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
             </div>
           </div>
-        </div>
       </Host >
     )
 

@@ -25,7 +25,7 @@ export class MenuEditorComponent {
         {
           this.responsedata?.map(data => {
             return (
-              <ion-card color="secondary">
+              <ion-card class='card'>
                 <category-editor-component category={data.category}></category-editor-component>
                 {
                   data.products.map(product => { return (<product-editor-component class='menu-item' product={product}></product-editor-component>) })

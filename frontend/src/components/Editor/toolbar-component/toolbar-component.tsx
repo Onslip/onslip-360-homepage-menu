@@ -41,9 +41,7 @@ export class ToolbarComponent {
   }
 
   async ChangeMenuColor(element) {
-    const a = document.querySelector('homepage-menu-editor-component');
-    a.shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
-    // a.style.background = this.config.menuBackground;
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = this.config?.menuBackground;
     this.submitForm();
   }
 
