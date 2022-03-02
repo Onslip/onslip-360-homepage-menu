@@ -37,7 +37,12 @@ export interface Styleconfig {
     color: string,
   },
   useProductImages: true,
-  font: string,
+  font: {
+    fontFamily: string,
+    fontWeight: boolean;
+    fontStyle: boolean;
+    fontSize: number;
+  }
   preset: string,
   menuBackground: string,
 }

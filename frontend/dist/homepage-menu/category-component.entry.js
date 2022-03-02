@@ -1,4 +1,4 @@
-import { r as registerInstance, h, i as Host } from './index-fdd6f247.js';
+import { r as registerInstance, h, i as Host } from './index-788b94ef.js';
 
 const categoryComponentCss = ":host{display:block}.categoryTitle{color:black;font-size:1.5rem;margin:0;border-bottom:2px solid black;text-align:center;font-weight:bold}";
 

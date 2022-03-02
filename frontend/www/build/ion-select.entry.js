@@ -1,9 +1,9 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
-import { f as focusElement, j as findItemLabel, m as getAriaLabel, d as renderHiddenInput } from './helpers-730f41c7.js';
-import { c as popoverController, f as actionSheetController, h as alertController } from './overlays-85510a51.js';
-import { h as hostContext } from './theme-31a4dfd9.js';
-import './hardware-back-button-33350ee9.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode } from './ionic-global-26489203.js';
+import { k as focusElement, h as findItemLabel, m as getAriaLabel, d as renderHiddenInput } from './helpers-6b9231fe.js';
+import { c as popoverController, f as actionSheetController, h as alertController } from './overlays-a1b3098d.js';
+import { h as hostContext } from './theme-4c258838.js';
+import './hardware-back-button-6ebf44bb.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
@@ -292,12 +292,15 @@ let Select = class {
         options: this.createPopoverOptions(this.childOpts, value)
       } });
     /**
-     * Workaround for Stencil to autodefine ion-select-popover.
+     * Workaround for Stencil to autodefine
+     * ion-select-popover and ion-popover when
+     * using Custom Elements build.
      */
     // tslint:disable-next-line
     if (false) {
       // @ts-ignore
       document.createElement('ion-select-popover');
+      document.createElement('ion-popover');
     }
     return popoverController.create(popoverOpts);
   }
@@ -305,6 +308,16 @@ let Select = class {
     const mode = getIonMode(this);
     const interfaceOptions = this.interfaceOptions;
     const actionSheetOpts = Object.assign(Object.assign({ mode }, interfaceOptions), { buttons: this.createActionSheetButtons(this.childOpts, this.value), cssClass: ['select-action-sheet', interfaceOptions.cssClass] });
+    /**
+     * Workaround for Stencil to autodefine
+     * ion-action-sheet when
+     * using Custom Elements build.
+     */
+    // tslint:disable-next-line
+    if (false) {
+      // @ts-ignore
+      document.createElement('ion-action-sheet');
+    }
     return actionSheetController.create(actionSheetOpts);
   }
   async openAlert() {
@@ -329,6 +342,16 @@ let Select = class {
         }
       ], cssClass: ['select-alert', interfaceOptions.cssClass,
         (this.multiple ? 'multiple-select-alert' : 'single-select-alert')] });
+    /**
+     * Workaround for Stencil to autodefine
+     * ion-alert when
+     * using Custom Elements build.
+     */
+    // tslint:disable-next-line
+    if (false) {
+      // @ts-ignore
+      document.createElement('ion-alert');
+    }
     return alertController.create(alertOpts);
   }
   /**
