@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { q as getAssetPath, r as registerInstance, o as Build, h, i as Host, j as getElement } from './index-342c6706.js';
+=======
+import { q as getAssetPath, r as registerInstance, l as Build, h, i as Host, j as getElement } from './index-788b94ef.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 let CACHED_MAP;
 const getIconMap = () => {

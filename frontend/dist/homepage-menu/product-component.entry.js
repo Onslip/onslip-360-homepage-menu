@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { r as registerInstance, h, i as Host, j as getElement } from './index-342c6706.js';
+=======
+import { r as registerInstance, h, i as Host, j as getElement } from './index-788b94ef.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 import { c as config } from './utils-d9c92c24.js';
 import './get-282952cd.js';
 

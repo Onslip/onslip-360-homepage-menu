@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
 import { g as getIonMode } from './ionic-global-6c01899d.js';
 import { i as isCancel, a as prepareOverlay, p as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-a3c7fc80.js';
@@ -6,6 +7,16 @@ import { g as getClassMap, c as createColorClasses } from './theme-31a4dfd9.js';
 import { c as createAnimation } from './animation-c6a5635b.js';
 import { g as getElementRoot } from './helpers-730f41c7.js';
 import './hardware-back-button-33350ee9.js';
+=======
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode } from './ionic-global-26489203.js';
+import { i as isCancel, p as prepareOverlay, a as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-a1b3098d.js';
+import { s as sanitizeDOMString } from './index-fe6a3b35.js';
+import { g as getClassMap, c as createColorClasses } from './theme-4c258838.js';
+import { c as createAnimation } from './animation-e15eb3eb.js';
+import { g as getElementRoot } from './helpers-6b9231fe.js';
+import './hardware-back-button-6ebf44bb.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
@@ -170,9 +181,7 @@ let Toast = class {
     };
   }
   connectedCallback() {
-    prepareOverlay(this.el, {
-      trapKeyboardFocus: false
-    });
+    prepareOverlay(this.el);
   }
   /**
    * Present the toast overlay after it has been created.

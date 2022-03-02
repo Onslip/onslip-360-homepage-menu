@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { r as registerInstance, h, i as Host } from './index-342c6706.js';
+=======
+import { r as registerInstance, h, i as Host } from './index-788b94ef.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 const categoryComponentCss = ":host{display:block}.categoryTitle{color:black;font-size:1.5rem;margin:0;border-bottom:2px solid black;text-align:center;font-weight:bold}";
 

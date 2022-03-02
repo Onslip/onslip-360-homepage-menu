@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, j as getElement } from './index-342c6706.js';
 import { c as componentOnReady, n as debounce } from './helpers-730f41c7.js';
+=======
+import { r as registerInstance, k as createEvent, j as getElement } from './index-788b94ef.js';
+import { c as componentOnReady, n as debounce } from './helpers-6b9231fe.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

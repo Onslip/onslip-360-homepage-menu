@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, n as forceUpdate, h, i as Host, j as getElement } from './index-342c6706.js';
 import { g as getIonMode } from './ionic-global-6c01899d.js';
 import { c as createButtonActiveGesture } from './button-active-6f9645ab.js';
@@ -9,6 +10,19 @@ import './haptic-1114c98f.js';
 import './index-8b0b4762.js';
 import './hardware-back-button-33350ee9.js';
 import './helpers-730f41c7.js';
+=======
+import { r as registerInstance, k as createEvent, n as forceUpdate, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode } from './ionic-global-26489203.js';
+import { c as createButtonActiveGesture } from './button-active-21c9b34f.js';
+import { B as BACKDROP, i as isCancel, p as prepareOverlay, a as present, d as dismiss, e as eventMethod, s as safeCall } from './overlays-a1b3098d.js';
+import { s as sanitizeDOMString } from './index-fe6a3b35.js';
+import { g as getClassMap } from './theme-4c258838.js';
+import { c as createAnimation } from './animation-e15eb3eb.js';
+import './haptic-807aca0c.js';
+import './index-ec4a3eb4.js';
+import './hardware-back-button-6ebf44bb.js';
+import './helpers-6b9231fe.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

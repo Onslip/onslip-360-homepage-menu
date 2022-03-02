@@ -39,7 +39,12 @@ export interface Styleconfig {
   useProductImages: true,
   Logo: true,
   banner: true,
-  font: string,
+  font: {
+    fontFamily: string,
+    fontWeight: boolean;
+    fontStyle: boolean;
+    fontSize: number;
+  }
   preset: string,
   menuBackground: string,
 }

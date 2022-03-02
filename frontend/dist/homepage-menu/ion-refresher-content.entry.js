@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import { r as registerInstance, h, i as Host, j as getElement } from './index-342c6706.js';
 import { k as arrowDown, l as caretBackSharp } from './index-b1e35e86.js';
 import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-6c01899d.js';
 import { s as sanitizeDOMString } from './index-0a318573.js';
 import { S as SPINNERS } from './spinner-configs-196f0deb.js';
+=======
+import { r as registerInstance, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { k as arrowDown, l as caretBackSharp } from './index-b1e35e86.js';
+import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-26489203.js';
+import { s as sanitizeDOMString } from './index-fe6a3b35.js';
+import { S as SPINNERS } from './spinner-configs-58694919.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 let RefresherContent = class {
   constructor(hostRef) {

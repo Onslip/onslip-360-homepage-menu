@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
 import { g as getIonMode } from './ionic-global-6c01899d.js';
 import { r as raf, g as getElementRoot } from './helpers-730f41c7.js';
 import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-1114c98f.js';
 import { c as createColorClasses } from './theme-31a4dfd9.js';
+=======
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode } from './ionic-global-26489203.js';
+import { r as raf, g as getElementRoot } from './helpers-6b9231fe.js';
+import { a as hapticSelectionStart, b as hapticSelectionChanged, c as hapticSelectionEnd } from './haptic-807aca0c.js';
+import { c as createColorClasses } from './theme-4c258838.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 const pickerColumnInternalIosCss = ":host{padding-left:16px;padding-right:16px;padding-top:0px;padding-bottom:0px;height:200px;outline:none;font-size:22px;scroll-snap-type:y mandatory;overflow-x:hidden;overflow-y:scroll;scrollbar-width:none;text-align:center}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host{padding-left:unset;padding-right:unset;-webkit-padding-start:16px;padding-inline-start:16px;-webkit-padding-end:16px;padding-inline-end:16px}}:host::-webkit-scrollbar{display:none}:host .picker-item{height:34px;line-height:34px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;scroll-snap-align:center}:host .picker-item-empty{scroll-snap-align:none}:host(.picker-column-active) .picker-item.picker-item-active{color:var(--ion-color-base)}@media (any-hover: hover){:host(:focus){outline:none;background:rgba(var(--ion-color-base-rgb), 0.2)}}";
 

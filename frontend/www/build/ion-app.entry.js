@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { r as registerInstance, o as Build, h, i as Host, j as getElement } from './index-342c6706.js';
 import { a as isPlatform, c as config, g as getIonMode } from './ionic-global-6c01899d.js';
+=======
+import { r as registerInstance, l as Build, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { a as isPlatform, c as config, g as getIonMode } from './ionic-global-26489203.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 const appCss = "html.plt-mobile ion-app{user-select:none}html.plt-mobile ion-app [contenteditable]{user-select:text}ion-app.force-statusbar-padding{--ion-safe-area-top:20px}";
 
@@ -12,15 +17,19 @@ let App = class {
       rIC(async () => {
         const isHybrid = isPlatform(window, 'hybrid');
         if (!config.getBoolean('_testing')) {
-          import('./tap-click-53a0539d.js').then(module => module.startTapClick(config));
+          import('./tap-click-388b80fe.js').then(module => module.startTapClick(config));
         }
         if (config.getBoolean('statusTap', isHybrid)) {
+<<<<<<< HEAD
           import('./status-tap-eeaa4e21.js').then(module => module.startStatusTap());
+=======
+          import('./status-tap-0a50a740.js').then(module => module.startStatusTap());
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
         }
         if (config.getBoolean('inputShims', needInputShims())) {
-          import('./input-shims-4cf8f5bc.js').then(module => module.startInputShims(config));
+          import('./input-shims-32734e01.js').then(module => module.startInputShims(config));
         }
-        const hardwareBackButtonModule = await import('./hardware-back-button-33350ee9.js');
+        const hardwareBackButtonModule = await import('./hardware-back-button-6ebf44bb.js');
         if (config.getBoolean('hardwareBackButton', isHybrid)) {
           hardwareBackButtonModule.startHardwareBackButton();
         }
@@ -28,9 +37,9 @@ let App = class {
           hardwareBackButtonModule.blockHardwareBackButton();
         }
         if (typeof window !== 'undefined') {
-          import('./keyboard-0b669d15.js').then(module => module.startKeyboardAssist(window));
+          import('./keyboard-23689d85.js').then(module => module.startKeyboardAssist(window));
         }
-        import('./focus-visible-bbde0d61.js').then(module => this.focusVisible = module.startFocusVisible());
+        import('./focus-visible-d64913fb.js').then(module => this.focusVisible = module.startFocusVisible());
       });
     }
   }
