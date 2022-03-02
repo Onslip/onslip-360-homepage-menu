@@ -5,7 +5,6 @@ import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { writeFileSync, readFileSync } from 'fs';
-import internal from 'stream';
 
 export class DHMService {
     private api: API;
@@ -31,6 +30,8 @@ export class DHMService {
             .addFilter(class extends CORSFilter {
                 static path = /.*/;
             })
+
+
 
             .addResource(class implements WebResource {
                 static path = RegExp('');
@@ -88,15 +89,15 @@ export class DHMService {
 
 
             .addResource(class implements WebResource {
-                static path = /backgroundcolor/;
+                static path = /config/;
                 async GET() {
-                    const data = readFileSync('./background.json').toString();
+                    const data = readFileSync('./config.json').toString();
                     return JSON.parse(data);
                 }
 
                 async POST(args: WebArguments) {
                     const body = await args.body()
-                    writeFileSync('./background.json', JSON.stringify(body));
+                    writeFileSync('./config.json', JSON.stringify(body));
                     return args.body();
                 }
             })
