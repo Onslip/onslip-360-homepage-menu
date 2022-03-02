@@ -1,3 +1,6 @@
 /build
 /onslip-360-homepage-menu.toml
-/node-modules
+/background.json
+/banner.json
+/logo.json
+/test.toml

@@ -1,0 +1,11 @@
+{
+  "0 error pnpm": {
+    "code": "ENOENT",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: node",
+      "code": "ENOENT",
+      "stack": "pnpm: not found: node\n    at getNotFoundError (/snapshot/dist/pnpm.cjs)\n    at Function.whichSync [as sync] (/snapshot/dist/pnpm.cjs)\n    at getCommandAbsolutePathSync (/snapshot/dist/pnpm.cjs)\n    at Object.sync (/snapshot/dist/pnpm.cjs)\n    at getSystemNodeVersionNonCached (/snapshot/dist/pnpm.cjs)\n    at getSystemNodeVersionNonCached (/snapshot/dist/pnpm.cjs)\n    at checkPackage (/snapshot/dist/pnpm.cjs)\n    at packageIsInstallable (/snapshot/dist/pnpm.cjs)\n    at /snapshot/dist/pnpm.cjs\n    at async run (/snapshot/dist/pnpm.cjs)"
+    }
+  }
+}

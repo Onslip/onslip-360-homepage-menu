@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: .4s;
+  color: white;
+  z-index: 10;
+  max-width: 250px;
+}
+
+.is-closed {
+  opacity: 0;
+  transition: .4s;
+  z-index: 10;
+  max-width: 0;
+}
+
+ion-row {
+  width: fit-content;
+}
+
+.label {
+   --background: none;
+  --color: white;
+  --box-shadow: none;
+}
+
+.labelpressed {
+  --text-shadow: 1;
+  --background: rgba(67, 124, 67, 0.57);
+  --color: black;
+  --box-shadow: none;
+}
+
+
+.bold-button {
+  font-size: large;
+  font-weight: bold;
+}
+
+.cursive-button {
+    font-size: large;
+
+  font-style:oblique;
+  --background-activated: black;
+}
+
+ion-item {
+  --background: none;
+  --color-activated: green;
+}

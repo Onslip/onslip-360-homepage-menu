@@ -1,0 +1,13 @@
+[listen]
+host  = 'localhost'
+port  = 8080
+
+[database]
+uri   = 'undefined'
+
+[onslip360]
+base  = 'undefined'      # Onslip 360 environment
+realm = 'undefined'                          # Onslip 360 account
+id = 'undefined' # ID of user's API key
+key = 'undefined'                                    # User's Base64-encoded API key
+                

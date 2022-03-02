@@ -1,2 +1,7 @@
 node_modules
 pnpm-debug.log
+backend/background.txt
+.gitignore
+backend/background.jfif
+backend/background.png
+backend/test.toml

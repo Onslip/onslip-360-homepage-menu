@@ -1,0 +1,15 @@
+{
+    "useProductImages": true,
+    "background": {
+        "color": "#9a9ee7",
+        "enabled": false
+    },
+    "font": {
+        "fontWeight": true,
+        "fontStyle": true,
+        "fontSize": "smaller",
+        "fontFamily": "Arial, Helvetica, sans-serif"
+    },
+    "menuBackground": "#cdefdf",
+    "preset": "Preset 1"
+}
