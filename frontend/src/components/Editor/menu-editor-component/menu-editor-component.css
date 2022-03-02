@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+
+.card {
+  background-color: rgba(255, 255, 255, 0.466);
+  color: black;
+} 
+
+.progressbar {
+  --progress-background: var(--primary);
+  --background: none;
+}
+
+.error-message {
+  font-family: var(--globalfont);
+  text-align: center;
+  color: var(--alert);
+  font-weight: bold;
+  text-decoration: underline;
+  z-index: 0;
+}

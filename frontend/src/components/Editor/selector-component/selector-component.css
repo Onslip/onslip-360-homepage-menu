@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: .4s;
+  color: white;
+  z-index: 10;
+  max-width: 100px;
+}
+
+.is-closed {
+  opacity: 0;
+  transition: .4s;
+  z-index: 10;
+  max-width: 0;
+}
+
+ion-row {
+  width: fit-content;
+}
+.label {
+   --background: none;
+  --color: white;
+  --box-shadow: none;
+}

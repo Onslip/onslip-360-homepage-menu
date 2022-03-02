@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { DBcategory, DBproduct } from "./utils/utils";
+import { DBcategory, DBproduct } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
         "closeIcon": string;
@@ -14,17 +14,31 @@ export namespace Components {
     interface CategoryComponent {
         "category": DBcategory;
     }
+    interface CategoryEditorComponent {
+        "category": DBcategory;
+    }
+    interface EditorVisualCheck {
+    }
     interface HomepageMenuComponent {
     }
-    interface ImageUploader {
+    interface HomepageMenuEditorComponent {
     }
     interface MenuComponent {
+    }
+    interface MenuEditorComponent {
     }
     interface ProductComponent {
         "product": DBproduct;
     }
     interface ProductEditorComponent {
         "product": DBproduct;
+    }
+    interface SelectorComponent {
+        "DropDownvalues": string[];
+        "IconName": string;
+        "element": string;
+        "type": string;
+        "value": string;
     }
     interface ToolbarComponent {
     }
@@ -46,23 +60,41 @@ declare global {
         prototype: HTMLCategoryComponentElement;
         new (): HTMLCategoryComponentElement;
     };
+    interface HTMLCategoryEditorComponentElement extends Components.CategoryEditorComponent, HTMLStencilElement {
+    }
+    var HTMLCategoryEditorComponentElement: {
+        prototype: HTMLCategoryEditorComponentElement;
+        new (): HTMLCategoryEditorComponentElement;
+    };
+    interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
+    }
+    var HTMLEditorVisualCheckElement: {
+        prototype: HTMLEditorVisualCheckElement;
+        new (): HTMLEditorVisualCheckElement;
+    };
     interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuComponentElement: {
         prototype: HTMLHomepageMenuComponentElement;
         new (): HTMLHomepageMenuComponentElement;
     };
-    interface HTMLImageUploaderElement extends Components.ImageUploader, HTMLStencilElement {
+    interface HTMLHomepageMenuEditorComponentElement extends Components.HomepageMenuEditorComponent, HTMLStencilElement {
     }
-    var HTMLImageUploaderElement: {
-        prototype: HTMLImageUploaderElement;
-        new (): HTMLImageUploaderElement;
+    var HTMLHomepageMenuEditorComponentElement: {
+        prototype: HTMLHomepageMenuEditorComponentElement;
+        new (): HTMLHomepageMenuEditorComponentElement;
     };
     interface HTMLMenuComponentElement extends Components.MenuComponent, HTMLStencilElement {
     }
     var HTMLMenuComponentElement: {
         prototype: HTMLMenuComponentElement;
         new (): HTMLMenuComponentElement;
+    };
+    interface HTMLMenuEditorComponentElement extends Components.MenuEditorComponent, HTMLStencilElement {
+    }
+    var HTMLMenuEditorComponentElement: {
+        prototype: HTMLMenuEditorComponentElement;
+        new (): HTMLMenuEditorComponentElement;
     };
     interface HTMLProductComponentElement extends Components.ProductComponent, HTMLStencilElement {
     }
@@ -75,6 +107,12 @@ declare global {
     var HTMLProductEditorComponentElement: {
         prototype: HTMLProductEditorComponentElement;
         new (): HTMLProductEditorComponentElement;
+    };
+    interface HTMLSelectorComponentElement extends Components.SelectorComponent, HTMLStencilElement {
+    }
+    var HTMLSelectorComponentElement: {
+        prototype: HTMLSelectorComponentElement;
+        new (): HTMLSelectorComponentElement;
     };
     interface HTMLToolbarComponentElement extends Components.ToolbarComponent, HTMLStencilElement {
     }
@@ -91,11 +129,15 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "category-component": HTMLCategoryComponentElement;
+        "category-editor-component": HTMLCategoryEditorComponentElement;
+        "editor-visual-check": HTMLEditorVisualCheckElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
-        "image-uploader": HTMLImageUploaderElement;
+        "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "menu-component": HTMLMenuComponentElement;
+        "menu-editor-component": HTMLMenuEditorComponentElement;
         "product-component": HTMLProductComponentElement;
         "product-editor-component": HTMLProductEditorComponentElement;
+        "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
         "upload-image-button": HTMLUploadImageButtonElement;
     }
@@ -108,18 +150,31 @@ declare namespace LocalJSX {
     interface CategoryComponent {
         "category"?: DBcategory;
     }
+    interface CategoryEditorComponent {
+        "category"?: DBcategory;
+    }
+    interface EditorVisualCheck {
+    }
     interface HomepageMenuComponent {
     }
-    interface ImageUploader {
-        "onOnUploadCompleted"?: (event: CustomEvent<Blob>) => void;
+    interface HomepageMenuEditorComponent {
     }
     interface MenuComponent {
+    }
+    interface MenuEditorComponent {
     }
     interface ProductComponent {
         "product"?: DBproduct;
     }
     interface ProductEditorComponent {
         "product"?: DBproduct;
+    }
+    interface SelectorComponent {
+        "DropDownvalues"?: string[];
+        "IconName"?: string;
+        "element"?: string;
+        "type"?: string;
+        "value"?: string;
     }
     interface ToolbarComponent {
     }
@@ -130,11 +185,15 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "category-component": CategoryComponent;
+        "category-editor-component": CategoryEditorComponent;
+        "editor-visual-check": EditorVisualCheck;
         "homepage-menu-component": HomepageMenuComponent;
-        "image-uploader": ImageUploader;
+        "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "menu-component": MenuComponent;
+        "menu-editor-component": MenuEditorComponent;
         "product-component": ProductComponent;
         "product-editor-component": ProductEditorComponent;
+        "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
         "upload-image-button": UploadImageButton;
     }
@@ -145,11 +204,15 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "category-component": LocalJSX.CategoryComponent & JSXBase.HTMLAttributes<HTMLCategoryComponentElement>;
+            "category-editor-component": LocalJSX.CategoryEditorComponent & JSXBase.HTMLAttributes<HTMLCategoryEditorComponentElement>;
+            "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
-            "image-uploader": LocalJSX.ImageUploader & JSXBase.HTMLAttributes<HTMLImageUploaderElement>;
+            "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
+            "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "product-component": LocalJSX.ProductComponent & JSXBase.HTMLAttributes<HTMLProductComponentElement>;
             "product-editor-component": LocalJSX.ProductEditorComponent & JSXBase.HTMLAttributes<HTMLProductEditorComponentElement>;
+            "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
             "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;
         }

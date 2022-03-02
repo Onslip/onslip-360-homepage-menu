@@ -25,6 +25,7 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
+      baseUrl: 'http://localhost:3333'
     },
   ],
 };
