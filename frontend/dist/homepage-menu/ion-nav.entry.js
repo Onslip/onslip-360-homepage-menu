@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, o as Build, h, j as getElement } from './index-342c6706.js';
-import { g as getIonMode, c as config } from './ionic-global-6c01899d.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
-import { l as assert, s as shallowEqualStringMap } from './helpers-730f41c7.js';
-import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-775972f5.js';
-import { a as attachComponent } from './framework-delegate-10d8e2b2.js';
-=======
 import { r as registerInstance, k as createEvent, l as Build, h, j as getElement } from './index-788b94ef.js';
 import { g as getIonMode, c as config } from './ionic-global-26489203.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-421c496a.js';
 import { l as assert, s as shallowEqualStringMap } from './helpers-6b9231fe.js';
 import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-e966bfe1.js';
 import { a as attachComponent } from './framework-delegate-727ec5ef.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

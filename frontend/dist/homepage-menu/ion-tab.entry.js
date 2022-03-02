@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import { r as registerInstance, o as Build, h, i as Host, j as getElement } from './index-342c6706.js';
-import { a as attachComponent } from './framework-delegate-10d8e2b2.js';
-import './helpers-730f41c7.js';
-=======
 import { r as registerInstance, l as Build, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { a as attachComponent } from './framework-delegate-727ec5ef.js';
 import './helpers-6b9231fe.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 const tabCss = ":host(.tab-hidden){display:none !important}";
 

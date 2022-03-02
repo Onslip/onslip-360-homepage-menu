@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-import { e as clamp } from './helpers-730f41c7.js';
-import { a as hapticSelectionChanged, b as hapticSelectionEnd, h as hapticSelectionStart } from './haptic-1114c98f.js';
-=======
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { g as getIonMode } from './ionic-global-26489203.js';
 import { e as clamp } from './helpers-6b9231fe.js';
 import { b as hapticSelectionChanged, c as hapticSelectionEnd, a as hapticSelectionStart } from './haptic-807aca0c.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 const pickerColumnIosCss = ".picker-col{display:flex;position:relative;flex:1;justify-content:center;height:100%;box-sizing:content-box;contain:content}.picker-opts{position:relative;flex:1;max-width:100%}.picker-opt{left:0;top:0;display:block;position:absolute;width:100%;border:0;text-align:center;text-overflow:ellipsis;white-space:nowrap;contain:strict;overflow:hidden;will-change:transform}[dir=rtl] .picker-opt,:host-context([dir=rtl]) .picker-opt{left:unset;right:unset;right:0}.picker-opt.picker-opt-disabled{pointer-events:none}.picker-opt-disabled{opacity:0}.picker-opts-left{justify-content:flex-start}.picker-opts-right{justify-content:flex-end}.picker-opt:active,.picker-opt:focus{outline:none}.picker-prefix{position:relative;flex:1;text-align:end;white-space:nowrap}.picker-suffix{position:relative;flex:1;text-align:start;white-space:nowrap}.picker-col{padding-left:4px;padding-right:4px;padding-top:0;padding-bottom:0;transform-style:preserve-3d}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.picker-col{padding-left:unset;padding-right:unset;-webkit-padding-start:4px;padding-inline-start:4px;-webkit-padding-end:4px;padding-inline-end:4px}}.picker-prefix,.picker-suffix,.picker-opts{top:77px;transform-style:preserve-3d;color:inherit;font-size:20px;line-height:42px;pointer-events:none}.picker-opt{padding-left:0;padding-right:0;padding-top:0;padding-bottom:0;margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;transform-origin:center center;height:46px;transform-style:preserve-3d;transition-timing-function:ease-out;background:transparent;color:inherit;font-size:20px;line-height:42px;backface-visibility:hidden;pointer-events:auto}[dir=rtl] .picker-opt,:host-context([dir=rtl]) .picker-opt{transform-origin:calc(100% - center) center}";
 

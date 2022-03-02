@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-import { m as writeTask, r as registerInstance, k as createEvent, l as readTask, h, i as Host, j as getElement } from './index-342c6706.js';
-import { a as isPlatform, g as getIonMode } from './ionic-global-6c01899d.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
-import { e as clamp, t as transitionEndAsync, c as componentOnReady, g as getElementRoot, r as raf } from './helpers-730f41c7.js';
-import { c as hapticImpact } from './haptic-1114c98f.js';
-import { c as createAnimation } from './animation-c6a5635b.js';
-=======
 import { o as writeTask, r as registerInstance, k as createEvent, m as readTask, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { a as isPlatform, g as getIonMode } from './ionic-global-26489203.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-421c496a.js';
 import { e as clamp, t as transitionEndAsync, c as componentOnReady, g as getElementRoot, r as raf } from './helpers-6b9231fe.js';
 import { h as hapticImpact } from './haptic-807aca0c.js';
 import { c as createAnimation } from './animation-e15eb3eb.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

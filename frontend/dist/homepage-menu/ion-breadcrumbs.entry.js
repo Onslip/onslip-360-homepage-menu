@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-import { c as createColorClasses, h as hostContext } from './theme-31a4dfd9.js';
-=======
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { g as getIonMode } from './ionic-global-26489203.js';
 import { c as createColorClasses, h as hostContext } from './theme-4c258838.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 const breadcrumbsIosCss = ":host{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:flex;flex-wrap:wrap;align-items:center}:host(.in-toolbar-color),:host(.in-toolbar-color) .breadcrumbs-collapsed-indicator ion-icon{color:var(--ion-color-contrast)}:host(.in-toolbar-color) .breadcrumbs-collapsed-indicator{background:rgba(var(--ion-color-contrast-rgb), 0.11)}:host(.in-toolbar){padding-left:20px;padding-right:20px;padding-top:0;padding-bottom:0;justify-content:center}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.in-toolbar){padding-left:unset;padding-right:unset;-webkit-padding-start:20px;padding-inline-start:20px;-webkit-padding-end:20px;padding-inline-end:20px}}";
 

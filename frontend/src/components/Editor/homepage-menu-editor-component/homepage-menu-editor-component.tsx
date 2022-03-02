@@ -19,9 +19,18 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
 
   async componentWillLoad() {
-    GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
-    GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
-    GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+    if (config?.banner == true) {
+      GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+    }
+    if (config?.Logo == true) {
+      GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+    }
+    if (config?.background?.enabled) {
+      document.querySelector('body').style.background = config.background.color;
+    }
+    else if (config?.background?.enabled == false) {
+      GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    }
   }
 
   private LoadConfig(element) {
@@ -42,13 +51,9 @@ export class HomepageMenuEditorComponent {
 
   }
   private async LoadBackground(image) {
-    if (config?.background?.enabled) {
-      document.querySelector('body').style.background = config.background.color;
-    }
-    else {
-      const loadedImage = await loadImage(image).catch(err => err)
-      document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
-    }
+    const loadedImage = await loadImage(image).catch(err => err)
+    document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
+
   }
 
   private async LoadLogo(image, element) {

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { r as registerInstance, h, i as Host, q as getAssetPath } from './index-342c6706.js';
-=======
 import { r as registerInstance, h, i as Host, q as getAssetPath } from './index-788b94ef.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 import { c as config, F as Fonts, P as Presets, b as buttonvalues } from './utils-d9c92c24.js';
 import { P as PostData } from './post-ca7d728c.js';
 import './get-282952cd.js';
@@ -22,7 +18,6 @@ let ToolbarComponent = class {
     await this.submitForm();
     location.reload();
   }
-<<<<<<< HEAD
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
     await this.submitForm();
@@ -33,8 +28,6 @@ let ToolbarComponent = class {
     await this.submitForm();
     location.reload();
   }
-=======
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
   async changeColor() {
     config.background.enabled = true;
     document.body.style.backgroundImage = null;
@@ -50,19 +43,11 @@ let ToolbarComponent = class {
     PostData('http://localhost:8080/config', config);
   }
   render() {
-<<<<<<< HEAD
     var _a, _b, _c;
-    return (h(Host, null, h("ion-nav", null, h("ion-header", null, h("ion-toolbar", { class: "toolbar" }, h("ion-buttons", { slot: "start" }, h("ion-button", { onClick: () => { this.menuopen = !this.menuopen; } }, h("ion-icon", { name: this.menuopen ? "close-sharp" : "menu-sharp" }), h("ion-label", null, "MENY")), config ? [
-      h("selector-component", { value: config === null || config === void 0 ? void 0 : config.font, DropDownvalues: Fonts, IconName: 'text-sharp', element: '.menuContainer', type: 'font' }),
-      h("selector-component", { value: config === null || config === void 0 ? void 0 : config.preset, DropDownvalues: Presets, IconName: 'brush-sharp', element: '.menuContainer', type: 'preset' })
-    ] : null), h("img", { class: "logo", slot: "primary", src: getAssetPath('../../../assets/onslip-brand-full.png') }), h("ion-title", { slot: "end" }, "Digital Dynamic Menu")))), h("div", { class: this.menuopen ? "menu_box" : "menu_box_closed" }, h("ion-row", null, h("ion-col", { class: "menu-col" }, h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.logo, URL: this.url3 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.banner, URL: this.url2 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.background, URL: this.url1 })), h("ion-row", null, h("label", { htmlFor: 'color', class: 'button-9' }, "\u00C4ndra bakgrundsf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'color', type: 'color', onChange: (event) => { config.background.color = event.target.value; this.changeColor(); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'menucolor', class: 'button-9' }, "\u00C4ndra menyns f\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'menucolor', type: 'color', onChange: (event) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`); }, hidden: true })), h("ion-row", null, h("api-ui", null))), h("ion-col", { class: "menu-row" }, h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Produktbilder:"), h("ion-toggle", { checked: (_a = config === null || config === void 0 ? void 0 : config.useProductImages) !== null && _a !== void 0 ? _a : false, onIonChange: (ev) => { this.useProductImages(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Logo:"), h("ion-toggle", { checked: (_b = config === null || config === void 0 ? void 0 : config.Logo) !== null && _b !== void 0 ? _b : false, onIonChange: (ev) => { this.useLogoPic(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Banner:"), h("ion-toggle", { checked: (_c = config === null || config === void 0 ? void 0 : config.banner) !== null && _c !== void 0 ? _c : false, onIonChange: (ev) => { this.useBanner(ev); } }))))))));
-=======
-    var _a;
     return (h(Host, null, h("ion-nav", null, h("ion-header", null, h("ion-toolbar", { class: "toolbar" }, h("ion-buttons", { slot: "start" }, h("ion-button", { onClick: () => { this.menuopen = !this.menuopen; } }, h("ion-icon", { name: this.menuopen ? "close-sharp" : "menu-sharp" }), h("ion-label", null, "MENY")), config ? [
       h("selector-component", { value: config === null || config === void 0 ? void 0 : config.font.fontFamily, DropDownvalues: Fonts, IconName: 'text-sharp', element: '.menuContainer', type: 'font' }),
       h("selector-component", { value: config === null || config === void 0 ? void 0 : config.preset, DropDownvalues: Presets, IconName: 'brush-sharp', element: '.menuContainer', type: 'preset' })
-    ] : null), h("img", { class: "logo", slot: "primary", src: getAssetPath('../../../assets/onslip-brand-full.png') }), h("ion-title", { slot: "end" }, "Digital Dynamic Menu")))), h("div", { class: this.menuopen ? "menu_box" : "menu_box_closed" }, h("ion-row", null, h("ion-col", { class: "menu-col" }, h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.logo, URL: this.url3 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.banner, URL: this.url2 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.background, URL: this.url1 })), h("ion-row", null, h("label", { htmlFor: 'color', class: 'button-9' }, "\u00C4ndra bakgrundsf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'color', type: 'color', onChange: (event) => { config.background.color = event.target.value; this.changeColor(); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'menucolor', class: 'button-9' }, "\u00C4ndra menyns f\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'menucolor', type: 'color', onChange: (event) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`); }, hidden: true })), h("ion-row", null, h("api-ui", null))), h("ion-col", { class: "menu-row" }, h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Produktbilder:"), h("ion-toggle", { checked: (_a = config === null || config === void 0 ? void 0 : config.useProductImages) !== null && _a !== void 0 ? _a : false, onIonChange: (ev) => { this.useProductImages(ev); } }))))))));
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
+    ] : null), h("img", { class: "logo", slot: "primary", src: getAssetPath('../../../assets/onslip-brand-full.png') }), h("ion-title", { slot: "end" }, "Digital Dynamic Menu")))), h("div", { class: this.menuopen ? "menu_box" : "menu_box_closed" }, h("ion-row", null, h("ion-col", { class: "menu-col" }, h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.logo, URL: this.url3 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.banner, URL: this.url2 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.background, URL: this.url1 })), h("ion-row", null, h("label", { htmlFor: 'color', class: 'button-9' }, "\u00C4ndra bakgrundsf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'color', type: 'color', onChange: (event) => { config.background.color = event.target.value; this.changeColor(); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'menucolor', class: 'button-9' }, "\u00C4ndra menyns f\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'menucolor', type: 'color', onChange: (event) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`); }, hidden: true })), h("ion-row", null, h("api-ui", null))), h("ion-col", { class: "menu-row" }, h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Produktbilder:"), h("ion-toggle", { checked: (_a = config === null || config === void 0 ? void 0 : config.useProductImages) !== null && _a !== void 0 ? _a : false, onIonChange: (ev) => { this.useProductImages(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Logo:"), h("ion-toggle", { checked: (_b = config === null || config === void 0 ? void 0 : config.Logo) !== null && _b !== void 0 ? _b : false, onIonChange: (ev) => { this.useLogoPic(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Banner:"), h("ion-toggle", { checked: (_c = config === null || config === void 0 ? void 0 : config.banner) !== null && _c !== void 0 ? _c : false, onIonChange: (ev) => { this.useBanner(ev); } }))))))));
   }
   static get assetsDirs() { return ["../../../assets"]; }
 };

@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, m as writeTask, h, i as Host, j as getElement } from './index-342c6706.js';
-import { c as chevronDown, f as caretUpSharp, g as chevronForward, h as caretDownSharp, a as chevronBack } from './index-b1e35e86.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-import { startFocusVisible } from './focus-visible-bbde0d61.js';
-import { r as raf, g as getElementRoot, d as renderHiddenInput } from './helpers-730f41c7.js';
-import { i as isRTL } from './index-7165887b.js';
-import { c as createColorClasses } from './theme-31a4dfd9.js';
-=======
 import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { c as chevronDown, f as caretUpSharp, g as chevronForward, h as caretDownSharp, a as chevronBack } from './index-b1e35e86.js';
 import { g as getIonMode } from './ionic-global-26489203.js';
@@ -14,7 +5,6 @@ import { startFocusVisible } from './focus-visible-d64913fb.js';
 import { r as raf, g as getElementRoot, d as renderHiddenInput } from './helpers-6b9231fe.js';
 import { i as isRTL } from './index-dcfab02c.js';
 import { c as createColorClasses } from './theme-4c258838.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

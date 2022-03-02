@@ -1,7 +1,6 @@
 import { Component, Host, h, State, getAssetPath } from '@stencil/core';
-import { Styleconfig, buttonvalues, Fonts, Presets, config } from '../../utils/utils';
+import { buttonvalues, Fonts, Presets, config } from '../../utils/utils';
 import { PostData } from '../../utils/post';
-import { GetData } from '../../utils/get';
 
 @Component({
   tag: 'toolbar-component',

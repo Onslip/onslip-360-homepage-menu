@@ -1,15 +1,1 @@
-{
-    "useProductImages": true,
-    "background": {
-        "color": "#9a9ee7",
-        "enabled": false
-    },
-    "font": {
-        "fontWeight": true,
-        "fontStyle": true,
-        "fontSize": "smaller",
-        "fontFamily": "Arial, Helvetica, sans-serif"
-    },
-    "menuBackground": "#cdefdf",
-    "preset": "Preset 1"
-}
+{"useProductImages":true,"background":{"color":"#fe9f9f","enabled":true},"font":{"fontWeight":true,"fontStyle":true,"fontSize":"smaller","fontFamily":"Arial, Helvetica, sans-serif"},"menuBackground":"#f0c7c7","preset":"Preset 1","Logo":false,"banner":false}
