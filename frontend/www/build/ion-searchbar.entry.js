@@ -1,6 +1,6 @@
-import { r as registerInstance, l as createEvent, o as forceUpdate, h, i as Host, k as getElement } from './index-fdd6f247.js';
+import { r as registerInstance, k as createEvent, n as forceUpdate, h, i as Host, j as getElement } from './index-342c6706.js';
 import { b as arrowBackSharp, o as closeCircle, p as closeSharp, s as searchOutline, q as searchSharp } from './index-b1e35e86.js';
-import { c as config, g as getIonMode } from './ionic-global-49bac6cf.js';
+import { c as config, g as getIonMode } from './ionic-global-6c01899d.js';
 import { h as debounceEvent, r as raf } from './helpers-730f41c7.js';
 import { i as isRTL } from './index-7165887b.js';
 import { c as createColorClasses } from './theme-31a4dfd9.js';

@@ -51,12 +51,18 @@ export class HomepageMenuEditorComponent {
     })
     const img = document.createElement('img');
     img.src = loadedImage.toString();
-    this.element.shadowRoot.querySelector(element).appendChild(img);
+    if (config.Logo) {
+      this.element.shadowRoot.querySelector(element).appendChild(img);
+
+    }
   }
 
   private async LoadBanner(image, element) {
     const loadedImage = await loadImage(image).catch(err => err);
-    this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
+    if (config.banner) {
+      this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
+
+    }
   }
 
   render() {

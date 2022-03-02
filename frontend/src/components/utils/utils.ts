@@ -37,6 +37,8 @@ export interface Styleconfig {
     color: string,
   },
   useProductImages: true,
+  Logo: true,
+  banner: true,
   font: string,
   preset: string,
   menuBackground: string,

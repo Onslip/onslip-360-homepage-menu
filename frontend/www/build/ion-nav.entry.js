@@ -1,8 +1,8 @@
-import { r as registerInstance, l as createEvent, q as Build, h, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode, c as config } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, k as createEvent, o as Build, h, j as getElement } from './index-342c6706.js';
+import { g as getIonMode, c as config } from './ionic-global-6c01899d.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
 import { l as assert, s as shallowEqualStringMap } from './helpers-730f41c7.js';
-import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-63437bb5.js';
+import { l as lifecycle, L as LIFECYCLE_WILL_UNLOAD, a as LIFECYCLE_WILL_LEAVE, b as LIFECYCLE_DID_LEAVE, t as transition, s as setPageHidden } from './index-775972f5.js';
 import { a as attachComponent } from './framework-delegate-10d8e2b2.js';
 
 /*!

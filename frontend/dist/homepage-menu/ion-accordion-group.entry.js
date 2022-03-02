@@ -1,5 +1,5 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode } from './ionic-global-6c01899d.js';
 
 const accordionGroupIosCss = ":host{display:block}:host(.accordion-group-expand-inset){margin-left:16px;margin-right:16px;margin-top:16px;margin-bottom:16px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.accordion-group-expand-inset){margin-left:unset;margin-right:unset;-webkit-margin-start:16px;margin-inline-start:16px;-webkit-margin-end:16px;margin-inline-end:16px}}:host(.accordion-group-expand-inset) ::slotted(ion-accordion.accordion-expanding),:host(.accordion-group-expand-inset) ::slotted(ion-accordion.accordion-expanded){border-bottom:none}";
 

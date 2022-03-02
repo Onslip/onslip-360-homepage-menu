@@ -1,5 +1,5 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode } from './ionic-global-6c01899d.js';
 
 const imgCss = ":host{display:block;object-fit:contain}img{display:block;width:100%;height:100%;object-fit:inherit;object-position:inherit}";
 

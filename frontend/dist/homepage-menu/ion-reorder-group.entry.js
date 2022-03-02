@@ -1,5 +1,5 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode } from './ionic-global-6c01899d.js';
 import { c as componentOnReady } from './helpers-730f41c7.js';
 import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-1114c98f.js';
 

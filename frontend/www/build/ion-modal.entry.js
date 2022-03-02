@@ -1,11 +1,11 @@
-import { r as registerInstance, l as createEvent, n as writeTask, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode, c as config } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, k as createEvent, m as writeTask, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode, c as config } from './ionic-global-6c01899d.js';
 import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-10d8e2b2.js';
 import { e as clamp, g as getElementRoot, r as raf } from './helpers-730f41c7.js';
 import { KEYBOARD_DID_OPEN } from './keyboard-0b669d15.js';
-import { B as BACKDROP, a as prepareOverlay, p as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-85510a51.js';
+import { B as BACKDROP, a as prepareOverlay, p as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-a3c7fc80.js';
 import { g as getClassMap } from './theme-31a4dfd9.js';
-import { d as deepReady } from './index-63437bb5.js';
+import { d as deepReady } from './index-775972f5.js';
 import { c as createAnimation } from './animation-c6a5635b.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
 import { createGesture } from './index-8b0b4762.js';

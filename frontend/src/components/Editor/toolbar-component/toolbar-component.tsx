@@ -24,6 +24,18 @@ export class ToolbarComponent {
     location.reload()
   }
 
+  async useLogoPic(event) {
+    config.Logo = event.detail.checked;
+    await this.submitForm();
+    location.reload();
+  }
+
+  async useBanner(event) {
+    config.banner = event.detail.checked;
+    await this.submitForm();
+    location.reload();
+  }
+
   async changeColor() {
     config.background.enabled = true
     document.body.style.backgroundImage = null;
@@ -91,6 +103,18 @@ export class ToolbarComponent {
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
                   <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
+                </ion-item>
+              </ion-row>
+              <ion-row>
+                <ion-item class="toggle">
+                  <ion-label>Använd Logo:</ion-label>
+                  <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }}></ion-toggle>
+                </ion-item>
+              </ion-row>
+              <ion-row>
+                <ion-item class="toggle">
+                  <ion-label>Använd Banner:</ion-label>
+                  <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }}></ion-toggle>
                 </ion-item>
               </ion-row>
             </ion-col>
