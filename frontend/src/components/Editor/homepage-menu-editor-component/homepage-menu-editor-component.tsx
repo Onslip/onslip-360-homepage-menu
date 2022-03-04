@@ -59,13 +59,9 @@ export class HomepageMenuEditorComponent {
 
   }
   private async LoadBackground(image) {
-    if (config?.background?.enabled) {
-      document.querySelector('body').style.background = config.background.color;
-    }
-    else {
-      const loadedImage = await loadImage(image).catch(err => err)
-      document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
-    }
+    const loadedImage = await loadImage(image).catch(err => err)
+    document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
+
   }
 
   private async LoadLogo(image, element) {
