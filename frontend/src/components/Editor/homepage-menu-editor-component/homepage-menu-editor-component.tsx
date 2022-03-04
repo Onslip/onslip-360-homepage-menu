@@ -2,6 +2,7 @@ import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core'
 import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
+//import { compName } from '../../../../../backend/src/dhm-service'
 import '@ionic/core'
 
 @Component({
@@ -15,13 +16,28 @@ export class HomepageMenuEditorComponent {
   @State() private imageurl: string = 'http://localhost:8080/background';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
   @State() private logoUrl: string = 'http://localhost:8080/logo';
+  @State() private locationUrl: string = 'http://localhost:8080/location';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
 
   async componentWillLoad() {
     GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
-    GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
-    GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+    if (config?.banner == true) {
+      GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+    }
+    if (config?.Logo == true) {
+      GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+    }
+    else {
+
+      GetData(this.locationUrl).then(response => {
+        const node = document.createElement("h1");
+        node.innerText = response;
+        this.element.shadowRoot.querySelector('.header').appendChild(node)
+      })
+        .catch(err => console.log(err))
+    }
+
   }
 
   private LoadConfig(element) {
@@ -40,6 +56,7 @@ export class HomepageMenuEditorComponent {
   componentDidLoad() {
     this.LoadConfig('.menuContainer');
 
+
   }
   private async LoadBackground(image) {
     if (config?.background?.enabled) {
@@ -53,13 +70,16 @@ export class HomepageMenuEditorComponent {
 
   private async LoadLogo(image, element) {
     const loadedImage = await loadImage(image).catch(() => {
-      const node = document.createElement("h1");
-      node.innerText = 'Martins Kolgrill'
-      this.element.shadowRoot.querySelector(element).appendChild(node)
+      if (!config.Logo) {
+        const node = document.createElement("h1");
+        node.innerText = 'Martins Kolgrill'
+        this.element.shadowRoot.querySelector(element).appendChild(node)
+      }
     })
-    const img = document.createElement('img');
-    img.src = loadedImage.toString();
     if (config.Logo) {
+      const img = document.createElement('img');
+      img.src = loadedImage.toString();
+
       this.element.shadowRoot.querySelector(element).appendChild(img);
 
     }

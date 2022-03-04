@@ -25,6 +25,8 @@ export class DHMService {
 
     asWebService(): WebService<this> {
         const svc = this;
+        //const compName = svc.api.getAccount.name;
+
         return new WebService(this)
 
             .addFilter(class extends CORSFilter {
@@ -86,6 +88,19 @@ export class DHMService {
                     return data;
                 }
             })
+            .addResource(class implements WebResource {
+                static path = /location/;
+                async GET() {
+                    const data = await (await svc.api.getLocation(1))['company-name'];
+                    return JSON.stringify(data ?? [0]);
+                }
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData;
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.json);
+                    return data;
+                }
+            })
 
 
             .addResource(class implements WebResource {
@@ -97,6 +112,7 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     const body = await args.body()
+                    console.log(body)
                     writeFileSync('./config.json', JSON.stringify(body));
                     return args.body();
                 }
@@ -173,7 +189,12 @@ key = '${api.key}'                                    # User's Base64-encoded AP
         this.listener.Listener();
         return await this.GetProdByGroup();
     }
+
+
+
 }
+
+
 interface DBproduct {
     id: number
     name: string
