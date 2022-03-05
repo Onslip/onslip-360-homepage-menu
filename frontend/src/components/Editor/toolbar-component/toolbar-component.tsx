@@ -1,4 +1,4 @@
-import { Component, Host, h, State, getAssetPath } from '@stencil/core';
+import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
 import { buttonvalues, Fonts, Presets, config } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
@@ -15,7 +15,7 @@ export class ToolbarComponent {
   private url1: string = 'http://localhost:8080/background'
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
-
+  @Element() element: HTMLElement;
 
   async useProductImages(event) {
     config.useProductImages = event.detail.checked
@@ -42,9 +42,19 @@ export class ToolbarComponent {
     this.submitForm();
   }
 
+  async ChangeFontColor(element) {
+    const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
+    a.style = { color: config.font.fontColor }
+    this.submitForm();
+  }
+
+  async ChangeFontTitleColor(element) {
+    this.submitForm();
+  }
+
   async ChangeMenuColor(element) {
     console.log(config)
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector(element).style.background = config?.menuBackground;
     this.submitForm();
   }
 
@@ -92,6 +102,14 @@ export class ToolbarComponent {
               <ion-row>
                 <label htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                 <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
+              </ion-row>
+              <ion-row>
+                <label htmlFor='fontColor' class='button-9'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor(`.card`) }} hidden />
+              </ion-row>
+              <ion-row>
+                <label htmlFor='fontTitleColor' class='button-9'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor(`.card`) }} hidden />
               </ion-row>
               <ion-row>
                 <api-ui></api-ui>

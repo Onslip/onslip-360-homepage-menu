@@ -1,6 +1,7 @@
 import { Component, State, Host, h } from '@stencil/core';
 import { productsWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
+import { config } from '../../utils/utils';
 
 @Component({
   tag: 'menu-editor-component',
@@ -24,27 +25,43 @@ export class MenuEditorComponent {
       });
   }
 
+  doReorder(ev: any) {
+    this.responsedata = ev.detail.complete(this.responsedata);
+  }
+
   render() {
     return (
       <Host>
+
         <div class="error-message">
           <ion-label>{this.errormessage}</ion-label>
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
-        {
-          !this.loading ?
-            this.responsedata?.map(data => {
-              return (
-                <ion-card class='card'>
-                  <category-editor-component category={data.category}></category-editor-component>
-                  {
-                    data.products.map(product => { return (<product-editor-component class='menu-item' product={product}></product-editor-component>) })
-                  }
-                </ion-card>
-              )
-            })
-            : null
-        }
+        <ion-reorder-group disabled={false} onIonItemReorder={(ev) => this.doReorder(ev)}>
+          {
+            !this.loading ?
+              this.responsedata?.map(data => {
+                return (
+
+                  <ion-reorder slot="end">
+                    <ion-card class='card' style={{ color: config.font.fontColor }}>
+                      <category-editor-component category={data.category}></category-editor-component>
+                      {
+                        data.products.map(product => {
+
+                          return (<ion-reorder>
+                            <product-editor-component class='menu-item' product={product}></product-editor-component>
+                          </ion-reorder>
+                          )
+                        })
+                      }
+                    </ion-card>
+                  </ion-reorder>
+                )
+              })
+              : null
+          }
+        </ion-reorder-group>
       </Host>
     )
   }

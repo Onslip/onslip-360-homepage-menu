@@ -1,5 +1,5 @@
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
-import { g as getIonMode } from './ionic-global-26489203.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
+import { g as getIonMode } from './ionic-global-5a29f32f.js';
 
 let RadioGroup = class {
   constructor(hostRef) {

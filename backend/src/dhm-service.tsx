@@ -1,4 +1,4 @@
-import { DatabaseURI, DBQuery, FIELDS, FormData, HEADERS, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
@@ -152,10 +152,10 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
-        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
-        const products = await this.db.query<DBproduct[]>`select * from onslip.products`
-        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`
-        images.filter(x => x.product_id == 21).map(z => console.log(z.image))
+        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
+        const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
+        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`;
+
         return categories.map(c => ({
             category: {
                 name: c.name
@@ -211,3 +211,21 @@ interface newApi {
     id: string,
     uri: string
 }
+
+interface Styleconfig {
+    background: {
+        enabled: boolean
+        color: string,
+    },
+    useProductImages: true,
+    font: {
+        fontFamily: string,
+        fontWeight: boolean;
+        fontStyle: boolean;
+        fontSize: number;
+    }
+    preset: string,
+    menuBackground: string,
+}
+
+const a: Styleconfig = JSON.parse(JSON.stringify(readFileSync('./config.json').toString()));

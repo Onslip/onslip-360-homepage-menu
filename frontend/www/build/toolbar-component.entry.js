@@ -1,5 +1,5 @@
-import { r as registerInstance, h, i as Host, q as getAssetPath } from './index-788b94ef.js';
-import { c as config, F as Fonts, P as Presets, b as buttonvalues } from './utils-d9c92c24.js';
+import { r as registerInstance, h, i as Host, q as getAssetPath, j as getElement } from './index-7693580e.js';
+import { c as config, F as Fonts, P as Presets, b as buttonvalues } from './utils-e05ad1e8.js';
 import { P as PostData } from './post-ca7d728c.js';
 import './get-282952cd.js';
 
@@ -34,9 +34,17 @@ let ToolbarComponent = class {
     document.body.style.backgroundColor = config === null || config === void 0 ? void 0 : config.background.color;
     this.submitForm();
   }
+  async ChangeFontColor(element) {
+    const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
+    a.style = { color: config.font.fontColor };
+    this.submitForm();
+  }
+  async ChangeFontTitleColor(element) {
+    this.submitForm();
+  }
   async ChangeMenuColor(element) {
     console.log(config);
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config === null || config === void 0 ? void 0 : config.menuBackground;
+    document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector(element).style.background = config === null || config === void 0 ? void 0 : config.menuBackground;
     this.submitForm();
   }
   async submitForm() {
@@ -47,9 +55,10 @@ let ToolbarComponent = class {
     return (h(Host, null, h("ion-nav", null, h("ion-header", null, h("ion-toolbar", { class: "toolbar" }, h("ion-buttons", { slot: "start" }, h("ion-button", { onClick: () => { this.menuopen = !this.menuopen; } }, h("ion-icon", { name: this.menuopen ? "close-sharp" : "menu-sharp" }), h("ion-label", null, "MENY")), config ? [
       h("selector-component", { value: config === null || config === void 0 ? void 0 : config.font.fontFamily, DropDownvalues: Fonts, IconName: 'text-sharp', element: '.menuContainer', type: 'font' }),
       h("selector-component", { value: config === null || config === void 0 ? void 0 : config.preset, DropDownvalues: Presets, IconName: 'brush-sharp', element: '.menuContainer', type: 'preset' })
-    ] : null), h("img", { class: "logo", slot: "primary", src: getAssetPath('../../../assets/onslip-brand-full.png') }), h("ion-title", { slot: "end" }, "Digital Dynamic Menu")))), h("div", { class: this.menuopen ? "menu_box" : "menu_box_closed" }, h("ion-row", null, h("ion-col", { class: "menu-col" }, h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.logo, URL: this.url3 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.banner, URL: this.url2 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.background, URL: this.url1 })), h("ion-row", null, h("label", { htmlFor: 'color', class: 'button-9' }, "\u00C4ndra bakgrundsf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'color', type: 'color', onChange: (event) => { config.background.color = event.target.value; this.changeColor(); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'menucolor', class: 'button-9' }, "\u00C4ndra menyns f\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'menucolor', type: 'color', onChange: (event) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`); }, hidden: true })), h("ion-row", null, h("api-ui", null))), h("ion-col", { class: "menu-row" }, h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Produktbilder:"), h("ion-toggle", { checked: (_a = config === null || config === void 0 ? void 0 : config.useProductImages) !== null && _a !== void 0 ? _a : false, onIonChange: (ev) => { this.useProductImages(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Logo:"), h("ion-toggle", { checked: (_b = config === null || config === void 0 ? void 0 : config.Logo) !== null && _b !== void 0 ? _b : false, onIonChange: (ev) => { this.useLogoPic(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Banner:"), h("ion-toggle", { checked: (_c = config === null || config === void 0 ? void 0 : config.banner) !== null && _c !== void 0 ? _c : false, onIonChange: (ev) => { this.useBanner(ev); } }))))))));
+    ] : null), h("img", { class: "logo", slot: "primary", src: getAssetPath('../../../assets/onslip-brand-full.png') }), h("ion-title", { slot: "end" }, "Digital Dynamic Menu")))), h("div", { class: this.menuopen ? "menu_box" : "menu_box_closed" }, h("ion-row", null, h("ion-col", { class: "menu-col" }, h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.logo, URL: this.url3 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.banner, URL: this.url2 })), h("ion-row", null, h("upload-image-button", { buttonvalue: buttonvalues.background, URL: this.url1 })), h("ion-row", null, h("label", { htmlFor: 'color', class: 'button-9' }, "\u00C4ndra bakgrundsf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'color', type: 'color', onChange: (event) => { config.background.color = event.target.value; this.changeColor(); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'menucolor', class: 'button-9' }, "\u00C4ndra menyns f\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'menucolor', type: 'color', onChange: (event) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'fontColor', class: 'button-9' }, "\u00C4ndra textf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'fontColor', type: 'color', onChange: (event) => { config.font.fontColor = event.target.value; this.ChangeFontColor(`.card`); }, hidden: true })), h("ion-row", null, h("label", { htmlFor: 'fontTitleColor', class: 'button-9' }, "\u00C4ndra titelns textf\u00E4rg ", h("ion-icon", { class: "icon", name: "color-palette-sharp" })), h("input", { id: 'fontTitleColor', type: 'color', onChange: (event) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor(`.card`); }, hidden: true })), h("ion-row", null, h("api-ui", null))), h("ion-col", { class: "menu-row" }, h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Produktbilder:"), h("ion-toggle", { checked: (_a = config === null || config === void 0 ? void 0 : config.useProductImages) !== null && _a !== void 0 ? _a : false, onIonChange: (ev) => { this.useProductImages(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Logo:"), h("ion-toggle", { checked: (_b = config === null || config === void 0 ? void 0 : config.Logo) !== null && _b !== void 0 ? _b : false, onIonChange: (ev) => { this.useLogoPic(ev); } }))), h("ion-row", null, h("ion-item", { class: "toggle" }, h("ion-label", null, "Anv\u00E4nd Banner:"), h("ion-toggle", { checked: (_c = config === null || config === void 0 ? void 0 : config.banner) !== null && _c !== void 0 ? _c : false, onIonChange: (ev) => { this.useBanner(ev); } }))))))));
   }
   static get assetsDirs() { return ["../../../assets"]; }
+  get element() { return getElement(this); }
 };
 ToolbarComponent.style = toolbarComponentCss;
 

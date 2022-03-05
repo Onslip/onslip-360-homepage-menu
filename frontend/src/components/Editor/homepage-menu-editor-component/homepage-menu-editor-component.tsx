@@ -2,6 +2,8 @@ import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core'
 import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
+
+
 import '@ionic/core'
 
 @Component({
@@ -33,7 +35,7 @@ export class HomepageMenuEditorComponent {
     }
   }
 
-  private LoadConfig(element) {
+  private async LoadConfig(element, element1) {
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
     if (config?.font.fontWeight == true) {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = 'bold';
@@ -41,19 +43,18 @@ export class HomepageMenuEditorComponent {
     if (config?.font.fontStyle == true) {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontSize = "x-large";
+    document.querySelector(element1).style.fontSize = config.font.fontSize;
 
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
   }
 
-  componentDidLoad() {
-    this.LoadConfig('.menuContainer');
-
+  async componentDidLoad() {
+    this.LoadConfig('.menuContainer', ':root');
   }
+
   private async LoadBackground(image) {
     const loadedImage = await loadImage(image).catch(err => err)
     document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
-
   }
 
   private async LoadLogo(image, element) {
@@ -66,7 +67,6 @@ export class HomepageMenuEditorComponent {
     img.src = loadedImage.toString();
     if (config.Logo) {
       this.element.shadowRoot.querySelector(element).appendChild(img);
-
     }
   }
 
@@ -74,12 +74,12 @@ export class HomepageMenuEditorComponent {
     const loadedImage = await loadImage(image).catch(err => err);
     if (config.banner) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
-
     }
   }
 
-  render() {
 
+
+  render() {
     return (
       < Host >
         <div>
@@ -89,12 +89,11 @@ export class HomepageMenuEditorComponent {
           <div class='header'></div>
           <menu-editor-component></menu-editor-component>
         </div>
-
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
+
       </Host >
     )
-
   }
 }

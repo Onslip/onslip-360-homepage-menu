@@ -1,10 +1,10 @@
-import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-788b94ef.js';
-import { c as chevronDown, f as caretUpSharp, g as chevronForward, h as caretDownSharp, a as chevronBack } from './index-b1e35e86.js';
-import { g as getIonMode } from './ionic-global-26489203.js';
-import { startFocusVisible } from './focus-visible-d64913fb.js';
-import { r as raf, g as getElementRoot, d as renderHiddenInput } from './helpers-6b9231fe.js';
-import { i as isRTL } from './index-dcfab02c.js';
-import { c as createColorClasses } from './theme-4c258838.js';
+import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-7693580e.js';
+import { c as chevronDown, f as caretUpSharp, g as chevronForward, h as caretDownSharp, a as chevronBack } from './index-46b049a1.js';
+import { g as getIonMode } from './ionic-global-5a29f32f.js';
+import { startFocusVisible } from './focus-visible-adf10edc.js';
+import { r as raf, g as getElementRoot, d as renderHiddenInput } from './helpers-bc25ace2.js';
+import { i as isRTL } from './index-22d105ac.js';
+import { c as createColorClasses } from './theme-6baffa69.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
@@ -1627,9 +1627,9 @@ let Datetime = class {
      * the date that is currently selected, otherwise
      * there can be 1 hr difference when dealing w/ DST
      */
-    const date = new Date(convertDataToISO(this.workingParts));
-    this.workingParts.tzOffset = date.getTimezoneOffset() * -1;
-    this.value = convertDataToISO(this.workingParts);
+    const date = new Date(convertDataToISO(this.activeParts));
+    this.activeParts.tzOffset = date.getTimezoneOffset() * -1;
+    this.value = convertDataToISO(this.activeParts);
     if (closeOverlay) {
       this.closeParentOverlay();
     }
