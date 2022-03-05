@@ -1,21 +1,7 @@
-<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode } from './ionic-global-5a29f32f.js';
 import { m as getAriaLabel, d as renderHiddenInput } from './helpers-bc25ace2.js';
 import { c as createColorClasses, h as hostContext } from './theme-6baffa69.js';
-=======
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-import { m as getAriaLabel, d as renderHiddenInput } from './helpers-730f41c7.js';
-import { c as createColorClasses, h as hostContext } from './theme-31a4dfd9.js';
-=======
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
-import { g as getIonMode } from './ionic-global-26489203.js';
-import { m as getAriaLabel, d as renderHiddenInput } from './helpers-6b9231fe.js';
-import { c as createColorClasses, h as hostContext } from './theme-4c258838.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
->>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const checkboxIosCss = ":host{--background-checked:var(--ion-color-primary, #3880ff);--border-color-checked:var(--ion-color-primary, #3880ff);--checkmark-color:var(--ion-color-primary-contrast, #fff);--checkmark-width:1;--transition:none;display:inline-block;position:relative;user-select:none;z-index:2}:host(.ion-color){--background-checked:var(--ion-color-base);--border-color-checked:var(--ion-color-base);--checkmark-color:var(--ion-color-contrast)}label{left:0;top:0;margin-left:0;margin-right:0;margin-top:0;margin-bottom:0;position:absolute;width:100%;height:100%;border:0;background:transparent;cursor:pointer;appearance:none;outline:none;display:flex;align-items:center;opacity:0}[dir=rtl] label,:host-context([dir=rtl]) label{left:unset;right:unset;right:0}label::-moz-focus-inner{border:0}input{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;margin:0;padding:0;border:0;outline:0;clip:rect(0 0 0 0);opacity:0;overflow:hidden;-webkit-appearance:none;-moz-appearance:none}.checkbox-icon{border-radius:var(--border-radius);display:block;position:relative;width:100%;height:100%;transition:var(--transition);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-sizing:border-box}.checkbox-icon path{fill:none;stroke:var(--checkmark-color);stroke-width:var(--checkmark-width);opacity:0}:host(.checkbox-checked) .checkbox-icon,:host(.checkbox-indeterminate) .checkbox-icon{border-color:var(--border-color-checked);background:var(--background-checked)}:host(.checkbox-checked) .checkbox-icon path,:host(.checkbox-indeterminate) .checkbox-icon path{opacity:1}:host(.checkbox-disabled){pointer-events:none}:host{--border-radius:50%;--border-width:1px;--border-style:solid;--border-color:rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.23);--background:var(--ion-item-background, var(--ion-background-color, #fff));--size:26px;width:var(--size);height:var(--size)}:host(.checkbox-disabled){opacity:0.3}:host(.in-item){margin-left:0;margin-right:8px;margin-top:10px;margin-bottom:9px;display:block;position:static}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.in-item){margin-left:unset;margin-right:unset;-webkit-margin-start:0;margin-inline-start:0;-webkit-margin-end:8px;margin-inline-end:8px}}:host(.in-item[slot=start]){margin-left:2px;margin-right:20px;margin-top:8px;margin-bottom:8px}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.in-item[slot=start]){margin-left:unset;margin-right:unset;-webkit-margin-start:2px;margin-inline-start:2px;-webkit-margin-end:20px;margin-inline-end:20px}}";
 

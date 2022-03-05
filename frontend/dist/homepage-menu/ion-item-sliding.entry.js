@@ -1,18 +1,6 @@
-<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode } from './ionic-global-5a29f32f.js';
 import { j as isEndSide } from './helpers-bc25ace2.js';
-=======
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-import { k as isEndSide } from './helpers-730f41c7.js';
-=======
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
-import { g as getIonMode } from './ionic-global-26489203.js';
-import { j as isEndSide } from './helpers-6b9231fe.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
->>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const itemSlidingCss = "ion-item-sliding{display:block;position:relative;width:100%;overflow:hidden;user-select:none}ion-item-sliding .item{user-select:none}.item-sliding-active-slide .item{position:relative;transition:transform 500ms cubic-bezier(0.36, 0.66, 0.04, 1);opacity:1;z-index:2;pointer-events:none;will-change:transform}.item-sliding-active-swipe-end .item-options-end .item-option-expandable{padding-left:100%;order:1;transition-duration:0.6s;transition-property:padding-left}[dir=rtl] .item-sliding-active-swipe-end .item-options-end .item-option-expandable,:host-context([dir=rtl]) .item-sliding-active-swipe-end .item-options-end .item-option-expandable{order:-1}.item-sliding-active-swipe-start .item-options-start .item-option-expandable{padding-right:100%;order:-1;transition-duration:0.6s;transition-property:padding-right}[dir=rtl] .item-sliding-active-swipe-start .item-options-start .item-option-expandable,:host-context([dir=rtl]) .item-sliding-active-swipe-start .item-options-start .item-option-expandable{order:1}";
 

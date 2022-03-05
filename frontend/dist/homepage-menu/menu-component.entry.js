@@ -1,18 +1,7 @@
-<<<<<<< HEAD
 import { r as registerInstance, h, i as Host } from './index-7693580e.js';
-=======
-<<<<<<< HEAD
-import { r as registerInstance, h, i as Host } from './index-342c6706.js';
-import { G as GetData } from './get-282952cd.js';
-
-const menuComponentCss = ":host{display:block}.menu{font-family:sans-serif;font-size:14px;border:10px #faf8f61c solid}";
-=======
-import { r as registerInstance, h, i as Host } from './index-788b94ef.js';
->>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 import { G as GetData } from './get-282952cd.js';
 
 const menuComponentCss = ":host{display:block}.menu{font-family:sans-serif;border:10px #faf8f61c solid}";
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
 
 let MenuComponent = class {
   constructor(hostRef) {

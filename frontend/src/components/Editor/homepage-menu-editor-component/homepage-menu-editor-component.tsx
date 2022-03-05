@@ -52,6 +52,11 @@ export class HomepageMenuEditorComponent {
     document.querySelector(element1).style.fontSize = config.font.fontSize;
 
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    if (config?.font.fontOutline) {
+      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+
+    }
+
   }
 
   async componentDidLoad() {

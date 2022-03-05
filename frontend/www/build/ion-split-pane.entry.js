@@ -1,15 +1,5 @@
-<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, l as Build, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode } from './ionic-global-5a29f32f.js';
-=======
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, o as Build, h, i as Host, j as getElement } from './index-342c6706.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-=======
-import { r as registerInstance, k as createEvent, l as Build, h, i as Host, j as getElement } from './index-788b94ef.js';
-import { g as getIonMode } from './ionic-global-26489203.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
->>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const splitPaneIosCss = ":host{--side-width:100%;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;flex-direction:row;flex-wrap:nowrap;contain:strict}::slotted(ion-menu.menu-pane-visible){flex:0 1 auto;width:var(--side-width);min-width:var(--side-min-width);max-width:var(--side-max-width)}:host(.split-pane-visible) ::slotted(.split-pane-side),:host(.split-pane-visible) ::slotted(.split-pane-main){left:0;right:0;top:0;bottom:0;position:relative;box-shadow:none !important;z-index:0}:host(.split-pane-visible) ::slotted(.split-pane-main){flex:1}:host(.split-pane-visible) ::slotted(.split-pane-side:not(ion-menu)),:host(.split-pane-visible) ::slotted(ion-menu.split-pane-side.menu-enabled){display:flex;flex-shrink:0}::slotted(.split-pane-side:not(ion-menu)){display:none}:host(.split-pane-visible) ::slotted(.split-pane-side){order:-1}:host(.split-pane-visible) ::slotted(.split-pane-side[side=end]){order:1}:host{--border:0.55px solid var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-250, #c8c7cc)));--side-min-width:270px;--side-max-width:28%}:host(.split-pane-visible) ::slotted(.split-pane-side){border-left:0;border-right:var(--border);border-top:0;border-bottom:0;min-width:var(--side-min-width);max-width:var(--side-max-width)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.split-pane-visible) ::slotted(.split-pane-side){border-left:unset;border-right:unset;-webkit-border-start:0;border-inline-start:0;-webkit-border-end:var(--border);border-inline-end:var(--border)}}:host(.split-pane-visible) ::slotted(.split-pane-side[side=end]){border-left:var(--border);border-right:0;border-top:0;border-bottom:0;min-width:var(--side-min-width);max-width:var(--side-max-width)}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){:host(.split-pane-visible) ::slotted(.split-pane-side[side=end]){border-left:unset;border-right:unset;-webkit-border-start:var(--border);border-inline-start:var(--border);-webkit-border-end:0;border-inline-end:0}}";
 

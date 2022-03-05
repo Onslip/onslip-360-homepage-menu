@@ -1,27 +1,9 @@
-<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode } from './ionic-global-5a29f32f.js';
 import { k as focusElement, h as findItemLabel, m as getAriaLabel, d as renderHiddenInput } from './helpers-bc25ace2.js';
 import { c as popoverController, f as actionSheetController, h as alertController } from './overlays-ed2dd353.js';
 import { h as hostContext } from './theme-6baffa69.js';
 import './hardware-back-button-68bb8b9b.js';
-=======
-<<<<<<< HEAD
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
-import { g as getIonMode } from './ionic-global-6c01899d.js';
-import { f as focusElement, j as findItemLabel, m as getAriaLabel, d as renderHiddenInput } from './helpers-730f41c7.js';
-import { c as popoverController, h as actionSheetController, j as alertController } from './overlays-a3c7fc80.js';
-import { h as hostContext } from './theme-31a4dfd9.js';
-import './hardware-back-button-33350ee9.js';
-=======
-import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
-import { g as getIonMode } from './ionic-global-26489203.js';
-import { k as focusElement, h as findItemLabel, m as getAriaLabel, d as renderHiddenInput } from './helpers-6b9231fe.js';
-import { c as popoverController, f as actionSheetController, h as alertController } from './overlays-a1b3098d.js';
-import { h as hostContext } from './theme-4c258838.js';
-import './hardware-back-button-6ebf44bb.js';
->>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
->>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
