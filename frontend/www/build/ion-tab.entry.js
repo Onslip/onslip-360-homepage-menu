@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 import { r as registerInstance, l as Build, h, i as Host, j as getElement } from './index-7693580e.js';
 import { a as attachComponent } from './framework-delegate-077de7f3.js';
 import './helpers-bc25ace2.js';
+=======
+<<<<<<< HEAD
+import { r as registerInstance, o as Build, h, i as Host, j as getElement } from './index-342c6706.js';
+import { a as attachComponent } from './framework-delegate-10d8e2b2.js';
+import './helpers-730f41c7.js';
+=======
+import { r as registerInstance, l as Build, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { a as attachComponent } from './framework-delegate-727ec5ef.js';
+import './helpers-6b9231fe.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
+>>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const tabCss = ":host(.tab-hidden){display:none !important}";
 

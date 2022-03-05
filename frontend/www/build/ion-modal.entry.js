@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode, c as config } from './ionic-global-5a29f32f.js';
 import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-077de7f3.js';
@@ -10,6 +11,35 @@ import { c as createAnimation } from './animation-585a999d.js';
 import { g as getTimeGivenProgression } from './cubic-bezier-ec8cd7a6.js';
 import { createGesture } from './index-d357f9df.js';
 import './hardware-back-button-68bb8b9b.js';
+=======
+<<<<<<< HEAD
+import { r as registerInstance, k as createEvent, m as writeTask, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode, c as config } from './ionic-global-6c01899d.js';
+import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-10d8e2b2.js';
+import { e as clamp, g as getElementRoot, r as raf } from './helpers-730f41c7.js';
+import { KEYBOARD_DID_OPEN } from './keyboard-0b669d15.js';
+import { B as BACKDROP, a as prepareOverlay, p as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-a3c7fc80.js';
+import { g as getClassMap } from './theme-31a4dfd9.js';
+import { d as deepReady } from './index-775972f5.js';
+import { c as createAnimation } from './animation-c6a5635b.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
+import { createGesture } from './index-8b0b4762.js';
+import './hardware-back-button-33350ee9.js';
+=======
+import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode, c as config } from './ionic-global-26489203.js';
+import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-727ec5ef.js';
+import { e as clamp, g as getElementRoot, r as raf } from './helpers-6b9231fe.js';
+import { KEYBOARD_DID_OPEN } from './keyboard-23689d85.js';
+import { B as BACKDROP, p as prepareOverlay, a as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-a1b3098d.js';
+import { g as getClassMap } from './theme-4c258838.js';
+import { d as deepReady } from './index-e966bfe1.js';
+import { c as createAnimation } from './animation-e15eb3eb.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-421c496a.js';
+import { createGesture } from './index-ec4a3eb4.js';
+import './hardware-back-button-6ebf44bb.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
+>>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

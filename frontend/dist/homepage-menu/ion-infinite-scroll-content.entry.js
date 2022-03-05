@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 import { r as registerInstance, h, i as Host } from './index-7693580e.js';
 import { g as getIonMode, c as config } from './ionic-global-5a29f32f.js';
 import { s as sanitizeDOMString } from './index-ebcd96a4.js';
+=======
+<<<<<<< HEAD
+import { r as registerInstance, h, i as Host } from './index-342c6706.js';
+import { g as getIonMode, c as config } from './ionic-global-6c01899d.js';
+import { s as sanitizeDOMString } from './index-0a318573.js';
+=======
+import { r as registerInstance, h, i as Host } from './index-788b94ef.js';
+import { g as getIonMode, c as config } from './ionic-global-26489203.js';
+import { s as sanitizeDOMString } from './index-fe6a3b35.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
+>>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const infiniteScrollContentIosCss = "ion-infinite-scroll-content{display:flex;flex-direction:column;justify-content:center;min-height:84px;text-align:center;user-select:none}.infinite-loading{margin-left:0;margin-right:0;margin-top:0;margin-bottom:32px;display:none;width:100%}.infinite-loading-text{margin-left:32px;margin-right:32px;margin-top:4px;margin-bottom:0}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.infinite-loading-text{margin-left:unset;margin-right:unset;-webkit-margin-start:32px;margin-inline-start:32px;-webkit-margin-end:32px;margin-inline-end:32px}}.infinite-scroll-loading ion-infinite-scroll-content>.infinite-loading{display:block}.infinite-scroll-content-ios .infinite-loading-text{color:var(--ion-color-step-600, #666666)}.infinite-scroll-content-ios .infinite-loading-spinner .spinner-lines-ios line,.infinite-scroll-content-ios .infinite-loading-spinner .spinner-lines-small-ios line,.infinite-scroll-content-ios .infinite-loading-spinner .spinner-crescent circle{stroke:var(--ion-color-step-600, #666666)}.infinite-scroll-content-ios .infinite-loading-spinner .spinner-bubbles circle,.infinite-scroll-content-ios .infinite-loading-spinner .spinner-circles circle,.infinite-scroll-content-ios .infinite-loading-spinner .spinner-dots circle{fill:var(--ion-color-step-600, #666666)}";
 

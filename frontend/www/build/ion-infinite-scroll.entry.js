@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, o as writeTask, m as readTask, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode } from './ionic-global-5a29f32f.js';
 import { c as componentOnReady } from './helpers-bc25ace2.js';
+=======
+<<<<<<< HEAD
+import { r as registerInstance, k as createEvent, m as writeTask, l as readTask, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode } from './ionic-global-6c01899d.js';
+import { c as componentOnReady } from './helpers-730f41c7.js';
+=======
+import { r as registerInstance, k as createEvent, o as writeTask, m as readTask, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode } from './ionic-global-26489203.js';
+import { c as componentOnReady } from './helpers-6b9231fe.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
+>>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const infiniteScrollCss = "ion-infinite-scroll{display:none;width:100%}.infinite-scroll-enabled{display:block}";
 

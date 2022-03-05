@@ -1,7 +1,21 @@
+<<<<<<< HEAD
 import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
 import { g as getIonMode } from './ionic-global-5a29f32f.js';
 import { c as componentOnReady } from './helpers-bc25ace2.js';
 import { c as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-3c93dfcb.js';
+=======
+<<<<<<< HEAD
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-342c6706.js';
+import { g as getIonMode } from './ionic-global-6c01899d.js';
+import { c as componentOnReady } from './helpers-730f41c7.js';
+import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-1114c98f.js';
+=======
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode } from './ionic-global-26489203.js';
+import { c as componentOnReady } from './helpers-6b9231fe.js';
+import { a as hapticSelectionStart, b as hapticSelectionChanged, c as hapticSelectionEnd } from './haptic-807aca0c.js';
+>>>>>>> 3b12805dad8fe72e499827a3b3e65f032a0e4e29
+>>>>>>> 9cae828372239e49d614edeb6fb358732d904dc9
 
 const reorderGroupCss = ".reorder-list-active>*{transition:transform 300ms;will-change:transform}.reorder-enabled{user-select:none}.reorder-enabled ion-reorder{display:block;cursor:grab;pointer-events:all;touch-action:none}.reorder-selected,.reorder-selected ion-reorder{cursor:grabbing}.reorder-selected{position:relative;transition:none !important;box-shadow:0 0 10px rgba(0, 0, 0, 0.4);opacity:0.8;z-index:100}.reorder-visible ion-reorder .reorder-icon{transform:translate3d(0,  0,  0)}";
 
