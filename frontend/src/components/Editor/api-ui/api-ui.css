@@ -24,7 +24,7 @@
 
 .modal-wrapper .modal {
   background: white;
-  width: 22rem;
+  width: 20%;
   height: auto;
   position: absolute;
   left: 50%;
@@ -142,6 +142,7 @@
   height: max-content;
   width: fit-content;
 }
+
 .icon {
   float: right;
 }
@@ -220,7 +221,7 @@
 }
 
 input {
-   width: 300px;
+   width: 200px;
 }
 
 .inputfield {

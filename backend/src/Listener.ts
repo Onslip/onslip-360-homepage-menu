@@ -33,8 +33,6 @@ export class Listener {
 
 
     private async CreateDB() {
-        const name = (await this.api.getCompanyInfo()).name;
-        console.log(name);
         await this.db.query<DBQuery[]>`create schema if not exists onslip`;
         this.CreateGroupTable();
     }

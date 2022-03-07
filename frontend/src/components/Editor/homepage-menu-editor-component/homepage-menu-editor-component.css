@@ -4,33 +4,27 @@
 }
 
 .menuContainer {
-  padding: 5px;
   margin: 100px auto;
   width: 65%;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(15px) saturate(120%) contrast(200%);
-  font-weight: bold;
-  font-style: italic;
+  text-shadow: none;
 }
 
 .menuContainer[data-status='Preset 1'] {
   border: 2px solid rgb(94, 93, 93);
   box-shadow: 3px 3px 1px #00000056;
   border-radius: 2px;
-  /* background: rgba(255, 255, 255, 0.6);  */
 }
 
 .menuContainer[data-status='Preset 2'] {
   box-shadow: 0 30px 40px rgba(0,0,0,.1);
-  margin: 100px auto;
   border-radius: 2px;
-  /* background: rgba(255, 255, 255, 0.6);  */
-
-  
-
 }
 
 .menuContainer[data-status='Preset 3'] {
+  box-shadow: 10px 10px 10px black;
+  border: 5px solid black;
   
 }
 

@@ -1,10 +1,20 @@
 {
-    "useProductImages": true,
+    "useProductImages": false,
     "background": {
-        "color": "#9a9ee7",
-        "enabled": false
+        "color": "#fe9f9f",
+        "enabled": true
     },
-    "font": "'Times New Roman', Times, serif",
-    "menuBackground": "#cdefdf",
-    "preset": "Preset 1"
+    "font": {
+        "fontWeight": true,
+        "fontStyle": true,
+        "fontSize": "2em",
+        "fontFamily": "Verdana, Geneva, Tahoma, sans-serif",
+        "fontColor": "#ea8f8f",
+        "fontTitleColor": "#8b3232",
+        "fontOutline": true
+    },
+    "menuBackground": "#f0c7c7",
+    "preset": "Preset 1",
+    "Logo": true,
+    "banner": true
 }
