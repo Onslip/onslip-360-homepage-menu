@@ -33,13 +33,12 @@ export class Listener {
 
 
     private async CreateDB() {
-        const name = (await this.api.getCompanyInfo()).name;
-        console.log(name);
         await this.db.query<DBQuery[]>`create schema if not exists onslip`;
         this.CreateGroupTable();
     }
     private async CreateProductImageTable() {
         await this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT PRIMARY KEY REFERENCES onslip.products(id))`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.categoryimages (image bytea, category_id INT PRIMARY KEY REFERENCES onslip.productcategories(id))`;
         await this.db.query<DBQuery[]>`create table if not exists onslip.images (image bytea, id INT PRIMARY KEY);`
     }
 

@@ -1,5 +1,6 @@
 :host {
   display: block;
+  font-size: 2em;
 }
 
 .prodContainer-no-image {
@@ -60,3 +61,4 @@
   background-color: rgba(0, 0, 0, 0.644);
   border: 3px solid black 
 }
+

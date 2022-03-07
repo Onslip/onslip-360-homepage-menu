@@ -4,7 +4,6 @@
 }
 
 .menuContainer {
-  padding: 5px;
   margin: 100px auto;
   width: 65%;
   background-color: rgba(255, 255, 255, 0.5);
@@ -12,23 +11,17 @@
 }
 
 .menuContainer[data-status='Preset 1'] {
-  border: 2px solid rgb(94, 93, 93);
-  box-shadow: 3px 3px 1px #00000056;
-  border-radius: 2px;
-  /* background: rgba(255, 255, 255, 0.6);  */
-}
+  border: 5px groove transparent;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;}
 
 .menuContainer[data-status='Preset 2'] {
-  box-shadow: 0 30px 40px rgba(0,0,0,.1);
-  margin: 100px auto;
-  border-radius: 2px;
-  /* background: rgba(255, 255, 255, 0.6);  */
-
-  
-
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    border-radius: 2px;
 }
 
 .menuContainer[data-status='Preset 3'] {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    border: 5px solid black;
   
 }
 
@@ -56,6 +49,27 @@
   width: 100px;
   float: right;
   margin: auto;
+}
+
+.toggle {
+  position:absolute;
+  right: 0;
+  margin-top: 13%; 
+  --background: var(--primary)
+.no-banner img {
+  width: 100px;
+  float: center;
+  margin: auto;
+}
+
+.no-banner {
+  text-align: center;
+  font-size: 1.3rem;
+  width: 100%;
+  height: 4rem;
+  background-position: center;
+  background-size:cover;
+  background-repeat: no-repeat;
 }
 
 @media only screen and (max-width: 1000px) {

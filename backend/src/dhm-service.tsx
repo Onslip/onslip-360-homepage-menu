@@ -1,4 +1,4 @@
-import { DatabaseURI, DBQuery, FIELDS, FormData, HEADERS, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
@@ -25,6 +25,8 @@ export class DHMService {
 
     asWebService(): WebService<this> {
         const svc = this;
+        //const compName = svc.api.getAccount.name;
+
         return new WebService(this)
 
             .addFilter(class extends CORSFilter {
@@ -86,6 +88,19 @@ export class DHMService {
                     return data;
                 }
             })
+            .addResource(class implements WebResource {
+                static path = /location/;
+                async GET() {
+                    const data = await (await svc.api.getLocation(1))['company-name'];
+                    return JSON.stringify(data ?? [0]);
+                }
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData;
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.json);
+                    return data;
+                }
+            })
 
 
             .addResource(class implements WebResource {
@@ -97,6 +112,7 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     const body = await args.body()
+                    console.log(body)
                     writeFileSync('./config.json', JSON.stringify(body));
                     return args.body();
                 }
@@ -126,10 +142,6 @@ export class DHMService {
                     await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
                     return data;
                 }
-                async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select * from onslip.productimages`
-                    return data[0]
-                }
             })
     }
 
@@ -152,10 +164,10 @@ key = '${api.key}'                                    # User's Base64-encoded AP
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
-        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`
-        const products = await this.db.query<DBproduct[]>`select * from onslip.products`
-        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`
-        images.filter(x => x.product_id == 21).map(z => console.log(z.image))
+        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
+        const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
+        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`;
+
         return categories.map(c => ({
             category: {
                 name: c.name
@@ -173,7 +185,12 @@ key = '${api.key}'                                    # User's Base64-encoded AP
         this.listener.Listener();
         return await this.GetProdByGroup();
     }
+
+
+
 }
+
+
 interface DBproduct {
     id: number
     name: string
@@ -211,3 +228,21 @@ interface newApi {
     id: string,
     uri: string
 }
+
+interface Styleconfig {
+    background: {
+        enabled: boolean
+        color: string,
+    },
+    useProductImages: true,
+    font: {
+        fontFamily: string,
+        fontWeight: boolean;
+        fontStyle: boolean;
+        fontSize: number;
+    }
+    preset: string,
+    menuBackground: string,
+}
+
+const a: Styleconfig = JSON.parse(JSON.stringify(readFileSync('./config.json').toString()));

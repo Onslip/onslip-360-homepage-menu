@@ -1,4 +1,5 @@
-import { Component, Host, h, State, Prop, Element, getAssetPath } from '@stencil/core';
+
+import { Component, Host, h, State, Prop, getAssetPath } from '@stencil/core';
 import { PostData } from '../../utils/post';
 import { config } from '../../utils/utils';
 
@@ -6,7 +7,7 @@ import { config } from '../../utils/utils';
   tag: 'selector-component',
   styleUrl: 'selector-component.css',
   shadow: true,
-  assetsDirs: ['assets'],
+  assetsDirs: ['assets']
 })
 export class SelectorComponent {
   @Prop() DropDownvalues: string[];
@@ -18,14 +19,15 @@ export class SelectorComponent {
   @Prop() type: string
   @State() buttonPressed: boolean = config.font.fontWeight;
   @State() butpress: boolean = config.font.fontStyle;
+  @State() buttonpress: boolean = config.font.fontOutline;
 
   async FontStyle(element) {
-    if (config?.font.fontStyle == false) {
+    if (config?.font?.fontStyle == false) {
       this.butpress = true;
       config.font.fontStyle = true;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
-    else if (config?.font.fontStyle == true) {
+    else if (config?.font?.fontStyle == true) {
       this.butpress = false;
       config.font.fontStyle = false;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'normal';
@@ -33,13 +35,28 @@ export class SelectorComponent {
     await PostData('http://localhost:8080/config', config)
   }
 
+  async FontOutline(element) {
+    if (config?.font?.fontOutline == false) {
+      this.buttonpress = true;
+      config.font.fontOutline = true;
+      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element)
+        .style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+    }
+    else if (config?.font?.fontOutline == true) {
+      this.buttonpress = false;
+      config.font.fontOutline = false;
+      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = 'none';
+    }
+    await PostData('http://localhost:8080/config', config)
+  }
+
   async FontWeight(element) {
-    if (config?.font.fontWeight == false) {
+    if (config?.font?.fontWeight == false) {
       this.buttonPressed = true;
       config.font.fontWeight = true;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = 'bold';
     }
-    else if (config?.font.fontWeight == true) {
+    else if (config?.font?.fontWeight == true) {
       this.buttonPressed = false;
 
       config.font.fontWeight = false;
@@ -49,44 +66,65 @@ export class SelectorComponent {
   }
 
   async FontSize(value, element) {
+    document.querySelector(element).style.fontSize = value
     config.font.fontSize = value;
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontSize = value;
     await PostData('http://localhost:8080/config', config)
   }
 
   async action(event, element) {
     if (this.type == 'font') {
-      console.log(event);
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
       config.font.fontFamily = event;
     }
-
     else if (this.type == 'preset') {
-      console.log(event);
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
       config.preset = event;
     }
     await PostData('http://localhost:8080/config', config)
   }
 
+  private customPopoverOptions: any = {
+    reference: "event",
+  };
+  myFunction(event) {
+    document.getElementById("myDropdown").classList.toggle("show");
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
   render() {
     return (
-      <Host >
+      <Host>
         <ion-row>
-          <ion-item class={this.menu ? 'is-open' : 'is-closed'} >
-            <ion-select onIonChange={(event: any) => this.action(event.target.value, this.element)} value={this.value} interface='action-sheet'>
-              {this.DropDownvalues.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
-            </ion-select>
-            {this.type == 'font' ? [
-              <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.FontWeight('.menuContainer') }}>B</ion-button>,
-              <ion-button class={this.butpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontStyle('.menuContainer') }}>I</ion-button>,
-              <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, this.element)} value={getAssetPath('./assets/font-size.svg')} interface='action-sheet'>
-                <ion-select-option value={'smaller'}>Smaller</ion-select-option>
-                <ion-select-option value={'small'}>Small</ion-select-option>
-                <ion-select-option value={'medium'}>Medium</ion-select-option>
-                <ion-select-option value={'large'}>Large</ion-select-option>
-                <ion-select-option value={'larger'}>Larger</ion-select-option>
+          <ion-item class={this.menu ? 'is-open' : 'is-closed'}>
+            <ion-item>
+              <ion-select onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions}>
+                {this.DropDownvalues.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
               </ion-select>
+            </ion-item>
+            {this.type == 'font' ? [
+              <ion-item lines='none'>
+                <ion-item class='sizeSelet' button='true'>
+                  <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label' selectedText={<ion-icon src={getAssetPath('assets/font-size.svg')} />} >
+                    <ion-select-option value={'2em'}>Larger</ion-select-option>
+                    <ion-select-option value={'1.5em'}>Large</ion-select-option>
+                    <ion-select-option value={'1em'}>Medium</ion-select-option>
+                    <ion-select-option value={'0.75em'}>Small</ion-select-option>
+                    <ion-select-option value={'0.5em'}>Smaller</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.FontWeight('.menuContainer') }}>B</ion-button>
+                <ion-button class={this.butpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontStyle('.menuContainer') }}>I</ion-button>
+                <ion-button class={this.buttonpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontOutline('.menuContainer') }}>A</ion-button>
+              </ion-item>
             ]
               : null}
           </ion-item>
@@ -94,8 +132,7 @@ export class SelectorComponent {
             <ion-icon name={this.menu ? 'arrow-back-sharp' : this.IconName}></ion-icon>
           </ion-button>
         </ion-row>
-      </Host >
+      </Host>
     );
   }
 }
-
