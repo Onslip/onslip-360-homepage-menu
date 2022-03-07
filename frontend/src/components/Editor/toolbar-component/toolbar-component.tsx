@@ -19,29 +19,32 @@ export class ToolbarComponent {
 
   async useProductImages(event) {
     config.useProductImages = event.detail.checked
-    this.submitForm()
+    await this.submitForm()
+    // location.reload()
   }
 
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
-    this.submitForm();
+    await this.submitForm();
+    // location.reload();
   }
 
   async useBanner(event) {
     config.banner = event.detail.checked;
-    this.submitForm();
+    await this.submitForm();
+    // location.reload();
   }
 
   async changeColor() {
     config.background.enabled = true
     document.body.style.backgroundImage = null;
     document.body.style.backgroundColor = config?.background.color;
-    this.submitForm();
+    PostData('http://localhost:8080/config', config);
   }
 
   async ChangeFontColor(element) {
-    const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
-    a.style = { color: config.font.fontColor }
+    // const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
+    // a.style = { color: config.font.fontColor };
     this.submitForm();
   }
 
@@ -51,13 +54,13 @@ export class ToolbarComponent {
 
   async ChangeMenuColor(element) {
     console.log(config)
-    document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector(element).style.background = config?.menuBackground;
-    this.submitForm();
+    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    PostData('http://localhost:8080/config', config);
   }
 
   async submitForm() {
-    await PostData('http://localhost:8080/config', config);
-    location.reload()
+    PostData('http://localhost:8080/config', config);
+    location.reload();
   }
 
   render() {

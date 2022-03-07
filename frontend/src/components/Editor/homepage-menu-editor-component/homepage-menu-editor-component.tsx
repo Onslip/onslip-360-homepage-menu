@@ -93,9 +93,9 @@ export class HomepageMenuEditorComponent {
         <div class='menuContainer' data-status={config?.preset}>
           <div class='header'></div>
           <menu-editor-component></menu-editor-component>
-          <div class='logoDiv'>
-            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-          </div>
+        </div>
+        <div class='logoDiv'>
+          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
       </Host>
     )

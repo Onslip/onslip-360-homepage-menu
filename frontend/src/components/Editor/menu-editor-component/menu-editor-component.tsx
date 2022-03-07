@@ -32,7 +32,6 @@ export class MenuEditorComponent {
   render() {
     return (
       <Host>
-
         <div class="error-message">
           <ion-label>{this.errormessage}</ion-label>
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
@@ -42,7 +41,6 @@ export class MenuEditorComponent {
             !this.loading ?
               this.responsedata?.map(data => {
                 return (
-
                   <ion-reorder slot="end">
                     <ion-card class='card' style={{ color: config.font.fontColor }}>
                       <category-editor-component category={data.category}></category-editor-component>
