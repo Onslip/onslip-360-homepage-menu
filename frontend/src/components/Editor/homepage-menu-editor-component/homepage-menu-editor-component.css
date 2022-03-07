@@ -53,6 +53,22 @@
   margin: auto;
 }
 
+.no-banner img {
+  width: 100px;
+  float: center;
+  margin: auto;
+}
+
+.no-banner {
+  text-align: center;
+  font-size: 1.3rem;
+  width: 100%;
+  height: 4rem;
+  background-position: center;
+  background-size:cover;
+  background-repeat: no-repeat;
+}
+
 @media only screen and (max-width: 1000px) {
   .menuContainer {
     width: 90%;

@@ -22,20 +22,39 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
 
   async componentWillLoad() {
-    if (config?.background.enabled == false) {
+    if (config?.background?.enabled == false) {
       GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
     }
     if (config?.banner == true) {
       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
     }
+   
     if (config?.Logo == true) {
+      if(config?.banner == true){
       GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+      }
+      else{
+      GetData(this.logoUrl).then(response => this.LoadLogo(response, '.no-banner')).catch(err => err);
+        
+      }
+      
     }
     else {
       GetData(this.locationUrl).then(response => {
+        console.log(this.element.shadowRoot.querySelector('.header'));
+
         const node = document.createElement("h1");
         node.innerText = response;
-        this.element.shadowRoot.querySelector('.header').appendChild(node)
+        if(config?.banner == true){
+        this.element.shadowRoot.querySelector('.header').appendChild(node);
+        }
+        else{
+          const divnode = document.createElement("div");
+          divnode.className = "no-banner";
+          this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
+          this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
+        }
+
       })
         .catch(err => console.log(err))
     }
@@ -71,10 +90,15 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image)
-    const img = document.createElement('img');
-    img.src = loadedImage.toString();
-    this.element.shadowRoot.querySelector(element).appendChild(img);
+    const loadedImage = await loadImage(image).catch(() => {
+      
+    })
+    if (config.Logo) {
+      const img = document.createElement('img');
+      img.src = loadedImage.toString();
+
+      this.element.shadowRoot.querySelector(element).appendChild(img);
+    }
   }
 
   private async LoadBanner(image, element) {
@@ -91,11 +115,11 @@ export class HomepageMenuEditorComponent {
           <toolbar-component></toolbar-component>
         </div>
         <div class='menuContainer' data-status={config?.preset}>
-          <div class='header'></div>
+          <div class={config?.banner?'header': 'no-banner'}></div>
           <menu-editor-component></menu-editor-component>
-        </div>
-        <div class='logoDiv'>
-          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          </div>
         </div>
       </Host>
     )
