@@ -19,20 +19,17 @@ export class ToolbarComponent {
 
   async useProductImages(event) {
     config.useProductImages = event.detail.checked
-    await this.submitForm()
-    location.reload()
+    this.submitForm()
   }
 
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
-    await this.submitForm();
-    location.reload();
+    this.submitForm();
   }
 
   async useBanner(event) {
     config.banner = event.detail.checked;
-    await this.submitForm();
-    location.reload();
+    this.submitForm();
   }
 
   async changeColor() {
@@ -59,7 +56,8 @@ export class ToolbarComponent {
   }
 
   async submitForm() {
-    PostData('http://localhost:8080/config', config);
+    await PostData('http://localhost:8080/config', config);
+    location.reload()
   }
 
   render() {

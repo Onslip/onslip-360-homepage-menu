@@ -71,19 +71,10 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image).catch(() => {
-      if (!config.Logo) {
-        const node = document.createElement("h1");
-        node.innerText = 'Martins Kolgrill'
-        this.element.shadowRoot.querySelector(element).appendChild(node)
-      }
-    })
-    if (config.Logo) {
-      const img = document.createElement('img');
-      img.src = loadedImage.toString();
-
-      this.element.shadowRoot.querySelector(element).appendChild(img);
-    }
+    const loadedImage = await loadImage(image)
+    const img = document.createElement('img');
+    img.src = loadedImage.toString();
+    this.element.shadowRoot.querySelector(element).appendChild(img);
   }
 
   private async LoadBanner(image, element) {
