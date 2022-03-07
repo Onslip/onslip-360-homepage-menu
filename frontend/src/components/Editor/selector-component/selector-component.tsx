@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { Component, Host, h, State, Prop, Element } from '@stencil/core';
-=======
 
 import { Component, Host, h, State, Prop, getAssetPath } from '@stencil/core';
->>>>>>> ab85da6133717deaae5e05f476f9450e981f0147
 import { PostData } from '../../utils/post';
 import { config } from '../../utils/utils';
 

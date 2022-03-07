@@ -50,11 +50,6 @@ export interface Styleconfig {
   }
   preset: string,
   menuBackground: string,
-  font: {
-    fontFamily: string,
-    fontWeight: boolean;
-    fontStyle: boolean;
-  }
 }
 
 export enum buttonvalues {

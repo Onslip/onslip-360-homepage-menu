@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { config, Presets } from '../../utils/utils';
+import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 
