@@ -40,18 +40,20 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadConfig(element, element1) {
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
-    if (config?.font.fontWeight == true) {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = 'bold';
-    }
-    if (config?.font.fontStyle == true) {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'italic';
-    }
+    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component')
+
+    component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
     document.querySelector(element1).style.fontSize = config.font.fontSize;
 
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    if (config?.font.fontWeight == true) {
+      component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
+    }
+    if (config?.font.fontStyle == true) {
+      component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
+    }
+    component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
     if (config?.font.fontOutline) {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+      component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
     }
   }
 
