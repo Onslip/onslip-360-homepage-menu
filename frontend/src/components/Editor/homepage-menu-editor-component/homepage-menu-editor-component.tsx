@@ -22,7 +22,9 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
 
   async componentWillLoad() {
-    GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    if (config?.background.enabled == false) {
+      GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    }
     if (config?.banner == true) {
       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
     }
@@ -40,18 +42,22 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadConfig(element, element1) {
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
+    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
+    component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
     if (config?.font.fontWeight == true) {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = 'bold';
+      component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
     }
     if (config?.font.fontStyle == true) {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'italic';
+      component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
     document.querySelector(element1).style.fontSize = config.font.fontSize;
 
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
     if (config?.font.fontOutline) {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+      component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+    }
+    if (config?.background.enabled == true) {
+      document.querySelector('body').style.background = config?.background.color;
     }
   }
 
