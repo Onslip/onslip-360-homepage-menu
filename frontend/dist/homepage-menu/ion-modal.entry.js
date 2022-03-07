@@ -1,15 +1,15 @@
-import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-7693580e.js';
-import { g as getIonMode, c as config } from './ionic-global-5a29f32f.js';
-import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-077de7f3.js';
-import { e as clamp, g as getElementRoot, r as raf } from './helpers-bc25ace2.js';
-import { KEYBOARD_DID_OPEN } from './keyboard-02ac0a24.js';
-import { B as BACKDROP, p as prepareOverlay, a as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-ed2dd353.js';
-import { g as getClassMap } from './theme-6baffa69.js';
-import { d as deepReady } from './index-c29935cc.js';
-import { c as createAnimation } from './animation-585a999d.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-ec8cd7a6.js';
-import { createGesture } from './index-d357f9df.js';
-import './hardware-back-button-68bb8b9b.js';
+import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { g as getIonMode, c as config } from './ionic-global-26489203.js';
+import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-727ec5ef.js';
+import { e as clamp, g as getElementRoot, r as raf } from './helpers-6b9231fe.js';
+import { KEYBOARD_DID_OPEN } from './keyboard-23689d85.js';
+import { B as BACKDROP, p as prepareOverlay, a as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-a1b3098d.js';
+import { g as getClassMap } from './theme-4c258838.js';
+import { d as deepReady } from './index-e966bfe1.js';
+import { c as createAnimation } from './animation-e15eb3eb.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-421c496a.js';
+import { createGesture } from './index-ec4a3eb4.js';
+import './hardware-back-button-6ebf44bb.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
@@ -480,28 +480,6 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
   const wrapperAnimation = animation.childAnimations.find(ani => ani.id === 'wrapperAnimation');
   const backdropAnimation = animation.childAnimations.find(ani => ani.id === 'backdropAnimation');
   const maxBreakpoint = breakpoints[breakpoints.length - 1];
-  const enableBackdrop = () => {
-    baseEl.style.setProperty('pointer-events', 'auto');
-    backdropEl.style.setProperty('pointer-events', 'auto');
-    /**
-     * When the backdrop is enabled, elements such
-     * as inputs should not be focusable outside
-     * the sheet.
-     */
-    baseEl.classList.remove('ion-disable-focus-trap');
-  };
-  const disableBackdrop = () => {
-    baseEl.style.setProperty('pointer-events', 'none');
-    backdropEl.style.setProperty('pointer-events', 'none');
-    /**
-     * When the backdrop is enabled, elements such
-     * as inputs should not be focusable outside
-     * the sheet.
-     * Adding this class disables focus trapping
-     * for the sheet temporarily.
-     */
-    baseEl.classList.add('ion-disable-focus-trap');
-  };
   /**
    * After the entering animation completes,
    * we need to set the animation to go from
@@ -521,13 +499,9 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
      * ion-backdrop and .modal-wrapper always have pointer-events: auto
      * applied, so the modal content can still be interacted with.
      */
-    const shouldEnableBackdrop = currentBreakpoint > backdropBreakpoint;
-    if (shouldEnableBackdrop) {
-      enableBackdrop();
-    }
-    else {
-      disableBackdrop();
-    }
+    const backdropEnabled = currentBreakpoint > backdropBreakpoint;
+    baseEl.style.setProperty('pointer-events', backdropEnabled ? 'auto' : 'none');
+    backdropEl.style.setProperty('pointer-events', backdropEnabled ? 'auto' : 'none');
   }
   if (contentEl && currentBreakpoint !== maxBreakpoint) {
     contentEl.scrollY = false;
@@ -634,13 +608,9 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
              * Backdrop should become enabled
              * after the backdropBreakpoint value
              */
-            const shouldEnableBackdrop = currentBreakpoint > backdropBreakpoint;
-            if (shouldEnableBackdrop) {
-              enableBackdrop();
-            }
-            else {
-              disableBackdrop();
-            }
+            const backdropEnabled = currentBreakpoint > backdropBreakpoint;
+            baseEl.style.setProperty('pointer-events', backdropEnabled ? 'auto' : 'none');
+            backdropEl.style.setProperty('pointer-events', backdropEnabled ? 'auto' : 'none');
             gesture.enable(true);
           });
         }
@@ -996,7 +966,6 @@ let Modal = class {
     if (dismissed) {
       const { delegate } = this.getDelegate();
       await detachComponent(delegate, this.usersElement);
-      writeTask(() => this.el.classList.remove('show-modal'));
       if (this.animation) {
         this.animation.destroy();
       }

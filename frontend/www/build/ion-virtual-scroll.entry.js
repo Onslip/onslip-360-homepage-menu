@@ -1,5 +1,5 @@
-import { r as registerInstance, m as readTask, o as writeTask, n as forceUpdate, h, i as Host, j as getElement } from './index-7693580e.js';
-import { c as componentOnReady } from './helpers-bc25ace2.js';
+import { r as registerInstance, m as readTask, o as writeTask, n as forceUpdate, h, i as Host, j as getElement } from './index-788b94ef.js';
+import { c as componentOnReady } from './helpers-6b9231fe.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

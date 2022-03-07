@@ -1,6 +1,6 @@
-import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-7693580e.js';
-import { g as globalScripts } from './app-globals-98857003.js';
-import './ionic-global-5a29f32f.js';
+import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-788b94ef.js';
+import { g as globalScripts } from './app-globals-ed3847a8.js';
+import './ionic-global-26489203.js';
 
 /*
  Stencil Client Patch Browser v2.14.0 | MIT Licensed | https://stenciljs.com

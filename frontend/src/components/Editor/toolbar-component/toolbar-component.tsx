@@ -119,19 +119,19 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }}></ion-toggle>
+                  <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Logo:</ion-label>
-                  <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }}></ion-toggle>
+                  <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Banner:</ion-label>
-                  <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }}></ion-toggle>
+                  <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
             </ion-col>

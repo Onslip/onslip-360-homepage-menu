@@ -1,8 +1,8 @@
-import { r as registerInstance, h, i as Host, j as getElement } from './index-7693580e.js';
+import { r as registerInstance, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { k as arrowDown, l as caretBackSharp } from './index-46b049a1.js';
-import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-5a29f32f.js';
-import { s as sanitizeDOMString } from './index-ebcd96a4.js';
-import { S as SPINNERS } from './spinner-configs-1e98dad7.js';
+import { g as getIonMode, c as config, a as isPlatform } from './ionic-global-26489203.js';
+import { s as sanitizeDOMString } from './index-fe6a3b35.js';
+import { S as SPINNERS } from './spinner-configs-58694919.js';
 
 let RefresherContent = class {
   constructor(hostRef) {

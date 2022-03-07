@@ -1,4 +1,4 @@
-import { r as registerInstance, h, i as Host, j as getElement } from './index-7693580e.js';
+import { r as registerInstance, h, i as Host, j as getElement } from './index-788b94ef.js';
 import { c as config } from './utils-e05ad1e8.js';
 import './get-282952cd.js';
 

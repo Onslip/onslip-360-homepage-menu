@@ -1,4 +1,4 @@
-import { r as registerInstance, h, i as Host } from './index-7693580e.js';
+import { r as registerInstance, h, i as Host } from './index-788b94ef.js';
 import { G as GetData } from './get-282952cd.js';
 
 const menuComponentCss = ":host{display:block}.menu{font-family:sans-serif;border:10px #faf8f61c solid}";

@@ -4,7 +4,6 @@
 }
 
 .menuContainer {
-  padding: 5px;
   margin: 100px auto;
   width: 65%;
   background-color: rgba(255, 255, 255, 0.5);
@@ -20,12 +19,13 @@
 
 .menuContainer[data-status='Preset 2'] {
   box-shadow: 0 30px 40px rgba(0,0,0,.1);
-  margin: 100px auto;
   border-radius: 2px;
 }
 
 .menuContainer[data-status='Preset 3'] {
-
+  box-shadow: 10px 10px 10px black;
+  border: 5px solid black;
+  
 }
 
 .logoDiv {

@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { config } from '../../utils/utils';
+import { config, Presets } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 
@@ -30,7 +30,6 @@ export class HomepageMenuEditorComponent {
       GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
     }
     else {
-
       GetData(this.locationUrl).then(response => {
         const node = document.createElement("h1");
         node.innerText = response;
@@ -38,7 +37,6 @@ export class HomepageMenuEditorComponent {
       })
         .catch(err => console.log(err))
     }
-
   }
 
   private async LoadConfig(element, element1) {
@@ -54,9 +52,7 @@ export class HomepageMenuEditorComponent {
     document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
     if (config?.font.fontOutline) {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
-
     }
-
   }
 
   async componentDidLoad() {
@@ -91,22 +87,19 @@ export class HomepageMenuEditorComponent {
     }
   }
 
-
-
   render() {
     return (
       < Host >
         <div>
           <toolbar-component></toolbar-component>
         </div>
-        <div class='menuContainer' >
+        <div class='menuContainer' data-status={config.preset}>
           <div class='header'></div>
           <menu-editor-component></menu-editor-component>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
-
       </Host >
     )
   }
