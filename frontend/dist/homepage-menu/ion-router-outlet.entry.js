@@ -1,9 +1,9 @@
-import { r as registerInstance, l as createEvent, h, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode, c as config } from './ionic-global-49bac6cf.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
-import { a as attachComponent, d as detachComponent } from './framework-delegate-10d8e2b2.js';
-import { s as shallowEqualStringMap } from './helpers-730f41c7.js';
-import { t as transition } from './index-63437bb5.js';
+import { r as registerInstance, k as createEvent, h, j as getElement } from './index-7693580e.js';
+import { g as getIonMode, c as config } from './ionic-global-5a29f32f.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-ec8cd7a6.js';
+import { a as attachComponent, d as detachComponent } from './framework-delegate-077de7f3.js';
+import { s as shallowEqualStringMap } from './helpers-bc25ace2.js';
+import { t as transition } from './index-c29935cc.js';
 
 const routeOutletCss = ":host{left:0;right:0;top:0;bottom:0;position:absolute;contain:layout size style;overflow:hidden;z-index:0}";
 
@@ -35,7 +35,7 @@ let RouterOutlet = class {
         this.swipeHandler.onStart();
       }
     };
-    this.gesture = (await import('./swipe-back-bd81714c.js')).createSwipeBackGesture(this.el, () => !this.gestureOrAnimationInProgress && !!this.swipeHandler && this.swipeHandler.canStart(), () => onStart(), step => this.ani && this.ani.progressStep(step), (shouldComplete, step, dur) => {
+    this.gesture = (await import('./swipe-back-391f541a.js')).createSwipeBackGesture(this.el, () => !this.gestureOrAnimationInProgress && !!this.swipeHandler && this.swipeHandler.canStart(), () => onStart(), step => this.ani && this.ani.progressStep(step), (shouldComplete, step, dur) => {
       if (this.ani) {
         this.ani.onFinish(() => {
           this.gestureOrAnimationInProgress = false;

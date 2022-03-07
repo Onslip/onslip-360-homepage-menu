@@ -1,7 +1,7 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
-import { c as componentOnReady } from './helpers-730f41c7.js';
-import { h as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-1114c98f.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
+import { g as getIonMode } from './ionic-global-5a29f32f.js';
+import { c as componentOnReady } from './helpers-bc25ace2.js';
+import { c as hapticSelectionStart, a as hapticSelectionChanged, b as hapticSelectionEnd } from './haptic-3c93dfcb.js';
 
 const reorderGroupCss = ".reorder-list-active>*{transition:transform 300ms;will-change:transform}.reorder-enabled{user-select:none}.reorder-enabled ion-reorder{display:block;cursor:grab;pointer-events:all;touch-action:none}.reorder-selected,.reorder-selected ion-reorder{cursor:grabbing}.reorder-selected{position:relative;transition:none !important;box-shadow:0 0 10px rgba(0, 0, 0, 0.4);opacity:0.8;z-index:100}.reorder-visible ion-reorder .reorder-icon{transform:translate3d(0,  0,  0)}";
 
@@ -33,7 +33,7 @@ let ReorderGroup = class {
       await new Promise(resolve => componentOnReady(contentEl, resolve));
       this.scrollEl = await contentEl.getScrollElement();
     }
-    this.gesture = (await import('./index-8b0b4762.js')).createGesture({
+    this.gesture = (await import('./index-d357f9df.js')).createGesture({
       el: this.el,
       gestureName: 'reorder',
       gesturePriority: 110,

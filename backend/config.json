@@ -1,1 +1,1 @@
-{"useProductImages":true,"background":{"color":"#9a9ee7","enabled":false},"font":"'Times New Roman', Times, serif","menuBackground":"#cdefdf","preset":"Preset 1"}
+{"useProductImages":false,"background":{"color":"#fe9f9f","enabled":true},"font":{"fontWeight":true,"fontStyle":true,"fontSize":"2em","fontFamily":"Verdana, Geneva, Tahoma, sans-serif","fontColor":"#713838","fontTitleColor":"#ad0000","fontOutline":false},"menuBackground":"#f0c7c7","preset":"Preset 1","Logo":false,"banner":true}

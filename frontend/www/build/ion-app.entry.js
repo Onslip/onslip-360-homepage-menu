@@ -1,5 +1,5 @@
-import { r as registerInstance, q as Build, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { a as isPlatform, c as config, g as getIonMode } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, l as Build, h, i as Host, j as getElement } from './index-7693580e.js';
+import { a as isPlatform, c as config, g as getIonMode } from './ionic-global-5a29f32f.js';
 
 const appCss = "html.plt-mobile ion-app{user-select:none}html.plt-mobile ion-app [contenteditable]{user-select:text}ion-app.force-statusbar-padding{--ion-safe-area-top:20px}";
 
@@ -12,15 +12,15 @@ let App = class {
       rIC(async () => {
         const isHybrid = isPlatform(window, 'hybrid');
         if (!config.getBoolean('_testing')) {
-          import('./tap-click-53a0539d.js').then(module => module.startTapClick(config));
+          import('./tap-click-2b8f3b91.js').then(module => module.startTapClick(config));
         }
         if (config.getBoolean('statusTap', isHybrid)) {
-          import('./status-tap-4be0c1dd.js').then(module => module.startStatusTap());
+          import('./status-tap-3cb59c15.js').then(module => module.startStatusTap());
         }
         if (config.getBoolean('inputShims', needInputShims())) {
-          import('./input-shims-4cf8f5bc.js').then(module => module.startInputShims(config));
+          import('./input-shims-972d5a52.js').then(module => module.startInputShims(config));
         }
-        const hardwareBackButtonModule = await import('./hardware-back-button-33350ee9.js');
+        const hardwareBackButtonModule = await import('./hardware-back-button-68bb8b9b.js');
         if (config.getBoolean('hardwareBackButton', isHybrid)) {
           hardwareBackButtonModule.startHardwareBackButton();
         }
@@ -28,9 +28,9 @@ let App = class {
           hardwareBackButtonModule.blockHardwareBackButton();
         }
         if (typeof window !== 'undefined') {
-          import('./keyboard-0b669d15.js').then(module => module.startKeyboardAssist(window));
+          import('./keyboard-02ac0a24.js').then(module => module.startKeyboardAssist(window));
         }
-        import('./focus-visible-bbde0d61.js').then(module => this.focusVisible = module.startFocusVisible());
+        import('./focus-visible-adf10edc.js').then(module => this.focusVisible = module.startFocusVisible());
       });
     }
   }

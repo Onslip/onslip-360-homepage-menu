@@ -1,6 +1,6 @@
-import { m as readTask, n as writeTask, r as registerInstance, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
-import { e as clamp, c as componentOnReady } from './helpers-730f41c7.js';
+import { m as readTask, o as writeTask, r as registerInstance, h, i as Host, j as getElement } from './index-7693580e.js';
+import { g as getIonMode } from './ionic-global-5a29f32f.js';
+import { e as clamp, c as componentOnReady } from './helpers-bc25ace2.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License

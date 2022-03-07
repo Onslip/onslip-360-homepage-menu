@@ -1,5 +1,6 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
+import { g as getIonMode } from './ionic-global-5a29f32f.js';
+import { i as inheritAttributes } from './helpers-bc25ace2.js';
 
 const imgCss = ":host{display:block;object-fit:contain}img{display:block;width:100%;height:100%;object-fit:inherit;object-position:inherit}";
 
@@ -9,6 +10,7 @@ let Img = class {
     this.ionImgWillLoad = createEvent(this, "ionImgWillLoad", 7);
     this.ionImgDidLoad = createEvent(this, "ionImgDidLoad", 7);
     this.ionError = createEvent(this, "ionError", 7);
+    this.inheritedAttributes = {};
     this.onLoad = () => {
       this.ionImgDidLoad.emit();
     };
@@ -18,6 +20,9 @@ let Img = class {
   }
   srcChanged() {
     this.addIO();
+  }
+  componentWillLoad() {
+    this.inheritedAttributes = inheritAttributes(this.el, ['draggable']);
   }
   componentDidLoad() {
     this.addIO();
@@ -61,12 +66,31 @@ let Img = class {
     }
   }
   render() {
-    return (h(Host, { class: getIonMode(this) }, h("img", { decoding: "async", src: this.loadSrc, alt: this.alt, onLoad: this.onLoad, onError: this.loadError, part: "image" })));
+    const { loadSrc, alt, onLoad, loadError, inheritedAttributes } = this;
+    const { draggable } = inheritedAttributes;
+    return (h(Host, { class: getIonMode(this) }, h("img", { decoding: "async", src: loadSrc, alt: alt, onLoad: onLoad, onError: loadError, part: "image", draggable: isDraggable(draggable) })));
   }
   get el() { return getElement(this); }
   static get watchers() { return {
     "src": ["srcChanged"]
   }; }
+};
+/**
+ * Enumerated strings must be set as booleans
+ * as Stencil will not render 'false' in the DOM.
+ * The need to explicitly render draggable="true"
+ * as only certain elements are draggable by default.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/draggable.
+ */
+const isDraggable = (draggable) => {
+  switch (draggable) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      return undefined;
+  }
 };
 Img.style = imgCss;
 

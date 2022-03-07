@@ -1,12 +1,12 @@
-import { r as registerInstance, l as createEvent, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode, a as isPlatform } from './ionic-global-49bac6cf.js';
-import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-10d8e2b2.js';
-import { g as getElementRoot, r as raf, a as addEventListener } from './helpers-730f41c7.js';
-import { B as BACKDROP, a as prepareOverlay, p as present, j as focusFirstDescendant, d as dismiss, e as eventMethod } from './overlays-85510a51.js';
-import { g as getClassMap } from './theme-31a4dfd9.js';
-import { d as deepReady } from './index-63437bb5.js';
-import { c as createAnimation } from './animation-c6a5635b.js';
-import './hardware-back-button-33350ee9.js';
+import { r as registerInstance, k as createEvent, h, i as Host, j as getElement } from './index-7693580e.js';
+import { g as getIonMode, a as isPlatform } from './ionic-global-5a29f32f.js';
+import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-077de7f3.js';
+import { g as getElementRoot, r as raf, a as addEventListener } from './helpers-bc25ace2.js';
+import { B as BACKDROP, p as prepareOverlay, a as present, j as focusFirstDescendant, d as dismiss, e as eventMethod } from './overlays-ed2dd353.js';
+import { g as getClassMap } from './theme-6baffa69.js';
+import { d as deepReady } from './index-c29935cc.js';
+import { c as createAnimation } from './animation-585a999d.js';
+import './hardware-back-button-68bb8b9b.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
@@ -1032,10 +1032,6 @@ let Popover = class {
      */
     this.side = 'bottom';
     /**
-     * Describes how to align the popover content with the `reference` point.
-     */
-    this.alignment = 'start';
-    /**
      * If `true`, the popover will display an arrow
      * that points at the `reference` when running in `ios` mode
      * on mobile. Does not apply in `md` mode or on desktop.
@@ -1131,6 +1127,9 @@ let Popover = class {
      */
     this.popoverId = (this.el.hasAttribute('id')) ? this.el.getAttribute('id') : `ion-popover-${this.popoverIndex}`;
     this.parentPopover = this.el.closest(`ion-popover:not(#${this.popoverId})`);
+    if (this.alignment === undefined) {
+      this.alignment = getIonMode(this) === 'ios' ? 'center' : 'start';
+    }
   }
   componentDidLoad() {
     const { parentPopover, isOpen } = this;

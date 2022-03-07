@@ -1,12 +1,12 @@
-import { r as registerInstance, l as createEvent, q as Build, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { c as config, g as getIonMode } from './ionic-global-49bac6cf.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
-import { GESTURE_CONTROLLER } from './index-8b0b4762.js';
-import { k as isEndSide, i as inheritAttributes, l as assert, e as clamp } from './helpers-730f41c7.js';
-import { m as menuController } from './index-154ad102.js';
-import { g as getOverlay } from './overlays-85510a51.js';
-import './hardware-back-button-33350ee9.js';
-import './animation-c6a5635b.js';
+import { r as registerInstance, k as createEvent, l as Build, h, i as Host, j as getElement } from './index-7693580e.js';
+import { c as config, g as getIonMode } from './ionic-global-5a29f32f.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-ec8cd7a6.js';
+import { GESTURE_CONTROLLER } from './index-d357f9df.js';
+import { j as isEndSide, i as inheritAttributes, l as assert, e as clamp } from './helpers-bc25ace2.js';
+import { m as menuController } from './index-6c120177.js';
+import { g as getOverlay } from './overlays-ed2dd353.js';
+import './hardware-back-button-68bb8b9b.js';
+import './animation-585a999d.js';
 
 const menuIosCss = ":host{--width:304px;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--background:var(--ion-background-color, #fff);left:0;right:0;top:0;bottom:0;display:none;position:absolute;contain:strict}:host(.show-menu){display:block}.menu-inner{left:0;right:auto;top:0;bottom:0;transform:translate3d(-9999px,  0,  0);display:flex;position:absolute;flex-direction:column;justify-content:space-between;width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);background:var(--background);contain:strict}[dir=rtl] .menu-inner,:host-context([dir=rtl]) .menu-inner{left:unset;right:unset;left:auto;right:0}[dir=rtl] .menu-inner,:host-context([dir=rtl]) .menu-inner{transform:translate3d(calc(-1 * -9999px),  0,  0)}:host(.menu-side-start) .menu-inner{--ion-safe-area-right:0px;right:auto;left:0}:host(.menu-side-end) .menu-inner{--ion-safe-area-left:0px;right:0;left:auto;}ion-backdrop{display:none;opacity:0.01;z-index:-1}@media (max-width: 340px){.menu-inner{--width:264px}}:host(.menu-type-reveal){z-index:0}:host(.menu-type-reveal.show-menu) .menu-inner{transform:translate3d(0,  0,  0)}:host(.menu-type-overlay){z-index:1000}:host(.menu-type-overlay) .show-backdrop{display:block;cursor:pointer}:host(.menu-pane-visible){width:var(--width);min-width:var(--min-width);max-width:var(--max-width)}:host(.menu-pane-visible) .menu-inner{left:0;right:0;width:auto;transform:none !important;box-shadow:none !important}:host(.menu-pane-visible) ion-backdrop{display:hidden !important;}:host(.menu-type-push){z-index:1000}:host(.menu-type-push) .show-backdrop{display:block}";
 
@@ -122,7 +122,7 @@ let Menu = class {
     this.sideChanged();
     // register this menu with the app's menu controller
     menuController._register(this);
-    this.gesture = (await import('./index-8b0b4762.js')).createGesture({
+    this.gesture = (await import('./index-d357f9df.js')).createGesture({
       el: document,
       gestureName: 'menu-swipe',
       gesturePriority: 30,

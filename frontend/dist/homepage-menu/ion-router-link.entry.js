@@ -1,6 +1,6 @@
-import { r as registerInstance, h, i as Host } from './index-fdd6f247.js';
-import { g as getIonMode } from './ionic-global-49bac6cf.js';
-import { o as openURL, c as createColorClasses } from './theme-31a4dfd9.js';
+import { r as registerInstance, h, i as Host } from './index-7693580e.js';
+import { g as getIonMode } from './ionic-global-5a29f32f.js';
+import { o as openURL, c as createColorClasses } from './theme-6baffa69.js';
 
 const routerLinkCss = ":host{--background:transparent;--color:var(--ion-color-primary, #3880ff);background:var(--background);color:var(--color)}:host(.ion-color){color:var(--ion-color-base)}a{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;letter-spacing:inherit;text-decoration:inherit;text-indent:inherit;text-overflow:inherit;text-transform:inherit;text-align:inherit;white-space:inherit;color:inherit}";
 

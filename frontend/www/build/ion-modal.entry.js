@@ -1,15 +1,15 @@
-import { r as registerInstance, l as createEvent, n as writeTask, h, i as Host, k as getElement } from './index-fdd6f247.js';
-import { g as getIonMode, c as config } from './ionic-global-49bac6cf.js';
-import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-10d8e2b2.js';
-import { e as clamp, g as getElementRoot, r as raf } from './helpers-730f41c7.js';
-import { KEYBOARD_DID_OPEN } from './keyboard-0b669d15.js';
-import { B as BACKDROP, a as prepareOverlay, p as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-85510a51.js';
-import { g as getClassMap } from './theme-31a4dfd9.js';
-import { d as deepReady } from './index-63437bb5.js';
-import { c as createAnimation } from './animation-c6a5635b.js';
-import { g as getTimeGivenProgression } from './cubic-bezier-e2f29783.js';
-import { createGesture } from './index-8b0b4762.js';
-import './hardware-back-button-33350ee9.js';
+import { r as registerInstance, k as createEvent, o as writeTask, h, i as Host, j as getElement } from './index-7693580e.js';
+import { g as getIonMode, c as config } from './ionic-global-5a29f32f.js';
+import { C as CoreDelegate, a as attachComponent, d as detachComponent } from './framework-delegate-077de7f3.js';
+import { e as clamp, g as getElementRoot, r as raf } from './helpers-bc25ace2.js';
+import { KEYBOARD_DID_OPEN } from './keyboard-02ac0a24.js';
+import { B as BACKDROP, p as prepareOverlay, a as present, b as activeAnimations, d as dismiss, e as eventMethod } from './overlays-ed2dd353.js';
+import { g as getClassMap } from './theme-6baffa69.js';
+import { d as deepReady } from './index-c29935cc.js';
+import { c as createAnimation } from './animation-585a999d.js';
+import { g as getTimeGivenProgression } from './cubic-bezier-ec8cd7a6.js';
+import { createGesture } from './index-d357f9df.js';
+import './hardware-back-button-68bb8b9b.js';
 
 /*!
  * (C) Ionic http://ionicframework.com - MIT License
@@ -154,6 +154,13 @@ const createSheetEnterAnimation = (opts) => {
   const initialBackdrop = shouldShowBackdrop ? `calc(var(--backdrop-opacity) * ${currentBreakpoint})` : '0';
   const backdropAnimation = createAnimation('backdropAnimation')
     .fromTo('opacity', 0, initialBackdrop);
+  if (shouldShowBackdrop) {
+    backdropAnimation
+      .beforeStyles({
+      'pointer-events': 'none'
+    })
+      .afterClearStyles(['pointer-events']);
+  }
   const wrapperAnimation = createAnimation('wrapperAnimation')
     .keyframes([
     { offset: 0, opacity: 1, transform: 'translateY(100%)' },
@@ -193,7 +200,11 @@ const createSheetLeaveAnimation = (opts) => {
  */
 const createEnterAnimation$1 = () => {
   const backdropAnimation = createAnimation()
-    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)');
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
   const wrapperAnimation = createAnimation()
     .fromTo('transform', 'translateY(100vh)', 'translateY(0vh)');
   return { backdropAnimation, wrapperAnimation };
@@ -206,11 +217,7 @@ const iosEnterAnimation = (baseEl, opts) => {
   const root = getElementRoot(baseEl);
   const { wrapperAnimation, backdropAnimation } = currentBreakpoint !== undefined ? createSheetEnterAnimation(opts) : createEnterAnimation$1();
   backdropAnimation
-    .addElement(root.querySelector('ion-backdrop'))
-    .beforeStyles({
-    'pointer-events': 'none'
-  })
-    .afterClearStyles(['pointer-events']);
+    .addElement(root.querySelector('ion-backdrop'));
   wrapperAnimation
     .addElement(root.querySelectorAll('.modal-wrapper, .modal-shadow'))
     .beforeStyles({ 'opacity': 1 });
@@ -387,7 +394,11 @@ const iosLeaveAnimation = (baseEl, opts, duration = 500) => {
  */
 const createEnterAnimation = () => {
   const backdropAnimation = createAnimation()
-    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)');
+    .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
+    .beforeStyles({
+    'pointer-events': 'none'
+  })
+    .afterClearStyles(['pointer-events']);
   const wrapperAnimation = createAnimation()
     .keyframes([
     { offset: 0, opacity: 0.01, transform: 'translateY(40px)' },
@@ -403,11 +414,7 @@ const mdEnterAnimation = (baseEl, opts) => {
   const root = getElementRoot(baseEl);
   const { wrapperAnimation, backdropAnimation } = currentBreakpoint !== undefined ? createSheetEnterAnimation(opts) : createEnterAnimation();
   backdropAnimation
-    .addElement(root.querySelector('ion-backdrop'))
-    .beforeStyles({
-    'pointer-events': 'none'
-  })
-    .afterClearStyles(['pointer-events']);
+    .addElement(root.querySelector('ion-backdrop'));
   wrapperAnimation
     .addElement(root.querySelector('.modal-wrapper'));
   return createAnimation()
@@ -473,6 +480,28 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
   const wrapperAnimation = animation.childAnimations.find(ani => ani.id === 'wrapperAnimation');
   const backdropAnimation = animation.childAnimations.find(ani => ani.id === 'backdropAnimation');
   const maxBreakpoint = breakpoints[breakpoints.length - 1];
+  const enableBackdrop = () => {
+    baseEl.style.setProperty('pointer-events', 'auto');
+    backdropEl.style.setProperty('pointer-events', 'auto');
+    /**
+     * When the backdrop is enabled, elements such
+     * as inputs should not be focusable outside
+     * the sheet.
+     */
+    baseEl.classList.remove('ion-disable-focus-trap');
+  };
+  const disableBackdrop = () => {
+    baseEl.style.setProperty('pointer-events', 'none');
+    backdropEl.style.setProperty('pointer-events', 'none');
+    /**
+     * When the backdrop is enabled, elements such
+     * as inputs should not be focusable outside
+     * the sheet.
+     * Adding this class disables focus trapping
+     * for the sheet temporarily.
+     */
+    baseEl.classList.add('ion-disable-focus-trap');
+  };
   /**
    * After the entering animation completes,
    * we need to set the animation to go from
@@ -486,11 +515,19 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
     backdropAnimation.keyframes([...SheetDefaults.BACKDROP_KEYFRAMES]);
     animation.progressStart(true, 1 - currentBreakpoint);
     /**
-     * Backdrop should become enabled
-     * after the backdropBreakpoint value
+     * If backdrop is not enabled, then content
+     * behind modal should be clickable. To do this, we need
+     * to remove pointer-events from ion-modal as a whole.
+     * ion-backdrop and .modal-wrapper always have pointer-events: auto
+     * applied, so the modal content can still be interacted with.
      */
-    const backdropEnabled = currentBreakpoint > backdropBreakpoint;
-    backdropEl.style.setProperty('pointer-events', backdropEnabled ? 'auto' : 'none');
+    const shouldEnableBackdrop = currentBreakpoint > backdropBreakpoint;
+    if (shouldEnableBackdrop) {
+      enableBackdrop();
+    }
+    else {
+      disableBackdrop();
+    }
   }
   if (contentEl && currentBreakpoint !== maxBreakpoint) {
     contentEl.scrollY = false;
@@ -597,8 +634,13 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
              * Backdrop should become enabled
              * after the backdropBreakpoint value
              */
-            const backdropEnabled = currentBreakpoint > backdropBreakpoint;
-            backdropEl.style.setProperty('pointer-events', backdropEnabled ? 'auto' : 'none');
+            const shouldEnableBackdrop = currentBreakpoint > backdropBreakpoint;
+            if (shouldEnableBackdrop) {
+              enableBackdrop();
+            }
+            else {
+              disableBackdrop();
+            }
             gesture.enable(true);
           });
         }
@@ -631,9 +673,9 @@ const createSheetGesture = (baseEl, backdropEl, wrapperEl, initialBreakpoint, ba
   return gesture;
 };
 
-const modalIosCss = ":host{--width:100%;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--overflow:hidden;--border-radius:0;--border-width:0;--border-style:none;--border-color:transparent;--background:var(--ion-background-color, #fff);--box-shadow:none;--backdrop-opacity:0;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;align-items:center;justify-content:center;outline:none;contain:strict}:host(.overlay-hidden){display:none}.modal-wrapper,.modal-shadow{border-radius:var(--border-radius);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow);overflow:var(--overflow);z-index:10}.modal-shadow{position:absolute;background:transparent}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--width:600px;--height:500px;--ion-safe-area-top:0px;--ion-safe-area-bottom:0px;--ion-safe-area-right:0px;--ion-safe-area-left:0px}}@media only screen and (min-width: 768px) and (min-height: 768px){:host{--width:600px;--height:600px}}.modal-handle{left:0px;right:0px;top:5px;border-radius:8px;margin-left:auto;margin-right:auto;position:absolute;width:36px;height:5px;transform:translateZ(0);background:var(--ion-color-step-350, #c0c0be);z-index:11}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.modal-handle{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.modal-sheet){--height:calc(100% - (var(--ion-safe-area-top) + 10px))}:host(.modal-sheet) .modal-wrapper,:host(.modal-sheet) .modal-shadow{position:absolute;bottom:0}:host{--backdrop-opacity:var(--ion-backdrop-opacity, 0.4)}:host(.modal-card),:host(.modal-sheet){--border-radius:10px}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--border-radius:10px}}.modal-wrapper{transform:translate3d(0,  100%,  0)}@media screen and (max-width: 767px){@supports (width: max(0px, 1px)){:host(.modal-card){--height:calc(100% - max(30px, var(--ion-safe-area-top)) - 10px)}}@supports not (width: max(0px, 1px)){:host(.modal-card){--height:calc(100% - 40px)}}:host(.modal-card) .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}:host-context([dir=rtl]):host(.modal-card) .modal-wrapper,:host-context([dir=rtl]).modal-card .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}:host(.modal-card){--backdrop-opacity:0;--width:100%;align-items:flex-end}:host(.modal-card) .modal-shadow{display:none}:host(.modal-card) ion-backdrop{pointer-events:none}}@media screen and (min-width: 768px){:host(.modal-card){--width:calc(100% - 120px);--height:calc(100% - (120px + var(--ion-safe-area-top) + var(--ion-safe-area-bottom)));--max-width:720px;--max-height:1000px;--backdrop-opacity:0;--box-shadow:0px 0px 30px 10px rgba(0, 0, 0, 0.1);transition:all 0.5s ease-in-out}:host(.modal-card) .modal-wrapper{box-shadow:none}:host(.modal-card) .modal-shadow{box-shadow:var(--box-shadow)}}:host(.modal-sheet) .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}:host-context([dir=rtl]):host(.modal-sheet) .modal-wrapper,:host-context([dir=rtl]).modal-sheet .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}";
+const modalIosCss = ":host{--width:100%;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--overflow:hidden;--border-radius:0;--border-width:0;--border-style:none;--border-color:transparent;--background:var(--ion-background-color, #fff);--box-shadow:none;--backdrop-opacity:0;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;align-items:center;justify-content:center;outline:none;contain:strict}.modal-wrapper,ion-backdrop{pointer-events:auto}:host(.overlay-hidden){display:none}.modal-wrapper,.modal-shadow{border-radius:var(--border-radius);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow);overflow:var(--overflow);z-index:10}.modal-shadow{position:absolute;background:transparent}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--width:600px;--height:500px;--ion-safe-area-top:0px;--ion-safe-area-bottom:0px;--ion-safe-area-right:0px;--ion-safe-area-left:0px}}@media only screen and (min-width: 768px) and (min-height: 768px){:host{--width:600px;--height:600px}}.modal-handle{left:0px;right:0px;top:5px;border-radius:8px;margin-left:auto;margin-right:auto;position:absolute;width:36px;height:5px;transform:translateZ(0);background:var(--ion-color-step-350, #c0c0be);z-index:11}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.modal-handle{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.modal-sheet){--height:calc(100% - (var(--ion-safe-area-top) + 10px))}:host(.modal-sheet) .modal-wrapper,:host(.modal-sheet) .modal-shadow{position:absolute;bottom:0}:host{--backdrop-opacity:var(--ion-backdrop-opacity, 0.4)}:host(.modal-card),:host(.modal-sheet){--border-radius:10px}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--border-radius:10px}}.modal-wrapper{transform:translate3d(0,  100%,  0)}@media screen and (max-width: 767px){@supports (width: max(0px, 1px)){:host(.modal-card){--height:calc(100% - max(30px, var(--ion-safe-area-top)) - 10px)}}@supports not (width: max(0px, 1px)){:host(.modal-card){--height:calc(100% - 40px)}}:host(.modal-card) .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}:host-context([dir=rtl]):host(.modal-card) .modal-wrapper,:host-context([dir=rtl]).modal-card .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}:host(.modal-card){--backdrop-opacity:0;--width:100%;align-items:flex-end}:host(.modal-card) .modal-shadow{display:none}:host(.modal-card) ion-backdrop{pointer-events:none}}@media screen and (min-width: 768px){:host(.modal-card){--width:calc(100% - 120px);--height:calc(100% - (120px + var(--ion-safe-area-top) + var(--ion-safe-area-bottom)));--max-width:720px;--max-height:1000px;--backdrop-opacity:0;--box-shadow:0px 0px 30px 10px rgba(0, 0, 0, 0.1);transition:all 0.5s ease-in-out}:host(.modal-card) .modal-wrapper{box-shadow:none}:host(.modal-card) .modal-shadow{box-shadow:var(--box-shadow)}}:host(.modal-sheet) .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}:host-context([dir=rtl]):host(.modal-sheet) .modal-wrapper,:host-context([dir=rtl]).modal-sheet .modal-wrapper{border-top-left-radius:var(--border-radius);border-top-right-radius:var(--border-radius);border-bottom-right-radius:0;border-bottom-left-radius:0}";
 
-const modalMdCss = ":host{--width:100%;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--overflow:hidden;--border-radius:0;--border-width:0;--border-style:none;--border-color:transparent;--background:var(--ion-background-color, #fff);--box-shadow:none;--backdrop-opacity:0;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;align-items:center;justify-content:center;outline:none;contain:strict}:host(.overlay-hidden){display:none}.modal-wrapper,.modal-shadow{border-radius:var(--border-radius);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow);overflow:var(--overflow);z-index:10}.modal-shadow{position:absolute;background:transparent}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--width:600px;--height:500px;--ion-safe-area-top:0px;--ion-safe-area-bottom:0px;--ion-safe-area-right:0px;--ion-safe-area-left:0px}}@media only screen and (min-width: 768px) and (min-height: 768px){:host{--width:600px;--height:600px}}.modal-handle{left:0px;right:0px;top:5px;border-radius:8px;margin-left:auto;margin-right:auto;position:absolute;width:36px;height:5px;transform:translateZ(0);background:var(--ion-color-step-350, #c0c0be);z-index:11}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.modal-handle{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.modal-sheet){--height:calc(100% - (var(--ion-safe-area-top) + 10px))}:host(.modal-sheet) .modal-wrapper,:host(.modal-sheet) .modal-shadow{position:absolute;bottom:0}:host{--backdrop-opacity:var(--ion-backdrop-opacity, 0.32)}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--border-radius:2px;--box-shadow:0 28px 48px rgba(0, 0, 0, 0.4)}}.modal-wrapper{transform:translate3d(0,  40px,  0);opacity:0.01}";
+const modalMdCss = ":host{--width:100%;--min-width:auto;--max-width:auto;--height:100%;--min-height:auto;--max-height:auto;--overflow:hidden;--border-radius:0;--border-width:0;--border-style:none;--border-color:transparent;--background:var(--ion-background-color, #fff);--box-shadow:none;--backdrop-opacity:0;left:0;right:0;top:0;bottom:0;display:flex;position:absolute;align-items:center;justify-content:center;outline:none;contain:strict}.modal-wrapper,ion-backdrop{pointer-events:auto}:host(.overlay-hidden){display:none}.modal-wrapper,.modal-shadow{border-radius:var(--border-radius);width:var(--width);min-width:var(--min-width);max-width:var(--max-width);height:var(--height);min-height:var(--min-height);max-height:var(--max-height);border-width:var(--border-width);border-style:var(--border-style);border-color:var(--border-color);background:var(--background);box-shadow:var(--box-shadow);overflow:var(--overflow);z-index:10}.modal-shadow{position:absolute;background:transparent}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--width:600px;--height:500px;--ion-safe-area-top:0px;--ion-safe-area-bottom:0px;--ion-safe-area-right:0px;--ion-safe-area-left:0px}}@media only screen and (min-width: 768px) and (min-height: 768px){:host{--width:600px;--height:600px}}.modal-handle{left:0px;right:0px;top:5px;border-radius:8px;margin-left:auto;margin-right:auto;position:absolute;width:36px;height:5px;transform:translateZ(0);background:var(--ion-color-step-350, #c0c0be);z-index:11}@supports (margin-inline-start: 0) or (-webkit-margin-start: 0){.modal-handle{margin-left:unset;margin-right:unset;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto}}:host(.modal-sheet){--height:calc(100% - (var(--ion-safe-area-top) + 10px))}:host(.modal-sheet) .modal-wrapper,:host(.modal-sheet) .modal-shadow{position:absolute;bottom:0}:host{--backdrop-opacity:var(--ion-backdrop-opacity, 0.32)}@media only screen and (min-width: 768px) and (min-height: 600px){:host{--border-radius:2px;--box-shadow:0 28px 48px rgba(0, 0, 0, 0.4)}}.modal-wrapper{transform:translate3d(0,  40px,  0);opacity:0.01}";
 
 let Modal = class {
   constructor(hostRef) {
@@ -954,6 +996,7 @@ let Modal = class {
     if (dismissed) {
       const { delegate } = this.getDelegate();
       await detachComponent(delegate, this.usersElement);
+      writeTask(() => this.el.classList.remove('show-modal'));
       if (this.animation) {
         this.animation.destroy();
       }
