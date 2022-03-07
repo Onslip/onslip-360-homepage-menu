@@ -12,7 +12,8 @@
 
 .menuContainer[data-status='Preset 1'] {
   border: 5px groove transparent;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;}
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
 
 .menuContainer[data-status='Preset 2'] {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
@@ -56,6 +57,7 @@
   right: 0;
   margin-top: 13%; 
   --background: var(--primary)
+}
 .no-banner img {
   width: 100px;
   float: center;

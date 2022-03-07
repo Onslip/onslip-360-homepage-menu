@@ -125,11 +125,11 @@ export class HomepageMenuEditorComponent {
           <toolbar-component></toolbar-component>
         </div>
         <div class='menuContainer' data-status={config?.preset}>
-          <div class='header'>
-            <div class={config?.banner ? 'header' : 'no-banner'}></div>
-
+          <div class={config?.banner ? 'header' : 'no-banner'}>
             <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+
           </div>
+
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
 
