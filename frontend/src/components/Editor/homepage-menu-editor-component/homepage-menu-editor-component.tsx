@@ -22,7 +22,9 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
 
   async componentWillLoad() {
-    GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    if (config?.background.enabled == false) {
+      GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    }
     if (config?.banner == true) {
       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
     }
@@ -40,20 +42,22 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadConfig(element, element1) {
-    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component')
-
+    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
     component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
-    document.querySelector(element1).style.fontSize = config.font.fontSize;
-
     if (config?.font.fontWeight == true) {
       component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
     }
     if (config?.font.fontStyle == true) {
       component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
+    document.querySelector(element1).style.fontSize = config.font.fontSize;
+
     component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
     if (config?.font.fontOutline) {
       component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+    }
+    if (config?.background.enabled == true) {
+      document.querySelector('body').style.background = config?.background.color;
     }
   }
 
@@ -91,39 +95,25 @@ export class HomepageMenuEditorComponent {
 
   render() {
     return (
-      < Host >
+      <Host>
         <div>
           <toolbar-component></toolbar-component>
         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <div class='menuContainer' data-status={config?.preset}>
-      <div class='header'></div>
-      <menu-editor-component></menu-editor-component>
-      <div class='logoDiv'>
-        <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-      </div>
-=======
-        <div class='menuContainer' >
-        <div class='header'></div>
-        <menu-editor-component></menu-editor-component>
-      </div>
-
-      <div class='logoDiv'>
-        <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
->>>>>>> b291c33f3c9262c6e549aaad66edf96eb8ecece1
-      </div>
-    </Host >
-=======
-        <div class='menuContainer' data-status={config.preset}>
+        <div class='menuContainer' data-status={config?.preset}>
           <div class='header'></div>
           <menu-editor-component></menu-editor-component>
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          </div>
+          <div class='menuContainer' >
+            <div class='header'></div>
+            <menu-editor-component></menu-editor-component>
+          </div>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
-      </Host >
->>>>>>> ab85da6133717deaae5e05f476f9450e981f0147
+      </Host>
     )
   }
 }
