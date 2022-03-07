@@ -1,3 +1,9 @@
+dist/
+www/
+loader/
+frontend/WWW/
+frontend/dist
+
 *~
 *.sw[mnpcod]
 *.log
@@ -16,11 +22,8 @@ log.txt
 node_modules/
 $RECYCLE.BIN/
 
+
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
-
-dist/
-www/
-loader/

@@ -4,7 +4,6 @@
 
 .card {
   background-color: rgba(255, 255, 255, 0.466);
-
 } 
 
 .progressbar {
@@ -21,3 +20,77 @@
   z-index: 0;
 }
 
+.categoryTitle {
+  /* color: black; */
+  font-size: 1.5rem;
+  margin: 0;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-weight: bold;
+  transition-duration: .4s;
+}
+
+.categoryToggled {
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  position: sticky;
+  transition-duration: .4s;
+}
+.prodContainer-no-image {
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.productContainer {
+  text-align: center;
+  margin-bottom: 0.5rem;
+
+}
+
+.productIcon {
+  text-align: left;
+  /* margin-bottom: 0.5rem; */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.productName {
+  font-size: 1rem;
+}
+
+.productPrice {
+  text-align: right;
+  font-size: 1rem;
+}
+
+.productDesc {
+  font-size: 0.8rem;
+  margin: 0 10px;
+}
+
+.uploadbutton {
+  opacity: 0;
+  text-align: center;
+  font-size: large;
+  color: white;
+  position: absolute;
+  width: fit-content  ;
+  height: 100%;
+  background: transparent;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  display: flex;
+  font-size: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.uploadbutton:hover {
+  opacity: 100%;
+  background-color: rgba(0, 0, 0, 0.644);
+  border: 3px solid black 
+}

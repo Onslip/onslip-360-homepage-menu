@@ -26,6 +26,7 @@ export namespace Components {
     interface MenuComponent {
     }
     interface MenuEditorComponent {
+        "toggle": boolean;
     }
     interface ProductComponent {
         "product": DBproduct;
@@ -162,6 +163,7 @@ declare namespace LocalJSX {
     interface MenuComponent {
     }
     interface MenuEditorComponent {
+        "toggle"?: boolean;
     }
     interface ProductComponent {
         "product"?: DBproduct;

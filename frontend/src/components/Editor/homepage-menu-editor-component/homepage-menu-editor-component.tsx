@@ -20,6 +20,7 @@ export class HomepageMenuEditorComponent {
   @State() private locationUrl: string = 'http://localhost:8080/location';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
+  @State() toggle: boolean = true;
 
   async componentWillLoad() {
     if (config?.background.enabled == false) {
@@ -84,6 +85,15 @@ export class HomepageMenuEditorComponent {
     }
   }
 
+  change() {
+    if (this.toggle) {
+      this.toggle = false;
+    }
+    else {
+      this.toggle = true;
+    }
+  }
+
   render() {
     return (
       <Host>
@@ -91,8 +101,10 @@ export class HomepageMenuEditorComponent {
           <toolbar-component></toolbar-component>
         </div>
         <div class='menuContainer' data-status={config?.preset}>
-          <div class='header'></div>
-          <menu-editor-component></menu-editor-component>
+          <div class='header'>
+            <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+          </div>
+          <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
@@ -101,3 +113,4 @@ export class HomepageMenuEditorComponent {
     )
   }
 }
+

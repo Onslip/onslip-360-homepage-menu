@@ -22,12 +22,12 @@ export class SelectorComponent {
   @State() buttonpress: boolean = config.font.fontOutline;
 
   async FontStyle(element) {
-    if (config?.font.fontStyle == false) {
+    if (config?.font?.fontStyle == false) {
       this.butpress = true;
       config.font.fontStyle = true;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
-    else if (config?.font.fontStyle == true) {
+    else if (config?.font?.fontStyle == true) {
       this.butpress = false;
       config.font.fontStyle = false;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'normal';
@@ -36,13 +36,13 @@ export class SelectorComponent {
   }
 
   async FontOutline(element) {
-    if (config?.font.fontOutline == false) {
+    if (config?.font?.fontOutline == false) {
       this.buttonpress = true;
       config.font.fontOutline = true;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element)
         .style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
     }
-    else if (config?.font.fontOutline == true) {
+    else if (config?.font?.fontOutline == true) {
       this.buttonpress = false;
       config.font.fontOutline = false;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = 'none';
@@ -51,12 +51,12 @@ export class SelectorComponent {
   }
 
   async FontWeight(element) {
-    if (config?.font.fontWeight == false) {
+    if (config?.font?.fontWeight == false) {
       this.buttonPressed = true;
       config.font.fontWeight = true;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = 'bold';
     }
-    else if (config?.font.fontWeight == true) {
+    else if (config?.font?.fontWeight == true) {
       this.buttonPressed = false;
 
       config.font.fontWeight = false;
