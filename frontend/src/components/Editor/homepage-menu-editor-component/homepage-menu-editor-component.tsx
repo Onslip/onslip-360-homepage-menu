@@ -126,7 +126,8 @@ export class HomepageMenuEditorComponent {
         </div>
         <div class='menuContainer' data-status={config?.preset}>
           <div class={config?.banner ? 'header' : 'no-banner'}>
-            <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+            {config ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+              : null}
 
           </div>
 
