@@ -2,8 +2,6 @@ import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core'
 import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
-
-
 import '@ionic/core'
 
 @Component({
@@ -91,9 +89,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image).catch(() => {
-
-    })
+    const loadedImage = await loadImage(image)
     if (config.Logo) {
       const img = document.createElement('img');
       img.src = loadedImage.toString();
@@ -126,14 +122,10 @@ export class HomepageMenuEditorComponent {
         </div>
         <div class='menuContainer' data-status={config?.preset}>
           <div class={config?.banner ? 'header' : 'no-banner'}>
-            {config ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
-              : null}
-
+            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
           </div>
-
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
-
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>

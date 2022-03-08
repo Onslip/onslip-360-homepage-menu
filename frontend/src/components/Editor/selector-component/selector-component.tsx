@@ -114,11 +114,11 @@ export class SelectorComponent {
               <ion-item lines='none'>
                 <ion-item class='sizeSelet' button='true'>
                   <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label' selectedText={<ion-icon src={getAssetPath('assets/font-size.svg')} />} >
-                    <ion-select-option value={'2em'}>Larger</ion-select-option>
-                    <ion-select-option value={'1.5em'}>Large</ion-select-option>
+                    <ion-select-option value={'1.4em'}>Larger</ion-select-option>
+                    <ion-select-option value={'1.2em'}>Large</ion-select-option>
                     <ion-select-option value={'1em'}>Medium</ion-select-option>
-                    <ion-select-option value={'0.75em'}>Small</ion-select-option>
-                    <ion-select-option value={'0.5em'}>Smaller</ion-select-option>
+                    <ion-select-option value={'0.9em'}>Small</ion-select-option>
+                    <ion-select-option value={'0.8em'}>Smaller</ion-select-option>
                   </ion-select>
                 </ion-item>
                 <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.FontWeight('.menuContainer') }}>B</ion-button>
