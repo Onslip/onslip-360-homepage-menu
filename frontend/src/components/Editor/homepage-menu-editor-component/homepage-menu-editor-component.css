@@ -52,9 +52,8 @@
 }
 
 .toggle {
-  position:absolute;
-  right: 0;
-  margin-top: 13%; 
+  position:relative;
+  float: left;
   --background: var(--primary)
 }
 .no-banner img {

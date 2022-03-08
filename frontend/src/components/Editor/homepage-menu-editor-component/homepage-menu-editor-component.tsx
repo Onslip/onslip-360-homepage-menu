@@ -91,9 +91,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image).catch(() => {
-
-    })
+    const loadedImage = await loadImage(image)
     if (config.Logo) {
       const img = document.createElement('img');
       img.src = loadedImage.toString();
@@ -127,7 +125,6 @@ export class HomepageMenuEditorComponent {
         <div class='menuContainer' data-status={config?.preset}>
           <div class={config?.banner ? 'header' : 'no-banner'}>
             <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
-
           </div>
 
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
