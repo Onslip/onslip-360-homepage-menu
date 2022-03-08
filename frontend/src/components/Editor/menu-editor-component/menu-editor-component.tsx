@@ -1,8 +1,8 @@
-import { Component, State, Host, h, Element, Prop, Watch } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop } from '@stencil/core';
 import { DBItems, DBImage } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage, loadImage, loadProdImage } from '../../utils/image';
+import { CheckImage, loadImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 
 @Component({
@@ -24,10 +24,11 @@ export class MenuEditorComponent {
   async componentWillLoad() {
     GetData(this.url)
       .then(response => this.responsedata = response)
-      .then(() => { this.loading = false })
+      .then(() => { this.loading = false, config.connect = true })
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
+        config.connect = false
       });
     if (config?.useProductImages) {
       GetData(this.produrl)

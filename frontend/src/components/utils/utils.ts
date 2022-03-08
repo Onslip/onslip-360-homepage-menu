@@ -62,6 +62,7 @@ export interface Styleconfig {
   }
   preset: string,
   menuBackground: string,
+  connect: boolean,
 }
 
 export enum buttonvalues {
