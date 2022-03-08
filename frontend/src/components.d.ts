@@ -17,6 +17,7 @@ export namespace Components {
     interface HomepageMenuEditorComponent {
     }
     interface MenuComponent {
+        "toggle": boolean;
     }
     interface MenuEditorComponent {
         "toggle": boolean;
@@ -114,6 +115,7 @@ declare namespace LocalJSX {
     interface HomepageMenuEditorComponent {
     }
     interface MenuComponent {
+        "toggle"?: boolean;
     }
     interface MenuEditorComponent {
         "toggle"?: boolean;

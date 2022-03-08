@@ -32,29 +32,30 @@ export class MenuEditorComponent {
     if (config?.useProductImages) {
       GetData(this.produrl)
         .then(response => this.images = response)
-        .then(() => { this.loading = false })
         .catch(() => {
-          this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
-          this.loading = false
+          // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
   }
 
-  componentDidRender() {
-    this.LoadImages();
+  async componentDidRender() {
+    if (config?.useProductImages && this.toggle && this.loading == false) {
+      this.LoadImages();
+    }
   }
 
   async LoadImages() {
     this.images.map(async i => {
-      const loadedImage = await loadProdImage(i.image);
+      const loadedImage = await loadImage(i);
       const img = document.createElement('img');
       img.className = 'productIcon';
       img.src = loadedImage.toString();
-      this.element.shadowRoot.getElementById(`${i.product_id}`).appendChild(img);
+      img.id = i.product_id.toString();
+      this.element.shadowRoot.getElementById(`${i.product_id}`).replaceWith(img);
     })
   }
 
-  async uploadImage(file, element, name, id) {
+  async uploadImage(file, name, id) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
@@ -62,11 +63,12 @@ export class MenuEditorComponent {
       await PostImage(this.produrl, fd);
       const reader = new FileReader();
       reader.onload = () => {
-        const el = this.element.shadowRoot.getElementById(`${id}`);
-        el.removeChild(el.childNodes[1])
+        console.log(id);
         const img = document.createElement('img');
-        img.className = element;
+        img.className = 'productIcon';
         img.src = reader.result.toString();
+        img.id = id.toString();
+        this.element.shadowRoot.getElementById(id).replaceWith(img);
       }
       reader.readAsDataURL(file[0]);
     }
@@ -80,9 +82,9 @@ export class MenuEditorComponent {
     return (products.map(x =>
       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} id={x.id}>
-            <label htmlFor='file' class='uploadbutton'>Upload</label>
-            <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', x.name, x.id)} hidden />
+          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
+            <img id={x.id}></img>
+            <input id='file' type='file' placeholder="" onChange={(event: any) => this.uploadImage(event.target.files, x.name, x.id)} />
           </ion-col>
           <ion-col size="10">
             <ion-row>

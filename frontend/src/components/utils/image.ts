@@ -30,8 +30,6 @@ export async function loadImage(data) {
 
 
 export async function loadProdImage(data) {
-    console.log(data.data);
-
     if (data != null) {
         const byte = new Uint8Array(data.data)
         const blob = new Blob([byte.buffer])
