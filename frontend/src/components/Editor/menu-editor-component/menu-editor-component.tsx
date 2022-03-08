@@ -2,7 +2,7 @@ import { Component, State, Host, h, Element, Prop } from '@stencil/core';
 import { DBItems, DBImage } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage, loadProdImage } from '../../utils/image';
+import { CheckImage, loadImage, loadProdImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 
 @Component({
@@ -14,13 +14,11 @@ export class MenuEditorComponent {
 
   @State() private url = 'http://localhost:8080'
   private produrl: string = 'http://localhost:8080/productimage-upload';
-
   @State() responsedata: DBItems[]
   @State() loading: boolean = true
   @State() errormessage: string
   @Element() element: HTMLElement;
   @Prop() toggle: boolean;
-  @State() image;
   @State() images: DBImage[]
 
   async componentWillLoad() {
@@ -31,10 +29,11 @@ export class MenuEditorComponent {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
       });
-    if (config.useProductImages) {
+    if (config?.useProductImages) {
       GetData(this.produrl)
         .then(response => this.images = response)
         .then(() => { this.loading = false })
+        .then(() => this.LoadImages())
         .catch(() => {
           this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
           this.loading = false
@@ -42,7 +41,18 @@ export class MenuEditorComponent {
     }
   }
 
-  async uploadImage(file, element, name) {
+  async LoadImages() {
+    this.images.map(async i => {
+      const loadedImage = await loadProdImage(i.image);
+      const img = document.createElement('img');
+      img.className = 'productIcon';
+      img.src = loadedImage.toString();
+      this.element.shadowRoot.getElementById(`${i.product_id}`).appendChild(img);
+    })
+
+  }
+
+  async uploadImage(file, element, name, id) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
@@ -50,11 +60,12 @@ export class MenuEditorComponent {
       await PostImage(this.produrl, fd);
       const reader = new FileReader();
       reader.onload = () => {
-        const image = `url(${reader.result})`;
-        if (image != null) {
-          this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
-        }
-      };
+        const el = this.element.shadowRoot.getElementById(`${id}`);
+        el.removeChild(el.childNodes[1])
+        const img = document.createElement('img');
+        img.className = element;
+        img.src = reader.result.toString();
+      }
       reader.readAsDataURL(file[0]);
     }
   }
@@ -64,33 +75,13 @@ export class MenuEditorComponent {
   }
 
 
-
-  async getImage(product, element) {
-    const image = await loadProdImage(product);
-
-    console.log(image);
-    // const img = document.createElement('img');
-    // img.src = image.toString();
-    this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
-
-    // this.element.shadowRoot.querySelector(element).appendChild(img);
-    // return (
-    //   <ion-col>
-    //     <img src={image.toString()}></img>
-    //     <label htmlFor='file' class='uploadbutton'>Upload</label>
-    //     <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', product.name)} hidden />
-    //   </ion-col>
-    // )
-
-  }
   renderProducts(products) {
     return (products.map(x =>
       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' hidden={!config.useProductImages}>
-            {/* {this.getImage(product, '.productIcon')} */}
+          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} id={x.id}>
             <label htmlFor='file' class='uploadbutton'>Upload</label>
-            <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', x.name)} hidden />
+            <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', x.name, x.id)} hidden />
           </ion-col>
           <ion-col size="10">
             <ion-row>
