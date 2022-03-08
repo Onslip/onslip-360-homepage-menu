@@ -31,7 +31,7 @@ export async function loadImage(data) {
 
 export async function loadProdImage(data) {
     if (data != null) {
-        const byte = new Uint8Array(data[0].data)
+        const byte = new Uint8Array(data.image[0].data)
         const blob = new Blob([byte.buffer])
         const reader = new FileReader()
 

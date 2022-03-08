@@ -142,6 +142,11 @@ export class DHMService {
                     await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
                     return data;
                 }
+
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select * from onslip.productimages `;
+                    return data;
+                }
             })
     }
 

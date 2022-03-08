@@ -1,8 +1,8 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBproduct, productsWithCategory } from '../../utils/utils';
+import { DBcategory, DBproduct, productsWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage, loadImage, loadProdImage } from '../../utils/image';
+import { CheckImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 
 @Component({
@@ -18,7 +18,6 @@ export class MenuEditorComponent {
   @State() responsedata: productsWithCategory[]
   @State() loading: boolean = true
   @State() errormessage: string
-  @State() product: DBproduct;
   @Element() element: HTMLElement;
   @Prop() toggle: boolean;
   @State() image;
@@ -32,7 +31,6 @@ export class MenuEditorComponent {
         this.loading = false
       });
   }
-
 
   async uploadImage(file, element, name) {
     if (CheckImage(file[0])) {
@@ -55,16 +53,27 @@ export class MenuEditorComponent {
     this.responsedata = ev.detail.complete(this.responsedata);
   }
 
-  async getImage(product) {
-    this.image = await loadImage(product.image).catch(err => err)
+  getImage(product) {
+    const backgroundbyte = new Uint8Array(product.image[0]?.data);
+    const blob = new Blob([backgroundbyte.buffer]);
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = () => {
+      const image = `url(${reader.result})`;
+      return (
+        <ion-col>
+          <img src={image}></img>
+        </ion-col>
+      )
+    };
   }
 
   renderProducts(product: DBproduct) {
-    this.getImage(product);
     return (
-      <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
+      <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' style={{ backgroundImage: this.image }} hidden={!config.useProductImages}>
+          <ion-col size="1" class='productIcon' hidden={!config.useProductImages}>
+            {this.getImage(product)}
             <label htmlFor='file' class='uploadbutton'>Upload</label>
             <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', product.name)} hidden />
           </ion-col>
