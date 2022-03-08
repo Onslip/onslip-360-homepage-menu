@@ -1,4 +1,4 @@
-import { Component, State, Host, h, Element, Prop } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, Watch } from '@stencil/core';
 import { DBItems, DBImage } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
@@ -33,12 +33,15 @@ export class MenuEditorComponent {
       GetData(this.produrl)
         .then(response => this.images = response)
         .then(() => { this.loading = false })
-        .then(() => this.LoadImages())
         .catch(() => {
           this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
           this.loading = false
         });
     }
+  }
+
+  componentDidRender() {
+    this.LoadImages();
   }
 
   async LoadImages() {
@@ -49,7 +52,6 @@ export class MenuEditorComponent {
       img.src = loadedImage.toString();
       this.element.shadowRoot.getElementById(`${i.product_id}`).appendChild(img);
     })
-
   }
 
   async uploadImage(file, element, name, id) {
@@ -73,7 +75,6 @@ export class MenuEditorComponent {
   doReorder(ev: any) {
     this.responsedata = ev.detail.complete(this.responsedata);
   }
-
 
   renderProducts(products) {
     return (products.map(x =>
@@ -103,7 +104,6 @@ export class MenuEditorComponent {
     ))
   }
 
-
   render() {
     return (
       <Host>
@@ -128,9 +128,7 @@ export class MenuEditorComponent {
                         </ion-card-header>
                       </div>
                       {this.toggle ?
-
                         this.renderProducts(data.products)
-
                         : null}
                     </ion-card>
                   </div>
