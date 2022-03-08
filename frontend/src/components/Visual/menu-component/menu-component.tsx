@@ -2,8 +2,7 @@ import { Component, State, Host, h, Element, Prop } from '@stencil/core';
 import { DBItems, DBImage } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage, loadImage } from '../../utils/image';
-import { PostImage } from '../../utils/post';
+import { loadImage } from '../../utils/image';
 
 @Component({
   tag: 'menu-component',

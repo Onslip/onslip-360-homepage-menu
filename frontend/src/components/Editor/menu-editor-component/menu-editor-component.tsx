@@ -123,11 +123,12 @@ export class MenuEditorComponent {
                     <ion-card class='card' style={{ color: config?.font?.fontColor }}>
                       <div>
                         <ion-card-header>
-                          <ion-reorder>
-                            <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
-                              {data.category.name}
-                            </ion-card-title>
-                          </ion-reorder>
+                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
+                            {data.category.name}
+                            <ion-reorder hidden={this.toggle}></ion-reorder>
+
+                          </ion-card-title>
+
                         </ion-card-header>
                       </div>
                       {this.toggle ?

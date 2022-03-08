@@ -98,3 +98,8 @@
 .productIcon {
   width: 100%;
 }
+
+ion-reorder {
+  float: right;
+  color: black
+}

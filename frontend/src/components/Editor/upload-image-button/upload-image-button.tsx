@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, State } from '@stencil/core';
+import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { CheckImage } from '../../utils/image';
 import { PostData, PostImage } from '../../utils/post';
 import { config } from '../../utils/utils';

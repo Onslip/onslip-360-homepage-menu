@@ -23,6 +23,7 @@
 .menuContainer[data-status='Preset 3'] {
  box-shadow: 0 0 120px 120px rgba(0, 0, 0, 0.306);
  border: 3px ridge rgba(0, 0, 0, 0.19);
+ text-shadow: -1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,1px 1px 0 #000,1px 1px 0 #000;
 }
 
 .logoDiv {

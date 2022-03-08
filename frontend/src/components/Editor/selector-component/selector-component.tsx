@@ -35,21 +35,6 @@ export class SelectorComponent {
     await PostData('http://localhost:8080/config', config)
   }
 
-  async FontOutline(element) {
-    if (config?.font?.fontOutline == false) {
-      this.buttonpress = true;
-      config.font.fontOutline = true;
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element)
-        .style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
-    }
-    else if (config?.font?.fontOutline == true) {
-      this.buttonpress = false;
-      config.font.fontOutline = false;
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.textShadow = 'none';
-    }
-    await PostData('http://localhost:8080/config', config)
-  }
-
   async FontWeight(element) {
     if (config?.font?.fontWeight == false) {
       this.buttonPressed = true;
@@ -123,7 +108,6 @@ export class SelectorComponent {
                 </ion-item>
                 <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.FontWeight('.menuContainer') }}>B</ion-button>
                 <ion-button class={this.butpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontStyle('.menuContainer') }}>I</ion-button>
-                <ion-button class={this.buttonpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontOutline('.menuContainer') }}>A</ion-button>
               </ion-item>
             ]
               : null}
