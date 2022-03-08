@@ -10,7 +10,6 @@ import { PostData } from '../../utils/post';
 })
 
 export class ToolbarComponent {
-
   @State() menuopen: boolean = false
   private url1: string = 'http://localhost:8080/background'
   private url2: string = 'http://localhost:8080/banner';
@@ -42,13 +41,13 @@ export class ToolbarComponent {
     PostData('http://localhost:8080/config', config);
   }
 
-  async ChangeFontColor(element) {
+  async ChangeFontColor() {
     // const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
     // a.style = { color: config.font.fontColor };
     this.submitForm();
   }
 
-  async ChangeFontTitleColor(element) {
+  async ChangeFontTitleColor() {
     this.submitForm();
   }
 
@@ -106,11 +105,11 @@ export class ToolbarComponent {
               </ion-row>
               <ion-row>
                 <label htmlFor='fontColor' class='button-9'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor(`.card`) }} hidden />
+                <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor() }} hidden />
               </ion-row>
               <ion-row>
                 <label htmlFor='fontTitleColor' class='button-9'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor(`.card`) }} hidden />
+                <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor() }} hidden />
               </ion-row>
               <ion-row>
                 <api-ui></api-ui>
