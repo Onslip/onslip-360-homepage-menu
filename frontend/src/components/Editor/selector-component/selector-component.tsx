@@ -104,15 +104,15 @@ export class SelectorComponent {
     return (
       <Host>
         <ion-row>
-          <ion-item class={this.menu ? 'is-open' : 'is-closed'}>
+          <ion-item lines='none' class={this.menu ? 'is-open' : 'is-closed'}>
             <ion-item>
-              <ion-select onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions}>
+              <ion-select class="select" onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions}>
                 {this.DropDownvalues.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
               </ion-select>
             </ion-item>
             {this.type == 'font' ? [
               <ion-item lines='none'>
-                <ion-item class='sizeSelet' button='true'>
+                <ion-item class='sizeSelect' button='true'>
                   <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label' selectedText={<ion-icon src={getAssetPath('assets/font-size.svg')} />} >
                     <ion-select-option value={'2em'}>Larger</ion-select-option>
                     <ion-select-option value={'1.5em'}>Large</ion-select-option>
@@ -123,7 +123,6 @@ export class SelectorComponent {
                 </ion-item>
                 <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.FontWeight('.menuContainer') }}>B</ion-button>
                 <ion-button class={this.butpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontStyle('.menuContainer') }}>I</ion-button>
-                <ion-button class={this.buttonpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.FontOutline('.menuContainer') }}>A</ion-button>
               </ion-item>
             ]
               : null}

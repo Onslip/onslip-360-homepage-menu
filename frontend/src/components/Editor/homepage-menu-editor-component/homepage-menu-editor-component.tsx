@@ -22,13 +22,13 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
 
   async componentWillLoad() {
-    if (config?.background.enabled == false) {
+    if (!config?.background?.enabled) {
       GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
     }
-    if (config?.banner == true) {
+    if (config?.banner) {
       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
     }
-    if (config?.Logo == true) {
+    if (config?.Logo) {
       GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
     }
     else {
@@ -44,20 +44,16 @@ export class HomepageMenuEditorComponent {
   private async LoadConfig(element, element1) {
     const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
     component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
-    if (config?.font.fontWeight == true) {
+    if (config?.font?.fontWeight) {
       component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
     }
-    if (config?.font.fontStyle == true) {
+    if (config?.font?.fontStyle) {
       component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
-    document.querySelector(element1).style.fontSize = config.font.fontSize;
-
+    document.querySelector(element1).style.fontSize = config?.font?.fontSize;
     component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
-    if (config?.font.fontOutline) {
-      component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
-    }
-    if (config?.background.enabled == true) {
-      document.querySelector('body').style.background = config?.background.color;
+    if (config?.background?.enabled) {
+      document.querySelector('body').style.background = config?.background?.color;
     }
   }
 

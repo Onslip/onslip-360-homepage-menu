@@ -42,7 +42,7 @@ export class MenuEditorComponent {
               this.responsedata?.map(data => {
                 return (
                   <ion-reorder slot="end">
-                    <ion-card class='card' style={{ color: config.font.fontColor }}>
+                    <ion-card class='card' style={{ color: config?.font?.fontColor }}>
                       <category-editor-component category={data.category}></category-editor-component>
                       {
                         data.products.map(product => {

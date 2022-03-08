@@ -21,15 +21,6 @@
 
 }
 
-ion-item {
-  color: white;
-  max-height: 50px;
-  --inner-padding-end: none;
-
-  max-width: 200px;
-  --padding-end: none;--padding-start: none;
-}
-
 ion-row {
   width: fit-content;
 }
@@ -56,6 +47,7 @@ ion-row {
   font-size: large;
   font-weight: bold;
   width: 25px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .test-button {
@@ -64,14 +56,20 @@ ion-row {
 
 .cursive-button {
   width: 25px;
+  font-family: 'Times New Roman', Times, serif;
   font-size: large;
-  font-family:'Times New Roman', Times, serif;
   font-style:italic;
 }
 
 ion-item {
   --background: none;
   --color-activated: green;
+  color: white;
+  max-height: 50px;
+  --inner-padding-end: none;
+  max-width: 200px;
+  --padding-end: none;--padding-start: none;
+  min-height: 0;
 }
 
 
@@ -95,5 +93,13 @@ ion-popover {
 }
 
 .sizeSelect {
-  --inner-padding-start: 10px;
+}
+
+.select {
+  --color-hover: white;
+}
+
+ion-select {
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
