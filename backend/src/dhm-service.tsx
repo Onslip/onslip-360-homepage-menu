@@ -137,15 +137,19 @@ export class DHMService {
                     const name = data[FIELDS]?.find(x => x.name == 'id')?.value as string;
                     const prod = await svc.db.query<DBproduct[]>`select * from onslip.products where name = ${name}`;
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
-                    const id = prod.map(x => x.id)[0] as number;
+                    const id = prod.map(x => Number(x.id))[0];
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
                     await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
                     return data;
                 }
 
                 async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select * from onslip.productimages `;
-                    return data;
+                    const data = await svc.db.query<DBImage[]>`select * from onslip.productimages`;
+                    const list: DBImage[] = data.map(x => ({
+                        product_id: Number(x.product_id),
+                        image: x.image
+                    }))
+                    return list;
                 }
             })
     }
@@ -175,23 +179,23 @@ key = '${api.key}'                                    # User's Base64-encoded AP
 
         return categories.map(c => ({
             category: {
+                id: Number(c.id),
                 name: c.name
             },
             products: products.filter(p => p.productcategory_id == c.id).map(p => ({
                 name: p.name,
-                price: p.price,
+                id: Number(p.id),
                 description: p.description,
-                image: images.filter(x => x.product_id == p.id).map(z => z.image) ?? undefined
-            }))
-        } as productsWithCategory))
+                price: p.price,
+                productcategory_id: Number(p.productcategory_id)
+            })
+            )
+        }) as productsWithCategory)
     }
-
     private async rootResponse() {
         this.listener.Listener();
         return await this.GetProdByGroup();
     }
-
-
 
 }
 
@@ -215,15 +219,8 @@ interface DBImage {
 }
 
 interface productsWithCategory {
-    category: {
-        name: string
-    }
-    products: {
-        name: string,
-        price: string,
-        description: string
-        image: any
-    }[]
+    category: DBcategory,
+    products: DBproduct[]
 }
 
 interface newApi {

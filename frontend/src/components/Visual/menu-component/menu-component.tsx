@@ -1,5 +1,5 @@
 import { Component, h, Host, State } from '@stencil/core';
-import { productsWithCategory } from '../../utils/utils';
+import { DBItems } from '../../utils/utils';
 import '@ionic/core'
 import { GetData } from '../../utils/get';
 
@@ -11,7 +11,7 @@ import { GetData } from '../../utils/get';
 
 export class MenuComponent {
   @State() private url = 'http://localhost:8080'
-  @State() responsedata: productsWithCategory[]
+  @State() responsedata: DBItems[]
   @State() loading: boolean = true
 
   async componentWillLoad() {

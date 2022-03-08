@@ -1,8 +1,8 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBcategory, DBproduct, productsWithCategory } from '../../utils/utils';
+import { DBItems, DBImage } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage } from '../../utils/image';
+import { CheckImage, loadProdImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 
 @Component({
@@ -15,12 +15,13 @@ export class MenuEditorComponent {
   @State() private url = 'http://localhost:8080'
   private produrl: string = 'http://localhost:8080/productimage-upload';
 
-  @State() responsedata: productsWithCategory[]
+  @State() responsedata: DBItems[]
   @State() loading: boolean = true
   @State() errormessage: string
   @Element() element: HTMLElement;
   @Prop() toggle: boolean;
   @State() image;
+  @State() images: DBImage[]
 
   async componentWillLoad() {
     GetData(this.url)
@@ -30,6 +31,15 @@ export class MenuEditorComponent {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
       });
+    if (config.useProductImages) {
+      GetData(this.produrl)
+        .then(response => this.images = response)
+        .then(() => { this.loading = false })
+        .catch(() => {
+          this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
+          this.loading = false
+        });
+    }
   }
 
   async uploadImage(file, element, name) {
@@ -53,49 +63,55 @@ export class MenuEditorComponent {
     this.responsedata = ev.detail.complete(this.responsedata);
   }
 
-  getImage(product) {
-    const backgroundbyte = new Uint8Array(product.image[0]?.data);
-    const blob = new Blob([backgroundbyte.buffer]);
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    reader.onload = () => {
-      const image = `url(${reader.result})`;
-      return (
-        <ion-col>
-          <img src={image}></img>
-        </ion-col>
-      )
-    };
-  }
 
-  renderProducts(product: DBproduct) {
-    return (
+
+  async getImage(product, element) {
+    const image = await loadProdImage(product);
+
+    console.log(image);
+    // const img = document.createElement('img');
+    // img.src = image.toString();
+    this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
+
+    // this.element.shadowRoot.querySelector(element).appendChild(img);
+    // return (
+    //   <ion-col>
+    //     <img src={image.toString()}></img>
+    //     <label htmlFor='file' class='uploadbutton'>Upload</label>
+    //     <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', product.name)} hidden />
+    //   </ion-col>
+    // )
+
+  }
+  renderProducts(products) {
+    return (products.map(x =>
       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
           <ion-col size="1" class='productIcon' hidden={!config.useProductImages}>
-            {this.getImage(product)}
+            {/* {this.getImage(product, '.productIcon')} */}
             <label htmlFor='file' class='uploadbutton'>Upload</label>
-            <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', product.name)} hidden />
+            <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', x.name)} hidden />
           </ion-col>
           <ion-col size="10">
             <ion-row>
               <ion-col class="productName">
-                <div>{product.name}</div>
+                <div>{x.name}</div>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col class='productDesc'>
-                <div>{product.description}</div>
+                <div>{x.description}</div>
               </ion-col>
             </ion-row>
           </ion-col>
           <ion-col size="1" class='productPrice'>
-            <div>{product.price}kr</div>
+            <div>{x.price}kr</div>
           </ion-col>
         </ion-row>
       </ion-card-content>
-    )
+    ))
   }
+
 
   render() {
     return (
@@ -121,11 +137,9 @@ export class MenuEditorComponent {
                         </ion-card-header>
                       </div>
                       {this.toggle ?
-                        data.products.map(product => {
-                          return (
-                            this.renderProducts(product)
-                          )
-                        })
+
+                        this.renderProducts(data.products)
+
                         : null}
                     </ion-card>
                   </div>
