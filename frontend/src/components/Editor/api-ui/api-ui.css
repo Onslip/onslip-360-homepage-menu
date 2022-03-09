@@ -221,10 +221,11 @@
 }
 
 input {
-   width: 200px;
+   width: 100%;
 }
 
 .inputfield {
   padding-bottom: 0.6rem;
   padding-top: 0.6rem;
+  padding-right: 1%;
 }
