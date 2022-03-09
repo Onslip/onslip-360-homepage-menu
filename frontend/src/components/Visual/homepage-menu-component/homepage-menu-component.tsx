@@ -2,6 +2,8 @@ import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core'
 import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
+
+
 import '@ionic/core'
 
 @Component({
@@ -10,82 +12,128 @@ import '@ionic/core'
   shadow: true,
   assetsDirs: ['../../../assets'],
 })
-
 export class HomepageMenuComponent {
+
   @State() private imageurl: string = 'http://localhost:8080/background';
-  @State() private configurl: string = 'http://localhost:8080/config';
   @State() private bannerUrl: string = 'http://localhost:8080/banner';
   @State() private logoUrl: string = 'http://localhost:8080/logo';
+  @State() private locationUrl: string = 'http://localhost:8080/location';
   @Element() element: HTMLElement;
+  @State() loading: boolean = true;
+  @State() toggle: boolean = true;
 
   async componentWillLoad() {
+    if (config?.background?.enabled == false) {
+      GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    }
+    if (config?.banner == true) {
+      GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+    }
 
-    if (config?.background?.enabled) {
-      document.querySelector('body').style.backgroundImage = null;
-      document.querySelector('body').style.background = config.background.color;
+    if (config?.Logo == true) {
+      if (config?.banner == true) {
+        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+      }
+      else {
+        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.no-banner')).catch(err => err);
+
+      }
+
     }
     else {
-      await this.LoadBackground(this.imageurl);
-    }
-    this.LoadBanner(this.bannerUrl, '.header');
-    this.LoadLogo(this.logoUrl, '.header');
+      GetData(this.locationUrl).then(response => {
+        console.log(this.element.shadowRoot.querySelector('.header'));
 
-  }
+        const node = document.createElement("h1");
+        node.innerText = response;
+        if (config?.banner == true) {
+          this.element.shadowRoot.querySelector('.header').appendChild(node);
+        }
+        else {
+          const divnode = document.createElement("div");
+          divnode.className = "no-banner";
+          this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
+          this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
+        }
 
-  private LoadConfig(element) {
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = config?.font;
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
-  }
-  componentDidLoad() {
-    this.LoadConfig('.menuContainer');
-
-  }
-  private async LoadBackground(url) {
-    const background = await GetData(url).catch(err => err);
-    const image = await loadImage(background)
-    if (image != null) {
-      document.querySelector('body').style.backgroundImage = `url(${image})`
+      })
+        .catch(err => console.log(err))
     }
   }
 
-  private async LoadLogo(url, element) {
-    const logo = await GetData(url).catch(() => {
-      const node = document.createElement("h1");
-      node.innerText = 'Martins Kolgrill'
-      this.element.shadowRoot.querySelector(element).appendChild(node)
-    });
-    const image = await loadImage(logo)
-    if (image != null) {
+  private async LoadConfig(element, element1) {
+    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-component');
+    component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
+    if (config?.font.fontWeight == true) {
+      component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
+    }
+    if (config?.font.fontStyle == true) {
+      component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
+    }
+    document.querySelector(element1).style.fontSize = config.font.fontSize;
+
+    component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    if (config?.font.fontOutline) {
+      component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
+    }
+    if (config?.background.enabled == true) {
+      document.querySelector('body').style.background = config?.background.color;
+    }
+  }
+
+  async componentDidLoad() {
+    this.LoadConfig('.menuContainer', ':root');
+  }
+
+  private async LoadBackground(image) {
+    const loadedImage = await loadImage(image).catch(err => err)
+    document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
+  }
+
+  private async LoadLogo(image, element) {
+    const loadedImage = await loadImage(image).catch(() => {
+
+    })
+    if (config.Logo) {
       const img = document.createElement('img');
-      img.src = image.toString();
+      img.src = loadedImage.toString();
+
       this.element.shadowRoot.querySelector(element).appendChild(img);
     }
   }
 
-  private async LoadBanner(url, element) {
-    const banner = await GetData(url);
-    const image = await loadImage(banner)
-    if (image != null) {
-      // document.querySelector('homepage-menu-component').shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
-      this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${image})`;
+  private async LoadBanner(image, element) {
+    const loadedImage = await loadImage(image).catch(err => err);
+    if (config.banner) {
+      this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
     }
   }
 
+  change() {
+    if (this.toggle) {
+      this.toggle = false;
+    }
+    else {
+      this.toggle = true;
+    }
+  }
 
   render() {
-
     return (
       <Host>
-        <div class={'menuContainer'}>
-          <div class='header'></div>
-          <menu-component></menu-component>
-          <div class='logoDiv'>
-            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+        <div class='menuContainer' data-status={config?.preset}>
+          <div class={config?.banner ? 'header' : 'no-banner'}>
+
           </div>
+
+          <menu-component toggle={this.toggle}></menu-component>
+        </div>
+
+        <div class='logoDiv'>
+          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
       </Host>
     )
-
   }
 }
 

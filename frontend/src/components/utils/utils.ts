@@ -1,26 +1,38 @@
 import { GetData } from "./get";
 
-export interface productsWithCategory {
-  category: {
-    name: string
-  }
-  products: {
-    name: string,
-    price: string,
-    description: string
-    image: any
-  }[]
+// export interface productsWithCategory {
+//   category: {
+//     name: string
+//   }
+//   products: {
+//     id: number,
+//     name: string,
+//     price: string,
+//     description: string
+//     image: any
+//   }[]
+// }
+export interface DBImage {
+  image: any
+  product_id: number
 }
 
 export interface DBproduct {
+  id: number,
   name: string
   description: string
-  price: string
-  image: any
+  price: string,
+  productcategory_id: number
+}
+
+export interface DBItems {
+  category: DBcategory,
+  products: DBproduct[],
 }
 
 export interface DBcategory {
   name: string
+  id: number
 }
 
 export interface Colorconfig {
@@ -50,6 +62,7 @@ export interface Styleconfig {
   }
   preset: string,
   menuBackground: string,
+  connect: boolean,
 }
 
 export enum buttonvalues {
@@ -83,3 +96,4 @@ export const Presets = [
 export const editorvisual: boolean = false;
 
 export const config: Styleconfig = await GetData('http://localhost:8080/config').catch(err => err);
+

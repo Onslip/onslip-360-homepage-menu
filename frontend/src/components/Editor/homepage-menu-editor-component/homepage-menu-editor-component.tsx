@@ -2,8 +2,6 @@ import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core'
 import { config } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
-
-
 import '@ionic/core'
 
 @Component({
@@ -20,6 +18,7 @@ export class HomepageMenuEditorComponent {
   @State() private locationUrl: string = 'http://localhost:8080/location';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
+  @State() toggle: boolean = true;
 
   async componentWillLoad() {
     if (!config?.background?.enabled) {
@@ -28,14 +27,33 @@ export class HomepageMenuEditorComponent {
     if (config?.banner) {
       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
     }
+
     if (config?.Logo) {
-      GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+      if (config?.banner) {
+        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+      }
+      else {
+        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.no-banner')).catch(err => err);
+
+      }
+
     }
     else {
       GetData(this.locationUrl).then(response => {
+        console.log(this.element.shadowRoot.querySelector('.header'));
+
         const node = document.createElement("h1");
         node.innerText = response;
-        this.element.shadowRoot.querySelector('.header').appendChild(node)
+        if (config?.banner) {
+          this.element.shadowRoot.querySelector('.header').appendChild(node);
+        }
+        else {
+          const divnode = document.createElement("div");
+          divnode.className = "no-banner";
+          this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
+          this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
+        }
+
       })
         .catch(err => console.log(err))
     }
@@ -68,15 +86,27 @@ export class HomepageMenuEditorComponent {
 
   private async LoadLogo(image, element) {
     const loadedImage = await loadImage(image)
-    const img = document.createElement('img');
-    img.src = loadedImage.toString();
-    this.element.shadowRoot.querySelector(element).appendChild(img);
+    if (config.Logo) {
+      const img = document.createElement('img');
+      img.src = loadedImage.toString();
+
+      this.element.shadowRoot.querySelector(element).appendChild(img);
+    }
   }
 
   private async LoadBanner(image, element) {
     const loadedImage = await loadImage(image).catch(err => err);
     if (config.banner) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
+    }
+  }
+
+  change() {
+    if (this.toggle) {
+      this.toggle = false;
+    }
+    else {
+      this.toggle = true;
     }
   }
 
@@ -87,8 +117,10 @@ export class HomepageMenuEditorComponent {
           <toolbar-component></toolbar-component>
         </div>
         <div class='menuContainer' data-status={config?.preset}>
-          <div class='header'></div>
-          <menu-editor-component></menu-editor-component>
+          <div class={config?.banner ? 'header' : 'no-banner'}>
+            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+          </div>
+          <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
@@ -97,3 +129,4 @@ export class HomepageMenuEditorComponent {
     )
   }
 }
+
