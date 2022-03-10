@@ -43,19 +43,33 @@ export class Listener {
     }
 
     private async CreateGroupTable() {
-        const getAllProductGroups = this.api.listProductGroups();
-        await this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL)`;
-        (await getAllProductGroups).forEach((x) => {
-            this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${x.id}, ${x.name})`
+        const buttonmaps = await this.api.listButtonMaps()
+        const getAllProductGroups = buttonmaps.filter(b => b.type == "menu");
+        await this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, position INT NOT NULL, name STRING NOT NULL)`;
+        (await getAllProductGroups[0].buttons).forEach((x) => {
+            console.log(buttonmaps[x["button-map"] ?? 0])
+            this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, position, name) VALUES (${x["button-map"] ?? null}, ${x.x}, ${x.product ?? null})`
         });
-        this.CreateProductTable();
+        this.CreateProductTable(getAllProductGroups);
     }
 
-    private async CreateProductTable() {
+    private async CreateProductTable(buttonmaps: API.Stored_ButtonMap[]) {
         await this.db.query<DBQuery[]>`create table if not exists onslip.products (id INT PRIMARY KEY, name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
-        const getAllProducts = this.api.listProducts();
-        (await getAllProducts).forEach((x) => {
-            this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description, productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
+        const getAllProducts = await this.api.listProducts();
+        console.log(buttonmaps)
+        const products = buttonmaps.flatMap(b => {
+            return (
+                b.buttons.flatMap(x => {
+                    return {
+                        product: getAllProducts.filter(z => z.id == x.product),
+                        buttonmap: b.id
+                    }
+                })
+            )
+        });
+        console.log(buttonmaps[0].buttons[1].y)
+        products.forEach((x) => {
+            this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description, productcategory_id) VALUES (${x.product[0].id}, ${x.product[0].name}, ${x.product[0].price ?? null}, ${x.product[0].description ?? null}, ${x.buttonmap ?? null})`
         });
         await this.CreateProductImageTable();
         this.DeleteFromDb();

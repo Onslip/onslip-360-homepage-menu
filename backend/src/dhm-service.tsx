@@ -157,25 +157,27 @@ export class DHMService {
     private async WritetoFile(api: newApi) {
         this.api = new API(api.base, api.realm, api.id, api.key);
         this.db = new URI(api.uri) as DatabaseURI;
-        writeFileSync('./test.toml', `[listen]
-host  = 'localhost'
-port  = 8080
-
-[database]
-uri   = '${api.uri}'
-
-[onslip360]
-base  = '${api.base}'      # Onslip 360 environment
-realm = '${api.realm}'                          # Onslip 360 account
-id = '${api.id}' # ID of user's API key
-key = '${api.key}'                                    # User's Base64-encoded API key
-                `)
+        const config: DHMConfig = {
+            listen: {
+                port: 8080,
+                host: 'localhost'
+            },
+            database: {
+                uri: api.uri
+            },
+            onslip360: {
+                base: api.base,
+                realm: api.realm,
+                id: api.id,
+                key: api.key
+            }
+        }
+        await new URI('./test.toml').save(config)
     }
 
     private async GetProdByGroup(): Promise<productsWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
-        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`;
 
         return categories.map(c => ({
             category: {
@@ -193,10 +195,12 @@ key = '${api.key}'                                    # User's Base64-encoded AP
         }) as productsWithCategory)
     }
     private async rootResponse() {
+        // const asd = await this.api.listButtonMaps()
+        // const a = await asd.filter(x => x.type == "menu-section")
+        // console.log(a)
         this.listener.Listener();
         return await this.GetProdByGroup();
     }
-
 }
 
 

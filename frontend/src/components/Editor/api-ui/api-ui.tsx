@@ -40,6 +40,7 @@ export class ApiUi {
     const data = { base: this.base, realm: this.realm, id: this.id, key: this.key, uri: this.uri };
     PostData(this.url, data);
     this.close();
+    location.reload();
   }
 
   handleChangeRealm(event) {
