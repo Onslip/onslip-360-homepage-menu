@@ -204,12 +204,12 @@ export class DHMService {
 }
 
 
-interface DBproduct {
-    id: number
-    name: string
-    description: string
-    price: string
-    productcategory_id: number
+export interface DBproduct {
+    id?: number
+    name?: string
+    description?: string
+    price?: number
+    productcategory_id?: number
 }
 
 interface DBcategory {
