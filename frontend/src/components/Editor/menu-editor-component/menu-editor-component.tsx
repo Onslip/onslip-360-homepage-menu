@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBItems, DBImage, MenuWithCategory, categorywithproduct } from '../../utils/utils';
+import { DBImage, MenuWithCategory, categorywithproduct } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';

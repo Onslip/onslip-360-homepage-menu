@@ -175,6 +175,43 @@ export class DHMService {
         await new URI('./test.toml').save(config)
     }
 
+    private async GetProdFromApi() {
+        const categorybuttonamp = (await this.api.listButtonMaps()).filter(c => c.type == 'menu-section');
+        const menu = (await this.api.listButtonMaps()).filter(c => c.type == 'menu');
+        const buttonmaps = await this.api.listButtonMaps()
+        const getAllProducts = await this.api.listProducts();
+
+        return menu.flatMap(m => {
+            return (
+                {
+                    menu: {
+                        id: Number(m.id),
+                        name: m.name
+                    },
+                    categories: m.buttons.flatMap(category => {
+                        return {
+                            id: category["button-map"] ?? 0,
+                            name: buttonmaps?.find(buttonmap => buttonmap.id == category["button-map"])?.name
+                        }
+                    }),
+                    products: categorybuttonamp.flatMap(category => {
+                        return (
+                            category.buttons.flatMap(product => {
+                                return {
+                                    position: product.y,
+                                    category_id: category.id,
+                                    product: getAllProducts.find(p => p.id == product.product)
+                                }
+                            })
+                        )
+                    })
+
+
+                }
+            )
+        }) as unknown as MenuWithCategory[]
+    }
+
     private async GetProdByGroup(): Promise<MenuWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
@@ -215,7 +252,12 @@ export class DHMService {
     }
     private async rootResponse() {
         this.listener.Listener();
-        return await this.GetProdByGroup();
+        if (this.config.database.uri == undefined) {
+            return 'api';
+        }
+        else {
+            return 'db';
+        }
     }
 }
 
@@ -256,20 +298,3 @@ interface newApi {
     uri: string
 }
 
-interface Styleconfig {
-    background: {
-        enabled: boolean
-        color: string,
-    },
-    useProductImages: true,
-    font: {
-        fontFamily: string,
-        fontWeight: boolean;
-        fontStyle: boolean;
-        fontSize: number;
-    }
-    preset: string,
-    menuBackground: string,
-}
-
-const a: Styleconfig = JSON.parse(JSON.stringify(readFileSync('./config.json').toString()));
