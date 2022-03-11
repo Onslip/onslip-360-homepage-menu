@@ -212,7 +212,7 @@ export interface DBproduct {
     productcategory_id?: number
 }
 
-interface DBcategory {
+export interface DBcategory {
     name: string
     id: number
 }
