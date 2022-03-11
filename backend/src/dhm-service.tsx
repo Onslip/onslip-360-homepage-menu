@@ -3,8 +3,9 @@ import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
-import { Junction, Listener, Menu } from './Listener';
+import { Listener } from './Listener';
 import { writeFileSync, readFileSync } from 'fs';
+import { DBcategory, DBImage, DBproduct, Junction, Menu, MenuWithCategory, newApi } from './interfaces';
 
 export class DHMService {
     private api: API;
@@ -261,40 +262,4 @@ export class DHMService {
     }
 }
 
-
-export interface DBproduct {
-    id?: number
-    name?: string
-    description?: string
-    price?: number
-    productcategory_id?: number
-}
-
-export interface DBcategory {
-    name: string
-    id: number
-}
-
-interface DBImage {
-    image: any
-    product_id: number
-}
-
-interface MenuWithCategory {
-    menu: Menu
-    categories: categorywithproduct[]
-}
-
-interface categorywithproduct {
-    category: DBcategory,
-    products: DBproduct[]
-}
-
-interface newApi {
-    base: string,
-    realm: string,
-    key: string,
-    id: string,
-    uri: string
-}
 

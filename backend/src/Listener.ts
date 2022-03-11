@@ -1,8 +1,8 @@
 import { API, AbortController } from "@onslip/onslip-360-node-api";
 import { DatabaseURI, DBQuery, FIELDS } from "@divine/uri";
-import { DBcategory, DBproduct } from "./dhm-service";
 import { main } from "./onslip-360-homepage-menu";
 import { listeners } from "process";
+import { DBcategory, DBproduct, ICategory, IProduct, Menu } from "./interfaces";
 
 export class Listener {
     private api: API;
@@ -180,37 +180,3 @@ export class Listener {
     }
 }
 
-interface IPayload {
-    id: number;
-}
-
-interface IProduct {
-    position: number,
-    category_id: number,
-    product?: DBproduct
-}
-
-interface ICategory {
-    id: number,
-    position: number;
-    menu_id: number;
-    name?: string;
-}
-
-export interface Junction {
-    product_id: number;
-    category_id: number;
-}
-
-export interface Menu {
-    id: number;
-    name: string;
-}
-
-// interface IGroupPayload {
-//     usage: { "product-group": number; type: string };
-// }
-
-// interface ILoad {
-//     usage: { type: string };
-// }
