@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBItems, DBImage } from '../../utils/utils';
+import { DBItems, DBImage, MenuWithCategory, categorywithproduct } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -14,7 +14,7 @@ export class MenuEditorComponent {
 
   @State() private url = 'http://localhost:8080'
   private produrl: string = 'http://localhost:8080/productimage-upload';
-  @State() responsedata: DBItems[]
+  @State() responsedata: MenuWithCategory[];
   @State() loading: boolean = true
   @State() errormessage: string
   @Element() element: HTMLElement;
@@ -124,7 +124,7 @@ export class MenuEditorComponent {
                       <div>
                         <ion-card-header>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
-                            {data.category.name}
+                            {data[0].categories.category.name}
                             <ion-reorder hidden={this.toggle}></ion-reorder>
 
                           </ion-card-title>
@@ -132,7 +132,7 @@ export class MenuEditorComponent {
                         </ion-card-header>
                       </div>
                       {this.toggle ?
-                        this.renderProducts(data.products)
+                        this.renderProducts(data[0].categories)
                         : null}
                     </ion-card>
                   </div>
