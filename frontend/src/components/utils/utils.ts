@@ -65,6 +65,21 @@ export interface Styleconfig {
   connect: boolean,
 }
 
+export interface MenuWithCategory {
+  menu: Menu
+  categories: categorywithproduct[]
+}
+export interface Menu {
+  id: number;
+  name: string;
+}
+
+export interface categorywithproduct {
+  category: DBcategory,
+  products: DBproduct[]
+}
+
+
 export enum buttonvalues {
   background = "Ändra bakgrund",
   banner = "Ändra banner",

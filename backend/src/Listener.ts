@@ -191,18 +191,18 @@ interface IProduct {
 }
 
 interface ICategory {
-    id: number;
+    id: number,
     position: number;
     menu_id: number;
     name?: string;
 }
 
-interface Junction {
+export interface Junction {
     product_id: number;
     category_id: number;
 }
 
-interface Menu {
+export interface Menu {
     id: number;
     name: string;
 }

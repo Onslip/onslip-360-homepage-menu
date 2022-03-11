@@ -3,7 +3,7 @@ import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
-import { Listener } from './Listener';
+import { Junction, Listener, Menu } from './Listener';
 import { writeFileSync, readFileSync } from 'fs';
 
 export class DHMService {
@@ -175,29 +175,45 @@ export class DHMService {
         await new URI('./test.toml').save(config)
     }
 
-    private async GetProdByGroup(): Promise<productsWithCategory[]> {
+    private async GetProdByGroup(): Promise<MenuWithCategory[]> {
         const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
         const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
+        const junction = await this.db.query<Junction[]>`select * from onslip.grouptoproduct`
+        const menu = await this.db.query<Menu[]>`select * from onslip.grouptoproduct`
 
-        return categories.map(c => ({
-            category: {
-                id: Number(c.id),
-                name: c.name
-            },
-            products: products.filter(p => p.productcategory_id == c.id).map(p => ({
-                name: p.name,
-                id: Number(p.id),
-                description: p.description,
-                price: p.price,
-                productcategory_id: Number(p.productcategory_id)
-            })
+        return menu.flatMap(m => {
+            return (
+                {
+                    menu: {
+                        id: Number(m.id),
+                        name: m.name
+                    },
+                    categories: junction.flatMap(j => {
+                        return (
+                            {
+                                category: {
+                                    id: Number(categories.find(c => c.id == j.category_id)?.id),
+                                    name: categories.find(c => c.id == j.category_id)?.name
+                                },
+                                products: products.filter(p => p.id == j.product_id).flatMap(p => {
+                                    return (
+                                        {
+                                            id: Number(p.id),
+                                            name: p.name,
+                                            description: p.description,
+                                            price: Number(p.price),
+                                            productcategory_id: Number(p.productcategory_id)
+                                        }
+                                    )
+                                })
+                            }
+                        )
+                    })
+                }
             )
-        }) as productsWithCategory)
+        }) as MenuWithCategory[]
     }
     private async rootResponse() {
-        // const asd = await this.api.listButtonMaps()
-        // const a = await asd.filter(x => x.type == "menu-section")
-        // console.log(a)
         this.listener.Listener();
         return await this.GetProdByGroup();
     }
@@ -222,7 +238,12 @@ interface DBImage {
     product_id: number
 }
 
-interface productsWithCategory {
+interface MenuWithCategory {
+    menu: Menu
+    categories: categorywithproduct[]
+}
+
+interface categorywithproduct {
     category: DBcategory,
     products: DBproduct[]
 }
