@@ -63,6 +63,7 @@ export interface Styleconfig {
   preset: string,
   menuBackground: string,
   connect: boolean,
+  menuInUse: number;
 }
 
 export interface MenuWithCategory {
@@ -111,4 +112,3 @@ export const Presets = [
 export const editorvisual: boolean = false;
 
 export const config: Styleconfig = await GetData('http://localhost:8080/config').catch(err => err);
-

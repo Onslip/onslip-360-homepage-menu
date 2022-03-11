@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBImage, MenuWithCategory, categorywithproduct } from '../../utils/utils';
+import { DBImage, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -20,6 +20,7 @@ export class MenuEditorComponent {
   @Element() element: HTMLElement;
   @Prop() toggle: boolean;
   @State() images: DBImage[]
+  @State() menu: MenuWithCategory
 
   async componentWillLoad() {
     GetData(this.url)
@@ -37,6 +38,7 @@ export class MenuEditorComponent {
           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
+    this.menu = this.responsedata.find(x => x.menu.id == config.menuInUse);
   }
 
   async componentDidRender() {
@@ -117,14 +119,14 @@ export class MenuEditorComponent {
         <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)}>
           {
             !this.loading ?
-              this.responsedata?.map(data => {
+              this.menu.categories.map(data => {
                 return (
                   <div>
                     <ion-card class='card' style={{ color: config?.font?.fontColor }}>
                       <div>
                         <ion-card-header>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
-                            {data[0].categories.category.name}
+                            {data.category.name}
                             <ion-reorder hidden={this.toggle}></ion-reorder>
 
                           </ion-card-title>
@@ -132,7 +134,7 @@ export class MenuEditorComponent {
                         </ion-card-header>
                       </div>
                       {this.toggle ?
-                        this.renderProducts(data[0].categories)
+                        this.renderProducts(data.products)
                         : null}
                     </ion-card>
                   </div>
