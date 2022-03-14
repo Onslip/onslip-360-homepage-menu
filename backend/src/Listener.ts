@@ -34,9 +34,9 @@ export class Listener {
             return (
                 category.buttons.flatMap(product => {
                     return {
-                        position: product.y,
                         category_id: category.id,
-                        product: getAllProducts.find(p => p.id == product.product)
+                        product: getAllProducts.find(p => p.id == product.product),
+                        position: product.y,
                     }
                 })
             )
@@ -70,14 +70,14 @@ export class Listener {
             const menuList = await this.db.query<DBQuery[]>`select * from onslip.menu where id = ${element.id}`;
             const menuExists: boolean = menuList.length != 0;
             if (!menuExists) {
-                this.db.query<DBQuery[]>`insert into onslip.menu (id, name) values (${element.id}, ${element.name})`;
+                await this.db.query<DBQuery[]>`insert into onslip.menu (id, name) values (${element.id}, ${element.name})`;
             }
             else {
-                this.db.query<DBQuery[]>`update onslip.menu set (name) =  (${element.name}) where id = ${element.id}`;
+                await this.db.query<DBQuery[]>`update onslip.menu set (name) =  (${element.name}) where id = ${element.id}`;
             }
             const checkIfMenuExistsOnApi: boolean = (await menu).find(z => z.id == element.id) == null;
             if (checkIfMenuExistsOnApi) {
-                this.db.query<DBQuery>`delete from onslip.products where id = ${element.id ?? null}`;
+                await this.db.query<DBQuery>`delete from onslip.products where id = ${element.id ?? null}`;
             }
         })
     }
@@ -87,23 +87,25 @@ export class Listener {
         productList.forEach(async x => {
             const chack = (await this.Getproducts()).find(z => z.product?.id == x.id) == undefined
             if (chack) {
-                this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.id ?? null}`
-                this.db.query<DBQuery>`delete from onslip.products where id = ${x.id ?? null}`;
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.id ?? null}`
+                await this.db.query<DBQuery>`delete from onslip.productimages where product_id = ${x.id ?? null}`
+                await this.db.query<DBQuery>`delete from onslip.products where id = ${x.id ?? null}`;
             }
         })
         const categoryList = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
         categoryList.forEach(async x => {
             const chack = (await this.GetCategories()).find(z => z.id == x.id) == undefined
             if (chack) {
-                this.db.query<DBQuery>`delete from onslip.grouptoproduct where category_id = ${x.id}`
-                this.db.query<DBQuery>`delete from onslip.productcategories where id = ${x.id}`;
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where category_id = ${x.id}`
+                await this.db.query<DBQuery>`delete from onslip.categoryimages where category_id = ${x.id}`
+                await this.db.query<DBQuery>`delete from onslip.productcategories where id = ${x.id}`;
             }
         })
         const menuList = await this.db.query<Menu[]>`select * from onslip.menu`;
         menuList.forEach(async x => {
             const chack = (await (await this.api.listButtonMaps()).filter(c => c.type == 'menu')).find(z => z.id == x.id) == undefined
             if (chack) {
-                this.db.query<DBQuery>`delete from onslip.menu where id = ${x.id}`;
+                await this.db.query<DBQuery>`delete from onslip.menu where id = ${x.id}`;
             }
         })
     }
@@ -116,38 +118,38 @@ export class Listener {
             const categoryList = await this.db.query<DBQuery[]>`select * from onslip.productcategories where id = ${x.id}`;
             const categoryExists: boolean = categoryList.length != 0;
             if (!categoryExists) {
-                this.db.query<DBQuery[]>`insert into onslip.productcategories (id, position, name, menu_id) VALUES (${x.id ?? null}, ${x.position}, ${x.name ?? null}, ${x.menu_id})`
+                await this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, position, name, menu_id) VALUES (${x.id ?? null}, ${x.position}, ${x.name ?? null}, ${x.menu_id})`
             }
             else {
-                this.db.query<DBQuery[]>`update onslip.productcategories set (position, name, menu_id) = (${x.position}, ${x.name ?? null}, ${x.menu_id}) where id = ${x.id}`
+                await this.db.query<DBQuery[]>`update onslip.productcategories set (position, name, menu_id) = (${x.position}, ${x.name ?? null}, ${x.menu_id}) where id = ${x.id}`
             }
         });
     }
 
     private async CreateProductTable() {
-        await this.db.query<DBQuery[]>`create table if not exists onslip.products (id INT PRIMARY KEY, name STRING NOT NULL, price STRING NOT NULL, description STRING)`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.products (id INT PRIMARY KEY, name STRING NOT NULL, price DECIMAL NOT NULL, description STRING)`;
         const products = await this.Getproducts()
         products.forEach(async x => {
             const productList = await this.db.query<DBQuery[]>`select * from onslip.products where id = ${x.product?.id ?? null}`;
             const productExists: boolean = productList.length != 0
 
             if (!productExists) {
-                this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description) VALUES(${x.product?.id ?? null}, ${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null})`
+                await this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description) VALUES(${x.product?.id ?? null}, ${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null})`
             }
             else {
-                this.db.query<DBQuery[]>`update onslip.products set (name, price, description) = (${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null}) where id = ${x.product?.id ?? null}`
+                await this.db.query<DBQuery[]>`update onslip.products set (name, price, description) = (${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null}) where id = ${x.product?.id ?? null}`
             }
         })
     }
 
     private async CreateJunction() {
-        await this.db.query<DBQuery>`create table if not exists onslip.grouptoproduct (product_id INT REFERENCES onslip.products(id), category_id INT REFERENCES onslip.productcategories(id))`
+        await this.db.query<DBQuery>`create table if not exists onslip.grouptoproduct (product_id INT REFERENCES onslip.products(id), category_id INT REFERENCES onslip.productcategories(id), productposition INT NOT NULL)`
         const products = await this.Getproducts()
         products.forEach(async (x) => {
             const list = await this.db.query<DBQuery[]>`select * from onslip.grouptoproduct where product_id = ${x.product?.id ?? null} and category_id = ${x.category_id}`;
             const a: boolean = list.length != 0
             if (!a) {
-                this.db.query <DBQuery[]>`insert into onslip.grouptoproduct (product_id, category_id) VALUES(${x.product?.id ?? null}, ${x.category_id})`
+                this.db.query <DBQuery[]>`insert into onslip.grouptoproduct (product_id, category_id, productposition) VALUES(${x.product?.id ?? null}, ${x.category_id}, ${x.position}) `
             }
         });
     }
@@ -160,21 +162,29 @@ export class Listener {
                 const stream = await this.api.addEventStream({
                     state: "pending",
                     queries: [
-                        { resource: "button-maps", query: `` },
+                        { resource: "button-maps", query: `type=menu-section` },
+                        { resource: "button-maps", query: `type=menu` },
                     ],
                 });
                 setTimeout(() => cancel.abort, 60_000);
 
-                console.log("Product and product group updates:");
+                // const event = (await this.api.signal(cancel.signal).openEventStream(stream.id).next())
+                // if (event.done) {
+                //     this.CreateDB();
+                //     console.log('done');
+                // }
+
                 for await (const event of this.api
                     .signal(cancel.signal)
                     .openEventStream(stream.id)) {
-                    this.CreateDB();
+                    await this.CreateDB();
+
                 }
+
                 console.log("All done");
             } catch (error) {
                 console.error(error);
-                cancel.abort;
+                // cancel.abort;
             }
         }
     }

@@ -3,17 +3,21 @@ export interface DBproduct {
     name?: string
     description?: string
     price?: number
-    productcategory_id?: number
+    productcategory_id?: number;
+    position?: number
 }
 
 export interface DBcategory {
-    name: string
-    id: number
+    name?: string
+    id: number,
+    menu_id?: number;
+    position: number
 }
 
 export interface DBImage {
     image: any
-    product_id: number
+    product_id: number,
+
 }
 
 export interface MenuWithCategory {
@@ -23,7 +27,7 @@ export interface MenuWithCategory {
 
 export interface categorywithproduct {
     category: DBcategory,
-    products: DBproduct[]
+    products: DBproduct[],
 }
 
 export interface newApi {
@@ -39,9 +43,9 @@ export interface IPayload {
 }
 
 export interface IProduct {
-    position: number,
     category_id: number,
-    product?: DBproduct
+    product?: DBproduct,
+    position: number,
 }
 
 export interface ICategory {
@@ -54,6 +58,7 @@ export interface ICategory {
 export interface Junction {
     product_id: number;
     category_id: number;
+    productposition: number,
 }
 
 export interface Menu {

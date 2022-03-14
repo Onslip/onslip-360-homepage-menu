@@ -22,7 +22,7 @@ export interface DBproduct {
   name: string
   description: string
   price: string,
-  productcategory_id: number
+  productcategory_id: number,
 }
 
 export interface DBItems {
@@ -32,7 +32,7 @@ export interface DBItems {
 
 export interface DBcategory {
   name: string
-  id: number
+  id: number,
 }
 
 export interface Colorconfig {

@@ -14,7 +14,6 @@ export class MenuEditorComponent {
 
   @State() private url = 'http://localhost:8080'
   private produrl: string = 'http://localhost:8080/productimage-upload';
-  @State() responsedata: MenuWithCategory[];
   @State() loading: boolean = true
   @State() errormessage: string
   @Element() element: HTMLElement;
@@ -24,7 +23,7 @@ export class MenuEditorComponent {
 
   async componentWillLoad() {
     GetData(this.url)
-      .then(response => this.responsedata = response)
+      .then(response => this.menu = response[config.menuInUse])
       .then(() => { this.loading = false, config.connect = true })
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
@@ -38,7 +37,7 @@ export class MenuEditorComponent {
           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
-    this.menu = this.responsedata.find(x => x.menu.id == config.menuInUse);
+
   }
 
   async componentDidRender() {
@@ -78,7 +77,7 @@ export class MenuEditorComponent {
   }
 
   doReorder(ev: any) {
-    this.responsedata = ev.detail.complete(this.responsedata);
+    this.menu = ev.detail.complete(this.menu);
   }
 
   renderProducts(products) {
