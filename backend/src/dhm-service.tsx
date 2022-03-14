@@ -20,6 +20,7 @@ export class DHMService {
     }
 
     async initialize(): Promise<this> {
+        this.listener.Listener();
 
         return this;
     }
@@ -135,12 +136,12 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
-                    const name = data[FIELDS]?.find(x => x.name == 'id')?.value as string;
-                    const prod = await svc.db.query<DBproduct[]>`select * from onslip.products where name = ${name}`;
+                    const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
+                    // const prod = await svc.db.query<DBproduct[]>`select * from onslip.products where id = ${id}`;
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
-                    const id = prod.map(x => Number(x.id))[0];
+                    // const id = prod.map(x => Number(x.id))[0];
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
+                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer})`
                     return data;
                 }
 
@@ -270,7 +271,6 @@ export class DHMService {
     }
 
     private async rootResponse() {
-        this.listener.Listener();
         return this.GetProdByGroup();
     }
 }

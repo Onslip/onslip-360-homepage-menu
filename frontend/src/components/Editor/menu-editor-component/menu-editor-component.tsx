@@ -57,11 +57,11 @@ export class MenuEditorComponent {
     })
   }
 
-  async uploadImage(file, name, id) {
+  async uploadImage(file, id) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
-      fd.append('id', await name);
+      fd.append('id', await id);
       await PostImage(this.produrl, fd);
       const reader = new FileReader();
       reader.onload = () => {
@@ -86,7 +86,7 @@ export class MenuEditorComponent {
         <ion-row>
           <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
             <img id={x.id}></img>
-            <input id='file' type='file' placeholder="" onChange={(event: any) => this.uploadImage(event.target.files, x.name, x.id)} />
+            <input id='file' type='file' placeholder="" onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />
           </ion-col>
           <ion-col size="10">
             <ion-row>

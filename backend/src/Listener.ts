@@ -118,7 +118,7 @@ export class Listener {
             const categoryList = await this.db.query<DBQuery[]>`select * from onslip.productcategories where id = ${x.id}`;
             const categoryExists: boolean = categoryList.length != 0;
             if (!categoryExists) {
-                await this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, position, name, menu_id) VALUES (${x.id ?? null}, ${x.position}, ${x.name ?? null}, ${x.menu_id})`
+                await this.db.query<DBQuery[]>`insert into onslip.productcategories (id, position, name, menu_id) VALUES (${x.id ?? null}, ${x.position}, ${x.name ?? null}, ${x.menu_id})`
             }
             else {
                 await this.db.query<DBQuery[]>`update onslip.productcategories set (position, name, menu_id) = (${x.position}, ${x.name ?? null}, ${x.menu_id}) where id = ${x.id}`
@@ -134,7 +134,7 @@ export class Listener {
             const productExists: boolean = productList.length != 0
 
             if (!productExists) {
-                await this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description) VALUES(${x.product?.id ?? null}, ${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null})`
+                await this.db.query<DBQuery[]>`insert into onslip.products (id, name, price, description) VALUES(${x.product?.id ?? null}, ${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null})`
             }
             else {
                 await this.db.query<DBQuery[]>`update onslip.products set (name, price, description) = (${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null}) where id = ${x.product?.id ?? null}`
@@ -168,25 +168,19 @@ export class Listener {
                 });
                 setTimeout(() => cancel.abort, 60_000);
 
-                // const event = (await this.api.signal(cancel.signal).openEventStream(stream.id).next())
-                // if (event.done) {
-                //     this.CreateDB();
-                //     console.log('done');
-                // }
-
-                for await (const event of this.api
-                    .signal(cancel.signal)
-                    .openEventStream(stream.id)) {
-                    await this.CreateDB();
-
+                const event = (await this.api.signal(cancel.signal).openEventStream(stream.id).next());
+                if (event != null) {
+                    console.log('done');
+                    this.CreateDB();
                 }
 
-                console.log("All done");
             } catch (error) {
                 console.error(error);
-                // cancel.abort;
+                cancel.abort;
             }
         }
     }
+
+
 }
 
