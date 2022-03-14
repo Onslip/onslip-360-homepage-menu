@@ -4,8 +4,8 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { writeFileSync, readFileSync } from 'fs';
-import { DBcategory, DBImage, DBproduct, Junction, Menu, MenuWithCategory, newApi, categorywithproduct } from './interfaces';
+import { DBImage, newApi } from './interfaces';
+import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
     private api: API;
@@ -27,15 +27,12 @@ export class DHMService {
 
     asWebService(): WebService<this> {
         const svc = this;
-        //const compName = svc.api.getAccount.name;
 
         return new WebService(this)
 
             .addFilter(class extends CORSFilter {
                 static path = /.*/;
             })
-
-
 
             .addResource(class implements WebResource {
                 static path = RegExp('');
@@ -90,6 +87,7 @@ export class DHMService {
                     return data;
                 }
             })
+
             .addResource(class implements WebResource {
                 static path = /location/;
                 async GET() {
@@ -104,18 +102,16 @@ export class DHMService {
                 }
             })
 
-
             .addResource(class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const data = readFileSync('./config.json').toString();
-                    return JSON.parse(data);
+                    const data = await new URI('./config.json').load()
+                    return data;
                 }
 
                 async POST(args: WebArguments) {
-                    const body = await args.body()
-                    console.log(body)
-                    writeFileSync('./config.json', JSON.stringify(body));
+                    const body = await args.body();
+                    await new URI('./config.json').save(JSON.stringify(body))
                     return args.body();
                 }
             })
@@ -132,14 +128,12 @@ export class DHMService {
             })
 
             .addResource(class implements WebResource {
-                static path = /productimage-upload/;
+                static path = /product-image/;
 
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
-                    // const prod = await svc.db.query<DBproduct[]>`select * from onslip.products where id = ${id}`;
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
-                    // const id = prod.map(x => Number(x.id))[0];
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
                     await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer})`
                     return data;
@@ -177,101 +171,13 @@ export class DHMService {
         await new URI('./test.toml').save(config)
     }
 
-    private async GetProdFromApi(): Promise<MenuWithCategory[]> {
-        const categorybuttonamp = (await this.api.listButtonMaps()).filter(c => c.type == 'menu-section');
-        const menu = (await this.api.listButtonMaps()).filter(c => c.type == 'menu');
-        const getAllProducts = await this.api.listProducts();
-        const GetProducts = (id: number): DBproduct[] => {
-            return (
-                getAllProducts.filter(p => p.id == id).flatMap(z => {
-                    return ({
-                        id: z.id,
-                        name: z.name,
-                        description: z.description,
-                        price: z.price,
-                        productcategory_id: id,
-                        position: categorybuttonamp.flatMap(c => c.buttons).find(p => p.product == id)?.y ?? 0
-                    })
-                })
-            )
-        }
-
-        const GetCategories: MenuWithCategory[] = menu.flatMap(m => {
-            return (
-                {
-                    menu: {
-                        id: m.id,
-                        name: m.name
-                    },
-                    categories: m.buttons.flatMap(b => {
-                        return (
-                            categorybuttonamp.filter(c => c.id == b['button-map']).flatMap(category => {
-                                return ({
-                                    category: {
-                                        name: category.name,
-                                        id: category.id,
-                                        position: b.x
-                                    },
-                                    products: category.buttons.flatMap(x => { return GetProducts(x.product ?? 0) }).sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
-                                })
-                            })
-                        ).sort((a, b) => a.category.position - b.category.position)
-                    })
-                }
-            )
-        })
-        return GetCategories
-    }
-
-    private async GetProdByGroup(): Promise<MenuWithCategory[]> {
-        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
-        const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
-        const junction = await this.db.query<Junction[]>`select * from onslip.grouptoproduct`
-        const menu = await this.db.query<Menu[]>`select * from onslip.menu`
-        const GetProducts = (id: number): DBproduct[] => {
-            return (
-                products.filter(p => p.id == id).flatMap(p => {
-                    return (
-                        {
-                            id: Number(p.id),
-                            name: p.name,
-                            description: p.description,
-                            price: Number(p.price),
-                            productcategory_id: Number(p.productcategory_id),
-                            position: Number(junction.find(j => j.product_id == p.id)?.productposition)
-                        }
-                    )
-                })
-            )
-        }
-
-        const GetCategories = (categoryId: number): categorywithproduct => {
-            return (
-                {
-                    category: {
-                        id: Number(categoryId),
-                        name: categories.find(c => c.id == categoryId)?.name,
-                        position: Number(categories.find(c => c.id == categoryId)?.position)
-                    },
-                    products: junction.filter(j => j.category_id == categoryId).flatMap(x => GetProducts(x.product_id)).sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
-                })
-        }
-        const SelectedMenu = menu.flatMap(m => {
-            return (
-                {
-                    menu: {
-                        id: Number(m.id),
-                        name: m.name,
-                    },
-                    categories: categories.filter(c => c.menu_id == m.id).flatMap(c => GetCategories(c.id)).sort((a, b) => a.category.position - b.category.position)
-                }
-            )
-        }) as MenuWithCategory[]
-        return SelectedMenu;
-    }
-
     private async rootResponse() {
-        return this.GetProdByGroup();
+        if (this.config.database.uri == 'undefined') {
+            return GetProdFromApi(this.api, this.db);
+        }
+        else {
+            return GetProdByGroup(this.api, this.db);
+        }
     }
 }
 

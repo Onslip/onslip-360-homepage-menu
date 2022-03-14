@@ -8,7 +8,7 @@ export function CheckImage(file): boolean {
     }
 }
 
-export async function loadImage(data) {
+export async function loadImage(data): Promise<string | ArrayBuffer> {
     if (data != null) {
         const byte = new Uint8Array(data.image.data)
         const blob = new Blob([byte.buffer])

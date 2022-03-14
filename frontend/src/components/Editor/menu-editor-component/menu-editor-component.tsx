@@ -13,13 +13,14 @@ import { PostImage } from '../../utils/post';
 export class MenuEditorComponent {
 
   @State() private url = 'http://localhost:8080'
-  private produrl: string = 'http://localhost:8080/productimage-upload';
+  private produrl: string = 'http://localhost:8080/product-image';
   @State() loading: boolean = true
   @State() errormessage: string
   @Element() element: HTMLElement;
   @Prop() toggle: boolean;
   @State() images: DBImage[]
   @State() menu: MenuWithCategory
+  @State() loadingImages: boolean = true;
 
   async componentWillLoad() {
     GetData(this.url)
@@ -33,28 +34,43 @@ export class MenuEditorComponent {
     if (config?.useProductImages) {
       GetData(this.produrl)
         .then(response => this.images = response)
+        .then(() => { this.loadingImages = false })
         .catch(() => {
           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
-
   }
 
-  async componentDidRender() {
-    if (config?.useProductImages && this.toggle && this.loading == false) {
-      this.LoadImages();
-    }
-  }
+  // async componentDidRender() {
+  //   if (config?.useProductImages && this.toggle && this.loading == false) {
+  //     this.LoadImages();
+  //   }
+  // }
 
-  async LoadImages() {
-    this.images.map(async i => {
-      const loadedImage = await loadImage(i);
-      const img = document.createElement('img');
-      img.className = 'productIcon';
-      img.src = loadedImage.toString();
-      img.id = i.product_id.toString();
-      this.element.shadowRoot.getElementById(`${i.product_id}`).replaceWith(img);
-    })
+  async LoadImages(id: number): Promise<string | ArrayBuffer> {
+    const selectImage = this.images.find(x => x.product_id == id);
+    const loadedImage = await loadImage(selectImage);
+    // this.menu.categories.forEach(category => category.products.forEach(async product => {
+    //   const selectProduct = this.images.find(image => image.product_id == product.id);
+    //   const loadedImage = await loadImage(selectProduct);
+    //   const img = document.createElement('img');
+    //   img.className = 'productIcon';
+    //   img.src = loadedImage.toString();
+    //   img.id = selectProduct.product_id.toString();
+    //   this.element.shadowRoot.getElementById(`${selectProduct.product_id}`).replaceWith(img);
+    // }))
+    // this.images.forEach(async i => {
+    //   const loadedImage = await loadImage(i);
+    //   const img = document.createElement('img');
+    //   img.className = 'productIcon';
+    //   img.src = loadedImage.toString();
+    //   img.id = i.product_id.toString();
+    //   this.element.shadowRoot.getElementById(`${i.product_id}`).replaceWith(img);
+    //   list.forEach(element => {
+    //     element.replaceWith(img)
+    //   });
+    // })
+    return loadedImage
   }
 
   async uploadImage(file, id) {
@@ -85,7 +101,8 @@ export class MenuEditorComponent {
       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
           <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
-            <img id={x.id}></img>
+            {this.loadingImages ? null :
+              <img src={(async (): Promise<string | ArrayBuffer> => await this.LoadImages(x.id))().toString()}>{console.log((async (): Promise<string | ArrayBuffer> => await this.LoadImages(x.id))())}</img>}
             <input id='file' type='file' placeholder="" onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />
           </ion-col>
           <ion-col size="10">

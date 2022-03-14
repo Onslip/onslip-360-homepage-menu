@@ -12,12 +12,7 @@ export namespace Components {
     }
     interface EditorVisualCheck {
     }
-    interface HomepageMenuComponent {
-    }
     interface HomepageMenuEditorComponent {
-    }
-    interface MenuComponent {
-        "toggle": boolean;
     }
     interface MenuEditorComponent {
         "toggle": boolean;
@@ -49,23 +44,11 @@ declare global {
         prototype: HTMLEditorVisualCheckElement;
         new (): HTMLEditorVisualCheckElement;
     };
-    interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
-    }
-    var HTMLHomepageMenuComponentElement: {
-        prototype: HTMLHomepageMenuComponentElement;
-        new (): HTMLHomepageMenuComponentElement;
-    };
     interface HTMLHomepageMenuEditorComponentElement extends Components.HomepageMenuEditorComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuEditorComponentElement: {
         prototype: HTMLHomepageMenuEditorComponentElement;
         new (): HTMLHomepageMenuEditorComponentElement;
-    };
-    interface HTMLMenuComponentElement extends Components.MenuComponent, HTMLStencilElement {
-    }
-    var HTMLMenuComponentElement: {
-        prototype: HTMLMenuComponentElement;
-        new (): HTMLMenuComponentElement;
     };
     interface HTMLMenuEditorComponentElement extends Components.MenuEditorComponent, HTMLStencilElement {
     }
@@ -94,9 +77,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
-        "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
-        "menu-component": HTMLMenuComponentElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
         "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
@@ -110,12 +91,7 @@ declare namespace LocalJSX {
     }
     interface EditorVisualCheck {
     }
-    interface HomepageMenuComponent {
-    }
     interface HomepageMenuEditorComponent {
-    }
-    interface MenuComponent {
-        "toggle"?: boolean;
     }
     interface MenuEditorComponent {
         "toggle"?: boolean;
@@ -136,9 +112,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "editor-visual-check": EditorVisualCheck;
-        "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
-        "menu-component": MenuComponent;
         "menu-editor-component": MenuEditorComponent;
         "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
@@ -151,9 +125,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
-            "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
-            "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
