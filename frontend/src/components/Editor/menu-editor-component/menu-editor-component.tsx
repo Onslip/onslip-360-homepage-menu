@@ -21,6 +21,7 @@ export class MenuEditorComponent {
   @State() images: DBImage[]
   @State() menu: MenuWithCategory
   @State() loadingImages: boolean = true;
+  @State() loadedImages: { id: number, image: string }[]
 
   async componentWillLoad() {
     GetData(this.url)
@@ -46,32 +47,25 @@ export class MenuEditorComponent {
   //     this.LoadImages();
   //   }
   // }
-
-  async LoadImages(id: number): Promise<string | ArrayBuffer> {
-    const selectImage = this.images.find(x => x.product_id == id);
-    const loadedImage = await loadImage(selectImage);
-    // this.menu.categories.forEach(category => category.products.forEach(async product => {
-    //   const selectProduct = this.images.find(image => image.product_id == product.id);
-    //   const loadedImage = await loadImage(selectProduct);
-    //   const img = document.createElement('img');
-    //   img.className = 'productIcon';
-    //   img.src = loadedImage.toString();
-    //   img.id = selectProduct.product_id.toString();
-    //   this.element.shadowRoot.getElementById(`${selectProduct.product_id}`).replaceWith(img);
-    // }))
-    // this.images.forEach(async i => {
-    //   const loadedImage = await loadImage(i);
-    //   const img = document.createElement('img');
-    //   img.className = 'productIcon';
-    //   img.src = loadedImage.toString();
-    //   img.id = i.product_id.toString();
-    //   this.element.shadowRoot.getElementById(`${i.product_id}`).replaceWith(img);
-    //   list.forEach(element => {
-    //     element.replaceWith(img)
-    //   });
-    // })
-    return loadedImage
+  async componentDidLoad() {
+    await this.images.forEach(async x => { const loadedimage = await loadImage(x); this.loadedImages.push({ id: x.product_id, image: loadedimage.toString() }) })
   }
+
+  // LoadImages(id: number): any {
+  //   const selectImage = this.images.find(x => x.product_id == id);
+  //   const byte = new Uint8Array(selectImage.image.data)
+  //   const blob = new Blob([byte.buffer])
+
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(blob);
+
+  //   const image = reader.result.toString();
+  //   console.log(image)
+
+  //   return <img src={ } class='productIcon'></img>
+
+
+  // }
 
   async uploadImage(file, id) {
     if (CheckImage(file[0])) {
@@ -102,8 +96,8 @@ export class MenuEditorComponent {
         <ion-row>
           <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
             {this.loadingImages ? null :
-              <img src={(async (): Promise<string | ArrayBuffer> => await this.LoadImages(x.id))().toString()}>{console.log((async (): Promise<string | ArrayBuffer> => await this.LoadImages(x.id))())}</img>}
-            <input id='file' type='file' placeholder="" onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />
+              <img src={this.loadedImages.find(z => z.id == x.id).image}></img>}
+            < input id='file' type='file' placeholder="" onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />
           </ion-col>
           <ion-col size="10">
             <ion-row>

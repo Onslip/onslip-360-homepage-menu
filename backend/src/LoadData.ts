@@ -1,11 +1,8 @@
 import { DatabaseURI, URI } from "@divine/uri";
 import { API } from "@onslip/onslip-360-node-api";
 import { categorywithproduct, DBcategory, DBproduct, Junction, Menu, MenuWithCategory } from "./interfaces";
-import { DHMConfig } from "./schema";
 
 export async function GetProdFromApi(api: API, db: DatabaseURI): Promise<MenuWithCategory[]> {
-
-
     const categorybuttonamp = (await api.listButtonMaps()).filter(c => c.type == 'menu-section');
     const menu = (await api.listButtonMaps()).filter(c => c.type == 'menu');
     const getAllProducts = await api.listProducts();
