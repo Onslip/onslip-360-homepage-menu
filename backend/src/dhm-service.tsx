@@ -20,8 +20,9 @@ export class DHMService {
     }
 
     async initialize(): Promise<this> {
-        this.listener.Listener();
-
+        if (this.config.database.uri == '') {
+            this.listener.Listener();
+        }
         return this;
     }
 
@@ -172,7 +173,7 @@ export class DHMService {
     }
 
     private async rootResponse() {
-        if (this.config.database.uri == 'undefined') {
+        if (this.config.database.uri == '') {
             return GetProdFromApi(this.api, this.db);
         }
         else {
