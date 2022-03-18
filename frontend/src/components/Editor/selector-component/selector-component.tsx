@@ -98,7 +98,7 @@ export class SelectorComponent {
             {this.type == 'font' ? [
               <ion-item lines='none'>
                 <ion-item class='sizeSelect' button='true'>
-                  <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label' selectedText={<ion-icon src={getAssetPath('assets/font-size.svg')} />} >
+                  <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label'>
                     <ion-select-option value={'1.4em'}>Larger</ion-select-option>
                     <ion-select-option value={'1.2em'}>Large</ion-select-option>
                     <ion-select-option value={'1em'}>Medium</ion-select-option>

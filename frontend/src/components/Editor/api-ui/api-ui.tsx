@@ -36,9 +36,9 @@ export class ApiUi {
     this.isopen = false;
   }
 
-  PostData() {
-    const data = { base: this.base, realm: this.realm, id: this.id, key: this.key, uri: this.uri };
-    PostData(this.url, data);
+  async PostData() {
+    const data = { base: this.base, realm: this.realm, key: this.key, id: this.id, uri: this.uri };
+    await PostData(this.url, data);
     this.close();
     location.reload();
   }

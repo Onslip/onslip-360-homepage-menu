@@ -20,7 +20,7 @@ export class DHMService {
     }
 
     async initialize(): Promise<this> {
-        if (this.config.database.uri == '') {
+        if (this.config.database.uri != "") {
             this.listener.Listener();
         }
         return this;
@@ -169,24 +169,24 @@ export class DHMService {
                 host: 'localhost'
             },
             database: {
-                uri: api.uri
+                uri: api.uri ?? ''
             },
             onslip360: {
-                base: api.base,
-                realm: api.realm,
-                id: api.id,
-                key: api.key
+                base: api.base ?? '',
+                realm: api.realm ?? '',
+                id: api.id ?? '',
+                key: api.key ?? ''
             }
         }
         await new URI('./test.toml').save(config)
     }
 
     private async rootResponse() {
-        if (this.config.database.uri == '') {
-            return GetProdFromApi(this.api, this.db);
+        if (this.config.database.uri == "") {
+            return await GetProdFromApi(this.api);
         }
         else {
-            return GetProdByGroup(this.api, this.db);
+            return await GetProdByGroup(this.db);
         }
     }
 }

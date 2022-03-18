@@ -2,7 +2,7 @@ import { DatabaseURI, URI } from "@divine/uri";
 import { API } from "@onslip/onslip-360-node-api";
 import { categorywithproduct, DBcategory, DBproduct, Junction, Menu, MenuWithCategory } from "./interfaces";
 
-export async function GetProdFromApi(api: API, db: DatabaseURI): Promise<MenuWithCategory[]> {
+export async function GetProdFromApi(api: API): Promise<MenuWithCategory[]> {
     const categorybuttonamp = (await api.listButtonMaps()).filter(c => c.type == 'menu-section');
     const menu = (await api.listButtonMaps()).filter(c => c.type == 'menu');
     const getAllProducts = await api.listProducts();
@@ -48,7 +48,7 @@ export async function GetProdFromApi(api: API, db: DatabaseURI): Promise<MenuWit
     return GetCategories
 }
 
-export async function GetProdByGroup(api: API, db: DatabaseURI): Promise<MenuWithCategory[]> {
+export async function GetProdByGroup(db: DatabaseURI): Promise<MenuWithCategory[]> {
     const categories = await db.query<DBcategory[]>`select * from onslip.productcategories`;
     const products = await db.query<DBproduct[]>`select * from onslip.products`;
     const junction = await db.query<Junction[]>`select * from onslip.grouptoproduct`

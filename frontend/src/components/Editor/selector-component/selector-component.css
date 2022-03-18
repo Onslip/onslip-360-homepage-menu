@@ -79,17 +79,16 @@ ion-popover {
 
 
 .fontSize::part(icon) {
-  display: none !important;
+  display: none;
 }
-
 
 .fontSize {
   appearance: button;
-    text-align: center;
+  text-align: center;
   font-size: 1.3em;
   padding-left: 5px;
-    padding-right: 5px;
-
+  padding-right: 5px;
+  content:url('./build/assets/font-size.svg');
 }
 
 .sizeSelect {
