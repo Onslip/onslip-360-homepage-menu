@@ -100,10 +100,17 @@
 }
 
 ion-reorder {
-  float: right;
-  color: black
+  position: absolute;
+  left: 96%;
+  bottom: 15%;
+  color: black;
 }
 
 .spinner {
 
+}
+
+.catImages {
+  left: 85%;
+  position: absolute;
 }

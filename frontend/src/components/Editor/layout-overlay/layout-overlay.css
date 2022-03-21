@@ -24,8 +24,8 @@
 
 .modal-wrapper .modal {
   background: white;
-  width: 20%;
-  height: auto;
+  width: 50%;
+  height: 85%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0px);
@@ -39,6 +39,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--mono-05);
+    text-align: center;
 }
 
 .modal-wrapper .modal .header h6 {
@@ -67,7 +68,7 @@
   padding: 16px;
   font-size:  14px;
   line-height: 21px;
-  max-height: 320px;
+  max-height: 670px;
   height: auto;
   overflow-y: auto;
   color: var(--mono-50)
@@ -221,7 +222,7 @@
 }
 
 input {
-   width: auto;
+   width: 200px;
 }
 
 .inputfield {

@@ -19,19 +19,16 @@ export class ToolbarComponent {
   async useProductImages(event) {
     config.useProductImages = event.detail.checked
     await this.submitForm()
-    // location.reload()
   }
 
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
     await this.submitForm();
-    // location.reload();
   }
 
   async useBanner(event) {
     config.banner = event.detail.checked;
     await this.submitForm();
-    // location.reload();
   }
 
   async changeColor() {
@@ -42,8 +39,6 @@ export class ToolbarComponent {
   }
 
   async ChangeFontColor() {
-    // const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
-    // a.style = { color: config.font.fontColor };
     this.submitForm();
   }
 
@@ -114,6 +109,9 @@ export class ToolbarComponent {
               <ion-row>
                 <api-ui></api-ui>
               </ion-row>
+              <ion-row>
+                <layout-overlay></layout-overlay>
+              </ion-row>
             </ion-col>
             <ion-col class="menu-row">
               <ion-row>
@@ -122,6 +120,7 @@ export class ToolbarComponent {
                   <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
+
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Logo:</ion-label>
@@ -134,6 +133,7 @@ export class ToolbarComponent {
                   <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
+
             </ion-col>
           </ion-row>
         </div >

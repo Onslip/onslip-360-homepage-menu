@@ -80,6 +80,7 @@ ion-nav {
   --background: transparent;
   --color: white;
   --border-style: none;
+  width: 270px;
 }
 
 ion-toggle {
@@ -110,4 +111,8 @@ api-ui {
   --background:none;
   max-width: 100px;
   font-family: unset;
+}
+
+ion-toggle {
+  float:right;
 }

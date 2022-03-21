@@ -14,6 +14,10 @@ export namespace Components {
     }
     interface HomepageMenuEditorComponent {
     }
+    interface LayoutOverlay {
+        "closeIcon": string;
+        "isopen": boolean;
+    }
     interface MenuEditorComponent {
         "toggle": boolean;
     }
@@ -50,6 +54,12 @@ declare global {
         prototype: HTMLHomepageMenuEditorComponentElement;
         new (): HTMLHomepageMenuEditorComponentElement;
     };
+    interface HTMLLayoutOverlayElement extends Components.LayoutOverlay, HTMLStencilElement {
+    }
+    var HTMLLayoutOverlayElement: {
+        prototype: HTMLLayoutOverlayElement;
+        new (): HTMLLayoutOverlayElement;
+    };
     interface HTMLMenuEditorComponentElement extends Components.MenuEditorComponent, HTMLStencilElement {
     }
     var HTMLMenuEditorComponentElement: {
@@ -78,6 +88,7 @@ declare global {
         "api-ui": HTMLApiUiElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
+        "layout-overlay": HTMLLayoutOverlayElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
         "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
@@ -92,6 +103,10 @@ declare namespace LocalJSX {
     interface EditorVisualCheck {
     }
     interface HomepageMenuEditorComponent {
+    }
+    interface LayoutOverlay {
+        "closeIcon"?: string;
+        "isopen"?: boolean;
     }
     interface MenuEditorComponent {
         "toggle"?: boolean;
@@ -113,6 +128,7 @@ declare namespace LocalJSX {
         "api-ui": ApiUi;
         "editor-visual-check": EditorVisualCheck;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
+        "layout-overlay": LayoutOverlay;
         "menu-editor-component": MenuEditorComponent;
         "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
@@ -126,6 +142,7 @@ declare module "@stencil/core" {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
+            "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;

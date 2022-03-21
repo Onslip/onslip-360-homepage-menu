@@ -158,6 +158,38 @@ export class DHMService {
                     return list;
                 }
             })
+
+            .addResource(class implements WebResource {
+                static path = /category-image/;
+
+
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData;
+                    const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    await svc.db.query<DBQuery[]>`upsert into onslip.categoryimages (category_id , image) values (${id}, ${dataBuffer})`
+
+                    const imageList = await svc.db.query<DBQuery[]>`select * from onslip.categoryimages where category_id = ${id}`;
+                    const imageExists: boolean = imageList.length != 0;
+                    if (!imageExists) {
+                        await svc.db.query<DBQuery[]>`insert into onslip.categoryimages (image, category_id) values (${dataBuffer}, ${id})`;
+                    }
+                    else {
+                        await svc.db.query<DBQuery[]>`update onslip.categoryimages set (image) = (${dataBuffer}) where category_id = ${id}`;
+                    }
+                    return data;
+                }
+
+                async GET() {
+                    const data = await svc.db.query<DBImage[]>`select * from onslip.categoryimages`;
+                    const list: DBImage[] = data.map(x => ({
+                        product_id: Number(x.product_id),
+                        image: x.image
+                    }))
+                    return list;
+                }
+            })
     }
 
     private async WritetoFile(api: newApi) {

@@ -15,10 +15,13 @@ export class MenuEditorComponent {
   @Element() element: HTMLElement;
   private url = 'http://localhost:8080'
   private produrl: string = 'http://localhost:8080/product-image';
-  @State() loadedImages: image[]
+  private caturl: string = 'http://localhost:8080/category-image';
+  @State() loadedImages: image[];
+  @State() loadedCatImages: image[];
   @State() menu: MenuWithCategory
   @State() errormessage: string
   @State() imagesLoading: boolean = true;
+  @State() catimagesLoading: boolean = true;
   @State() loading: boolean = true
   @Prop() toggle: boolean;
 
@@ -38,6 +41,13 @@ export class MenuEditorComponent {
           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
+    if (config?.useCategoryImages) {
+      GetData(this.caturl)
+        .then(response => this.LoadCatImages(response))
+        .catch(() => {
+
+        })
+    }
   }
 
   async LoadImages(DBimages: DBImage[]) {
@@ -48,6 +58,17 @@ export class MenuEditorComponent {
       }
     }))
     this.loadedImages = images
+    this.imagesLoading = false
+  }
+
+  async LoadCatImages(DBimages: DBImage[]) {
+    const catImages: image[] = await Promise.all(DBimages.map(async i => {
+      return {
+        id: i.product_id,
+        image: await loadImage(i).then(response => response.toString())
+      }
+    }))
+    this.loadedCatImages = catImages
     this.imagesLoading = false
   }
 
@@ -75,6 +96,28 @@ export class MenuEditorComponent {
     }
   }
 
+  async UploadCatImage(file: File, id: number) {
+    if (CheckImage(file[0])) {
+      let fd = new FormData()
+      fd.append('image', await file[0]);
+      fd.append('id', String(id));
+      await PostImage(this.caturl, fd);
+      const fileReader = new FileReader()
+      const imageExists = this.loadedCatImages.find(i => i.id == id) != undefined
+      fileReader.onload = () => {
+        if (imageExists) {
+          const x: image[] = this.loadedCatImages
+          x.find(i => i.id == id).image = fileReader.result.toString()
+          this.loadedCatImages = [...x]
+        }
+        else {
+          this.loadedCatImages = [...this.loadedCatImages, { id: id, image: fileReader.result.toString() }]
+        }
+      }
+      fileReader.readAsDataURL(file[0])
+    }
+  }
+
   doReorder(ev: any) {
     this.menu = ev.detail.complete(this.menu);
   }
@@ -83,14 +126,13 @@ export class MenuEditorComponent {
     return (products.map(x =>
       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >  
+          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
             {
-              this.imagesLoading ? 
-              <ion-spinner class="spinner"></ion-spinner>
-              : [<img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></img>,
-              <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />]
+              this.imagesLoading ?
+                <ion-spinner class="spinner"></ion-spinner>
+                : [<img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></img>,
+                <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />]
             }
-            
           </ion-col>
           <ion-col size="10">
             <ion-row>
@@ -130,8 +172,10 @@ export class MenuEditorComponent {
                         <ion-card-header>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
                             {data.category.name}
-                            <ion-reorder hidden={this.toggle}></ion-reorder>
-
+                            {
+                              this.toggle ? <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} />
+                                : <ion-reorder hidden={this.toggle}></ion-reorder>
+                            }
                           </ion-card-title>
 
                         </ion-card-header>
