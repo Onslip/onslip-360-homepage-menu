@@ -67,7 +67,7 @@
   padding: 16px;
   font-size:  14px;
   line-height: 21px;
-  max-height: 320px;
+  max-height: 360px;
   height: auto;
   overflow-y: auto;
   color: var(--mono-50)
@@ -221,7 +221,7 @@
 }
 
 input {
-   width: auto;
+   width: 100%;
 }
 
 .inputfield {
