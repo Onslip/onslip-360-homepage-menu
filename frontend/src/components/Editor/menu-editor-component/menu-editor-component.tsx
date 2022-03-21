@@ -83,14 +83,14 @@ export class MenuEditorComponent {
     return (products.map(x =>
       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >  
+          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
             {
-              this.imagesLoading ? 
-              <ion-spinner class="spinner"></ion-spinner>
-              : [<img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></img>,
-              <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />]
+              this.imagesLoading ?
+                <ion-spinner class="spinner"></ion-spinner>
+                : [<img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></img>,
+                <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />]
             }
-            
+
           </ion-col>
           <ion-col size="10">
             <ion-row>
@@ -115,37 +115,37 @@ export class MenuEditorComponent {
   render() {
     return (
       <Host>
-        <div class="error-message">
-          <ion-label>{this.errormessage}</ion-label>
-          {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
-        </div>
-        <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)}>
-          {
-            !this.loading ?
-              this.menu.categories.map(data => {
-                return (
-                  <div>
-                    <ion-card class='card' style={{ color: config?.font?.fontColor }}>
-                      <div>
-                        <ion-card-header>
-                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
-                            {data.category.name}
-                            <ion-reorder hidden={this.toggle}></ion-reorder>
+          <div class="error-message">
+            <ion-label>{this.errormessage}</ion-label>
+            {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+          </div>
+          <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)}>
+            {
+              !this.loading ?
+                this.menu.categories.map(data => {
+                  return (
+                    <div>
+                      <ion-card class='card' style={{ color: config?.font?.fontColor }}>
+                        <div>
+                          <ion-card-header>
+                            <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
+                              {data.category.name}
+                              <ion-reorder hidden={this.toggle}></ion-reorder>
 
-                          </ion-card-title>
+                            </ion-card-title>
 
-                        </ion-card-header>
-                      </div>
-                      {this.toggle ?
-                        this.renderProducts(data.products)
-                        : null}
-                    </ion-card>
-                  </div>
-                )
-              })
-              : null
-          }
-        </ion-reorder-group>
+                          </ion-card-header>
+                        </div>
+                        {this.toggle ?
+                          this.renderProducts(data.products)
+                          : null}
+                      </ion-card>
+                    </div>
+                  )
+                })
+                : null
+            }
+          </ion-reorder-group>
       </Host>
     )
   }

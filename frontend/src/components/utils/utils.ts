@@ -43,27 +43,31 @@ export interface Banner {
   image: string
 }
 
+
 export interface Styleconfig {
-  background: {
+  background?: {
     enabled: boolean
-    color: string,
+    color?: string,
   },
-  useProductImages: true,
-  Logo: true,
-  banner: true,
-  font: {
-    fontFamily: string,
-    fontWeight: boolean;
-    fontStyle: boolean;
-    fontSize: string;
-    fontColor: string;
-    fontTitleColor: string;
-    fontOutline: boolean;
-  }
-  preset: string,
-  menuBackground: string,
+  useProductImages: boolean,
+  categoryImages: "disabled" | "background" | "normal",
+  Logo: boolean,
+  banner: boolean,
+  font?: font
+  preset?: string,
+  menuBackground?: string,
   connect: boolean,
   menuInUse: number;
+}
+
+interface font {
+  fontFamily: string,
+  fontWeight: boolean;
+  fontStyle: boolean;
+  fontSize: string;
+  fontColor: string;
+  fontTitleColor: string;
+  fontOutline: boolean;
 }
 
 export interface MenuWithCategory {
@@ -79,7 +83,6 @@ export interface categorywithproduct {
   category: DBcategory,
   products: DBproduct[]
 }
-
 
 export enum buttonvalues {
   background = "Ändra bakgrund",
@@ -110,5 +113,21 @@ export const Presets = [
 ]
 
 export const editorvisual: boolean = false;
+
+// const presetConf: Styleconfig = {
+//   background: {
+//     enabled: false,
+//     color: null
+//   },
+//   useProductImages: false,
+//   categoryImages: 'disabled',
+//   Logo: false,
+//   banner: false,
+//   font: null,
+//   preset: null,
+//   menuBackground: null,
+//   connect: false,
+//   menuInUse: 0,
+// }
 
 export const config: Styleconfig = await GetData('http://localhost:8080/config').then(response => response).catch(err => err);
