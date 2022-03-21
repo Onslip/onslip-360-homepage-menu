@@ -13,20 +13,13 @@ export class ApiUi {
   @State() key: string;
   @State() uri: string;
   @State() base: string;
-  @State() private url = 'http://localhost:8080/updateapi'
+  private url = 'http://localhost:8080/updateapi'
   @Prop({
     mutable: true,
     reflect: true,
   })
   @Prop() isopen: boolean;
   @Prop() closeIcon = 'x.svg';
-  @Listen('click')
-  handleClick(ev: MouseEvent) {
-    if (ev.button === 1) {
-
-      console.log('down arrow pressed')
-    }
-  }
 
   open() {
     this.isopen = true;
@@ -105,10 +98,6 @@ export class ApiUi {
           </div>
         </div >
       </div>
-
     );
   }
-
 }
-
-
