@@ -116,15 +116,17 @@ export class HomepageMenuEditorComponent {
         <div>
           <toolbar-component></toolbar-component>
         </div>
-        <div class='menuContainer' data-status={config?.preset}>
-          <div class={config?.banner ? 'header' : 'no-banner'}>
-            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+        <ion-content overflow-scroll="false">
+          <div class='menuContainer' data-status={config?.preset}>
+            <div class={config?.banner ? 'header' : 'no-banner'}>
+              {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+            </div>
+            <menu-editor-component toggle={this.toggle}></menu-editor-component>
           </div>
-          <menu-editor-component toggle={this.toggle}></menu-editor-component>
-        </div>
-        <div class='logoDiv'>
-          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-        </div>
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          </div>
+        </ion-content>
       </Host>
     )
   }

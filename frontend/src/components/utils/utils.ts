@@ -43,27 +43,32 @@ export interface Banner {
   image: string
 }
 
+
 export interface Styleconfig {
-  background: {
+  background?: {
     enabled: boolean
-    color: string,
+    color?: string,
   },
-  useProductImages: true,
-  Logo: true,
-  banner: true,
-  font: {
-    fontFamily: string,
-    fontWeight: boolean;
-    fontStyle: boolean;
-    fontSize: string;
-    fontColor: string;
-    fontTitleColor: string;
-    fontOutline: boolean;
-  }
-  preset: string,
-  menuBackground: string,
+  useProductImages: boolean,
+  useCategoryImages: boolean,
+  categoryImages: "disabled" | "background" | "normal",
+  Logo: boolean,
+  banner: boolean,
+  font?: font
+  preset?: string,
+  menuBackground?: string,
   connect: boolean,
   menuInUse: number;
+}
+
+interface font {
+  fontFamily: string,
+  fontWeight: boolean;
+  fontStyle: boolean;
+  fontSize: string;
+  fontColor: string;
+  fontTitleColor: string;
+  fontOutline: boolean;
 }
 
 export interface MenuWithCategory {
@@ -79,7 +84,6 @@ export interface categorywithproduct {
   category: DBcategory,
   products: DBproduct[]
 }
-
 
 export enum buttonvalues {
   background = "Ändra bakgrund",
@@ -110,5 +114,6 @@ export const Presets = [
 ]
 
 export const editorvisual: boolean = false;
+
 
 export const config: Styleconfig = await GetData('http://localhost:8080/config').then(response => response).catch(err => err);

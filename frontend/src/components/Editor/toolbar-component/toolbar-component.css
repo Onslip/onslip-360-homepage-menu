@@ -75,7 +75,10 @@ ion-nav {
 }
 
 .toggle {
+  width: 100%;
   font-size: large;
+  padding: 5px 5px;
+  line-height: 1;
   --min-height: 0;
   --background: transparent;
   --color: white;
