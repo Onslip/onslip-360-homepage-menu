@@ -34,21 +34,21 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
-    if (config?.useProductImages) {
+    if (config?.productImages?.useProductImages) {
       GetData(this.produrl)
         .then(response => this.LoadImages(response))
         .catch(() => {
           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
-    if (config?.useCategoryImages) {
+    if (config?.categoryImages?.useCategoryImages) {
       GetData(this.caturl)
         .then(response => this.LoadCatImages(response))
         .catch(() => {
-
         })
     }
   }
+
 
   async LoadImages(DBimages: DBImage[]) {
     const images: image[] = await Promise.all(DBimages.map(async i => {
@@ -61,15 +61,22 @@ export class MenuEditorComponent {
     this.imagesLoading = false
   }
 
+  // async LoadCatImages(DBimages: DBImage[]) {
+  //   const images: image[] = await Promise.all(DBimages.map(async i => {
+  //     return {
+  //       id: i.product_id,
+  //       image: await loadImage(i).then(response => response.toString())
+  //     }
+  //   }))
+  //   this.loadedCatImages = images
+  //   this.imagesLoading = false
+  // }
+
   async LoadCatImages(DBimages: DBImage[]) {
-    const catImages: image[] = await Promise.all(DBimages.map(async i => {
-      return {
-        id: i.product_id,
-        image: await loadImage(i).then(response => response.toString())
-      }
-    }))
-    this.loadedCatImages = catImages
-    this.imagesLoading = false
+    DBimages.forEach(x => {
+      const loadedimage = loadImage(x);
+
+    })
   }
 
   async uploadImage(file: File, id: number) {
@@ -117,16 +124,15 @@ export class MenuEditorComponent {
       fileReader.readAsDataURL(file[0])
     }
   }
-
   doReorder(ev: any) {
     this.menu = ev.detail.complete(this.menu);
   }
 
   renderProducts(products) {
     return (products.map(x =>
-      <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
+      <ion-card-content class={config?.productImages?.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
+          <ion-col size="1" class='productIcon' hidden={!config?.productImages?.useProductImages} >
             {
               this.imagesLoading ?
                 <ion-spinner class="spinner"></ion-spinner>
@@ -161,7 +167,7 @@ export class MenuEditorComponent {
           <ion-label>{this.errormessage}</ion-label>
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
-        <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)}>
+        <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
           {
             !this.loading ?
               this.menu.categories.map(data => {
@@ -170,7 +176,7 @@ export class MenuEditorComponent {
                     <ion-card class='card' style={{ color: config?.font?.fontColor }}>
                       <div>
                         <ion-card-header>
-                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
+                          <ion-card-title id={data.category.id} class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
                             {data.category.name}
                             {
                               this.toggle ? <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} />
@@ -184,6 +190,7 @@ export class MenuEditorComponent {
                         this.renderProducts(data.products)
                         : null}
                     </ion-card>
+                    {/* {config.categoryImages.style == 'Background' ? this.element.shadowRoot.getElementById('card').style.background = `url(${this.loadedCatImages.find(x => x.id == data.category.id).image})` : this.element.shadowRoot.querySelector('categoryTitle').style.background = `url(${this.loadedCatImages.find(x => x.id == data.category.id).image})`} */}
                   </div>
                 )
               })
@@ -193,7 +200,6 @@ export class MenuEditorComponent {
       </Host>
     )
   }
-
 }
 
 export interface image {
