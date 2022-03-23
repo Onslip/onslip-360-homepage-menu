@@ -17,7 +17,7 @@ export class ToolbarComponent {
   @Element() element: HTMLElement;
 
   async useProductImages(event) {
-    config.useProductImages = event.detail.checked
+    config.productImages.useProductImages = event.detail.checked
     await this.submitForm()
   }
 
@@ -117,7 +117,7 @@ export class ToolbarComponent {
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
+                  <ion-toggle checked={config?.productImages?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
 

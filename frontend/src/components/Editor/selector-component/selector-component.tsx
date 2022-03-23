@@ -91,12 +91,12 @@ export class SelectorComponent {
         <ion-row>
           <ion-item lines='none' class={this.menu ? 'is-open' : 'is-closed'}>
             <ion-item>
-              <ion-select class="select" onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions}>
+              <ion-select class="select" onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj'>
                 {this.DropDownvalues.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
               </ion-select>
             </ion-item>
             {this.type == 'font' ? [
-              <ion-item lines='none'>
+              <ion-item lines='none' class='outerItem'>
                 <ion-item class='sizeSelect' button='true'>
                   <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label'>
                     <ion-select-option value={'1.4em'}>Larger</ion-select-option>

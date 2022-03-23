@@ -1,17 +1,5 @@
 import { GetData } from "./get";
 
-// export interface productsWithCategory {
-//   category: {
-//     name: string
-//   }
-//   products: {
-//     id: number,
-//     name: string,
-//     price: string,
-//     description: string
-//     image: any
-//   }[]
-// }
 export interface DBImage {
   image: any
   product_id: number
@@ -25,50 +13,42 @@ export interface DBproduct {
   productcategory_id: number,
 }
 
-export interface DBItems {
-  category: DBcategory,
-  products: DBproduct[],
-}
-
 export interface DBcategory {
   name: string
   id: number,
 }
 
-export interface Colorconfig {
-  backgroundcolor: string,
-}
-
-export interface Banner {
-  image: string
-}
-
-
 export interface Styleconfig {
   background?: {
-    enabled: boolean
+    enabled?: boolean
     color?: string,
   },
-  useProductImages: boolean,
-  useCategoryImages: boolean,
-  categoryImages: "disabled" | "background" | "normal",
-  Logo: boolean,
-  banner: boolean,
-  font?: font
+  productImages?: {
+    useProductImages?: boolean,
+    style?: 'Background' | 'Logo' | 'Disabled',
+    placement?: 'Left' | 'Right',
+  }
+  categoryImages?: {
+    useCategoryImages?: boolean,
+    style?: 'Background' | 'Banner' | 'Disabled'
+  }
+  Logo?: boolean,
+  banner?: boolean,
+  font?: font,
   preset?: string,
   menuBackground?: string,
-  connect: boolean,
-  menuInUse: number;
+  connect?: boolean,
+  menuInUse?: number;
 }
 
 interface font {
-  fontFamily: string,
-  fontWeight: boolean;
-  fontStyle: boolean;
-  fontSize: string;
-  fontColor: string;
-  fontTitleColor: string;
-  fontOutline: boolean;
+  fontFamily?: string,
+  fontWeight?: boolean;
+  fontStyle?: boolean;
+  fontSize?: string;
+  fontColor?: string;
+  fontTitleColor?: string;
+  fontOutline?: boolean;
 }
 
 export interface MenuWithCategory {
@@ -116,4 +96,40 @@ export const Presets = [
 export const editorvisual: boolean = false;
 
 
-export const config: Styleconfig = await GetData('http://localhost:8080/config').then(response => response).catch(err => err);
+export const config: Styleconfig = await asd();
+
+export async function asd(): Promise<Styleconfig> {
+  const data = await GetData('http://localhost:8080/config').then(response => response).catch(err => err)
+  if (data.categoryImages == undefined)
+    return {
+      background: {
+        enabled: false,
+        color: null,
+      },
+      productImages: {
+        useProductImages: false,
+        style: 'Background',
+        placement: 'Left',
+      },
+      categoryImages: {
+        useCategoryImages: false,
+        style: 'Background'
+      },
+      Logo: false,
+      banner: false,
+      font: {
+        fontFamily: null,
+        fontWeight: false,
+        fontStyle: false,
+        fontSize: null,
+        fontColor: null,
+        fontTitleColor: null,
+        fontOutline: false
+      },
+      preset: null,
+      menuBackground: null,
+      connect: true,
+      menuInUse: 0,
+    } as Styleconfig
+  else return data
+}

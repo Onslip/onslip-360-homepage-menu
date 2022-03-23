@@ -229,3 +229,7 @@ input {
   padding-bottom: 0.6rem;
   padding-top: 0.6rem;
 }
+
+ion-radio {
+  --color-checked: var(--primary)
+}

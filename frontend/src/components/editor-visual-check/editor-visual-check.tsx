@@ -10,7 +10,7 @@ export class EditorVisualCheck {
 
   render() {
     return <Host>
-        {this.switch ? <homepage-menu-component></homepage-menu-component> : <homepage-menu-editor-component></homepage-menu-editor-component>}
+      {this.switch ? <homepage-menu-component></homepage-menu-component> : <homepage-menu-editor-component></homepage-menu-editor-component>}
       <ion-item class='checkbox'>
         <input type="checkbox" id="scales" name="scales" onChange={(event: any) => { this.switch = event.target.checked }} />
         <label htmlFor="scales">Förhandsvisning</label>

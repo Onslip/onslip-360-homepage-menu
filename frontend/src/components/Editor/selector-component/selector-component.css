@@ -34,7 +34,6 @@ ion-row {
 
 .label:hover {
   background-color:#8cbb4abd; 
-  color: rgb(49, 49, 49);
 }
 
 .labelpressed {
@@ -101,4 +100,15 @@ ion-popover {
 ion-select {
   --padding-top: 0;
   --padding-bottom: 0;
+}
+
+.outerItem {
+  background-color: none;
+    --background-hover:none;
+
+}
+
+.outerItem:hover {
+  --background: none;
+  --background-hover:none;
 }

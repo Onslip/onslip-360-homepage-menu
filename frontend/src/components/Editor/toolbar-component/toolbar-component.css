@@ -109,6 +109,10 @@ api-ui {
   width: 100%;
 }
 
+layout-overlay {
+  width: 100%;
+}
+
 .fontselector {
   --color:white;
   --background:none;
