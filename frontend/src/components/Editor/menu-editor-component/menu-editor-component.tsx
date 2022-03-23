@@ -17,7 +17,7 @@ export class MenuEditorComponent {
   private produrl: string = 'http://localhost:8080/product-image';
   private caturl: string = 'http://localhost:8080/category-image';
   @State() loadedImages: image[];
-  @State() loadedCatImages: image[];
+  @State() loadedCatImages: DBCatImage[];
   @State() menu: MenuWithCategory
   @State() errormessage: string
   @State() imagesLoading: boolean = true;
@@ -43,7 +43,7 @@ export class MenuEditorComponent {
     }
     if (config?.categoryImages?.useCategoryImages) {
       GetData(this.caturl)
-        .then(response => this.LoadCatImages(response))
+        .then(response => { this.LoadCatImages(response); this.loadedCatImages = response })
         .catch(() => {
         })
     }
@@ -61,22 +61,19 @@ export class MenuEditorComponent {
     this.imagesLoading = false
   }
 
-  // async LoadCatImages(DBimages: DBImage[]) {
-  //   const images: image[] = await Promise.all(DBimages.map(async i => {
-  //     return {
-  //       id: i.product_id,
-  //       image: await loadImage(i).then(response => response.toString())
-  //     }
-  //   }))
-  //   this.loadedCatImages = images
-  //   this.imagesLoading = false
-  // }
 
-  async LoadCatImages(DBimages: DBImage[]) {
-    DBimages.forEach(x => {
-      const loadedimage = loadImage(x);
-      console.log()
+  async LoadCatImages(DBimages: DBCatImage[]) {
+    DBimages?.forEach(async x => {
+      const loadedimage = await loadImage(x);
+
+      if (config.categoryImages.style == 'Background') {
+        this.element.shadowRoot.getElementById(`${x.category_id}`).style.backgroundImage = `url(${loadedimage})`
+      }
+      else {
+        this.element.shadowRoot.getElementById(`${x.category_id}`).querySelector('ion-card-header').style.backgroundImage = `url(${loadedimage})`
+      }
     })
+
   }
 
   async uploadImage(file: File, id: number) {
@@ -110,22 +107,28 @@ export class MenuEditorComponent {
       fd.append('id', String(id));
       await PostImage(this.caturl, fd);
       const fileReader = new FileReader()
-      const imageExists = this.loadedCatImages.find(i => i.id == id) != undefined
+      const imageExists = this.loadedCatImages.find(i => i.category_id == id) != undefined
       fileReader.onload = () => {
         if (imageExists) {
-          const x: image[] = this.loadedCatImages
-          x.find(i => i.id == id).image = fileReader.result.toString()
+          const x: DBCatImage[] = this.loadedCatImages
+          x.find(i => i.category_id == id).image = fileReader.result.toString()
           this.loadedCatImages = [...x]
         }
         else {
-          this.loadedCatImages = [...this.loadedCatImages, { id: id, image: fileReader.result.toString() }]
+          this.loadedCatImages = [...this.loadedCatImages, { category_id: id, image: fileReader.result.toString() }]
+        }
+        if (config.categoryImages.style == 'Background') {
+          this.element.shadowRoot.getElementById(`${id}`).style.backgroundImage = `url(${fileReader.result})`
+        }
+        else {
+          this.element.shadowRoot.getElementById(`${id}`).querySelector('ion-card-header').style.backgroundImage = `url(${fileReader.result})`
         }
       }
       fileReader.readAsDataURL(file[0])
     }
   }
   doReorder(ev: any) {
-    this.menu = ev.detail.complete(this.menu);
+    this.menu.categories = ev.detail.complete(this.menu.categories);
   }
 
   renderProducts(products) {
@@ -136,8 +139,8 @@ export class MenuEditorComponent {
             {
               this.imagesLoading ?
                 <ion-spinner class="spinner"></ion-spinner>
-                : [<img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></img>,
-                <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} />]
+                : [<ion-img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></ion-img>,
+                <ion-input id='files' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} placeholder='Upload' />]
             }
           </ion-col>
           <ion-col size="10">
@@ -172,11 +175,11 @@ export class MenuEditorComponent {
             !this.loading ?
               this.menu.categories.map(data => {
                 return (
-                  <div>
-                    <ion-card class='card' style={{ color: config?.font?.fontColor }}>
+                  <div id={data.category.id.toString()} class='card'>
+                    <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
                       <div>
-                        <ion-card-header>
-                          <ion-card-title id={data.category.id} class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
+                        <ion-card-header class='background'>
+                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages.style}>
                             {data.category.name}
                             {
                               this.toggle ? <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} />
@@ -190,7 +193,6 @@ export class MenuEditorComponent {
                         this.renderProducts(data.products)
                         : null}
                     </ion-card>
-                    {/* {config.categoryImages.style == 'Background' ? this.element.shadowRoot.getElementById('card').style.background = `url(${this.loadedCatImages.find(x => x.id == data.category.id).image})` : this.element.shadowRoot.querySelector('categoryTitle').style.background = `url(${this.loadedCatImages.find(x => x.id == data.category.id).image})`} */}
                   </div>
                 )
               })
@@ -205,4 +207,10 @@ export class MenuEditorComponent {
 export interface image {
   id: number,
   image: string
+}
+
+
+interface DBCatImage {
+  image: any,
+  category_id: number
 }

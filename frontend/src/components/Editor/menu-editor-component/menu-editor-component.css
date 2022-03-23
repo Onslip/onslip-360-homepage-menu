@@ -1,10 +1,29 @@
 :host {
   display: block;
+  background-repeat: no-repeat;
 }
 
 .card {
   background-color: rgba(255, 255, 255, 0.466);
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+    padding: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 } 
+
+.content[data-status='Background'] {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px) saturate(180%) contrast(100%);
+}
+
+.content {
+  width: 100%;
+  margin: 0;
+  border-radius: 2px;
+}
 
 .progressbar {
   --progress-background: var(--primary);
@@ -21,14 +40,21 @@
 }
 
 .categoryTitle {
-  /* color: black; */
-  font-size: 1.5rem;
+ font-size: 1.5rem;
   margin: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 1.5px solid black;
   text-align: center;
   font-weight: bold;
-  transition-duration: .4s;
+  padding: 15px;
 }
+
+.categoryTitle[data-status='Banner']{
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px) saturate(180%) contrast(100%);
+}
+
+
 
 .categoryToggled {
   font-size: 1.5rem;
@@ -36,6 +62,7 @@
   font-weight: bold;
   position: sticky;
   transition-duration: .4s;
+  padding: 15px;
 }
 .prodContainer-no-image {
   text-align: left;
@@ -50,7 +77,6 @@
 
 .productIcon {
   text-align: left;
-  /* margin-bottom: 0.5rem; */
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -106,11 +132,14 @@ ion-reorder {
   color: black;
 }
 
-.spinner {
-
-}
-
 .catImages {
   left: 85%;
   position: absolute;
+}
+
+.background {
+  padding: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }

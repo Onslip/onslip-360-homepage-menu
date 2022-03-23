@@ -35,7 +35,7 @@ export class LayoutOverlay {
     }
   }
 
-  onDisabled(event) {
+  onProductChange(event) {
     console.log(event)
     config.productImages.style = event.detail.value
     if (event.detail.value == 'Disabled') {
@@ -47,14 +47,11 @@ export class LayoutOverlay {
   }
 
   async PostData() {
-    await PostData('http://localhost:8080/config', config);
-    this.close();
-    location.reload();
+    await PostData('http://localhost:8080/config', config).then(() => location.reload())
   }
 
   render() {
     return (
-
       <div>
         <div>
           <label class={'button-9'} htmlFor='changekey'>Layout och placering<ion-icon class="icon" name="settings-sharp"></ion-icon></label>
@@ -71,7 +68,7 @@ export class LayoutOverlay {
             </div>
             <div class="body">
               <ion-list>
-                <ion-radio-group onIonChange={(event) => this.onDisabled(event)} value={config?.productImages?.style}>
+                <ion-radio-group onIonChange={(event) => this.onProductChange(event)} value={config?.productImages?.style}>
                   <ion-list-header>
                     <h3>Produkter</h3>
                   </ion-list-header>
@@ -115,15 +112,15 @@ export class LayoutOverlay {
                   </ion-list-header>
                   <ion-item>
                     <ion-label>Bakgrund</ion-label>
-                    <ion-radio slot="start" value={'Background'}></ion-radio>
+                    <ion-radio slot="start" value='Background'></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Banner</ion-label>
-                    <ion-radio slot="start" value={'Banner'}></ion-radio>
+                    <ion-radio slot="start" value='Banner'></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Avstängd</ion-label>
-                    <ion-radio slot="start" value={'Disabled'}></ion-radio>
+                    <ion-radio slot="start" value='Disabled'></ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-list>

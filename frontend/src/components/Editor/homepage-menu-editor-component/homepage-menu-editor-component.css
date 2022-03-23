@@ -84,3 +84,12 @@
     width: 100%;
   }
 }
+
+
+.scroll {
+      display: table;
+
+  position: absolute;
+    height: 100%;
+}
+

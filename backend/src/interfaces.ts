@@ -20,6 +20,12 @@ export interface DBImage {
 
 }
 
+export interface DBCatImage {
+    image: any
+    category_id: number,
+
+}
+
 export interface MenuWithCategory {
     menu: Menu
     categories: categorywithproduct[]

@@ -2,13 +2,11 @@
   display: block;
 }
 
-
 .modal-wrapper {
   position: fixed;
+  height: 100%;
+  width: 100%;
   top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   opacity: 0;
   visibility: hidden;
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
@@ -25,8 +23,8 @@
 .modal-wrapper .modal {
   background: white;
   width: 50%;
-  height: 85%;
-  position: absolute;
+  height: 80%;
+  position: relative;
   left: 50%;
   transform: translate(-50%, 0px);
   border-radius: 4px;
@@ -68,19 +66,28 @@
   padding: 16px;
   font-size:  14px;
   line-height: 21px;
-  max-height: 670px;
-  height: auto;
-  overflow-y: auto;
+  /* min-height: fit-content;
+  max-height: 79%;
+  height: fit-content; */
+  overflow-y: scroll;
   color: var(--mono-50)
 }
 
+.body {
+  height:75% ; 
+  overflow-y: scroll;
+}
 .modal-wrapper .modal .footer {
-  padding: 16px;
+  padding-right: 20px;
+  padding-top: 5px;
   display: flex;
+
   justify-content: flex-end;
   align-items: center;
   border-top: 1px solid var(--mono-05);
 }
+
+
 
 .modal-wrapper .modal .footer apollo-button {
   margin: 0 6px;
@@ -106,6 +113,7 @@
   transform: translate(-50%, 90px)
 }
 
+
 @media (max-width: 600px) {
   .modal-wrapper .modal {
     width: 100%;
@@ -130,7 +138,6 @@
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  font-size: 100%;
   line-height: 1;
   outline: none;
   overflow: hidden;
@@ -222,7 +229,7 @@
 }
 
 input {
-   width: 200px;
+   width: 100%;
 }
 
 .inputfield {

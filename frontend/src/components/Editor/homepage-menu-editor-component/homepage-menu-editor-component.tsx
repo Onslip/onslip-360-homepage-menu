@@ -113,10 +113,10 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
+
         <div>
           <toolbar-component></toolbar-component>
         </div>
-
         <div class='menuContainer' data-status={config?.preset}>
           <div class={config?.banner ? 'header' : 'no-banner'}>
             {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
@@ -127,7 +127,7 @@ export class HomepageMenuEditorComponent {
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
 
-      </Host>
+      </Host >
     )
   }
 }

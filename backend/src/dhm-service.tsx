@@ -4,7 +4,7 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { DBImage, newApi } from './interfaces';
+import { DBCatImage, DBImage, newApi } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
@@ -136,7 +136,6 @@ export class DHMService {
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer})`
 
                     const imageList = await svc.db.query<DBQuery[]>`select * from onslip.productimages where product_id = ${id}`;
                     const imageExists: boolean = imageList.length != 0;
@@ -168,7 +167,6 @@ export class DHMService {
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    await svc.db.query<DBQuery[]>`upsert into onslip.categoryimages (category_id , image) values (${id}, ${dataBuffer})`
 
                     const imageList = await svc.db.query<DBQuery[]>`select * from onslip.categoryimages where category_id = ${id}`;
                     const imageExists: boolean = imageList.length != 0;
@@ -182,10 +180,11 @@ export class DHMService {
                 }
 
                 async GET() {
-                    const data = await svc.db.query<DBImage[]>`select * from onslip.categoryimages`;
-                    const list: DBImage[] = data.map(x => ({
-                        product_id: Number(x.product_id),
-                        image: x.image
+                    const data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`;
+                    const list: DBCatImage[] = data.map(x => ({
+
+                        image: x.image,
+                        category_id: Number(x.category_id)
                     }))
                     return list;
                 }
