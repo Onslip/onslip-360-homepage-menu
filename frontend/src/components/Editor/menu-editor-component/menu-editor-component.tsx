@@ -75,7 +75,7 @@ export class MenuEditorComponent {
   async LoadCatImages(DBimages: DBImage[]) {
     DBimages.forEach(x => {
       const loadedimage = loadImage(x);
-
+      console.log()
     })
   }
 
