@@ -1,5 +1,5 @@
 import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
-import { buttonvalues, Fonts, config } from '../../utils/utils';
+import { buttonvalues, Fonts, config, DBConnection } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
 @Component({
@@ -81,15 +81,15 @@ export class ToolbarComponent {
         <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
           <ion-row>
             <ion-col class="menu-col">
-              <ion-row>
+              {DBConnection ? [<ion-row>
                 <upload-image-button buttonvalue={buttonvalues.logo} URL={this.url3}></upload-image-button>
-              </ion-row>
+              </ion-row>,
               <ion-row>
                 <upload-image-button buttonvalue={buttonvalues.banner} URL={this.url2}></upload-image-button>
-              </ion-row>
+              </ion-row>,
               <ion-row>
                 <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
-              </ion-row>
+              </ion-row>] : null}
               <ion-row>
                 <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                 <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
@@ -113,27 +113,21 @@ export class ToolbarComponent {
                 <layout-overlay></layout-overlay>
               </ion-row>
             </ion-col>
-            <ion-col class="menu-col">
-              <ion-row>
-                <ion-item class="toggle">
-                  <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={config?.productImages?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
-                </ion-item>
-              </ion-row>
-              <ion-row>
-                <ion-item class="toggle">
-                  <ion-label>Använd Logo:</ion-label>
-                  <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }} slot='end'></ion-toggle>
-                </ion-item>
-              </ion-row>
-              <ion-row>
-                <ion-item class="toggle">
-                  <ion-label>Använd Banner:</ion-label>
-                  <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
-                </ion-item>
-              </ion-row>
-
-            </ion-col>
+            {DBConnection ? [
+              <ion-col class="menu-col">
+                <ion-row>
+                  <ion-item class="toggle">
+                    <ion-label>Använd Logo:</ion-label>
+                    <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }} slot='end'></ion-toggle>
+                  </ion-item>
+                </ion-row>
+                <ion-row>
+                  <ion-item class="toggle">
+                    <ion-label>Använd Banner:</ion-label>
+                    <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
+                  </ion-item>
+                </ion-row>
+              </ion-col>] : null}
           </ion-row>
         </div >
       </Host >

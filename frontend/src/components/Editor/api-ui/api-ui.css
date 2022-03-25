@@ -24,7 +24,7 @@
 
 .modal-wrapper .modal {
   background: white;
-  width: 20%;
+  width: 25%;
   height: auto;
   position: absolute;
   left: 50%;
@@ -67,7 +67,7 @@
   padding: 16px;
   font-size:  14px;
   line-height: 21px;
-  max-height: 360px;
+  max-height: 410px;
   height: auto;
   overflow-y: auto;
   color: var(--mono-50)
@@ -227,4 +227,8 @@ input {
 .inputfield {
   padding-bottom: 0.6rem;
   padding-top: 0.6rem;
+}
+
+p {
+  color: var(--alert)
 }

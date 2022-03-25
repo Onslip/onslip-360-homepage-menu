@@ -1,6 +1,6 @@
 import { Component, h, Prop } from '@stencil/core';
 import { PostData } from '../../utils/post';
-import { config } from '../../utils/utils'
+import { config, DBConnection } from '../../utils/utils'
 
 @Component({
   tag: 'layout-overlay',
@@ -77,15 +77,15 @@ export class LayoutOverlay {
                   </ion-list-header>
                   <ion-item>
                     <ion-label>Logo</ion-label>
-                    <ion-radio slot="start" value='Logo'></ion-radio>
+                    <ion-radio slot="start" value='Logo' disabled={!DBConnection}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Bakgrund</ion-label>
-                    <ion-radio slot="start" value='Background'></ion-radio>
+                    <ion-radio slot="start" value='Background' disabled={!DBConnection}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Avstängd</ion-label>
-                    <ion-radio slot="start" value='Disabled'></ion-radio>
+                    <ion-radio slot="start" value='Disabled' disabled={!DBConnection}></ion-radio>
                   </ion-item>
                 </ion-radio-group>
                 <ion-radio-group value={config?.productImages?.placement} onIonChange={(event) => [config.productImages.placement = event.detail.value]} >
@@ -94,11 +94,11 @@ export class LayoutOverlay {
                   </ion-list-header>
                   <ion-item>
                     <ion-label>Vänster</ion-label>
-                    <ion-radio slot="start" value={'Left'} disabled={!config?.productImages?.useProductImages}></ion-radio>
+                    <ion-radio slot="start" value={'Left'} disabled={!config?.productImages?.useProductImages || DBConnection}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Höger</ion-label>
-                    <ion-radio slot="start" value={'Right'} disabled={!config?.productImages?.useProductImages}></ion-radio>
+                    <ion-radio slot="start" value={'Right'} disabled={!config?.productImages?.useProductImages || DBConnection}></ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-list>
@@ -112,15 +112,15 @@ export class LayoutOverlay {
                   </ion-list-header>
                   <ion-item>
                     <ion-label>Bakgrund</ion-label>
-                    <ion-radio slot="start" value='Background'></ion-radio>
+                    <ion-radio slot="start" value='Background' disabled={!DBConnection}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Banner</ion-label>
-                    <ion-radio slot="start" value='Banner'></ion-radio>
+                    <ion-radio slot="start" value='Banner' disabled={!DBConnection}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Avstängd</ion-label>
-                    <ion-radio slot="start" value='Disabled'></ion-radio>
+                    <ion-radio slot="start" value='Disabled' disabled={!DBConnection}></ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-list>

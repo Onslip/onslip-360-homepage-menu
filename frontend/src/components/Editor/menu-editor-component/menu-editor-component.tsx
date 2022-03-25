@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBImage, MenuWithCategory } from '../../utils/utils';
+import { DBConnection, DBImage, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -26,6 +26,10 @@ export class MenuEditorComponent {
   @Prop() toggle: boolean;
 
   async componentWillLoad() {
+    if (!DBConnection) {
+      config.categoryImages.useCategoryImages = false;
+      config.productImages.useProductImages = false;
+    }
     GetData(this.url)
       .then(response => this.menu = response[config.menuInUse])
       .then(() => { this.loading = false, config.connect = true })
@@ -34,14 +38,14 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
-    if (config?.productImages?.useProductImages) {
+    if (config?.productImages?.useProductImages && DBConnection) {
       GetData(this.produrl)
         .then(response => this.LoadImages(response))
         .catch(() => {
           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
-    if (config?.categoryImages?.useCategoryImages) {
+    if (config?.categoryImages?.useCategoryImages && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); this.loadedCatImages = response })
         .catch(() => {
@@ -142,7 +146,7 @@ export class MenuEditorComponent {
                 : [<ion-img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></ion-img>,
                 <label class={'uploadbutton'}>
                   Välj Fil...
-                <input type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} hidden/>
+                  <input type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} hidden />
                 </label>]
             }
           </ion-col>
@@ -185,12 +189,12 @@ export class MenuEditorComponent {
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages.style}>
                             {data.category.name}
                             {
-                              config.categoryImages.useCategoryImages && this.toggle ? 
-                              <label class='uploadbutton banner'>
-                                Välj Fil...
-                                <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} hidden/>
+                              config.categoryImages.useCategoryImages && this.toggle ?
+                                <label class='uploadbutton banner'>
+                                  Välj Fil...
+                                  <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} hidden />
                                 </label>
-                                :null
+                                : null
                             }
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                           </ion-card-title>

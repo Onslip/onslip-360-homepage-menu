@@ -1,4 +1,4 @@
-import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, STATUS, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
@@ -11,21 +11,26 @@ export class DHMService {
     private api: API;
     private db: DatabaseURI;
     private listener: Listener;
-    private configId: number
+    private dbConnect: boolean = true;
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
         this.listener = new Listener(this.api, this.db);
-        this.configId = config.styleconfig?.id ?? 1
     }
 
     async initialize(): Promise<this> {
-        if (this.config.database.uri != "") {
+        try {
+            await this.db.query<DBQuery>`select version()`
+            this.dbConnect = true;
             this.listener.Listener();
+            return this;
         }
-        return this;
+        catch (error) {
+            this.dbConnect = false;
+            return this;
+        }
     }
 
     asWebService(): WebService<this> {
@@ -94,7 +99,7 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /location/;
                 async GET() {
-                    const data = await (await svc.api.getLocation(1))['company-name'];
+                    const data = (await svc.api.getLocation(1))['company-name'];
                     return JSON.stringify(data ?? [0]);
                 }
                 async POST(args: WebArguments) {
@@ -108,13 +113,14 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const id:a = await new URI(`./configs/main.json`).load()
+                    const id: a = await new URI(`./configs/main.json`).load()
                     const data = await new URI(`./configs/config${id.id}.json`).load()
                     return data;
                 }
 
                 async POST(args: WebArguments) {
                     const body: Styleconfig = await args.body();
+
                     await new URI(`./configs/config${body.id}.json`).save(JSON.stringify(body))
                     return args.body();
                 }
@@ -123,9 +129,13 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /configId/;
 
+                async GET() {
+                    return JSON.stringify(svc.dbConnect ?? [0]);
+                }
+
                 async POST(args: WebArguments) {
                     const body: a = await args.body();
-                    await new URI(`./configs/main.json`).save(JSON.stringify({id: body.id}))
+                    await new URI(`./configs/main.json`).save(JSON.stringify({ id: body.id }))
                     return body;
                 }
             })
@@ -226,15 +236,19 @@ export class DHMService {
     }
 
     private async rootResponse() {
-        if (this.config.database.uri == "") {
-            return await GetProdFromApi(this.api);
-        }
-        else {
+        try {
+            await this.db.query<DBQuery>`select version()`
+            this.dbConnect = true;
             return await GetProdByGroup(this.db);
+        }
+        catch (error) {
+            this.dbConnect = false;
+            return await GetProdFromApi(this.api);
         }
     }
 }
 
 export interface a {
-    id: number
+    id: number,
 };
+

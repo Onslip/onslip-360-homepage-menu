@@ -1,5 +1,6 @@
 import { Component, h, State, Prop, Listen } from '@stencil/core';
 import { PostData } from '../../utils/post';
+import { DBConnection } from '../../utils/utils';
 
 @Component({
   tag: 'api-ui',
@@ -71,6 +72,12 @@ export class ApiUi {
             </div>
             <div class="body">
               <slot />
+              {
+                !DBConnection ? <div class='inputfield'>
+                  <p>Lägg till databas-uri för att få tillgång till anvädning av bilder...</p>
+                </div> : null
+              }
+
               <div class='inputfield'>
                 <label>API-base</label>
                 <input type="text" value={this.base} onInput={(event) => this.handleChangeBase(event)} />
