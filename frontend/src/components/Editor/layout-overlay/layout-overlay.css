@@ -39,10 +39,9 @@
   width: 50%;
   height: 80%;
   position: absolute;
-  left: 50%;
-  transform: translate(-50% ,-100%);
   border-radius: 4px;
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+  margin: auto, 0;
 }
 
 
@@ -113,12 +112,6 @@
 
 .modal-wrapper .modal .footer apollo-button:last-child {
   margin: 0 6px;
-}
-
-
-.is-open .modal {
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 
