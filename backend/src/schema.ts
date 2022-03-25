@@ -18,6 +18,9 @@ export interface DHMConfig {
         id: string;
         key: string;
     }
+    styleconfig?: {
+        id: number
+    }
 }
 
 interface Definitions {

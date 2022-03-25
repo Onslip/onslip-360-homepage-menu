@@ -71,3 +71,36 @@ export interface Menu {
     id: number;
     name: string;
 }
+
+export interface Styleconfig {
+    id: number
+    background?: {
+      enabled?: boolean
+      color?: string,
+    },
+    productImages?: {
+      useProductImages?: boolean,
+      style?: 'Background' | 'Logo' | 'Disabled',
+      placement?: 'Left' | 'Right',
+    }
+    categoryImages?: {
+      useCategoryImages?: boolean,
+      style?: 'Background' | 'Banner' | 'Disabled'
+    }
+    Logo?: boolean,
+    banner?: boolean,
+    font?: font,
+    menuBackground?: string,
+    connect?: boolean,
+    menuInUse?: number;
+  }
+  
+  interface font {
+    fontFamily?: string,
+    fontWeight?: boolean;
+    fontStyle?: boolean;
+    fontSize?: string;
+    fontColor?: string;
+    fontTitleColor?: string;
+    fontOutline?: boolean;
+  }

@@ -4,19 +4,21 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { DBCatImage, DBImage, newApi } from './interfaces';
+import { DBCatImage, DBImage, newApi, Styleconfig } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
     private api: API;
     private db: DatabaseURI;
     private listener: Listener;
+    private configId: number
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
         this.listener = new Listener(this.api, this.db);
+        this.configId = config.styleconfig?.id ?? 1
     }
 
     async initialize(): Promise<this> {
@@ -106,14 +108,25 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const data = await new URI('./config.json').load()
+                    const id:a = await new URI(`./configs/main.json`).load()
+                    const data = await new URI(`./configs/config${id.id}.json`).load()
                     return data;
                 }
 
                 async POST(args: WebArguments) {
-                    const body = await args.body();
-                    await new URI('./config.json').save(JSON.stringify(body))
+                    const body: Styleconfig = await args.body();
+                    await new URI(`./configs/config${body.id}.json`).save(JSON.stringify(body))
                     return args.body();
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /configId/;
+
+                async POST(args: WebArguments) {
+                    const body: a = await args.body();
+                    await new URI(`./configs/main.json`).save(JSON.stringify({id: body.id}))
+                    return body;
                 }
             })
 
@@ -222,4 +235,6 @@ export class DHMService {
     }
 }
 
-
+export interface a {
+    id: number
+};

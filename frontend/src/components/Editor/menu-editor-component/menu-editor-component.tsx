@@ -135,15 +135,18 @@ export class MenuEditorComponent {
     return (products.map(x =>
       <ion-card-content class={config?.productImages?.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
         <ion-row>
-          <ion-col size="1" class='productIcon' hidden={!config?.productImages?.useProductImages} >
+          <ion-col size="1.5" class='productIcon' hidden={!config?.productImages?.useProductImages} >
             {
               this.imagesLoading ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></ion-img>,
-                <ion-input id='files' type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} placeholder='Upload' />]
+                <label class={'uploadbutton'}>
+                  Välj Fil...
+                <input type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} hidden/>
+                </label>]
             }
           </ion-col>
-          <ion-col size="10">
+          <ion-col>
             <ion-row>
               <ion-col class="productName">
                 <div>{x.name}</div>
@@ -155,7 +158,7 @@ export class MenuEditorComponent {
               </ion-col>
             </ion-row>
           </ion-col>
-          <ion-col size="1" class='productPrice'>
+          <ion-col size="1.5" class='productPrice'>
             <div>{x.price}kr</div>
           </ion-col>
         </ion-row>
@@ -182,9 +185,14 @@ export class MenuEditorComponent {
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages.style}>
                             {data.category.name}
                             {
-                              this.toggle ? <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} />
-                                : <ion-reorder hidden={this.toggle}></ion-reorder>
+                              config.categoryImages.useCategoryImages && this.toggle ? 
+                              <label class='uploadbutton banner'>
+                                Välj Fil...
+                                <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} hidden/>
+                                </label>
+                                :null
                             }
+                            <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                           </ion-card-title>
 
                         </ion-card-header>

@@ -40,17 +40,15 @@ export class HomepageMenuEditorComponent {
     }
     else {
       GetData(this.locationUrl).then(response => {
-        console.log(this.element.shadowRoot.querySelector('.header'));
-
         const node = document.createElement("h1");
         node.innerText = response;
         if (config?.banner) {
           this.element.shadowRoot.querySelector('.header').appendChild(node);
         }
         else {
-          const divnode = document.createElement("div");
-          divnode.className = "no-banner";
-          this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
+          // const divnode = document.createElement("div");
+          // divnode.className = "no-banner";
+          // this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
           this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
         }
 
@@ -117,11 +115,11 @@ export class HomepageMenuEditorComponent {
         <div>
           <toolbar-component></toolbar-component>
         </div>
-        <div class='menuContainer' data-status={config?.preset}>
+        <div class='menuContainer'>
           <div class={config?.banner ? 'header' : 'no-banner'}>
-            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+              {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
           </div>
-          <menu-editor-component toggle={this.toggle}></menu-editor-component>
+              <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>

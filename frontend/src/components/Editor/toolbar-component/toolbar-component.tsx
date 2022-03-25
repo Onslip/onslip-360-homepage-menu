@@ -1,5 +1,5 @@
 import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
-import { buttonvalues, Fonts, Presets, config } from '../../utils/utils';
+import { buttonvalues, Fonts, config } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
 @Component({
@@ -70,7 +70,7 @@ export class ToolbarComponent {
                 </ion-button>
                 {config ? [
                   <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
-                  <selector-component value={config?.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+                  <selector-component value={config?.id?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
                 ] : null}
               </ion-buttons>
               <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
@@ -113,14 +113,13 @@ export class ToolbarComponent {
                 <layout-overlay></layout-overlay>
               </ion-row>
             </ion-col>
-            <ion-col class="menu-row">
+            <ion-col class="menu-col">
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Produktbilder:</ion-label>
                   <ion-toggle checked={config?.productImages?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
-
               <ion-row>
                 <ion-item class="toggle">
                   <ion-label>Använd Logo:</ion-label>

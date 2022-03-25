@@ -19,6 +19,7 @@ export interface DBcategory {
 }
 
 export interface Styleconfig {
+  id: number;
   background?: {
     enabled?: boolean
     color?: string,
@@ -35,7 +36,6 @@ export interface Styleconfig {
   Logo?: boolean,
   banner?: boolean,
   font?: font,
-  preset?: string,
   menuBackground?: string,
   connect?: boolean,
   menuInUse?: number;
@@ -89,31 +89,29 @@ export const Fonts = [
   'Verdana, Geneva, Tahoma, sans-serif',
 ];
 
-export const Presets = [
-  'Preset 1', 'Preset 2', 'Preset 3'
-]
 
 export const editorvisual: boolean = false;
 
 
-export const config: Styleconfig = await asd();
+export const config: Styleconfig = await getConfig();
 
-export async function asd(): Promise<Styleconfig> {
-  const data = await GetData('http://localhost:8080/config').then(response => response).catch(err => err)
+export async function getConfig(): Promise<Styleconfig> {
+  let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
   if (data.categoryImages == undefined)
     return {
+      id: 1,
       background: {
         enabled: false,
         color: null,
       },
       productImages: {
         useProductImages: false,
-        style: 'Background',
+        style: 'Disabled',
         placement: 'Left',
       },
       categoryImages: {
         useCategoryImages: false,
-        style: 'Background'
+        style: 'Disabled'
       },
       Logo: false,
       banner: false,
@@ -126,7 +124,6 @@ export async function asd(): Promise<Styleconfig> {
         fontTitleColor: null,
         fontOutline: false
       },
-      preset: null,
       menuBackground: null,
       connect: true,
       menuInUse: 0,

@@ -76,14 +76,14 @@ ion-nav {
 
 .toggle {
   width: 100%;
-  font-size: large;
-  padding: 5px 5px;
+  font-size: 100%;
+  font-size: 100%;
   line-height: 1;
+  padding: 5px 5px;
   --min-height: 0;
   --background: transparent;
   --color: white;
   --border-style: none;
-  width: 270px;
 }
 
 ion-toggle {

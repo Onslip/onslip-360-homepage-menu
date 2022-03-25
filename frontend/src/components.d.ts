@@ -22,6 +22,7 @@ export namespace Components {
         "toggle": boolean;
     }
     interface SelectorComponent {
+        "DisplayName": string;
         "DropDownvalues": string[];
         "IconName": string;
         "element": string;
@@ -112,6 +113,7 @@ declare namespace LocalJSX {
         "toggle"?: boolean;
     }
     interface SelectorComponent {
+        "DisplayName"?: string;
         "DropDownvalues"?: string[];
         "IconName"?: string;
         "element"?: string;

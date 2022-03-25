@@ -15,7 +15,6 @@
 } 
 
 .content[data-status='Background'] {
-  background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(4px) saturate(180%) contrast(100%);
 }
 
@@ -23,6 +22,7 @@
   width: 100%;
   margin: 0;
   border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .progressbar {
@@ -50,7 +50,7 @@
 
 .categoryTitle[data-status='Banner']{
   padding: 30px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(4px) saturate(180%) contrast(100%);
 }
 
@@ -61,7 +61,7 @@
   text-align: center;
   font-weight: bold;
   position: sticky;
-  transition-duration: .4s;
+  /* transition-duration: .4s; */
   padding: 15px;
 }
 .prodContainer-no-image {
@@ -72,7 +72,9 @@
 .productContainer {
   text-align: center;
   margin-bottom: 0.5rem;
-
+}
+.productContainer > ion-row{
+  justify-content: space-between;
 }
 
 .productIcon {
@@ -96,39 +98,41 @@
 }
 
 .uploadbutton {
-  opacity: 0;
-  text-align: center;
-  font-size: large;
-  color: white;
-  position: absolute;
-  width: fit-content  ;
-  height: 100%;
-  background: transparent;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  padding: 3px 0;
   display: flex;
-  font-size: 1.5rem;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  text-align: center;
+  font-size: small;
+  color: white;
+  background-color: var(--primary);
+  border-radius: 0 0 3px 3px;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.uploadbutton.banner {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  padding: 5px 10px;
+  border-radius: 2px;
+  transform: translate(0, -50%)
 }
 
 .uploadbutton:hover {
-  opacity: 100%;
-  background-color: rgba(0, 0, 0, 0.644);
-  border: 3px solid black 
+  background-color: var(--secondary);
 }
 
 .productIcon {
   width: 100%;
+  image-resolution: 200px 200px;
 }
 
 ion-reorder {
   position: absolute;
-  left: 96%;
-  bottom: 15%;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
   color: black;
 }
 
@@ -142,4 +146,10 @@ ion-reorder {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.spinner {
+  color: var(--primary);
+  transform: translate(50%, 50%);
+  padding: 5px;
 }
