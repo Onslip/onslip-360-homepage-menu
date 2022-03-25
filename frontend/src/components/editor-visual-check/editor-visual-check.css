@@ -6,3 +6,12 @@
 .checkbox {
   z-index: 0;
 }
+
+.content {
+  height: 100%;
+  position: unset;
+}
+
+.content #background-content{
+  background: unset;
+}

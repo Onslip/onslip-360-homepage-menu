@@ -132,7 +132,6 @@ export class ToolbarComponent {
                   <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
                 </ion-item>
               </ion-row>
-
             </ion-col>
           </ion-row>
         </div >
