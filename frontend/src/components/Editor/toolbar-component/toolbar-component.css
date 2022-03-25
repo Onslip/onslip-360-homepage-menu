@@ -84,6 +84,8 @@ ion-nav {
   --background: transparent;
   --color: white;
   --border-style: none;
+  --inner-padding-end: 0;
+  --padding-start: 0;
 }
 
 ion-toggle {

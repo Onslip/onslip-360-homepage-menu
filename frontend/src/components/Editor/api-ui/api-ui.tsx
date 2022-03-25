@@ -55,7 +55,6 @@ export class ApiUi {
 
   render() {
     return (
-
       <div>
         <div>
           <label class={'button-9'} htmlFor='changekey'>Ändra API-nyckel <ion-icon class="icon" name="settings-sharp"></ion-icon></label>

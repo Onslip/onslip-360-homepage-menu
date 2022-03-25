@@ -143,7 +143,7 @@ export class MenuEditorComponent {
             {
               this.imagesLoading ?
                 <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={this.loadedImages?.find(i => i.id == x.id)?.image} class='productIcon'></ion-img>,
+                : [<ion-img src={this.loadedImages?.find(i => i.id == x.id)?.image}></ion-img>,
                 <label class={'uploadbutton'}>
                   Välj Fil...
                   <input type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} hidden />
