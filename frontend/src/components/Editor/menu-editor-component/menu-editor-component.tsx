@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBConnection, DBImage, MenuWithCategory } from '../../utils/utils';
+import { categorywithproduct, DBConnection, DBImage, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -18,7 +18,8 @@ export class MenuEditorComponent {
   private caturl: string = 'http://localhost:8080/category-image';
   @State() loadedImages: image[];
   @State() loadedCatImages: DBCatImage[];
-  @State() menu: MenuWithCategory
+  @State() categories: categorywithproduct[];
+  @State() menu: MenuWithCategory;
   @State() errormessage: string
   @State() imagesLoading: boolean = true;
   @State() catimagesLoading: boolean = true;
@@ -33,6 +34,7 @@ export class MenuEditorComponent {
     GetData(this.url)
       .then(response => this.menu = response[config.menuInUse])
       .then(() => { this.loading = false, config.connect = true })
+      .then(() => this.categories = this.menu.categories)
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
@@ -131,16 +133,19 @@ export class MenuEditorComponent {
       fileReader.readAsDataURL(file[0])
     }
   }
-  doReorder(ev: any) {
+  async doReorder(ev: any) {
+    this.categories = ev.detail.complete(this.categories)
 
-    this.menu.categories.forEach(x => ev.detail.complete(this.menu.categories.find(z => z.category.id == x.category.id).category.position == x.category.position));
+    this.categories.forEach(x => x.category.position = this.categories.indexOf(x));
 
-    // this.menu.categories = ev.detail.complete(this.menu.categories);
-    
-    // this.menu.categories = [...ev.detail.complete(this.menu.categories)]
-    this.menu.categories.forEach(x => console.log(x.category.position));
-    
-    PostData('http://localhost:8080/updateposition', this.menu.categories)
+    // this.menu.categories.forEach(x => console.log(x.category.position));
+
+
+    // this.menu.categories.forEach(x => console.log(x.category));
+    const newMenu = { menu: this.menu.menu.id, categories: this.categories.map(x => { return { id: x.category.id, position: x.category.position } }) }
+    await PostData('http://localhost:8080/updateposition', newMenu)
+
+
   }
 
   renderProducts(products) {
@@ -188,7 +193,7 @@ export class MenuEditorComponent {
         <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
           {
             !this.loading ?
-              this.menu.categories.map(data => {
+              this.categories.map(data => {
                 return (
                   <div id={data.category.id.toString()} class='card'>
                     <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
