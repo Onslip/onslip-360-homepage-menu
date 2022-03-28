@@ -51,17 +51,6 @@
             "key"
           ],
           "type": "object"
-        },
-        "styleconfig": {
-          "properties": {
-            "id": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "type": "object"
         }
       },
       "required": [

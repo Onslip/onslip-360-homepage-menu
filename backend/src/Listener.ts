@@ -1,7 +1,5 @@
 import { API, AbortController } from "@onslip/onslip-360-node-api";
 import { DatabaseURI, DBQuery, FIELDS } from "@divine/uri";
-import { main } from "./onslip-360-homepage-menu";
-import { listeners } from "process";
 import { DBcategory, DBproduct, ICategory, IProduct, Menu } from "./interfaces";
 
 export class Listener {

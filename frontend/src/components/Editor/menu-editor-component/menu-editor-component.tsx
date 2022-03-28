@@ -3,7 +3,7 @@ import { DBConnection, DBImage, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
-import { PostImage } from '../../utils/post';
+import { PostData, PostImage } from '../../utils/post';
 
 @Component({
   tag: 'menu-editor-component',
@@ -132,7 +132,15 @@ export class MenuEditorComponent {
     }
   }
   doReorder(ev: any) {
-    this.menu.categories = ev.detail.complete(this.menu.categories);
+
+    this.menu.categories.forEach(x => ev.detail.complete(this.menu.categories.find(z => z.category.id == x.category.id).category.position == x.category.position));
+
+    // this.menu.categories = ev.detail.complete(this.menu.categories);
+    
+    // this.menu.categories = [...ev.detail.complete(this.menu.categories)]
+    this.menu.categories.forEach(x => console.log(x.category.position));
+    
+    PostData('http://localhost:8080/updateposition', this.menu.categories)
   }
 
   renderProducts(products) {

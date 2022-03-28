@@ -11,11 +11,13 @@ export interface DBproduct {
   description: string
   price: string,
   productcategory_id: number,
+  position: number,
 }
 
 export interface DBcategory {
   name: string
   id: number,
+  position: number,
 }
 
 export interface Styleconfig {
