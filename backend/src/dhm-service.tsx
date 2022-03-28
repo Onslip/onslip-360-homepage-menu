@@ -1,15 +1,18 @@
-import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, STATUS, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { writeFileSync, readFileSync } from 'fs';
+import { ChangePosition, DBCatImage, DBImage, MainConfig, newApi, Styleconfig } from './interfaces';
+import { GetProdByGroup, GetProdFromApi } from './LoadData';
+import { type } from 'os';
 
 export class DHMService {
     private api: API;
     private db: DatabaseURI;
     private listener: Listener;
+    private dbConnect: boolean = true;
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
@@ -19,21 +22,26 @@ export class DHMService {
     }
 
     async initialize(): Promise<this> {
-
-        return this;
+        try {
+            await this.db.query<DBQuery>`select version()`
+            this.dbConnect = true;
+            this.listener.Listener();
+            return this;
+        }
+        catch (error) {
+            this.dbConnect = false;
+            return this;
+        }
     }
 
     asWebService(): WebService<this> {
         const svc = this;
-        //const compName = svc.api.getAccount.name;
 
         return new WebService(this)
 
             .addFilter(class extends CORSFilter {
                 static path = /.*/;
             })
-
-
 
             .addResource(class implements WebResource {
                 static path = RegExp('');
@@ -88,10 +96,11 @@ export class DHMService {
                     return data;
                 }
             })
+
             .addResource(class implements WebResource {
                 static path = /location/;
                 async GET() {
-                    const data = await (await svc.api.getLocation(1))['company-name'];
+                    const data = (await svc.api.getLocation(1))['company-name'];
                     return JSON.stringify(data ?? [0]);
                 }
                 async POST(args: WebArguments) {
@@ -102,19 +111,50 @@ export class DHMService {
                 }
             })
 
-
             .addResource(class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const data = readFileSync('./config.json').toString();
-                    return JSON.parse(data);
+                    const id: MainConfig = await new URI(`./configs/main.json`).load()
+                    const data = await new URI(`./configs/config${id.id}.json`).load()
+                    return data;
                 }
 
                 async POST(args: WebArguments) {
-                    const body = await args.body()
-                    console.log(body)
-                    writeFileSync('./config.json', JSON.stringify(body));
+                    const body: Styleconfig = await args.body();
+
+                    await new URI(`./configs/config${body.id}.json`).save(JSON.stringify(body))
                     return args.body();
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /configId/;
+
+                async GET() {
+                    return JSON.stringify(svc.dbConnect ?? [0]);
+                }
+
+                async POST(args: WebArguments) {
+                    const body: MainConfig = await args.body();
+                    await new URI(`./configs/main.json`).save(JSON.stringify({ id: body.id }))
+                    return body;
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /updateposition/;
+
+                async POST(args: WebArguments) {
+                    const data: ChangePosition = await args.body();
+                    let menu: API.Stored_ButtonMap = (await svc.api.getButtonMap(data.menu));
+                    let sortedMenu: API.Partial_ButtonMap = { buttons: menu.buttons }
+
+                    sortedMenu.buttons?.forEach(x => {
+                        x.x = data.categories.find(c => c.id == x['button-map'])?.position;
+                    });
+
+                    (await svc.api.updateButtonMap(data.menu, sortedMenu))
+                    return sortedMenu;
                 }
             })
 
@@ -130,16 +170,22 @@ export class DHMService {
             })
 
             .addResource(class implements WebResource {
-                static path = /productimage-upload/;
+                static path = /product-image/;
 
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
-                    const name = data[FIELDS]?.find(x => x.name == 'id')?.value as string;
-                    const prod = await svc.db.query<DBproduct[]>`select * from onslip.products where name = ${name}`;
+                    const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
                     const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
-                    const id = prod.map(x => Number(x.id))[0];
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    await svc.db.query<DBQuery[]>`upsert into onslip.productimages (product_id , image) values (${id}, ${dataBuffer}) `
+
+                    const imageList = await svc.db.query<DBQuery[]>`select * from onslip.productimages where product_id = ${id}`;
+                    const imageExists: boolean = imageList.length != 0;
+                    if (!imageExists) {
+                        await svc.db.query<DBQuery[]>`insert into onslip.productimages (image, product_id) values (${dataBuffer}, ${id})`;
+                    }
+                    else {
+                        await svc.db.query<DBQuery[]>`update onslip.productimages set (image) = (${dataBuffer}) where product_id = ${id}`;
+                    }
                     return data;
                 }
 
@@ -152,99 +198,76 @@ export class DHMService {
                     return list;
                 }
             })
+
+            .addResource(class implements WebResource {
+                static path = /category-image/;
+
+
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData;
+                    const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+
+                    const imageList = await svc.db.query<DBQuery[]>`select * from onslip.categoryimages where category_id = ${id}`;
+                    const imageExists: boolean = imageList.length != 0;
+                    if (!imageExists) {
+                        await svc.db.query<DBQuery[]>`insert into onslip.categoryimages (image, category_id) values (${dataBuffer}, ${id})`;
+                    }
+                    else {
+                        await svc.db.query<DBQuery[]>`update onslip.categoryimages set (image) = (${dataBuffer}) where category_id = ${id}`;
+                    }
+                    return data;
+                }
+
+                async GET() {
+                    const data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`;
+                    const list: DBCatImage[] = data.map(x => ({
+
+                        image: x.image,
+                        category_id: Number(x.category_id)
+                    }))
+                    return list;
+                }
+            })
     }
 
     private async WritetoFile(api: newApi) {
         this.api = new API(api.base, api.realm, api.id, api.key);
         this.db = new URI(api.uri) as DatabaseURI;
-        writeFileSync('./test.toml', `[listen]
-host  = 'localhost'
-port  = 8080
-
-[database]
-uri   = '${api.uri}'
-
-[onslip360]
-base  = '${api.base}'      # Onslip 360 environment
-realm = '${api.realm}'                          # Onslip 360 account
-id = '${api.id}' # ID of user's API key
-key = '${api.key}'                                    # User's Base64-encoded API key
-                `)
-    }
-
-    private async GetProdByGroup(): Promise<productsWithCategory[]> {
-        const categories = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
-        const products = await this.db.query<DBproduct[]>`select * from onslip.products`;
-        const images = await this.db.query<DBImage[]>`select * from onslip.productimages`;
-
-        return categories.map(c => ({
-            category: {
-                id: Number(c.id),
-                name: c.name
+        const config: DHMConfig = {
+            listen: {
+                port: 8080,
+                host: 'localhost'
             },
-            products: products.filter(p => p.productcategory_id == c.id).map(p => ({
-                name: p.name,
-                id: Number(p.id),
-                description: p.description,
-                price: p.price,
-                productcategory_id: Number(p.productcategory_id)
-            })
-            )
-        }) as productsWithCategory)
+            database: {
+                uri: api.uri ?? ''
+            },
+            onslip360: {
+                base: api.base ?? '',
+                realm: api.realm ?? '',
+                id: api.id ?? '',
+                key: api.key ?? ''
+            }
+        }
+        await new URI('./onslip-360-homepage-menu.toml').save(config)
     }
+
     private async rootResponse() {
-        this.listener.Listener();
-        return await this.GetProdByGroup();
+        // const a = await (await this.api.getButtonMap(1)).buttons;
+
+        // const b = this.api.getButton(1);
+
+        // a.forEach(x => console.log(x))
+        try {
+            await this.db.query<DBQuery>`select version()`
+            this.dbConnect = true;
+            return await GetProdByGroup(this.db);
+        }
+        catch (error) {
+            this.dbConnect = false;
+            return await GetProdFromApi(this.api);
+        }
     }
-
 }
 
-
-interface DBproduct {
-    id: number
-    name: string
-    description: string
-    price: string
-    productcategory_id: number
-}
-
-interface DBcategory {
-    name: string
-    id: number
-}
-
-interface DBImage {
-    image: any
-    product_id: number
-}
-
-interface productsWithCategory {
-    category: DBcategory,
-    products: DBproduct[]
-}
-
-interface newApi {
-    base: string,
-    realm: string,
-    key: string,
-    id: string,
-    uri: string
-}
-
-interface Styleconfig {
-    background: {
-        enabled: boolean
-        color: string,
-    },
-    useProductImages: true,
-    font: {
-        fontFamily: string,
-        fontWeight: boolean;
-        fontStyle: boolean;
-        fontSize: number;
-    }
-    preset: string,
-    menuBackground: string,
-}
-
-const a: Styleconfig = JSON.parse(JSON.stringify(readFileSync('./config.json').toString()));

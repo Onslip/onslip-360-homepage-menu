@@ -10,6 +10,7 @@ import { config } from '../../utils/utils';
   assetsDirs: ['assets']
 })
 export class SelectorComponent {
+  @Prop() DisplayName: string
   @Prop() DropDownvalues: string[];
   @Prop() value: string;
   @Prop() IconName: string
@@ -60,45 +61,35 @@ export class SelectorComponent {
     if (this.type == 'font') {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
       config.font.fontFamily = event;
+      await PostData('http://localhost:8080/config', config)
     }
     else if (this.type == 'preset') {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
-      config.preset = event;
+      console.log({id: Number(event)})
+      await PostData('http://localhost:8080/configId', {id: event})
+      location.reload();
     }
-    await PostData('http://localhost:8080/config', config)
   }
 
   private customPopoverOptions: any = {
     reference: "event",
+    target: "event.target"
   };
-  myFunction(event) {
-    document.getElementById("myDropdown").classList.toggle("show");
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  }
 
   render() {
     return (
       <Host>
         <ion-row>
-          <ion-item class={this.menu ? 'is-open' : 'is-closed'}>
+          <ion-item lines='none' class={this.menu ? 'is-open' : 'is-closed'}>
             <ion-item>
-              <ion-select onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions}>
-                {this.DropDownvalues.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
+              <ion-select class="select" onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj'>
+                {this.DropDownvalues.map(x => <ion-select-option value={x}>{this.DisplayName} {x}</ion-select-option>)}
               </ion-select>
             </ion-item>
             {this.type == 'font' ? [
-              <ion-item lines='none'>
-                <ion-item class='sizeSelet' button='true'>
-                  <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label' selectedText={<ion-icon src={getAssetPath('assets/font-size.svg')} />} >
+              <ion-item lines='none' class='outerItem'>
+                <ion-item class='sizeSelect' button='true'>
+                  <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label'>
                     <ion-select-option value={'1.4em'}>Larger</ion-select-option>
                     <ion-select-option value={'1.2em'}>Large</ion-select-option>
                     <ion-select-option value={'1em'}>Medium</ion-select-option>

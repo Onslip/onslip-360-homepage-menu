@@ -4,11 +4,13 @@
 }
 
 .icon {
-  float: right;
-  padding-left: 50px;
+  position: absolute;
+  right: 10px;
+
 }
 
 .button-9 {
+  padding-right: 120px;
   display: block;
   backface-visibility: hidden;
   border-width: 0;

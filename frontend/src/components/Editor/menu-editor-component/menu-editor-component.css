@@ -1,10 +1,29 @@
 :host {
   display: block;
+  background-repeat: no-repeat;
 }
 
 .card {
   background-color: rgba(255, 255, 255, 0.466);
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+    padding: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 } 
+
+.content[data-status='Background'] {
+  backdrop-filter: blur(4px) saturate(180%) contrast(100%);
+}
+
+.content {
+  width: 100%;
+  margin: 0;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 
 .progressbar {
   --progress-background: var(--primary);
@@ -21,21 +40,29 @@
 }
 
 .categoryTitle {
-  /* color: black; */
-  font-size: 1.5rem;
+ font-size: 1.5rem;
   margin: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 1.5px solid black;
   text-align: center;
   font-weight: bold;
-  transition-duration: .4s;
+  padding: 15px;
 }
+
+.categoryTitle[data-status='Banner']{
+  padding: 30px;
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  backdrop-filter: blur(1px) saturate(100%) contrast(100%);
+}
+
+
 
 .categoryToggled {
   font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
   position: sticky;
-  transition-duration: .4s;
+  /* transition-duration: .4s; */
+  padding: 15px;
 }
 .prodContainer-no-image {
   text-align: left;
@@ -44,13 +71,15 @@
 
 .productContainer {
   text-align: center;
-  margin-bottom: 0.5rem;
+  padding: 5px;
+}
 
+.productContainer > ion-row{
+  justify-content: space-between;
 }
 
 .productIcon {
   text-align: left;
-  /* margin-bottom: 0.5rem; */
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -70,36 +99,67 @@
 }
 
 .uploadbutton {
-  opacity: 0;
-  text-align: center;
-  font-size: large;
-  color: white;
-  position: absolute;
-  width: fit-content  ;
-  height: 100%;
-  background: transparent;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  padding: 3px 0;
   display: flex;
-  font-size: 1.5rem;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  text-align: center;
+  font-size: small;
+  color: white;
+  background-color: var(--primary);
+  border-radius: 0 0 3px 3px;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.uploadbutton.banner {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  padding: 5px 10px;
+  border-radius: 2px;
+  transform: translate(0, -50%)
 }
 
 .uploadbutton:hover {
-  opacity: 100%;
-  background-color: rgba(0, 0, 0, 0.644);
-  border: 3px solid black 
+  background-color: var(--secondary);
 }
 
 .productIcon {
   width: 100%;
+  padding: 0;
 }
 
 ion-reorder {
-  float: right;
-  color: black
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+  color: black;
+  --transition: none;
+  animation: none;
+}
+
+ion-reorder-group {
+  transition: none;
+    animation: none;
+    transition-duration: 0s;
+
+}
+
+.catImages {
+  left: 85%;
+  position: absolute;
+}
+
+.background {
+  padding: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.spinner {
+  color: var(--primary);
+  transform: translate(50%, 50%);
+  padding: 5px;
 }

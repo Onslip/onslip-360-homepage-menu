@@ -1,0 +1,30 @@
+{
+    "id": "1",
+    "background": {
+        "enabled": true,
+        "color": "#862d53"
+    },
+    "productImages": {
+        "useProductImages": false,
+        "style": "Disabled",
+        "placement": "Left"
+    },
+    "categoryImages": {
+        "useCategoryImages": true,
+        "style": "Banner"
+    },
+    "Logo": true,
+    "banner": true,
+    "font": {
+        "fontFamily": "fantasy",
+        "fontWeight": true,
+        "fontStyle": true,
+        "fontSize": "1.2em",
+        "fontColor": "#341eb5",
+        "fontTitleColor": "#18b107",
+        "fontOutline": false
+    },
+    "menuBackground": null,
+    "connect": true,
+    "menuInUse": 0
+}

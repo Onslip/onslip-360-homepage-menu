@@ -1,5 +1,6 @@
 import { Component, h, State, Prop, Listen } from '@stencil/core';
 import { PostData } from '../../utils/post';
+import { DBConnection } from '../../utils/utils';
 
 @Component({
   tag: 'api-ui',
@@ -13,20 +14,13 @@ export class ApiUi {
   @State() key: string;
   @State() uri: string;
   @State() base: string;
-  @State() private url = 'http://localhost:8080/updateapi'
+  private url = 'http://localhost:8080/updateapi'
   @Prop({
     mutable: true,
     reflect: true,
   })
   @Prop() isopen: boolean;
   @Prop() closeIcon = 'x.svg';
-  @Listen('click')
-  handleClick(ev: MouseEvent) {
-    if (ev.button === 1) {
-
-      console.log('down arrow pressed')
-    }
-  }
 
   open() {
     this.isopen = true;
@@ -36,10 +30,11 @@ export class ApiUi {
     this.isopen = false;
   }
 
-  PostData() {
-    const data = { base: this.base, realm: this.realm, id: this.id, key: this.key, uri: this.uri };
-    PostData(this.url, data);
+  async PostData() {
+    const data = { base: this.base, realm: this.realm, key: this.key, id: this.id, uri: this.uri };
+    await PostData(this.url, data);
     this.close();
+    location.reload();
   }
 
   handleChangeRealm(event) {
@@ -60,7 +55,6 @@ export class ApiUi {
 
   render() {
     return (
-
       <div>
         <div>
           <label class={'button-9'} htmlFor='changekey'>Ändra API-nyckel <ion-icon class="icon" name="settings-sharp"></ion-icon></label>
@@ -77,6 +71,12 @@ export class ApiUi {
             </div>
             <div class="body">
               <slot />
+              {
+                !DBConnection ? <div class='inputfield'>
+                  <p>Lägg till databas-uri för att få tillgång till anvädning av bilder...</p>
+                </div> : null
+              }
+
               <div class='inputfield'>
                 <label>API-base</label>
                 <input type="text" value={this.base} onInput={(event) => this.handleChangeBase(event)} />
@@ -104,10 +104,6 @@ export class ApiUi {
           </div>
         </div >
       </div>
-
     );
   }
-
 }
-
-

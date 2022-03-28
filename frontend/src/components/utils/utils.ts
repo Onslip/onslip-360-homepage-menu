@@ -1,17 +1,5 @@
 import { GetData } from "./get";
 
-// export interface productsWithCategory {
-//   category: {
-//     name: string
-//   }
-//   products: {
-//     id: number,
-//     name: string,
-//     price: string,
-//     description: string
-//     image: any
-//   }[]
-// }
 export interface DBImage {
   image: any
   product_id: number
@@ -22,47 +10,61 @@ export interface DBproduct {
   name: string
   description: string
   price: string,
-  productcategory_id: number
-}
-
-export interface DBItems {
-  category: DBcategory,
-  products: DBproduct[],
+  productcategory_id: number,
+  position: number,
 }
 
 export interface DBcategory {
   name: string
-  id: number
-}
-
-export interface Colorconfig {
-  backgroundcolor: string,
-}
-
-export interface Banner {
-  image: string
+  id: number,
+  position: number,
 }
 
 export interface Styleconfig {
-  background: {
-    enabled: boolean
-    color: string,
+  id: number;
+  background?: {
+    enabled?: boolean
+    color?: string,
   },
-  useProductImages: true,
-  Logo: true,
-  banner: true,
-  font: {
-    fontFamily: string,
-    fontWeight: boolean;
-    fontStyle: boolean;
-    fontSize: string;
-    fontColor: string;
-    fontTitleColor: string;
-    fontOutline: boolean;
+  productImages?: {
+    useProductImages?: boolean,
+    style?: 'Background' | 'Logo' | 'Disabled',
+    placement?: 'Left' | 'Right',
   }
-  preset: string,
-  menuBackground: string,
-  connect: boolean,
+  categoryImages?: {
+    useCategoryImages?: boolean,
+    style?: 'Background' | 'Banner' | 'Disabled'
+  }
+  Logo?: boolean,
+  banner?: boolean,
+  font?: font,
+  menuBackground?: string,
+  connect?: boolean,
+  menuInUse?: number;
+}
+
+interface font {
+  fontFamily?: string,
+  fontWeight?: boolean;
+  fontStyle?: boolean;
+  fontSize?: string;
+  fontColor?: string;
+  fontTitleColor?: string;
+  fontOutline?: boolean;
+}
+
+export interface MenuWithCategory {
+  menu: Menu
+  categories: categorywithproduct[]
+}
+export interface Menu {
+  id: number;
+  name: string;
+}
+
+export interface categorywithproduct {
+  category: DBcategory,
+  products: DBproduct[]
 }
 
 export enum buttonvalues {
@@ -89,11 +91,47 @@ export const Fonts = [
   'Verdana, Geneva, Tahoma, sans-serif',
 ];
 
-export const Presets = [
-  'Preset 1', 'Preset 2', 'Preset 3'
-]
+export const DBConnection = await GetData(`http://localhost:8080/configId`).then(response => response).catch(err => err);
 
 export const editorvisual: boolean = false;
 
-export const config: Styleconfig = await GetData('http://localhost:8080/config').catch(err => err);
+
+export const config: Styleconfig = await getConfig();
+
+export async function getConfig(): Promise<Styleconfig> {
+  let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
+  if (data.categoryImages == undefined)
+    return {
+      id: 1,
+      background: {
+        enabled: false,
+        color: null,
+      },
+      productImages: {
+        useProductImages: false,
+        style: 'Disabled',
+        placement: 'Left',
+      },
+      categoryImages: {
+        useCategoryImages: false,
+        style: 'Disabled'
+      },
+      Logo: false,
+      banner: false,
+      font: {
+        fontFamily: null,
+        fontWeight: false,
+        fontStyle: false,
+        fontSize: null,
+        fontColor: null,
+        fontTitleColor: null,
+        fontOutline: false
+      },
+      menuBackground: null,
+      connect: true,
+      menuInUse: 0,
+    } as Styleconfig
+  else return data
+}
+
 

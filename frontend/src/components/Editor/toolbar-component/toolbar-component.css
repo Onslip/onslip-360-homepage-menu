@@ -47,10 +47,12 @@ ion-nav {
 }
 
 .icon {
-  float: right;
+  position:absolute;
+  right: 10px;
 }
 
 .button-9 {
+    padding-right: 120px;
   display: block;
   backface-visibility: hidden;
   border-width: 0;
@@ -75,11 +77,17 @@ ion-nav {
 }
 
 .toggle {
-  font-size: large;
+  width: 100%;
+  font-size: 100%;
+  font-size: 100%;
+  line-height: 1;
+  padding: 5px 5px;
   --min-height: 0;
   --background: transparent;
   --color: white;
   --border-style: none;
+  --inner-padding-end: 0;
+  --padding-start: 0;
 }
 
 ion-toggle {
@@ -105,9 +113,17 @@ api-ui {
   width: 100%;
 }
 
+layout-overlay {
+  width: 100%;
+}
+
 .fontselector {
   --color:white;
   --background:none;
   max-width: 100px;
   font-family: unset;
+}
+
+ion-toggle {
+  float:right;
 }
