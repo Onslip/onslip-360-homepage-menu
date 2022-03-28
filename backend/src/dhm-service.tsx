@@ -6,6 +6,7 @@ import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { DBCatImage, DBImage, newApi, Styleconfig } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
+import { type } from 'os';
 
 export class DHMService {
     private api: API;
@@ -141,6 +142,24 @@ export class DHMService {
             })
 
             .addResource(class implements WebResource {
+                static path = /UpdatePosition/;
+
+                async POST(args: WebArguments) {
+                    const button = svc.api.getButton(85);
+                    const buttonMap = svc.api.getButtonMap((await button).parent);
+                    (await buttonMap).buttons.forEach(async x => {
+                        if((await buttonMap).type == 'menu') {
+                            
+                        }
+                        else {
+
+                        }
+                    })
+                    return args.body();
+                }
+            })
+
+            .addResource(class implements WebResource {
                 static path = /updateapi/;
 
                 async POST(args: WebArguments) {
@@ -232,10 +251,15 @@ export class DHMService {
                 key: api.key ?? ''
             }
         }
-        await new URI('./test.toml').save(config)
+        await new URI('./onslip-360-homepage-menu.toml').save(config)
     }
 
     private async rootResponse() {
+        // const a = await (await this.api.getButtonMap(1)).buttons;
+
+        // const b = this.api.getButton(1);
+        
+        // a.forEach(x => console.log(x))
         try {
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
@@ -249,6 +273,6 @@ export class DHMService {
 }
 
 export interface a {
-    id: number,
+    id: number;
 };
 
