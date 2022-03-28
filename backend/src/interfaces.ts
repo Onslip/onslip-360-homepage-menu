@@ -104,3 +104,13 @@ export interface Styleconfig {
     fontTitleColor?: string;
     fontOutline?: boolean;
   }
+
+  export interface MainConfig {
+    id: number;
+};
+
+export interface ChangePosition {
+    menu: number
+    categories: { id: number, position: number}[]
+}
+

@@ -135,6 +135,15 @@ ion-reorder {
   top: 50%;
   transform: translate(0, -50%);
   color: black;
+  --transition: none;
+  animation: none;
+}
+
+ion-reorder-group {
+  transition: none;
+    animation: none;
+    transition-duration: 0s;
+
 }
 
 .catImages {

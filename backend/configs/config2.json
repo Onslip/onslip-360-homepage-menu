@@ -1,1 +1,30 @@
-{"id":"2","background":{"enabled":true,"color":"#142cd1"},"productImages":{"useProductImages":false,"style":"Disabled","placement":"Left"},"categoryImages":{"useCategoryImages":true,"style":"Banner"},"Logo":false,"banner":true,"font":{"fontFamily":"fantasy","fontWeight":false,"fontStyle":false,"fontSize":"1.2em","fontColor":"#341eb5","fontTitleColor":"#18b107","fontOutline":false},"menuBackground":"#30d917","connect":true,"menuInUse":0}
+{
+    "id": "2",
+    "background": {
+        "enabled": true,
+        "color": "#142cd1"
+    },
+    "productImages": {
+        "useProductImages": false,
+        "style": "Disabled",
+        "placement": "Left"
+    },
+    "categoryImages": {
+        "useCategoryImages": true,
+        "style": "Banner"
+    },
+    "Logo": false,
+    "banner": true,
+    "font": {
+        "fontFamily": "fantasy",
+        "fontWeight": false,
+        "fontStyle": false,
+        "fontSize": "1.2em",
+        "fontColor": "#341eb5",
+        "fontTitleColor": "#18b107",
+        "fontOutline": false
+    },
+    "menuBackground": "#30d917",
+    "connect": true,
+    "menuInUse": 0
+}

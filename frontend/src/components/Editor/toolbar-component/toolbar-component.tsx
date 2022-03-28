@@ -91,7 +91,7 @@ export class ToolbarComponent {
                 <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
               </ion-row>] : null}
               <ion-row>
-                <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg<ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                 <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
               </ion-row>
               <ion-row>

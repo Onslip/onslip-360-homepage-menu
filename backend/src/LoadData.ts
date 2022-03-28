@@ -18,7 +18,7 @@ export async function GetProdFromApi(api: API): Promise<MenuWithCategory[]> {
                     position: categorybuttonamp.flatMap(c => c.buttons).find(p => p.product == id)?.y ?? 0
                 })
             })
-        )
+        ).sort((a, b) => a.position - b.position)
     }
 
     const GetCategories: MenuWithCategory[] = menu.flatMap(m => {
@@ -40,8 +40,8 @@ export async function GetProdFromApi(api: API): Promise<MenuWithCategory[]> {
                                 products: category.buttons.flatMap(x => { return GetProducts(x.product ?? 0) }).sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
                             })
                         })
-                    ).sort((a, b) => a.category.position - b.category.position)
-                })
+                    )
+                }).sort((a, b) => (a.category.position - b.category.position))
             }
         )
     })
@@ -67,7 +67,7 @@ export async function GetProdByGroup(db: DatabaseURI): Promise<MenuWithCategory[
                     }
                 )
             })
-        )
+        ).sort((a, b) => a.position - b.position)
     }
 
     const GetCategories = (categoryId: number): categorywithproduct => {

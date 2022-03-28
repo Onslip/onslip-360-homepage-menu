@@ -144,10 +144,13 @@
 }
 
 .icon {
-  float: right;
+  position: absolute;
+  right: 10px;
 }
 
 .button-9 {
+    margin-right: 120px;
+
   display: block;
   backface-visibility: hidden;
   border-width: 0;

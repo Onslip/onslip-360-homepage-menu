@@ -4,7 +4,7 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { DBCatImage, DBImage, newApi, Styleconfig } from './interfaces';
+import { ChangePosition, DBCatImage, DBImage, MainConfig, newApi, Styleconfig } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 import { type } from 'os';
 
@@ -114,7 +114,7 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const id: a = await new URI(`./configs/main.json`).load()
+                    const id: MainConfig = await new URI(`./configs/main.json`).load()
                     const data = await new URI(`./configs/config${id.id}.json`).load()
                     return data;
                 }
@@ -135,27 +135,26 @@ export class DHMService {
                 }
 
                 async POST(args: WebArguments) {
-                    const body: a = await args.body();
+                    const body: MainConfig = await args.body();
                     await new URI(`./configs/main.json`).save(JSON.stringify({ id: body.id }))
                     return body;
                 }
             })
 
             .addResource(class implements WebResource {
-                static path = /UpdatePosition/;
+                static path = /updateposition/;
 
                 async POST(args: WebArguments) {
-                    const button = svc.api.getButton(85);
-                    const buttonMap = svc.api.getButtonMap((await button).parent);
-                    (await buttonMap).buttons.forEach(async x => {
-                        if((await buttonMap).type == 'menu') {
-                            
-                        }
-                        else {
+                    const data: ChangePosition = await args.body();
+                    let menu: API.Stored_ButtonMap = (await svc.api.getButtonMap(data.menu));
+                    let sortedMenu: API.Partial_ButtonMap = { buttons: menu.buttons }
 
-                        }
-                    })
-                    return args.body();
+                    sortedMenu.buttons?.forEach(x => {
+                        x.x = data.categories.find(c => c.id == x['button-map'])?.position;
+                    });
+
+                    (await svc.api.updateButtonMap(data.menu, sortedMenu))
+                    return sortedMenu;
                 }
             })
 
@@ -258,7 +257,7 @@ export class DHMService {
         // const a = await (await this.api.getButtonMap(1)).buttons;
 
         // const b = this.api.getButton(1);
-        
+
         // a.forEach(x => console.log(x))
         try {
             await this.db.query<DBQuery>`select version()`
@@ -271,8 +270,4 @@ export class DHMService {
         }
     }
 }
-
-export interface a {
-    id: number;
-};
 
