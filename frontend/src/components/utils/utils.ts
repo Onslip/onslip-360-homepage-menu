@@ -18,6 +18,7 @@ export interface DBcategory {
   name: string
   id: number,
   position: number,
+  image?: string
 }
 
 export interface Styleconfig {

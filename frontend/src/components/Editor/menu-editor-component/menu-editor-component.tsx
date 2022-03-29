@@ -17,7 +17,6 @@ export class MenuEditorComponent {
   private produrl: string = 'http://localhost:8080/product-image';
   private caturl: string = 'http://localhost:8080/category-image';
   @State() loadedImages: image[];
-  @State() loadedCatImages: DBCatImage[];
   @State() categories: categorywithproduct[];
   @State() menu: MenuWithCategory;
   @State() errormessage: string
@@ -49,12 +48,11 @@ export class MenuEditorComponent {
     }
     if (config?.categoryImages?.useCategoryImages && DBConnection) {
       GetData(this.caturl)
-        .then(response => { this.LoadCatImages(response); this.loadedCatImages = response })
+        .then(response => { this.LoadCatImages(response); })
         .catch(() => {
         })
     }
   }
-
 
   async LoadImages(DBimages: DBImage[]) {
     const images: image[] = await Promise.all(DBimages.map(async i => {
@@ -68,18 +66,12 @@ export class MenuEditorComponent {
   }
 
 
+
   async LoadCatImages(DBimages: DBCatImage[]) {
-    DBimages?.forEach(async x => {
-      const loadedimage = await loadImage(x);
-
-      if (config.categoryImages.style == 'Background') {
-        this.element.shadowRoot.getElementById(`${x.category_id}`).style.backgroundImage = `url(${loadedimage})`
-      }
-      else {
-        this.element.shadowRoot.getElementById(`${x.category_id}`).querySelector('ion-card-header').style.backgroundImage = `url(${loadedimage})`
-      }
+    this.categories?.forEach(async x => {
+      const loadedimage = await loadImage(DBimages?.find(i => i.category_id == x.category.id)) ?? '';
+      this.categories.find(c => c.category.id == x.category.id).category.image = `url(${loadedimage})`
     })
-
   }
 
   async uploadImage(file: File, id: number) {
@@ -113,39 +105,17 @@ export class MenuEditorComponent {
       fd.append('id', String(id));
       await PostImage(this.caturl, fd);
       const fileReader = new FileReader()
-      const imageExists = this.loadedCatImages.find(i => i.category_id == id) != undefined
       fileReader.onload = () => {
-        if (imageExists) {
-          const x: DBCatImage[] = this.loadedCatImages
-          x.find(i => i.category_id == id).image = fileReader.result.toString()
-          this.loadedCatImages = [...x]
-        }
-        else {
-          this.loadedCatImages = [...this.loadedCatImages, { category_id: id, image: fileReader.result.toString() }]
-        }
-        if (config.categoryImages.style == 'Background') {
-          this.element.shadowRoot.getElementById(`${id}`).style.backgroundImage = `url(${fileReader.result})`
-        }
-        else {
-          this.element.shadowRoot.getElementById(`${id}`).querySelector('ion-card-header').style.backgroundImage = `url(${fileReader.result})`
-        }
+        this.categories.find(i => i.category, id == id).category.image = `url(${fileReader.result})`
       }
       fileReader.readAsDataURL(file[0])
     }
   }
+
   async doReorder(ev: any) {
-    this.categories = ev.detail.complete(this.categories)
-
-    this.categories.forEach(x => x.category.position = this.categories.indexOf(x));
-
-    // this.menu.categories.forEach(x => console.log(x.category.position));
-
-
-    // this.menu.categories.forEach(x => console.log(x.category));
-    const newMenu = { menu: this.menu.menu.id, categories: this.categories.map(x => { return { id: x.category.id, position: x.category.position } }) }
-    await PostData('http://localhost:8080/updateposition', newMenu)
-
-
+    this.categories = ev.detail.complete(this.categories);
+    const newMenu = { menu: this.menu.menu.id, categories: this.categories.map(x => { return { id: x.category.id, position: this.categories.indexOf(x) } }) }
+    PostData('http://localhost:8080/updateposition', newMenu)
   }
 
   renderProducts(products) {
@@ -194,11 +164,12 @@ export class MenuEditorComponent {
           {
             !this.loading ?
               this.categories.map(data => {
+
                 return (
-                  <div id={data.category.id.toString()} class='card'>
+                  <div id={data.category.id.toString()} class='card' style={{ backgroundImage: config.categoryImages.style == 'Background' ? data.category.image : null }}>
                     <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
                       <div>
-                        <ion-card-header class='background'>
+                        <ion-card-header class='background' style={{ backgroundImage: config.categoryImages.style == 'Banner' ? data.category.image : null }}>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages.style}>
                             {data.category.name}
                             {
