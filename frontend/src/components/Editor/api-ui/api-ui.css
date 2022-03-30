@@ -67,7 +67,7 @@
   padding: 16px;
   font-size:  14px;
   line-height: 21px;
-  max-height: 410px;
+  max-height: 550px;
   height: auto;
   overflow-y: auto;
   color: var(--mono-50)
@@ -228,10 +228,18 @@ input {
 }
 
 .inputfield {
+  margin-left: 5px;
   padding-bottom: 0.6rem;
   padding-top: 0.6rem;
 }
 
 p {
-  color: var(--alert)
+  color: var(--alert);
+  padding: 0;
+  margin: 0;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
 }

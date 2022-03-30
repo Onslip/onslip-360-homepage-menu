@@ -131,7 +131,16 @@ export class DHMService {
                 static path = /configId/;
 
                 async GET() {
-                    return JSON.stringify(svc.dbConnect ?? [0]);
+                    try {
+                        (await svc.api.getLocation(1))['company-name'];
+                        await svc.db.query<DBQuery>`select version()`;
+                        svc.dbConnect = true;
+                        return JSON.stringify(svc.dbConnect ?? [0]);
+                    }
+                    catch (error) {
+                        svc.dbConnect = false;
+                        return JSON.stringify(svc.dbConnect ?? [0]);
+                    }
                 }
 
                 async POST(args: WebArguments) {
@@ -158,13 +167,35 @@ export class DHMService {
                 }
             })
 
+
+
             .addResource(class implements WebResource {
-                static path = /updateapi/;
+                static path = /api/;
+
+                async GET() {
+                    let api: newApi = {
+                        api: await new URI('./test.toml').load()
+                    }
+                    try {
+                        (await svc.api.getLocation(1))['company-name'];
+                        api.ApiConnected = true;
+                    }
+                    catch (err) {
+                        api.ApiConnected = false;
+                    }
+                    try {
+                        await svc.db.query<DBQuery>`select version()`
+                        api.DatabaseConnected = true;
+                    }
+                    catch (err) {
+                        api.DatabaseConnected = false;
+                    }
+                    return JSON.stringify(api);
+                }
 
                 async POST(args: WebArguments) {
                     const api = await args.body() as newApi;
-                    console.log(api.base)
-                    svc.WritetoFile(api);
+                    svc.WritetoFile(api.api);
                     return args.body()
                 }
             })
@@ -232,34 +263,30 @@ export class DHMService {
             })
     }
 
-    private async WritetoFile(api: newApi) {
-        this.api = new API(api.base, api.realm, api.id, api.key);
-        this.db = new URI(api.uri) as DatabaseURI;
+    private async WritetoFile(api: DHMConfig) {
+        this.api = new API(api.onslip360.base, api.onslip360.realm, api.onslip360.id, api.onslip360.key);
+        this.db = new URI(api.database.uri) as DatabaseURI;
         const config: DHMConfig = {
             listen: {
                 port: 8080,
                 host: 'localhost'
             },
             database: {
-                uri: api.uri ?? ''
+                uri: api.database.uri ?? ''
             },
             onslip360: {
-                base: api.base ?? '',
-                realm: api.realm ?? '',
-                id: api.id ?? '',
-                key: api.key ?? ''
+                base: api.onslip360.base ?? '',
+                realm: api.onslip360.realm ?? '',
+                id: api.onslip360.id ?? '',
+                key: api.onslip360.key ?? ''
             }
         }
-        await new URI('./onslip-360-homepage-menu.toml').save(config)
+        await new URI('./test.toml').save(config)
     }
 
     private async rootResponse() {
-        // const a = await (await this.api.getButtonMap(1)).buttons;
-
-        // const b = this.api.getButton(1);
-
-        // a.forEach(x => console.log(x))
         try {
+            (await this.api.getLocation(1))['company-name'];
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
             return await GetProdByGroup(this.db);

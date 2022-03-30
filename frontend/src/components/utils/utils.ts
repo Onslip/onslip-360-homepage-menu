@@ -136,3 +136,21 @@ export async function getConfig(): Promise<Styleconfig> {
 }
 
 
+export interface newApi {
+  api: DHMConfig
+  ApiConnected?: boolean,
+  DatabaseConnected?: boolean
+}
+
+interface DHMConfig {
+  database: {
+    uri: string;
+  }
+
+  onslip360: {
+    base: string;
+    realm: string;
+    id: string;
+    key: string;
+  }
+}

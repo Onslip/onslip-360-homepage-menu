@@ -1,3 +1,5 @@
+import { DHMConfig } from "./schema";
+
 export interface DBproduct {
     id?: number
     name?: string
@@ -37,11 +39,9 @@ export interface categorywithproduct {
 }
 
 export interface newApi {
-    base: string,
-    realm: string,
-    key: string,
-    id: string,
-    uri: string
+    api: DHMConfig;
+    ApiConnected?: boolean,
+    DatabaseConnected?: boolean
 }
 
 export interface IPayload {
@@ -75,17 +75,17 @@ export interface Menu {
 export interface Styleconfig {
     id: number
     background?: {
-      enabled?: boolean
-      color?: string,
+        enabled?: boolean
+        color?: string,
     },
     productImages?: {
-      useProductImages?: boolean,
-      style?: 'Background' | 'Logo' | 'Disabled',
-      placement?: 'Left' | 'Right',
+        useProductImages?: boolean,
+        style?: 'Background' | 'Logo' | 'Disabled',
+        placement?: 'Left' | 'Right',
     }
     categoryImages?: {
-      useCategoryImages?: boolean,
-      style?: 'Background' | 'Banner' | 'Disabled'
+        useCategoryImages?: boolean,
+        style?: 'Background' | 'Banner' | 'Disabled'
     }
     Logo?: boolean,
     banner?: boolean,
@@ -93,9 +93,9 @@ export interface Styleconfig {
     menuBackground?: string,
     connect?: boolean,
     menuInUse?: number;
-  }
-  
-  interface font {
+}
+
+interface font {
     fontFamily?: string,
     fontWeight?: boolean;
     fontStyle?: boolean;
@@ -103,14 +103,14 @@ export interface Styleconfig {
     fontColor?: string;
     fontTitleColor?: string;
     fontOutline?: boolean;
-  }
+}
 
-  export interface MainConfig {
+export interface MainConfig {
     id: number;
 };
 
 export interface ChangePosition {
     menu: number
-    categories: { id: number, position: number}[]
+    categories: { id: number, position: number }[]
 }
 
