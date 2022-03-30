@@ -1,6 +1,7 @@
-import { Component, h, State, Prop, Listen } from '@stencil/core';
+import { Component, h, State, Prop } from '@stencil/core';
+import { GetData } from '../../utils/get';
 import { PostData } from '../../utils/post';
-import { DBConnection } from '../../utils/utils';
+import { DBConnection, newApi } from '../../utils/utils';
 
 @Component({
   tag: 'api-ui',
@@ -9,12 +10,10 @@ import { DBConnection } from '../../utils/utils';
   assetsDirs: ['assets'],
 })
 export class ApiUi {
-  @State() realm: string;
-  @State() id: string;
-  @State() key: string;
-  @State() uri: string;
-  @State() base: string;
-  private url = 'http://localhost:8080/updateapi'
+  @State() Api: newApi
+  @State() DatabaseWorks: boolean = true;
+  @State() ApiWorks: boolean = true;
+  private url = 'http://localhost:8080/api'
   @Prop({
     mutable: true,
     reflect: true,
@@ -30,27 +29,24 @@ export class ApiUi {
     this.isopen = false;
   }
 
-  async PostData() {
-    const data = { base: this.base, realm: this.realm, key: this.key, id: this.id, uri: this.uri };
-    await PostData(this.url, data);
-    this.close();
-    location.reload();
+  async componentWillLoad() {
+    await this.GetApiData();
   }
 
-  handleChangeRealm(event) {
-    this.realm = event.target.value;
+  async GetApiData() {
+    await GetData(this.url).then(response => this.Api = response).catch();
   }
-  handleChangeBase(event) {
-    this.base = event.target.value;
-  }
-  handleChangeId(event) {
-    this.id = event.target.value;
-  }
-  handleChangeKey(event) {
-    this.key = event.target.value;
-  }
-  handleChangeURI(event) {
-    this.uri = event.target.value;
+
+
+  async TestData() {
+    await PostData(this.url, this.Api)
+    await this.GetApiData();
+    console.log(this.Api)
+
+    if (this.Api.ApiConnected) {
+      this.close();
+      location.reload();
+    }
   }
 
   render() {
@@ -70,36 +66,39 @@ export class ApiUi {
               </button>
             </div>
             <div class="body">
+              <h3>API: </h3>
+              <div class='inputfield'>
+                <label>API-base: </label>
+                <input type="text" value={this.Api.api.onslip360.base} onInput={(event: any) => { this.Api.api.onslip360.base = event.target.value; console.log(event.target.value) }} />
+              </div>
+              <div class='inputfield'>
+                <label>API-realm: </label>
+                <input type="text" value={this.Api.api.onslip360.realm} onInput={(event: any) => this.Api.api.onslip360.realm = event.target.value} />
+              </div>
+              <div class='inputfield'>
+                <label>API-id: </label>
+                <input type="text" value={this.Api.api.onslip360.id} onInput={(event: any) => this.Api.api.onslip360.id = event.target.value} />
+              </div>
+              <div class='inputfield'>
+                <label>API-nyckel: </label>
+                <input type="text" value={this.Api.api.onslip360.key} onInput={(event: any) => this.Api.api.onslip360.key = event.target.value} />
+                {!this.Api.ApiConnected ? <p>Något fel med API inmatningarna. Kolla så att allt stämmer.</p> : null}
+              </div>
+              <h3>Databas: </h3>
+              <div class='inputfield'>
+                <label>Databas-Uri</label>
+                <input type="text" value={this.Api.api.database.uri} onInput={(event: any) => this.Api.api.database.uri = event.target.value} />
+                {!this.Api.DatabaseConnected && this.Api.api.database.uri != '' ? <p>Något fel med Databas-Uri</p> : null}
+              </div>
               <slot />
               {
                 !DBConnection ? <div class='inputfield'>
-                  <p>Lägg till databas-uri för att få tillgång till anvädning av bilder...</p>
+                  <p>Lägg till databas-uri för att få tillgång till bilder...</p>
                 </div> : null
               }
-
-              <div class='inputfield'>
-                <label>API-base</label>
-                <input type="text" value={this.base} onInput={(event) => this.handleChangeBase(event)} />
-              </div>
-              <div class='inputfield'>
-                <label>API-realm</label>
-                <input type="text" value={this.realm} onInput={(event) => this.handleChangeRealm(event)} />
-              </div>
-              <div class='inputfield'>
-                <label>API-id</label>
-                <input type="text" value={this.id} onInput={(event) => this.handleChangeId(event)} />
-              </div>
-              <div class='inputfield'>
-                <label>API-nyckel</label>
-                <input type="text" value={this.key} onInput={(event) => this.handleChangeKey(event)} />
-              </div>
-              <div class='inputfield'>
-                <label>Databas-Uri</label>
-                <input type="text" value={this.uri} onInput={(event) => this.handleChangeURI(event)} />
-              </div>
             </div>
             <div class="footer">
-              <button class='button-save' onClick={this.PostData.bind(this)} type="submit" value="Submit">Spara</button>
+              <button class='button-save' onClick={this.TestData.bind(this)} type="submit" value="Submit">Spara</button>
             </div>
           </div>
         </div >
