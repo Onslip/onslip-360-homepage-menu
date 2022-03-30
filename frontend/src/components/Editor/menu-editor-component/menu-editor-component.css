@@ -146,3 +146,12 @@ ion-reorder-group {
   margin: 0;
   margin: auto;
 } */
+
+.saveButton {
+  font-family: var(--globalfont);
+  --background: var(--primary);
+    font-weight: normal;
+  font-style: normal;
+  float: right;
+  margin-right: 20px;
+}

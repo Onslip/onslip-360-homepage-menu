@@ -101,6 +101,9 @@ export class MenuEditorComponent {
 
   async doReorder(ev: any) {
     this.categories = ev.detail.complete(this.categories);
+  }
+
+  async SaveReorder() {
     const newMenu = { menu: this.menu.menu.id, categories: this.categories.map(x => { return { id: x.category.id, position: this.categories.indexOf(x) } }) }
     PostData('http://localhost:8080/updateposition', newMenu)
   }
@@ -110,9 +113,9 @@ export class MenuEditorComponent {
       <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x.imageLoaded ? `url(${x.image})` : '' }}>
         {!x.imageLoaded && config.productImages.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
-        : <div hidden={config.productImages.style != 'Background'}><label class={'uploadbutton'}>
+          : <div hidden={config.productImages.style != 'Background'}><label class={'uploadbutton'}>
             Välj Bild...
-            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden/>
+            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden />
           </label></div>}
         <ion-col class="productName" slot="primary">
           <div>{x.name}</div>
@@ -178,8 +181,10 @@ export class MenuEditorComponent {
                 )
               })
               : null
+
           }
         </ion-reorder-group>
+        {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()}>Spara</ion-button> : null}
       </Host>
     )
   }

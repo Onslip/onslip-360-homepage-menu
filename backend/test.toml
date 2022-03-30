@@ -3,10 +3,10 @@ port = 8_080
 host = "localhost"
 
 [database]
-uri = "zxczxc"
+uri = ""
 
 [onslip360]
-base = "asfasf"
-realm = "asfsaffff"
-id = "fffffffffffffff"
-key = "fffffffffffffffffvx"
+base = "asfasfasfasf"
+realm = "asfsaffffasfasf"
+id = "fffffffffffffffasf"
+key = "fffffffffffffffffvxasf"
