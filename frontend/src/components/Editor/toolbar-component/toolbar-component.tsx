@@ -16,11 +16,6 @@ export class ToolbarComponent {
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
 
-  async useProductImages(event) {
-    config.productImages.useProductImages = event.detail.checked
-    await this.submitForm()
-  }
-
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
     await this.submitForm();

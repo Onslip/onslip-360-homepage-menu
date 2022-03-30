@@ -10,12 +10,16 @@ import { config, DBConnection } from '../../utils/utils'
 })
 export class LayoutOverlay {
 
-  componentWillLoad() {
-
-  }
-
   @Prop() isopen: boolean;
   @Prop() closeIcon = 'x.svg';
+
+  async componentWillLoad() {
+    if(config.productImages.style == 'Background') {
+      if(config.categoryImages.style == 'Background') {
+        config.categoryImages.style = 'Banner'
+      }
+    }
+  }
 
   open() {
     this.isopen = true;
@@ -23,27 +27,6 @@ export class LayoutOverlay {
 
   close() {
     this.isopen = false;
-  }
-
-  onCatChange(event) {
-    config.categoryImages.style = event.detail.value
-    if (event.detail.value == 'Disabled') {
-      config.categoryImages.useCategoryImages = false;
-    }
-    else {
-      config.categoryImages.useCategoryImages = true;
-    }
-  }
-
-  onProductChange(event) {
-    console.log(event)
-    config.productImages.style = event.detail.value
-    if (event.detail.value == 'Disabled') {
-      config.productImages.useProductImages = false;
-    }
-    else {
-      config.productImages.useProductImages = true;
-    }
   }
 
   async PostData() {
@@ -68,7 +51,7 @@ export class LayoutOverlay {
             </div>
             <div class="body">
               <ion-list>
-                <ion-radio-group onIonChange={(event) => this.onProductChange(event)} value={config?.productImages?.style}>
+                <ion-radio-group onIonChange={(event) => config.productImages.style = event.detail.value} value={config?.productImages?.style}>
                   <ion-list-header>
                     <h3>Produkter</h3>
                   </ion-list-header>
@@ -94,16 +77,16 @@ export class LayoutOverlay {
                   </ion-list-header>
                   <ion-item>
                     <ion-label>Vänster</ion-label>
-                    <ion-radio slot="start" value={'Left'} disabled={!config?.productImages?.useProductImages || DBConnection}></ion-radio>
+                    <ion-radio slot="start" value={'Left'} disabled={config?.productImages?.style == 'Disabled' || !DBConnection}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Höger</ion-label>
-                    <ion-radio slot="start" value={'Right'} disabled={!config?.productImages?.useProductImages || DBConnection}></ion-radio>
+                    <ion-radio slot="start" value={'Right'} disabled={config?.productImages?.style == 'Disabled' || !DBConnection}></ion-radio>
                   </ion-item>
                 </ion-radio-group>
               </ion-list>
               <ion-list>
-                <ion-radio-group value={config?.categoryImages?.style} onIonChange={(event) => this.onCatChange(event)}>
+                <ion-radio-group value={config?.categoryImages?.style} onIonChange={(event) => config.categoryImages.style = event.detail.value}>
                   <ion-list-header>
                     <h3>Kategorier</h3>
                   </ion-list-header>
@@ -112,7 +95,7 @@ export class LayoutOverlay {
                   </ion-list-header>
                   <ion-item>
                     <ion-label>Bakgrund</ion-label>
-                    <ion-radio slot="start" value='Background' disabled={!DBConnection}></ion-radio>
+                    <ion-radio slot="start" value='Background' disabled={!DBConnection || config.productImages.style == 'Background'}></ion-radio>
                   </ion-item>
                   <ion-item>
                     <ion-label>Banner</ion-label>

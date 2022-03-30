@@ -7,6 +7,7 @@ export interface DBproduct {
     price?: number
     productcategory_id?: number;
     position?: number
+    imageLoaded?: boolean
 }
 
 export interface DBcategory {
@@ -14,6 +15,7 @@ export interface DBcategory {
     id: number,
     menu_id?: number;
     position: number
+    imageLoaded?: boolean
 }
 
 export interface DBImage {
