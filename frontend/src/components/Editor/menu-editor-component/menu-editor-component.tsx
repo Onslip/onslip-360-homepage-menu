@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { categorywithproduct, DBConnection, DBImage, MenuWithCategory } from '../../utils/utils';
+import { categorywithproduct, DBConnection, DBImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -16,19 +16,16 @@ export class MenuEditorComponent {
   private url = 'http://localhost:8080'
   private produrl: string = 'http://localhost:8080/product-image';
   private caturl: string = 'http://localhost:8080/category-image';
-  @State() loadedImages: image[];
   @State() categories: categorywithproduct[];
   @State() menu: MenuWithCategory;
   @State() errormessage: string
-  @State() imagesLoading: boolean = true;
-  @State() catimagesLoading: boolean = true;
   @State() loading: boolean = true
   @Prop() toggle: boolean;
 
   async componentWillLoad() {
     if (!DBConnection) {
-      config.categoryImages.useCategoryImages = false;
-      config.productImages.useProductImages = false;
+      config.categoryImages.style = 'Disabled';
+      config.productImages.style = 'Disabled';
     }
     GetData(this.url)
       .then(response => this.menu = response[config.menuInUse])
@@ -39,14 +36,13 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
-    if (config?.productImages?.useProductImages && DBConnection) {
+    if (config?.productImages?.style != 'Disabled' && DBConnection) {
       GetData(this.produrl)
         .then(response => this.LoadImages(response))
         .catch(() => {
-          // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         });
     }
-    if (config?.categoryImages?.useCategoryImages && DBConnection) {
+    if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })
         .catch(() => {
@@ -55,44 +51,34 @@ export class MenuEditorComponent {
   }
 
   async LoadImages(DBimages: DBImage[]) {
-    const images: image[] = await Promise.all(DBimages.map(async i => {
-      return {
-        id: i.product_id,
-        image: await loadImage(i).then(response => response.toString())
-      }
-    }))
-    this.loadedImages = images
-    this.imagesLoading = false
-  }
-
-
-
-  async LoadCatImages(DBimages: DBCatImage[]) {
-    this.categories?.forEach(async x => {
-      const loadedimage = await loadImage(DBimages?.find(i => i.category_id == x.category.id)) ?? '';
-      this.categories.find(c => c.category.id == x.category.id).category.image = `url(${loadedimage})`
+    this.categories.forEach(async c => {
+      c.products.forEach(async p => {
+        loadImage(DBimages.find(i => i.product_id == p.id))
+          .then(response => p.image = response.toString())
+          .then(() => p.imageLoaded = true)
+          .then(() => this.categories = [...this.categories])
+      })
     })
   }
 
-  async uploadImage(file: File, id: number) {
+  async LoadCatImages(DBimages: DBCatImage[]) {
+    this.categories.forEach(async c => {
+      loadImage(DBimages.find(i => i.category_id == c.category.id))
+        .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
+        .then(() => c.category.imageLoaded = true)
+    })
+  }
+
+  async uploadProdImage(file: File, id: number, catId: number) {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
       fd.append('id', String(id));
       await PostImage(this.produrl, fd);
-
       const fileReader = new FileReader()
-      const imageExists = this.loadedImages.find(i => i.id == id) != undefined
-
       fileReader.onload = () => {
-        if (imageExists) {
-          const x: image[] = this.loadedImages
-          x.find(i => i.id == id).image = fileReader.result.toString()
-          this.loadedImages = [...x]
-        }
-        else {
-          this.loadedImages = [...this.loadedImages, { id: id, image: fileReader.result.toString() }]
-        }
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+        this.categories = [...this.categories]
       }
       fileReader.readAsDataURL(file[0])
     }
@@ -106,7 +92,8 @@ export class MenuEditorComponent {
       await PostImage(this.caturl, fd);
       const fileReader = new FileReader()
       fileReader.onload = () => {
-        this.categories.find(i => i.category, id == id).category.image = `url(${fileReader.result})`
+        this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
+        this.categories = [...this.categories]
       }
       fileReader.readAsDataURL(file[0])
     }
@@ -118,38 +105,36 @@ export class MenuEditorComponent {
     PostData('http://localhost:8080/updateposition', newMenu)
   }
 
-  renderProducts(products) {
+  renderProducts(products: DBproduct[]) {
     return (products.map(x =>
-      <ion-card-content class={config?.productImages?.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
-        <ion-row>
-          <ion-col size="1.5" class='productIcon' hidden={!config?.productImages?.useProductImages} >
-            {
-              this.imagesLoading ?
-                <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={this.loadedImages?.find(i => i.id == x.id)?.image}></ion-img>,
-                <label class={'uploadbutton'}>
-                  Välj Fil...
-                  <input type='file' onChange={(event: any) => this.uploadImage(event.target.files, x.id)} hidden />
-                </label>]
-            }
-          </ion-col>
-          <ion-col>
-            <ion-row>
-              <ion-col class="productName">
-                <div>{x.name}</div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col class='productDesc'>
-                <div>{x.description}</div>
-              </ion-col>
-            </ion-row>
-          </ion-col>
-          <ion-col size="1.5" class='productPrice'>
-            <div>{x.price}kr</div>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
+      <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x.imageLoaded ? `url(${x.image})` : '' }}>
+        {!x.imageLoaded && config.productImages.style == 'Background' ?
+          <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
+        : <div hidden={config.productImages.style != 'Background'}><label class={'uploadbutton'}>
+            Välj Bild...
+            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden/>
+          </label></div>}
+        <ion-col class="productName" slot="primary">
+          <div>{x.name}</div>
+        </ion-col>
+        <ion-col class="productPrice" slot="primary">
+          <div>{x.price}kr</div>
+        </ion-col>
+        <ion-col class="productDesc" slot="secondary">
+          <div>{x.description}</div>
+        </ion-col>
+        <ion-col size="1.5" class={config.productImages.style == 'Background' ? 'iconBackground' : 'iconLogo'} hidden={config?.productImages?.style != 'Logo'} slot={config?.productImages?.placement == "Left" ? 'start' : 'end'}>
+          {
+            !x.imageLoaded ?
+              <ion-spinner class="spinner"></ion-spinner>
+              : [<ion-img src={x.image} ></ion-img>,
+              <label class={'uploadbutton'}>
+                Välj Bild...
+                <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden />
+              </label>]
+          }
+        </ion-col>
+      </content-component>
     ))
   }
 
@@ -166,16 +151,16 @@ export class MenuEditorComponent {
               this.categories.map(data => {
 
                 return (
-                  <div id={data.category.id.toString()} class='card' style={{ backgroundImage: config.categoryImages.style == 'Background' ? data.category.image : null }}>
+                  <div id={data.category.id.toString()} class='card' style={{ backgroundImage: config.categoryImages.style == 'Background' && data.category.imageLoaded ? data.category.image : null }}>
                     <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
                       <div>
-                        <ion-card-header class='background' style={{ backgroundImage: config.categoryImages.style == 'Banner' ? data.category.image : null }}>
+                        <ion-card-header class='background' style={{ backgroundImage: config.categoryImages.style == 'Banner' && data.category.imageLoaded ? data.category.image : null }}>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages.style}>
                             {data.category.name}
                             {
-                              config.categoryImages.useCategoryImages && this.toggle ?
+                              config.categoryImages.style != 'Disabled' && this.toggle ?
                                 <label class='uploadbutton banner'>
-                                  Välj Fil...
+                                  Välj Bild...
                                   <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} hidden />
                                 </label>
                                 : null

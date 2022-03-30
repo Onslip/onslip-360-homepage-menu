@@ -10,6 +10,8 @@ export namespace Components {
         "closeIcon": string;
         "isopen": boolean;
     }
+    interface ContentComponent {
+    }
     interface EditorVisualCheck {
     }
     interface HomepageMenuEditorComponent {
@@ -42,6 +44,12 @@ declare global {
     var HTMLApiUiElement: {
         prototype: HTMLApiUiElement;
         new (): HTMLApiUiElement;
+    };
+    interface HTMLContentComponentElement extends Components.ContentComponent, HTMLStencilElement {
+    }
+    var HTMLContentComponentElement: {
+        prototype: HTMLContentComponentElement;
+        new (): HTMLContentComponentElement;
     };
     interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
     }
@@ -87,6 +95,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
+        "content-component": HTMLContentComponentElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
@@ -100,6 +109,8 @@ declare namespace LocalJSX {
     interface ApiUi {
         "closeIcon"?: string;
         "isopen"?: boolean;
+    }
+    interface ContentComponent {
     }
     interface EditorVisualCheck {
     }
@@ -128,6 +139,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "api-ui": ApiUi;
+        "content-component": ContentComponent;
         "editor-visual-check": EditorVisualCheck;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
@@ -142,6 +154,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
+            "content-component": LocalJSX.ContentComponent & JSXBase.HTMLAttributes<HTMLContentComponentElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;

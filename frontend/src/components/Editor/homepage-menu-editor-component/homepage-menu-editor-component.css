@@ -27,6 +27,7 @@
 }
 
 .toggle {
+  font-family: var(--globalfont);
   font-size: small;
   color: white;
   --background: var(--primary);

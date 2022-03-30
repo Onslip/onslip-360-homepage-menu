@@ -62,6 +62,7 @@ export class SelectorComponent {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
       config.font.fontFamily = event;
       await PostData('http://localhost:8080/config', config)
+      location.reload()
     }
     else if (this.type == 'preset') {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
@@ -73,7 +74,6 @@ export class SelectorComponent {
 
   private customPopoverOptions: any = {
     reference: "event",
-    target: "event.target"
   };
 
   render() {

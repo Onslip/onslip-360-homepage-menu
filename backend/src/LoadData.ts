@@ -62,8 +62,9 @@ export async function GetProdByGroup(db: DatabaseURI): Promise<MenuWithCategory[
                         name: p.name,
                         description: p.description,
                         price: Number(p.price),
-                        productcategory_id: Number(p.productcategory_id),
-                        position: Number(junction.find(j => j.product_id == p.id)?.productposition)
+                        productcategory_id: Number(junction.find(j => j.product_id == p.id)?.category_id),
+                        position: Number(junction.find(j => j.product_id == p.id)?.productposition),
+                        imageLoaded: false
                     }
                 )
             })
@@ -76,7 +77,8 @@ export async function GetProdByGroup(db: DatabaseURI): Promise<MenuWithCategory[
                 category: {
                     id: Number(categoryId),
                     name: categories.find(c => c.id == categoryId)?.name,
-                    position: Number(categories.find(c => c.id == categoryId)?.position)
+                    position: Number(categories.find(c => c.id == categoryId)?.position),
+                    imageLoaded: false
                 },
                 products: junction.filter(j => j.category_id == categoryId).flatMap(x => GetProducts(x.product_id)).sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
             })

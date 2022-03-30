@@ -12,6 +12,8 @@ export interface DBproduct {
   price: string,
   productcategory_id: number,
   position: number,
+  image?: string
+  imageLoaded?: boolean
 }
 
 export interface DBcategory {
@@ -19,6 +21,7 @@ export interface DBcategory {
   id: number,
   position: number,
   image?: string
+  imageLoaded?: boolean
 }
 
 export interface Styleconfig {
@@ -28,12 +31,12 @@ export interface Styleconfig {
     color?: string,
   },
   productImages?: {
-    useProductImages?: boolean,
+    // useProductImages?: boolean,
     style?: 'Background' | 'Logo' | 'Disabled',
     placement?: 'Left' | 'Right',
   }
   categoryImages?: {
-    useCategoryImages?: boolean,
+    // useCategoryImages?: boolean,
     style?: 'Background' | 'Banner' | 'Disabled'
   }
   Logo?: boolean,
