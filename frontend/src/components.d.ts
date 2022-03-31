@@ -12,6 +12,11 @@ export namespace Components {
     }
     interface ContentComponent {
     }
+    interface CropTool {
+        "AspectRatio": number;
+        "Image": string;
+        "MaxWidth": number;
+    }
     interface EditorVisualCheck {
     }
     interface HomepageMenuEditorComponent {
@@ -50,6 +55,12 @@ declare global {
     var HTMLContentComponentElement: {
         prototype: HTMLContentComponentElement;
         new (): HTMLContentComponentElement;
+    };
+    interface HTMLCropToolElement extends Components.CropTool, HTMLStencilElement {
+    }
+    var HTMLCropToolElement: {
+        prototype: HTMLCropToolElement;
+        new (): HTMLCropToolElement;
     };
     interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
     }
@@ -96,6 +107,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "content-component": HTMLContentComponentElement;
+        "crop-tool": HTMLCropToolElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
@@ -111,6 +123,11 @@ declare namespace LocalJSX {
         "isopen"?: boolean;
     }
     interface ContentComponent {
+    }
+    interface CropTool {
+        "AspectRatio"?: number;
+        "Image"?: string;
+        "MaxWidth"?: number;
     }
     interface EditorVisualCheck {
     }
@@ -140,6 +157,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "content-component": ContentComponent;
+        "crop-tool": CropTool;
         "editor-visual-check": EditorVisualCheck;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
@@ -155,6 +173,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "content-component": LocalJSX.ContentComponent & JSXBase.HTMLAttributes<HTMLContentComponentElement>;
+            "crop-tool": LocalJSX.CropTool & JSXBase.HTMLAttributes<HTMLCropToolElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;

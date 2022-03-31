@@ -111,6 +111,7 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
+        <crop-tool Image={getAssetPath('../../../assets/Onslip.png')} MaxWidth={100} AspectRatio={2}></crop-tool>
 
         <div>
           <toolbar-component></toolbar-component>
