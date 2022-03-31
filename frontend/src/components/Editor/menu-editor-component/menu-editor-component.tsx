@@ -1,4 +1,4 @@
-import { Component, State, Host, h, Element, Prop } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, getAssetPath } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
