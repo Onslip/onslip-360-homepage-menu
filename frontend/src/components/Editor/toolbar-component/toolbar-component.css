@@ -47,12 +47,12 @@ ion-nav {
 }
 
 .icon {
-  position:absolute;
+  position: absolute;
   right: 10px;
 }
 
 .button-9 {
-    padding-right: 120px;
+  margin-right: 120px;
   display: block;
   backface-visibility: hidden;
   border-width: 0;

@@ -34,16 +34,15 @@ export class ApiUi {
   }
 
   async GetApiData() {
-    await GetData(this.url).then(response => this.Api = response).catch();
+    await GetData(this.url).then(response => this.Api = response).catch(err => err);
   }
 
 
   async TestData() {
     await PostData(this.url, this.Api)
     await this.GetApiData();
-    console.log(this.Api)
 
-    if (this.Api.ApiConnected) {
+    if (this.Api?.ApiConnected) {
       this.close();
       location.reload();
     }
@@ -69,26 +68,26 @@ export class ApiUi {
               <h3>API: </h3>
               <div class='inputfield'>
                 <label>API-base: </label>
-                <input type="text" value={this.Api.api.onslip360.base} onInput={(event: any) => { this.Api.api.onslip360.base = event.target.value; console.log(event.target.value) }} />
+                <input type="text" value={this.Api?.api?.onslip360?.base ?? ''} onInput={(event: any) => { this.Api.api.onslip360.base = event.target.value; console.log(event.target.value) }} />
               </div>
               <div class='inputfield'>
                 <label>API-realm: </label>
-                <input type="text" value={this.Api.api.onslip360.realm} onInput={(event: any) => this.Api.api.onslip360.realm = event.target.value} />
+                <input type="text" value={this.Api?.api?.onslip360?.realm ?? ''} onInput={(event: any) => this.Api.api.onslip360.realm = event.target.value} />
               </div>
               <div class='inputfield'>
                 <label>API-id: </label>
-                <input type="text" value={this.Api.api.onslip360.id} onInput={(event: any) => this.Api.api.onslip360.id = event.target.value} />
+                <input type="text" value={this.Api?.api?.onslip360?.id ?? ''} onInput={(event: any) => this.Api.api.onslip360.id = event.target.value} />
               </div>
               <div class='inputfield'>
                 <label>API-nyckel: </label>
-                <input type="text" value={this.Api.api.onslip360.key} onInput={(event: any) => this.Api.api.onslip360.key = event.target.value} />
-                {!this.Api.ApiConnected ? <p>Något fel med API inmatningarna. Kolla så att allt stämmer.</p> : null}
+                <input type="text" value={this.Api?.api?.onslip360?.key ?? ''} onInput={(event: any) => this.Api.api.onslip360.key = event.target.value} />
+                {!this.Api?.ApiConnected ? <p>Något fel med API inmatningarna. Kolla så att allt stämmer.</p> : null}
               </div>
               <h3>Databas: </h3>
               <div class='inputfield'>
                 <label>Databas-Uri</label>
-                <input type="text" value={this.Api.api.database.uri} onInput={(event: any) => this.Api.api.database.uri = event.target.value} />
-                {!this.Api.DatabaseConnected && this.Api.api.database.uri != '' ? <p>Något fel med Databas-Uri</p> : null}
+                <input type="text" value={this.Api?.api?.database?.uri ?? ''} onInput={(event: any) => this.Api.api.database.uri = event.target.value} />
+                {!this.Api?.DatabaseConnected && this.Api?.api?.database?.uri != '' ? <p>Något fel med Databas-Uri</p> : null}
               </div>
               <slot />
               {

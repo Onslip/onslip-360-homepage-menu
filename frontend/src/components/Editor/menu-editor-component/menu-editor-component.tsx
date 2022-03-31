@@ -20,6 +20,7 @@ export class MenuEditorComponent {
   @State() menu: MenuWithCategory;
   @State() errormessage: string
   @State() loading: boolean = true
+  @State() CanSave: boolean;
   @Prop() toggle: boolean;
 
   async componentWillLoad() {
@@ -101,32 +102,34 @@ export class MenuEditorComponent {
 
   async doReorder(ev: any) {
     this.categories = ev.detail.complete(this.categories);
+    this.CanSave = true;
   }
 
   async SaveReorder() {
-    const newMenu = { menu: this.menu.menu.id, categories: this.categories.map(x => { return { id: x.category.id, position: this.categories.indexOf(x) } }) }
+    this.CanSave = false;
+    const newMenu = { menu: this.menu?.menu?.id, categories: this.categories?.map(x => { return { id: x?.category?.id, position: this.categories?.indexOf(x) } }) }
     PostData('http://localhost:8080/updateposition', newMenu)
   }
 
-  renderProducts(products: DBproduct[]) {
-    return (products.map(x =>
-      <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x.imageLoaded ? `url(${x.image})` : '' }}>
-        {!x.imageLoaded && config.productImages.style == 'Background' ?
+  renderProducts(products?: DBproduct[]) {
+    return (products?.map(x =>
+      <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
+        {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
-          : <div hidden={config.productImages.style != 'Background'}><label class={'uploadbutton'}>
+          : <div hidden={config?.productImages?.style != 'Background'}><label class={'uploadbutton'}>
             Välj Bild...
-            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden />
+            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x?.id, x?.productcategory_id)} hidden />
           </label></div>}
         <ion-col class="productName" slot="primary">
-          <div>{x.name}</div>
+          <div>{x?.name}</div>
         </ion-col>
         <ion-col class="productPrice" slot="primary">
-          <div>{x.price}kr</div>
+          <div>{x?.price}kr</div>
         </ion-col>
         <ion-col class="productDesc" slot="secondary">
-          <div>{x.description}</div>
+          <div>{x?.description}</div>
         </ion-col>
-        <ion-col size="1.5" class={config.productImages.style == 'Background' ? 'iconBackground' : 'iconLogo'} hidden={config?.productImages?.style != 'Logo'} slot={config?.productImages?.placement == "Left" ? 'start' : 'end'}>
+        <ion-col size="1.5" class={config?.productImages?.style == 'Background' ? 'iconBackground' : 'iconLogo'} hidden={config?.productImages?.style != 'Logo'} slot={config?.productImages?.placement == "Left" ? 'start' : 'end'}>
           {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
@@ -151,20 +154,20 @@ export class MenuEditorComponent {
         <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
           {
             !this.loading ?
-              this.categories.map(data => {
+              this.categories?.map(data => {
 
                 return (
-                  <div id={data.category.id.toString()} class='card' style={{ backgroundImage: config.categoryImages.style == 'Background' && data.category.imageLoaded ? data.category.image : null }}>
+                  <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data.category.image : null }}>
                     <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
                       <div>
                         <ion-card-header class='background' style={{ backgroundImage: config.categoryImages.style == 'Banner' && data.category.imageLoaded ? data.category.image : null }}>
-                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages.style}>
-                            {data.category.name}
+                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
+                            {data?.category?.name}
                             {
-                              config.categoryImages.style != 'Disabled' && this.toggle ?
+                              config?.categoryImages?.style != 'Disabled' && this.toggle ?
                                 <label class='uploadbutton banner'>
                                   Välj Bild...
-                                  <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data.category.id)} hidden />
+                                  <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data?.category?.id)} hidden />
                                 </label>
                                 : null
                             }
@@ -174,7 +177,7 @@ export class MenuEditorComponent {
                         </ion-card-header>
                       </div>
                       {this.toggle ?
-                        this.renderProducts(data.products)
+                        this.renderProducts(data?.products)
                         : null}
                     </ion-card>
                   </div>
@@ -184,7 +187,7 @@ export class MenuEditorComponent {
 
           }
         </ion-reorder-group>
-        {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()}>Spara</ion-button> : null}
+        {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null}
       </Host>
     )
   }

@@ -31,12 +31,10 @@ export interface Styleconfig {
     color?: string,
   },
   productImages?: {
-    // useProductImages?: boolean,
     style?: 'Background' | 'Logo' | 'Disabled',
     placement?: 'Left' | 'Right',
   }
   categoryImages?: {
-    // useCategoryImages?: boolean,
     style?: 'Background' | 'Banner' | 'Disabled'
   }
   Logo?: boolean,
@@ -112,12 +110,10 @@ export async function getConfig(): Promise<Styleconfig> {
         color: null,
       },
       productImages: {
-        useProductImages: false,
         style: 'Disabled',
         placement: 'Left',
       },
       categoryImages: {
-        useCategoryImages: false,
         style: 'Disabled'
       },
       Logo: false,
@@ -140,20 +136,20 @@ export async function getConfig(): Promise<Styleconfig> {
 
 
 export interface newApi {
-  api: DHMConfig
+  api?: DHMConfig
   ApiConnected?: boolean,
   DatabaseConnected?: boolean
 }
 
 interface DHMConfig {
-  database: {
-    uri: string;
+  database?: {
+    uri?: string;
   }
 
-  onslip360: {
-    base: string;
-    realm: string;
-    id: string;
-    key: string;
+  onslip360?: {
+    base?: string;
+    realm?: string;
+    id?: string;
+    key?: string;
   }
 }
