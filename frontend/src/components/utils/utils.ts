@@ -1,55 +1,72 @@
 import { GetData } from "./get";
 
-export interface productsWithCategory {
-  category: {
-    name: string
-  }
-  products: {
-    name: string,
-    price: string,
-    description: string
-    image: any
-  }[]
+export interface DBImage {
+  image: any
+  product_id: number
 }
 
 export interface DBproduct {
+  id: number,
   name: string
   description: string
-  price: string
-  image: any
+  price: string,
+  productcategory_id: number,
+  position: number,
+  image?: string
+  imageLoaded?: boolean
 }
 
 export interface DBcategory {
   name: string
-}
-
-export interface Colorconfig {
-  backgroundcolor: string,
-}
-
-export interface Banner {
-  image: string
+  id: number,
+  position: number,
+  image?: string
+  imageLoaded?: boolean
 }
 
 export interface Styleconfig {
-  background: {
-    enabled: boolean
-    color: string,
+  id: number;
+  background?: {
+    enabled?: boolean
+    color?: string,
   },
-  useProductImages: true,
-  Logo: true,
-  banner: true,
-  font: {
-    fontFamily: string,
-    fontWeight: boolean;
-    fontStyle: boolean;
-    fontSize: string;
-    fontColor: string;
-    fontTitleColor: string;
-    fontOutline: boolean;
+  productImages?: {
+    style?: 'Background' | 'Logo' | 'Disabled',
+    placement?: 'Left' | 'Right',
   }
-  preset: string,
-  menuBackground: string,
+  categoryImages?: {
+    style?: 'Background' | 'Banner' | 'Disabled'
+  }
+  Logo?: boolean,
+  banner?: boolean,
+  font?: font,
+  menuBackground?: string,
+  connect?: boolean,
+  menuInUse?: number;
+}
+
+interface font {
+  fontFamily?: string,
+  fontWeight?: boolean;
+  fontStyle?: boolean;
+  fontSize?: string;
+  fontColor?: string;
+  fontTitleColor?: string;
+  fontOutline?: boolean;
+}
+
+export interface MenuWithCategory {
+  menu: Menu
+  categories: categorywithproduct[]
+}
+export interface Menu {
+  id: number;
+  name: string;
+}
+
+export interface categorywithproduct {
+  category: DBcategory,
+  products: DBproduct[]
 }
 
 export enum buttonvalues {
@@ -76,11 +93,63 @@ export const Fonts = [
   'Verdana, Geneva, Tahoma, sans-serif',
 ];
 
-export const Presets = [
-  'Preset 1', 'Preset 2', 'Preset 3'
-]
+export const DBConnection = await GetData(`http://localhost:8080/configId`).then(response => response).catch(err => err);
 
 export const editorvisual: boolean = false;
 
-export const config: Styleconfig = await GetData('http://localhost:8080/config').catch(err => err);
 
+export const config: Styleconfig = await getConfig();
+
+export async function getConfig(): Promise<Styleconfig> {
+  let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
+  if (data.categoryImages == undefined)
+    return {
+      id: 1,
+      background: {
+        enabled: false,
+        color: null,
+      },
+      productImages: {
+        style: 'Disabled',
+        placement: 'Left',
+      },
+      categoryImages: {
+        style: 'Disabled'
+      },
+      Logo: false,
+      banner: false,
+      font: {
+        fontFamily: null,
+        fontWeight: false,
+        fontStyle: false,
+        fontSize: null,
+        fontColor: null,
+        fontTitleColor: null,
+        fontOutline: false
+      },
+      menuBackground: null,
+      connect: true,
+      menuInUse: 0,
+    } as Styleconfig
+  else return data
+}
+
+
+export interface newApi {
+  api?: DHMConfig
+  ApiConnected?: boolean,
+  DatabaseConnected?: boolean
+}
+
+interface DHMConfig {
+  database?: {
+    uri?: string;
+  }
+
+  onslip360?: {
+    base?: string;
+    realm?: string;
+    id?: string;
+    key?: string;
+  }
+}

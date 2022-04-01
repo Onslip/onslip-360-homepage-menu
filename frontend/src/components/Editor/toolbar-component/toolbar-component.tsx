@@ -1,5 +1,5 @@
 import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
-import { buttonvalues, Fonts, Presets, config } from '../../utils/utils';
+import { buttonvalues, Fonts, config, DBConnection } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 
 @Component({
@@ -10,29 +10,20 @@ import { PostData } from '../../utils/post';
 })
 
 export class ToolbarComponent {
-
   @State() menuopen: boolean = false
   private url1: string = 'http://localhost:8080/background'
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
 
-  async useProductImages(event) {
-    config.useProductImages = event.detail.checked
-    await this.submitForm()
-    // location.reload()
-  }
-
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
     await this.submitForm();
-    // location.reload();
   }
 
   async useBanner(event) {
     config.banner = event.detail.checked;
     await this.submitForm();
-    // location.reload();
   }
 
   async changeColor() {
@@ -42,13 +33,11 @@ export class ToolbarComponent {
     PostData('http://localhost:8080/config', config);
   }
 
-  async ChangeFontColor(element) {
-    // const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component').shadowRoot.querySelector(element);
-    // a.style = { color: config.font.fontColor };
+  async ChangeFontColor() {
     this.submitForm();
   }
 
-  async ChangeFontTitleColor(element) {
+  async ChangeFontTitleColor() {
     this.submitForm();
   }
 
@@ -75,8 +64,8 @@ export class ToolbarComponent {
                   <ion-label>MENY</ion-label>
                 </ion-button>
                 {config ? [
-                  <selector-component value={config?.font.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
-                  <selector-component value={config?.preset} DropDownvalues={Presets} IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+                  <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
+                  <selector-component value={config?.id?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
                 ] : null}
               </ion-buttons>
               <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
@@ -87,55 +76,61 @@ export class ToolbarComponent {
         <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
           <ion-row>
             <ion-col class="menu-col">
-              <ion-row>
+              {DBConnection ? [<ion-row>
                 <upload-image-button buttonvalue={buttonvalues.logo} URL={this.url3}></upload-image-button>
-              </ion-row>
+              </ion-row>,
               <ion-row>
                 <upload-image-button buttonvalue={buttonvalues.banner} URL={this.url2}></upload-image-button>
-              </ion-row>
+              </ion-row>,
               <ion-row>
                 <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
+              </ion-row>] : null}
+              <ion-row>
+                <div>
+                  <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                  <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
+                </div>
               </ion-row>
               <ion-row>
-                <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
+                <div>
+                  <label htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                  <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
+                </div>
               </ion-row>
               <ion-row>
-                <label htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
+                <div>
+                  <label htmlFor='fontColor' class='button-9'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                  <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor() }} hidden />
+                </div>
               </ion-row>
               <ion-row>
-                <label htmlFor='fontColor' class='button-9'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor(`.card`) }} hidden />
-              </ion-row>
-              <ion-row>
-                <label htmlFor='fontTitleColor' class='button-9'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor(`.card`) }} hidden />
+                <div>
+                  <label htmlFor='fontTitleColor' class='button-9'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
+                  <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor() }} hidden />
+                </div>
               </ion-row>
               <ion-row>
                 <api-ui></api-ui>
               </ion-row>
-            </ion-col>
-            <ion-col class="menu-row">
               <ion-row>
-                <ion-item class="toggle">
-                  <ion-label>Använd Produktbilder:</ion-label>
-                  <ion-toggle checked={config?.useProductImages ?? false} onIonChange={(ev) => { this.useProductImages(ev) }} slot='end'></ion-toggle>
-                </ion-item>
-              </ion-row>
-              <ion-row>
-                <ion-item class="toggle">
-                  <ion-label>Använd Logo:</ion-label>
-                  <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }} slot='end'></ion-toggle>
-                </ion-item>
-              </ion-row>
-              <ion-row>
-                <ion-item class="toggle">
-                  <ion-label>Använd Banner:</ion-label>
-                  <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
-                </ion-item>
+                <layout-overlay></layout-overlay>
               </ion-row>
             </ion-col>
+            {DBConnection ? [
+              <ion-col class="menu-col">
+                <ion-row>
+                  <ion-item class="toggle">
+                    <ion-label>Använd Logo:</ion-label>
+                    <ion-toggle checked={config?.Logo ?? false} onIonChange={(ev) => { this.useLogoPic(ev) }} slot='end'></ion-toggle>
+                  </ion-item>
+                </ion-row>
+                <ion-row>
+                  <ion-item class="toggle">
+                    <ion-label>Använd Banner:</ion-label>
+                    <ion-toggle checked={config?.banner ?? false} onIonChange={(ev) => { this.useBanner(ev) }} slot='end'></ion-toggle>
+                  </ion-item>
+                </ion-row>
+              </ion-col>] : null}
           </ion-row>
         </div >
       </Host >

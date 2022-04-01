@@ -1,18 +1,18 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { MenuComponent } from '../menu-component';
+import { CropTool } from '../crop-tool';
 
-describe('menu-component', () => {
+describe('crop-tool', () => {
   it('renders', async () => {
     const page = await newSpecPage({
-      components: [MenuComponent],
-      html: `<menu-component></menu-component>`,
+      components: [CropTool],
+      html: `<crop-tool></crop-tool>`,
     });
     expect(page.root).toEqualHtml(`
-      <menu-component>
+      <crop-tool>
         <mock:shadow-root>
           <slot></slot>
         </mock:shadow-root>
-      </menu-component>
+      </crop-tool>
     `);
   });
 });

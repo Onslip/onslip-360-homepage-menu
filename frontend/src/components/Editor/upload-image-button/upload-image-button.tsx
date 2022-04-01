@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, State } from '@stencil/core';
+import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { CheckImage } from '../../utils/image';
 import { PostData, PostImage } from '../../utils/post';
 import { config } from '../../utils/utils';
@@ -59,7 +59,7 @@ export class UploadImageButton {
       const image = `url(${reader.result})`;
       if (image != null) {
         const img = document.createElement('img');
-        const mainelement = document.querySelector('homepage-menu-editor-component');
+        const mainelement = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
         img.src = reader.result.toString();
         const a = mainelement.shadowRoot.querySelector(element);
         a.removeChild(a.childNodes[0]);
@@ -74,7 +74,7 @@ export class UploadImageButton {
     reader.onload = () => {
       const image = `url(${reader.result})`;
       if (image != null) {
-        const mainelement = document.querySelector('homepage-menu-editor-component');
+        const mainelement = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
         mainelement.shadowRoot.querySelector(element).style.backgroundImage = image;
       }
     };

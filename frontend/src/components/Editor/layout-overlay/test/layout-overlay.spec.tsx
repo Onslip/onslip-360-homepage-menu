@@ -1,18 +1,18 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { ProductComponent } from '../product-component';
+import { LayoutOverlay } from '../layout-overlay';
 
-describe('product-component', () => {
+describe('layout-overlay', () => {
   it('renders', async () => {
     const page = await newSpecPage({
-      components: [ProductComponent],
-      html: `<product-component></product-component>`,
+      components: [LayoutOverlay],
+      html: `<layout-overlay></layout-overlay>`,
     });
     expect(page.root).toEqualHtml(`
-      <product-component>
+      <layout-overlay>
         <mock:shadow-root>
           <slot></slot>
         </mock:shadow-root>
-      </product-component>
+      </layout-overlay>
     `);
   });
 });

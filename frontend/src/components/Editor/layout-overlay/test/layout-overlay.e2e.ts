@@ -1,11 +1,11 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('category-component', () => {
+describe('layout-overlay', () => {
   it('renders', async () => {
     const page = await newE2EPage();
-    await page.setContent('<category-component></category-component>');
+    await page.setContent('<layout-overlay></layout-overlay>');
 
-    const element = await page.find('category-component');
+    const element = await page.find('layout-overlay');
     expect(element).toHaveClass('hydrated');
   });
 });

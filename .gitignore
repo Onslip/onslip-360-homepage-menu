@@ -3,3 +3,7 @@ pnpm-debug.log
 backend/test.toml
 frontend/dist
 frontend/www
+backend/config.json
+backend//test.toml
+/test.toml
+

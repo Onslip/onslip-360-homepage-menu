@@ -1,9 +1,7 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { config } from '../../utils/utils';
+import { config, DBConnection } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
-
-
 import '@ionic/core'
 
 @Component({
@@ -23,15 +21,15 @@ export class HomepageMenuEditorComponent {
   @State() toggle: boolean = true;
 
   async componentWillLoad() {
-    if (config?.background?.enabled == false) {
+    if (!config?.background?.enabled && DBConnection) {
       GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
     }
-    if (config?.banner == true) {
+    if (config?.banner && DBConnection) {
       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
     }
 
-    if (config?.Logo == true) {
-      if (config?.banner == true) {
+    if (config?.Logo && DBConnection) {
+      if (config?.banner) {
         GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
       }
       else {
@@ -42,17 +40,15 @@ export class HomepageMenuEditorComponent {
     }
     else {
       GetData(this.locationUrl).then(response => {
-        console.log(this.element.shadowRoot.querySelector('.header'));
-
         const node = document.createElement("h1");
         node.innerText = response;
-        if (config?.banner == true) {
+        if (config?.banner) {
           this.element.shadowRoot.querySelector('.header').appendChild(node);
         }
         else {
-          const divnode = document.createElement("div");
-          divnode.className = "no-banner";
-          this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
+          // const divnode = document.createElement("div");
+          // divnode.className = "no-banner";
+          // this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
           this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
         }
 
@@ -64,20 +60,16 @@ export class HomepageMenuEditorComponent {
   private async LoadConfig(element, element1) {
     const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
     component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
-    if (config?.font.fontWeight == true) {
+    if (config?.font?.fontWeight) {
       component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
     }
-    if (config?.font.fontStyle == true) {
+    if (config?.font?.fontStyle) {
       component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
     }
-    document.querySelector(element1).style.fontSize = config.font.fontSize;
-
+    document.querySelector(element1).style.fontSize = config?.font?.fontSize;
     component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
-    if (config?.font.fontOutline) {
-      component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
-    }
-    if (config?.background.enabled == true) {
-      document.querySelector('body').style.background = config?.background.color;
+    if (config?.background?.enabled) {
+      document.querySelector('body').style.background = config?.background?.color;
     }
   }
 
@@ -91,9 +83,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image).catch(() => {
-
-    })
+    const loadedImage = await loadImage(image)
     if (config.Logo) {
       const img = document.createElement('img');
       img.src = loadedImage.toString();
@@ -121,22 +111,22 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
+        <crop-tool Image={getAssetPath('../../../assets/banner.jpeg')} MaxWidth={100} AspectRatio={1}></crop-tool>
+
         <div>
           <toolbar-component></toolbar-component>
         </div>
-        <div class='menuContainer' data-status={config?.preset}>
-          <div class='header'>
-            <div class={config?.banner ? 'header' : 'no-banner'}></div>
-
-            <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+        <div class='menuContainer'>
+          <div class={config?.banner ? 'header' : 'no-banner'}>
+            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
           </div>
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
-
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
-      </Host>
+
+      </Host >
     )
   }
 }

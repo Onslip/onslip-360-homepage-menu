@@ -1,11 +1,11 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('menu-component', () => {
+describe('content-component', () => {
   it('renders', async () => {
     const page = await newE2EPage();
-    await page.setContent('<menu-component></menu-component>');
+    await page.setContent('<content-component></content-component>');
 
-    const element = await page.find('menu-component');
+    const element = await page.find('content-component');
     expect(element).toHaveClass('hydrated');
   });
 });

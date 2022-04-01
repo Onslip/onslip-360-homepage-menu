@@ -1,11 +1,11 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('product-component', () => {
+describe('crop-tool', () => {
   it('renders', async () => {
     const page = await newE2EPage();
-    await page.setContent('<product-component></product-component>');
+    await page.setContent('<crop-tool></crop-tool>');
 
-    const element = await page.find('product-component');
+    const element = await page.find('crop-tool');
     expect(element).toHaveClass('hydrated');
   });
 });

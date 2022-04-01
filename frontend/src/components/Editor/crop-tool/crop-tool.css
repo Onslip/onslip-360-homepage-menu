@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  /* height: 500px;
+  width: 800px;
+  background-color: aliceblue;
+  margin-top: 100px; */
+}
+
+.mainElement {
+  position: relative;
+  display: inline-block;
+  background-color: white;
+  z-index: 10;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
+  cursor: move;
+}
+
+.result {
+  background-color: white;
+  position: relative;
+  display: inline-block;
+  z-index: 10;
+  border: 1px solid black;
+  margin: 0;
+  width: min-content;
+  height: min-content;
+}
+
+.test {
+  background-color: white;
+  position: relative;
+  display: inline-block;
+  z-index: 10;
+  border: 1px solid black;
+  margin: 0;
+  width: min-content;
+  height: min-content;
+}

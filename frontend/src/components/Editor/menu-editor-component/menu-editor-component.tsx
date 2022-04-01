@@ -1,9 +1,9 @@
-import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-import { DBproduct, productsWithCategory } from '../../utils/utils';
+import { Component, State, Host, h, Element, Prop, getAssetPath } from '@stencil/core';
+import { categorywithproduct, DBConnection, DBImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage, loadImage, loadProdImage } from '../../utils/image';
-import { PostImage } from '../../utils/post';
+import { CheckImage, loadImage } from '../../utils/image';
+import { PostData, PostImage } from '../../utils/post';
 
 @Component({
   tag: 'menu-editor-component',
@@ -12,80 +12,136 @@ import { PostImage } from '../../utils/post';
 })
 export class MenuEditorComponent {
 
-  @State() private url = 'http://localhost:8080'
-  private produrl: string = 'http://localhost:8080/productimage-upload';
-
-  @State() responsedata: productsWithCategory[]
-  @State() loading: boolean = true
-  @State() errormessage: string
-  @State() product: DBproduct;
   @Element() element: HTMLElement;
+  private url = 'http://localhost:8080'
+  private produrl: string = 'http://localhost:8080/product-image';
+  private caturl: string = 'http://localhost:8080/category-image';
+  @State() categories: categorywithproduct[];
+  @State() menu: MenuWithCategory;
+  @State() errormessage: string
+  @State() loading: boolean = true
+  @State() CanSave: boolean;
   @Prop() toggle: boolean;
-  @State() image;
 
   async componentWillLoad() {
+    if (!DBConnection) {
+      config.categoryImages.style = 'Disabled';
+      config.productImages.style = 'Disabled';
+    }
     GetData(this.url)
-      .then(response => this.responsedata = response)
-      .then(() => { this.loading = false })
+      .then(response => this.menu = response[config.menuInUse])
+      .then(() => { this.loading = false, config.connect = true })
+      .then(() => this.categories = this.menu.categories)
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
+        config.connect = false
       });
-  }
-
-
-  async uploadImage(file, element, name) {
-    if (CheckImage(file[0])) {
-      let fd = new FormData()
-      fd.append('image', await file[0]);
-      fd.append('id', await name);
-      await PostImage(this.produrl, fd);
-      const reader = new FileReader();
-      reader.onload = () => {
-        const image = `url(${reader.result})`;
-        if (image != null) {
-          this.element.shadowRoot.querySelector(element).style.backgroundImage = image;
-        }
-      };
-      reader.readAsDataURL(file[0]);
+    if (config?.productImages?.style != 'Disabled' && DBConnection) {
+      GetData(this.produrl)
+        .then(response => this.LoadImages(response))
+        .catch(() => {
+        });
+    }
+    if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
+      GetData(this.caturl)
+        .then(response => { this.LoadCatImages(response); })
+        .catch(() => {
+        })
     }
   }
 
-  doReorder(ev: any) {
-    this.responsedata = ev.detail.complete(this.responsedata);
+  async LoadImages(DBimages: DBImage[]) {
+    this.categories.forEach(async c => {
+      c.products.forEach(async p => {
+        loadImage(DBimages.find(i => i.product_id == p.id))
+          .then(response => p.image = response.toString())
+          .then(() => p.imageLoaded = true)
+          .then(() => this.categories = [...this.categories])
+      })
+    })
   }
 
-  async getImage(product) {
-    this.image = await loadImage(product.image).catch(err => err)
+  async LoadCatImages(DBimages: DBCatImage[]) {
+    this.categories.forEach(async c => {
+      loadImage(DBimages.find(i => i.category_id == c.category.id))
+        .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
+        .then(() => c.category.imageLoaded = true)
+    })
   }
 
-  renderProducts(product: DBproduct) {
-    this.getImage(product);
-    return (
-      <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'}>
-        <ion-row>
-          <ion-col size="1" class='productIcon' style={{ backgroundImage: this.image }} hidden={!config.useProductImages}>
-            <label htmlFor='file' class='uploadbutton'>Upload</label>
-            <input id='file' type='file' onChange={(event: any) => this.uploadImage(event.target.files, '.productIcon', product.name)} hidden />
-          </ion-col>
-          <ion-col size="10">
-            <ion-row>
-              <ion-col class="productName">
-                <div>{product.name}</div>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col class='productDesc'>
-                <div>{product.description}</div>
-              </ion-col>
-            </ion-row>
-          </ion-col>
-          <ion-col size="1" class='productPrice'>
-            <div>{product.price}kr</div>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-    )
+  async uploadProdImage(file: File, id: number, catId: number) {
+    if (CheckImage(file[0])) {
+      let fd = new FormData()
+      fd.append('image', await file[0]);
+      fd.append('id', String(id));
+      await PostImage(this.produrl, fd);
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+        this.categories = [...this.categories]
+      }
+      fileReader.readAsDataURL(file[0])
+    }
+  }
+
+  async UploadCatImage(file: File, id: number) {
+    if (CheckImage(file[0])) {
+      let fd = new FormData()
+      fd.append('image', await file[0]);
+      fd.append('id', String(id));
+      await PostImage(this.caturl, fd);
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
+        this.categories = [...this.categories]
+      }
+      fileReader.readAsDataURL(file[0])
+    }
+  }
+
+  async doReorder(ev: any) {
+    this.categories = ev.detail.complete(this.categories);
+    this.CanSave = true;
+  }
+
+  async SaveReorder() {
+    this.CanSave = false;
+    const newMenu = { menu: this.menu?.menu?.id, categories: this.categories?.map(x => { return { id: x?.category?.id, position: this.categories?.indexOf(x) } }) }
+    PostData('http://localhost:8080/updateposition', newMenu)
+  }
+
+  renderProducts(products?: DBproduct[]) {
+    return (products?.map(x =>
+      <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
+        {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
+          <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
+          : <div hidden={config?.productImages?.style != 'Background'}><label class={'uploadbutton'}>
+            Välj Bild...
+            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x?.id, x?.productcategory_id)} hidden />
+          </label></div>}
+        <ion-col class="productName" slot="primary">
+          <div>{x?.name}</div>
+        </ion-col>
+        <ion-col class="productPrice" slot="primary">
+          <div>{x?.price}kr</div>
+        </ion-col>
+        <ion-col class="productDesc" slot="secondary">
+          <div>{x?.description}</div>
+        </ion-col>
+        <ion-col size="1.5" class={config?.productImages?.style == 'Background' ? 'iconBackground' : 'iconLogo'} hidden={config?.productImages?.style != 'Logo'} slot={config?.productImages?.placement == "Left" ? 'start' : 'end'}>
+          {
+            !x.imageLoaded ?
+              <ion-spinner class="spinner"></ion-spinner>
+              : [<ion-img src={x.image} ></ion-img>,
+              <label class={'uploadbutton'}>
+                Välj Bild...
+                <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden />
+              </label>]
+          }
+        </ion-col>
+      </content-component>
+    ))
   }
 
   render() {
@@ -95,39 +151,55 @@ export class MenuEditorComponent {
           <ion-label>{this.errormessage}</ion-label>
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
-        <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)}>
+        <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
           {
             !this.loading ?
-              this.responsedata?.map(data => {
+              this.categories?.map(data => {
+
                 return (
-                  <div>
-                    <ion-card class='card' style={{ color: config?.font?.fontColor }}>
+                  <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data.category.image : null }}>
+                    <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
                       <div>
-                        <ion-card-header>
-                          <ion-reorder>
-                            <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
-                              {data.category.name}
-                            </ion-card-title>
-                          </ion-reorder>
+                        <ion-card-header class='background' style={{ backgroundImage: config.categoryImages.style == 'Banner' && data.category.imageLoaded ? data.category.image : null }}>
+                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
+                            {data?.category?.name}
+                            {
+                              config?.categoryImages?.style != 'Disabled' && this.toggle ?
+                                <label class='uploadbutton banner'>
+                                  Välj Bild...
+                                  <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data?.category?.id)} hidden />
+                                </label>
+                                : null
+                            }
+                            <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
+                          </ion-card-title>
+
                         </ion-card-header>
                       </div>
                       {this.toggle ?
-                        data.products.map(product => {
-                          return (
-                            this.renderProducts(product)
-                          )
-                        })
+                        this.renderProducts(data?.products)
                         : null}
                     </ion-card>
                   </div>
                 )
               })
               : null
+
           }
         </ion-reorder-group>
+        {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null}
       </Host>
     )
   }
-
 }
 
+export interface image {
+  id: number,
+  image: string
+}
+
+
+interface DBCatImage {
+  image: any,
+  category_id: number
+}

@@ -1,18 +1,18 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { CategoryComponent } from '../category-component';
+import { ContentComponent } from '../content-component';
 
-describe('category-component', () => {
+describe('content-component', () => {
   it('renders', async () => {
     const page = await newSpecPage({
-      components: [CategoryComponent],
-      html: `<category-component></category-component>`,
+      components: [ContentComponent],
+      html: `<content-component></content-component>`,
     });
     expect(page.root).toEqualHtml(`
-      <category-component>
+      <content-component>
         <mock:shadow-root>
           <slot></slot>
         </mock:shadow-root>
-      </category-component>
+      </content-component>
     `);
   });
 });

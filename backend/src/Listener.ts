@@ -1,5 +1,6 @@
 import { API, AbortController } from "@onslip/onslip-360-node-api";
-import { DatabaseURI, DBQuery } from "@divine/uri";
+import { DatabaseURI, DBQuery, FIELDS } from "@divine/uri";
+import { DBcategory, DBproduct, ICategory, IProduct, Menu } from "./interfaces";
 
 export class Listener {
     private api: API;
@@ -9,129 +10,175 @@ export class Listener {
         this.db = _db;
     }
 
-    async ListenerDelete(load: API.DataObjectOperation) {
-        const getId = load.payload as IProductPayload;
-        this.db.query<DBQuery[]>`Delete from onslip.products where rowid = ${getId.usage.product}`;
-    }
-
-    async ListenerCreate(load: API.DataObjectOperation) {
-        const getId = load.payload as IProductPayload;
-        const prod = await this.api.getProduct(getId.usage.product);
-        this.db.query<DBQuery[]>`upsert into onslip.products (rowid, name, price, productcategory_id) VALUES (${prod.id},${prod.name}, ${prod.price ?? null}, ${prod["product-group"]})`;
-    }
-
-    async ListenerGroupDelete(load: API.DataObjectOperation) {
-        const getId = load.payload as IGroupPayload;
-        this.db.query<DBQuery[]>`Delete from onslip.productcategories where id = ${getId.usage["product-group"]}`;
-    }
-
-    async ListenerGroupCreate(load: API.DataObjectOperation) {
-        const getId = load.payload as IGroupPayload;
-        const prodGroup = await this.api.getProductGroup(getId.usage["product-group"]);
-        this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${prodGroup.id}, ${prodGroup.name})`;
-    }
-
-
-    private async CreateDB() {
+    async CreateDB() {
         await this.db.query<DBQuery[]>`create schema if not exists onslip`;
-        this.CreateGroupTable();
+        await this.CreateMenuTable();
+        await this.CreateGroupTable();
+        await this.CreateProductTable();
+        await this.CreateJunction();
+        await this.CreateProductImageTable();
+        await this.Delete();
     }
     private async CreateProductImageTable() {
-        await this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT PRIMARY KEY REFERENCES onslip.products(id))`;
-        await this.db.query<DBQuery[]>`create table if not exists onslip.categoryimages (image bytea, category_id INT PRIMARY KEY REFERENCES onslip.productcategories(id))`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.productimages (image bytea, product_id INT REFERENCES onslip.products(id))`;
+        await this.db.query<DBQuery[]>`create table if not exists onslip.categoryimages (image bytea, category_id INT REFERENCES onslip.productcategories(id))`;
         await this.db.query<DBQuery[]>`create table if not exists onslip.images (image bytea, id INT PRIMARY KEY);`
     }
 
+    async Getproducts(): Promise<IProduct[]> {
+        const getAllProducts = await this.api.listProducts();
+        const buttonmaps = (await this.api.listButtonMaps()).filter(buttonmap => buttonmap.type == "menu-section")
+        const products: IProduct[] = buttonmaps.flatMap(category => {
+            return (
+                category.buttons.flatMap(product => {
+                    return {
+                        category_id: category.id,
+                        product: getAllProducts.find(p => p.id == product.product),
+                        position: product.y,
+                    }
+                })
+            )
+        })
+        return products
+    }
+
+    async GetCategories(): Promise<ICategory[]> {
+        const buttonmaps = await this.api.listButtonMaps()
+        const getAllProductGroups = buttonmaps.filter(b => b.type == "menu");
+
+        const categories: ICategory[] = getAllProductGroups.flatMap(menu => {
+            return (
+                menu.buttons.flatMap(category => {
+                    return {
+                        id: category["button-map"] ?? 0,
+                        menu_id: menu?.id,
+                        position: category?.x,
+                        name: buttonmaps?.find(buttonmap => buttonmap.id == category["button-map"])?.name
+                    }
+                })
+            )
+        })
+        return categories
+    }
+
+    async CreateMenuTable() {
+        await this.db.query<DBQuery[]>`create table if not exists onslip.menu (id INT PRIMARY KEY, name STRING NOT NULL)`
+        const menu = (await this.api.listButtonMaps()).filter(x => x.type == 'menu');
+        (await menu).forEach(async element => {
+            const menuList = await this.db.query<DBQuery[]>`select * from onslip.menu where id = ${element.id}`;
+            const menuExists: boolean = menuList.length != 0;
+            if (!menuExists) {
+                await this.db.query<DBQuery[]>`insert into onslip.menu (id, name) values (${element.id}, ${element.name})`;
+            }
+            else {
+                await this.db.query<DBQuery[]>`update onslip.menu set (name) =  (${element.name}) where id = ${element.id}`;
+            }
+            const checkIfMenuExistsOnApi: boolean = (await menu).find(z => z.id == element.id) == null;
+            if (checkIfMenuExistsOnApi) {
+                await this.db.query<DBQuery>`delete from onslip.products where id = ${element.id ?? null}`;
+            }
+        })
+    }
+
+    async Delete() {
+        const productList = await this.db.query<DBproduct[]>`select * from onslip.products`;
+        productList.forEach(async x => {
+            const chack = (await this.Getproducts()).find(z => z.product?.id == x.id) == undefined
+            if (chack) {
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.id ?? null}`
+                await this.db.query<DBQuery>`delete from onslip.productimages where product_id = ${x.id ?? null}`
+                await this.db.query<DBQuery>`delete from onslip.products where id = ${x.id ?? null}`;
+            }
+        })
+        const categoryList = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
+        categoryList.forEach(async x => {
+            const chack = (await this.GetCategories()).find(z => z.id == x.id) == undefined
+            if (chack) {
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where category_id = ${x.id}`
+                await this.db.query<DBQuery>`delete from onslip.categoryimages where category_id = ${x.id}`
+                await this.db.query<DBQuery>`delete from onslip.productcategories where id = ${x.id}`;
+            }
+        })
+        const menuList = await this.db.query<Menu[]>`select * from onslip.menu`;
+        menuList.forEach(async x => {
+            const chack = (await (await this.api.listButtonMaps()).filter(c => c.type == 'menu')).find(z => z.id == x.id) == undefined
+            if (chack) {
+                await this.db.query<DBQuery>`delete from onslip.menu where id = ${x.id}`;
+            }
+        })
+    }
+
     private async CreateGroupTable() {
-        const getAllProductGroups = this.api.listProductGroups();
-        await this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, name STRING NOT NULL)`;
-        (await getAllProductGroups).forEach((x) => {
-            this.db.query<DBQuery[]>`upsert into onslip.productcategories (id, name) VALUES (${x.id}, ${x.name})`
+
+        await this.db.query<DBQuery[]>`create table if not exists onslip.productcategories (id INT PRIMARY KEY, position INT NOT NULL, name STRING, menu_id INT REFERENCES onslip.menu(id))`;
+        (await this.GetCategories()).forEach(async x => {
+
+            const categoryList = await this.db.query<DBQuery[]>`select * from onslip.productcategories where id = ${x.id}`;
+            const categoryExists: boolean = categoryList.length != 0;
+            if (!categoryExists) {
+                await this.db.query<DBQuery[]>`insert into onslip.productcategories (id, position, name, menu_id) VALUES (${x.id ?? null}, ${x.position}, ${x.name ?? null}, ${x.menu_id})`
+            }
+            else {
+                await this.db.query<DBQuery[]>`update onslip.productcategories set (position, name, menu_id) = (${x.position}, ${x.name ?? null}, ${x.menu_id}) where id = ${x.id}`
+            }
         });
-        this.CreateProductTable();
     }
 
     private async CreateProductTable() {
-        await this.db.query<DBQuery[]>`create table if not exists onslip.products (id INT PRIMARY KEY, name STRING NOT NULL, price STRING NOT NULL, description STRING, productcategory_id INT REFERENCES onslip.productcategories(id))`;
-        const getAllProducts = this.api.listProducts();
-        (await getAllProducts).forEach((x) => {
-            this.db.query<DBQuery[]>`upsert into onslip.products (id, name, price, description, productcategory_id) VALUES (${x.id}, ${x.name}, ${x.price ?? null}, ${x.description ?? null}, ${x["product-group"]})`
-        });
-        await this.CreateProductImageTable();
-        this.DeleteFromDb();
+        await this.db.query<DBQuery[]>`create table if not exists onslip.products (id INT PRIMARY KEY, name STRING NOT NULL, price DECIMAL NOT NULL, description STRING)`;
+        const products = await this.Getproducts()
+        products.forEach(async x => {
+            const productList = await this.db.query<DBQuery[]>`select * from onslip.products where id = ${x.product?.id ?? null}`;
+            const productExists: boolean = productList.length != 0
+
+            if (!productExists) {
+                await this.db.query<DBQuery[]>`insert into onslip.products (id, name, price, description) VALUES(${x.product?.id ?? null}, ${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null})`
+            }
+            else {
+                await this.db.query<DBQuery[]>`update onslip.products set (name, price, description) = (${x.product?.name ?? null}, ${x.product?.price ?? null}, ${x.product?.description ?? null}) where id = ${x.product?.id ?? null}`
+            }
+        })
     }
 
-    async DeleteFromDb() {
-        const deletedProducts = (
-            await this.api.listProducts(undefined, undefined, undefined, undefined, true)).filter((product) => product.deleted != undefined);
-        deletedProducts.forEach((x) => {
-            this.db.query<DBQuery[]>`delete from onslip.products where id = ${x.id}`;
-        });
-
-        const deletedGroups = (
-            await this.api.listProductGroups(undefined, undefined, undefined, undefined, true)).filter((group) => group.deleted != undefined);
-        deletedGroups.forEach((x) => {
-            this.db.query<DBQuery[]>`delete from onslip.productcategories where id = ${x.id}`;
+    private async CreateJunction() {
+        await this.db.query<DBQuery>`create table if not exists onslip.grouptoproduct (product_id INT REFERENCES onslip.products(id), category_id INT REFERENCES onslip.productcategories(id), productposition INT NOT NULL)`
+        const products = await this.Getproducts()
+        products.forEach(async (x) => {
+            const list = await this.db.query<DBQuery[]>`select * from onslip.grouptoproduct where product_id = ${x.product?.id ?? null} and category_id = ${x.category_id}`;
+            const a: boolean = list.length != 0
+            if (!a) {
+                this.db.query <DBQuery[]>`insert into onslip.grouptoproduct (product_id, category_id, productposition) VALUES(${x.product?.id ?? null}, ${x.category_id}, ${x.position}) `
+            }
         });
     }
 
     async Listener() {
         this.CreateDB();
+        const cancel = new AbortController();
         while (true) {
             try {
                 const stream = await this.api.addEventStream({
                     state: "pending",
                     queries: [
-                        { resource: "records", query: "usage.type=product-create" },
-                        { resource: "records", query: "usage.type=product-group-create" },
-                        { resource: "records", query: `usage.type=product-delete` },
-                        { resource: "records", query: `usage.type=product-group-delete` },
-                        { resource: "records", query: `usage.type=product-update` },
-                        { resource: "records", query: `usage.type=product-group-update` },
+                        { resource: "button-maps", query: `type=menu-section` },
+                        { resource: "button-maps", query: `type=menu` },
                     ],
                 });
-                const cancel = new AbortController();
                 setTimeout(() => cancel.abort, 60_000);
 
-                console.log("Product and product group updates:");
-                for await (const event of this.api
-                    .signal(cancel.signal)
-                    .openEventStream(stream.id)) {
-                    const load = event.payload as ILoad;
-                    console.log(event);
-                    switch (load.usage.type) {
-                        case "product-create" || "product-update":
-                            this.ListenerCreate(event);
-                            break;
-                        case "product-group-create" || "product-group-update":
-                            this.ListenerGroupCreate(event);
-                            break;
-                        case "product-delete":
-                            this.ListenerDelete(event);
-                            break;
-                        case "product-group-delete":
-                            this.ListenerGroupDelete(event);
-                            break;
-                        default:
-                            break;
-                    }
+                const event = (await this.api.signal(cancel.signal).openEventStream(stream.id).next());
+                if (event != null) {
+                    console.log('done');
+                    this.CreateDB();
                 }
-                console.log("All done");
+
             } catch (error) {
                 console.error(error);
+                cancel.abort;
             }
         }
     }
+
+
 }
 
-interface IProductPayload {
-    usage: { product: number; type: string };
-}
-
-interface IGroupPayload {
-    usage: { "product-group": number; type: string };
-}
-
-interface ILoad {
-    usage: { type: string };
-}
