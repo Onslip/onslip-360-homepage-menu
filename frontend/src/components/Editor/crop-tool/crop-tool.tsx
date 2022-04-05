@@ -26,7 +26,7 @@ export class CropTool {
   async componentDidRender() {
     // this.canvas.height = (this.canvas.width / this.AspectRatio);
     const element = this.element.shadowRoot.getElementById('resize')
-    if (this.AspectRatio <= 1) {
+    if (this.AspectRatio < 1 && this.img.height <= this.img.width) {
       element.style.resize = 'vertical'
     }
     else {
@@ -99,11 +99,12 @@ export class CropTool {
     // const element = this.element.shadowRoot.getElementById('resize')
     // const width = Number(element.style.width.slice(0, element.style.width.length - 2))
     // element.style.height = `${width / this.AspectRatio}px`¨
+
     const elmnt: HTMLElement = this.element.shadowRoot.getElementById('resize')
-    if (elmnt.clientWidth < elmnt.parentElement.clientWidth && this.AspectRatio <= 1) {
+    if (elmnt.clientWidth < elmnt.parentElement.clientWidth && elmnt.style.resize == "vertical") {
       elmnt.style.width = `${elmnt.clientHeight * this.AspectRatio}px`
     }
-    if (elmnt.clientHeight < elmnt.parentElement.clientHeight && this.AspectRatio > 1) {
+    if (elmnt.clientHeight < elmnt.parentElement.clientHeight && elmnt.style.resize == "horizontal") {
       elmnt.style.height = `${elmnt.clientWidth / this.AspectRatio}px`
     }
     this.Compress(elmnt.offsetLeft, elmnt.offsetTop, elmnt.clientWidth, elmnt.clientHeight)
@@ -119,11 +120,17 @@ export class CropTool {
     const main = this.element.shadowRoot.querySelector('.mainElement')
     const result = this.element.shadowRoot.querySelector('.result')
     let canvas = document.createElement("canvas");
-    const imageAspectRation: number = this.img.width / this.img.height  
-    canvas.width = 500 * this.scale;
-    canvas.height = 500 / imageAspectRation * this.scale;
+    const imageAspectRation: number = this.img.width / this.img.height
+    if (this.img.height <= this.img.width) {
+      canvas.width = 500 * this.scale;
+      canvas.height = 500 / imageAspectRation * this.scale;
+    }
+    else {
+      canvas.height = 500 * this.scale;
+      canvas.width = 500 * imageAspectRation * this.scale;
+    }
     let ctx = canvas.getContext("2d");
-    ctx.drawImage(this.img, 0, 0, canvas.width / this.scale, canvas.height / this.scale, 0, 0, this.img.width * this.scale, this.img.height * this.scale);
+    ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.img.width * this.scale, this.img.height * this.scale);
 
     main.replaceChild(canvas, main.childNodes[0])
 
