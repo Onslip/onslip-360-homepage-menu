@@ -78,12 +78,12 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadBackground(image) {
-    const loadedImage = await loadImage(image).catch(err => err)
+    const loadedImage = await loadImage(image.image.data).catch(err => err)
     document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
   }
 
   private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image)
+    const loadedImage = await loadImage(image.image.data)
     if (config.Logo) {
       const img = document.createElement('img');
       img.src = loadedImage.toString();
@@ -93,7 +93,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadBanner(image, element) {
-    const loadedImage = await loadImage(image).catch(err => err);
+    const loadedImage = await loadImage(image.image.data).catch(err => err);
     if (config.banner) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
     }
@@ -111,8 +111,6 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
-        <crop-tool Image={getAssetPath('../../../assets/long.jpg')} MaxWidth={100} AspectRatio={1}></crop-tool>
-
         <div>
           <toolbar-component></toolbar-component>
         </div>

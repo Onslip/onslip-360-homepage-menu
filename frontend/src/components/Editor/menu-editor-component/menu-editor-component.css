@@ -8,11 +8,11 @@
   margin-top: 8px;
   margin-bottom: 8px;
   border-radius: 2px;
-    padding: 0;
+  padding: 0;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-} 
+}
 
 .content {
   width: 100%;
@@ -36,7 +36,7 @@
 }
 
 .categoryTitle {
- font-size: 1.5rem;
+  font-size: 1.5rem;
   margin: 0;
   border-bottom: 1.5px solid black;
   text-align: center;
@@ -44,7 +44,7 @@
   padding: 15px;
 }
 
-.categoryTitle[data-status='Banner']{
+.categoryTitle[data-status='Banner'] {
   padding: 30px;
   /* background-color: rgba(255, 255, 255, 0.3); */
   /* backdrop-filter: blur(1px) saturate(100%) contrast(100%); */
@@ -113,8 +113,8 @@ ion-reorder {
 
 ion-reorder-group {
   transition: none;
-    animation: none;
-    transition-duration: 0s;
+  animation: none;
+  transition-duration: 0s;
 
 }
 
@@ -150,7 +150,7 @@ ion-reorder-group {
 .saveButton {
   font-family: var(--globalfont);
   --background: var(--primary);
-    font-weight: normal;
+  font-weight: normal;
   font-style: normal;
   float: right;
   margin-right: 20px;

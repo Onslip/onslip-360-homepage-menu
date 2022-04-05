@@ -73,14 +73,14 @@
 .modal-overlay {
   background: rgba(0, 0, 0, 0.6);
   height: 100%;
-  width: 100%;
+  width: 1000px;
   position: absolute;
 }
 
 .modal-wrapper .modal {
   background: white;
-  width: 30%;
-  height: 80%;
+  width: 100%;
+  height: 50%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0px);
@@ -319,4 +319,14 @@ h3 {
 
 .uploadButtonDiv {
   position: absolute;
+}
+
+.footer {
+  bottom: 3%;
+}
+
+.imgElement {
+  position: absolute;
+  z-index: 10;
+  bottom: -500%
 }

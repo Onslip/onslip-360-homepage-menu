@@ -54,7 +54,7 @@ export class MenuEditorComponent {
   async LoadImages(DBimages: DBImage[]) {
     this.categories.forEach(async c => {
       c.products.forEach(async p => {
-        loadImage(DBimages.find(i => i.product_id == p.id))
+        loadImage(DBimages.find(i => i.product_id == p.id).image.data)
           .then(response => p.image = response.toString())
           .then(() => p.imageLoaded = true)
           .then(() => this.categories = [...this.categories])
@@ -64,7 +64,7 @@ export class MenuEditorComponent {
 
   async LoadCatImages(DBimages: DBCatImage[]) {
     this.categories.forEach(async c => {
-      loadImage(DBimages.find(i => i.category_id == c.category.id))
+      loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
         .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
         .then(() => c.category.imageLoaded = true)
     })
@@ -167,9 +167,8 @@ export class MenuEditorComponent {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
                                 <label class='uploadbutton banner'>
                                   Välj Bild...
-                                  <input class='catImages' type='file' onChange={(event: any) => this.UploadCatImage(event.target.files, data?.category?.id)} hidden />
-                                </label>
-                                : null
+                                  <input class='catImages' type='file' onChange={(event: any) => { this.UploadCatImage(event.target.files, data.category.id) }} hidden />
+                                </label> : null
                             }
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                           </ion-card-title>

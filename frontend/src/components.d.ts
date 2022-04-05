@@ -14,8 +14,9 @@ export namespace Components {
     }
     interface CropTool {
         "AspectRatio": number;
-        "Image": string;
         "MaxWidth": number;
+        "TargetId": number;
+        "url": string;
     }
     interface EditorVisualCheck {
     }
@@ -126,8 +127,9 @@ declare namespace LocalJSX {
     }
     interface CropTool {
         "AspectRatio"?: number;
-        "Image"?: string;
         "MaxWidth"?: number;
+        "TargetId"?: number;
+        "url"?: string;
     }
     interface EditorVisualCheck {
     }

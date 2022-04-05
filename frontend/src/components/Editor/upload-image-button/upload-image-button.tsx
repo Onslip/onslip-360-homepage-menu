@@ -20,6 +20,7 @@ export class UploadImageButton {
     if (CheckImage(file[0])) {
       let fd = new FormData()
       fd.append('image', await file[0]);
+      console.log(file[0])
       await PostImage(this.URL, fd);
       switch (this.buttonvalue) {
         case buttonvalues.background: {

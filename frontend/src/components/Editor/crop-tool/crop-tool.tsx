@@ -1,4 +1,6 @@
 import { Component, Host, h, Prop, Element, State } from '@stencil/core';
+import { CheckImage } from '../../utils/image';
+import { PostImage } from '../../utils/post';
 
 @Component({
   tag: 'crop-tool',
@@ -6,14 +8,18 @@ import { Component, Host, h, Prop, Element, State } from '@stencil/core';
   shadow: true,
 })
 export class CropTool {
-  @Prop() Image: string;
+  @Prop() url: string;
   @Element() element: HTMLElement;
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
   private img = new Image();
   private scale: number = 1;
   @State() isopen: boolean;
-
+  @Prop() TargetId: number
+  private targetX = 0;
+  private targetY = 0;
+  private targetW = 0;
+  private targetH = 0;
 
   open() {
     this.isopen = true;
@@ -23,29 +29,28 @@ export class CropTool {
     this.isopen = false;
   }
 
-  async componentWillLoad() {
-    this.img.src = this.Image;
-    this.img.onload = () => {
-      this.Compress(0, 0, 0, 0);
+  LoadImage(image) {
+    const reader = new FileReader();
+    reader.readAsDataURL(image[0]);
+    reader.onload = () => {
+      this.img.src = reader.result.toString();
+      this.img.onload = () => {
+        this.CreateCanvas();
+      }
     }
-  }
-  async componentDidRender() {
-    const element = this.element.shadowRoot.getElementById('resize')
-    if (this.AspectRatio < 1 && this.img.height <= this.img.width) {
-      element.style.resize = 'vertical'
-    }
-    else {
-      element.style.resize = 'horizontal'
-    }
-    element.style.width = `${this.img.width * 0.5}px`
-    element.style.height = `${this.img.width * 0.5 / this.AspectRatio}px`
-
   }
 
   async dragElement(elmnt: HTMLElement) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    elmnt.parentElement.ondragstart = dragMouseDown;
+    // elmnt.parentElement.onmousemove = dragMouseDown;
+    if (document.getElementById(elmnt.id + "header")) {
+      // if present, the header is where you move the DIV from:
+      document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+      // otherwise, move the DIV from anywhere inside the DIV:
+      elmnt.onmousedown = dragMouseDown;
+    }
 
     function dragMouseDown(e) {
       e = e || window.event;
@@ -67,10 +72,11 @@ export class CropTool {
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
       elmnt.style.top = `${limit(elmnt.offsetTop, elmnt.parentElement.clientHeight - elmnt.clientHeight - 4, 0)}px`
       elmnt.style.left = `${limit(elmnt.offsetLeft, elmnt.parentElement.clientWidth - elmnt.clientWidth - 4, 0)}px`
+      this.targetX = elmnt.offsetTop;
+      this.targetY = elmnt.offsetLeft;
     }
 
     function closeDragElement() {
-
       document.onmouseup = null;
       document.onmousemove = null;
     }
@@ -84,12 +90,12 @@ export class CropTool {
       }
       return value
     }
+
     this.resize()
   }
 
 
   async resize() {
-
     const elmnt: HTMLElement = this.element.shadowRoot.getElementById('resize')
     if (elmnt.clientWidth < elmnt.parentElement.clientWidth && elmnt.style.resize == "vertical") {
       elmnt.style.width = `${elmnt.clientHeight * this.AspectRatio}px`
@@ -97,13 +103,13 @@ export class CropTool {
     if (elmnt.clientHeight < elmnt.parentElement.clientHeight && elmnt.style.resize == "horizontal") {
       elmnt.style.height = `${elmnt.clientWidth / this.AspectRatio}px`
     }
-    this.Compress(elmnt.offsetLeft, elmnt.offsetTop, elmnt.clientWidth, elmnt.clientHeight)
+    this.targetW = elmnt.clientWidth;
+    this.targetH = elmnt.clientHeight;
+    console.log(this.targetH, this.targetW)
   }
 
-  async Compress(targetX: number, targetY: number, targetWidth: number, targetHeight: number) {
-
+  async CreateCanvas() {
     const main = this.element.shadowRoot.querySelector('.mainElement')
-    const result = this.element.shadowRoot.querySelector('.result')
     let canvas = document.createElement("canvas");
     const imageAspectRation: number = this.img.width / this.img.height
     if (this.img.height <= this.img.width) {
@@ -115,21 +121,49 @@ export class CropTool {
       canvas.width = 500 * imageAspectRation * this.scale;
     }
     let ctx = canvas.getContext("2d");
-    ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.img.width * this.scale, this.img.height * this.scale);
-
-    main.replaceChild(canvas, main.childNodes[0])
+    ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, canvas.width, canvas.height);
+    main.replaceChild(canvas, main.childNodes[0]);
+    const element = this.element.shadowRoot.getElementById('resize')
+    if (this.AspectRatio < 1 && this.img.height <= this.img.width) {
+      element.style.resize = 'vertical'
+    }
+    else {
+      element.style.resize = 'horizontal'
+    }
+    element.style.width = `${500 * 0.5}px`
+    element.style.height = `${500 * 0.5 / this.AspectRatio}px`
 
     let canvas1 = document.createElement("canvas");
-
     canvas1.width = this.MaxWidth;
     canvas1.height = this.MaxWidth / this.AspectRatio;
     let ctx1 = canvas1.getContext("2d");
-    ctx1.drawImage(this.img, targetX / this.scale, targetY / this.scale, targetWidth / this.scale, targetHeight / this.scale, 0, 0, canvas1.width, canvas1.height);
 
-
+    ctx1.drawImage(this.img, this.targetX / this.scale, this.targetY / this.scale, this.targetW / this.scale, this.targetH / this.scale, 0, 0, canvas1.width, canvas1.height);
     let dstImg = document.createElement('img');
     dstImg.src = canvas1.toDataURL("image/png");
-    result.replaceChild(dstImg, result.childNodes[0])
+    const ele = this.element.shadowRoot.querySelector('.imgElement');
+    ele.replaceChild(dstImg, ele.childNodes[0]);
+  }
+
+  UploadImage(File: File, id: number) {
+    let fd = new FormData()
+    console.log(File);
+    fd.append('image', File);
+    fd.append('id', String(id));
+    PostImage(this.url, fd);
+  }
+
+  async Compress() {
+    let canvas1 = document.createElement("canvas");
+    canvas1.width = this.MaxWidth;
+    canvas1.height = this.MaxWidth / this.AspectRatio;
+    let ctx1 = canvas1.getContext("2d");
+    ctx1.drawImage(this.img, this.targetX / this.scale, this.targetY / this.scale, this.targetW / this.scale, this.targetH / this.scale, 0, 0, canvas1.width, canvas1.height);
+    const data = await fetch(canvas1.toDataURL("image/png"))
+      .then(async res => await res.blob())
+    console.log(data);
+    const file = new File([data], 'image');
+    this.UploadImage(file, this.TargetId);
   }
 
   render() {
@@ -138,7 +172,7 @@ export class CropTool {
         <div class='uploadButtonDiv'>
           <label class='uploadButton'>
             Välj Bild...
-            <input class='catImages' type='file' onChange={() => { this.open() }} hidden />
+            <input class='catImages' type='file' onChange={(event: any) => { this.LoadImage(event.target.files), this.open(); }} hidden />
           </label>
         </div>
         <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
@@ -152,24 +186,24 @@ export class CropTool {
                   <div class='mainElement' >
                     <canvas></canvas>
                   </div>
-                  <div class="resize" id='resize' onMouseMove={(event: any) => this.resize()}>
-                    <div class={'drag'} draggable={true} onDrag={(event: any) => this.dragElement(event.target.parentElement)}></div>
+
+                  <div class="resize" id='resize' onMouseDown={() => this.resize()}>
+                    <div class={'drag'} onMouseDown={(event: any) => this.dragElement(event.target)}></div>
                   </div>
                 </div>
               </div>
-              {/* 
-              <div class="result">
-                <img></img>
-              </div> */}
             </div>
             <div class="footer">
-              <button class='button-save' type="submit" value="Submit">Spara</button>
+
+              <button class='button-save' type="submit" value="Submit" onClick={() => { this.close(); this.Compress(); }}>Spara</button>
             </div>
           </div>
-        </div >
 
+        </div >
+        <div class='imgElement'>
+          <img></img>
+        </div>
       </Host >
     );
   }
-
 }
