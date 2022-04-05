@@ -11,20 +11,25 @@ export class CropTool {
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
   private img = new Image();
-  private scale: number = 1
-  
+  private scale: number = 1;
+  @State() isopen: boolean;
+
+
+  open() {
+    this.isopen = true;
+  }
+
+  close() {
+    this.isopen = false;
+  }
+
   async componentWillLoad() {
-    // this.Width = this.MaxWidth
-    // this.Height = this.Width / this.AspectRatio;
-    
     this.img.src = this.Image;
     this.img.onload = () => {
       this.Compress(0, 0, 0, 0);
     }
-  
   }
   async componentDidRender() {
-    // this.canvas.height = (this.canvas.width / this.AspectRatio);
     const element = this.element.shadowRoot.getElementById('resize')
     if (this.AspectRatio <= 1) {
       element.style.resize = 'vertical'
@@ -34,40 +39,30 @@ export class CropTool {
     }
     element.style.width = `${this.img.width * 0.5}px`
     element.style.height = `${this.img.width * 0.5 / this.AspectRatio}px`
-  
+
   }
-  
+
   async dragElement(elmnt: HTMLElement) {
-    // const elmnt = this.element.shadowRoot.getElementById(id).parentElement
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    // if (document.getElementById(elmnt.id + "header")) {
-    //   // if present, the header is where you move the DIV from:
-    //   document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-    // } else {
-    //   // otherwise, move the DIV from anywhere inside the DIV:
-    // }
+
     elmnt.parentElement.ondragstart = dragMouseDown;
 
     function dragMouseDown(e) {
       e = e || window.event;
       e.preventDefault();
-      // get the mouse cursor position at startup:
       pos3 = e.clientX;
       pos4 = e.clientY;
       document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
     }
 
     function elementDrag(e) {
       e = e || window.event;
       e.preventDefault();
-      // calculate the new cursor position:
       pos1 = pos3 - e.clientX;
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
-      // set the element's new position:
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
       elmnt.style.top = `${limit(elmnt.offsetTop, elmnt.parentElement.clientHeight - elmnt.clientHeight - 4, 0)}px`
@@ -76,13 +71,11 @@ export class CropTool {
 
     function closeDragElement() {
 
-
-      // stop moving when mouse button is released:
       document.onmouseup = null;
       document.onmousemove = null;
     }
 
-    function limit(value: number, maxLimit: number, minLimit: number):number {
+    function limit(value: number, maxLimit: number, minLimit: number): number {
       if (value > maxLimit) {
         return maxLimit
       }
@@ -96,9 +89,7 @@ export class CropTool {
 
 
   async resize() {
-    // const element = this.element.shadowRoot.getElementById('resize')
-    // const width = Number(element.style.width.slice(0, element.style.width.length - 2))
-    // element.style.height = `${width / this.AspectRatio}px`¨
+
     const elmnt: HTMLElement = this.element.shadowRoot.getElementById('resize')
     if (elmnt.clientWidth < elmnt.parentElement.clientWidth && this.AspectRatio <= 1) {
       elmnt.style.width = `${elmnt.clientHeight * this.AspectRatio}px`
@@ -110,16 +101,11 @@ export class CropTool {
   }
 
   async Compress(targetX: number, targetY: number, targetWidth: number, targetHeight: number) {
-    // const newCanvas = document.createElement('canvas');
-    // newCanvas.width = this.img.width;
-    // newCanvas.height = this.img.height;
-    // newCanvas.getContext('2d').drawImage(this.img, 0, 0, newCanvas.width, newCanvas.height)
-    // this.canvas.getContext('2d').drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, this.Width, this.Height);
-    // console.log(this.canvas.image);
+
     const main = this.element.shadowRoot.querySelector('.mainElement')
     const result = this.element.shadowRoot.querySelector('.result')
     let canvas = document.createElement("canvas");
-    const imageAspectRation: number = this.img.width / this.img.height  
+    const imageAspectRation: number = this.img.width / this.img.height
     canvas.width = 500 * this.scale;
     canvas.height = 500 / imageAspectRation * this.scale;
     let ctx = canvas.getContext("2d");
@@ -135,7 +121,6 @@ export class CropTool {
     ctx1.drawImage(this.img, targetX / this.scale, targetY / this.scale, targetWidth / this.scale, targetHeight / this.scale, 0, 0, canvas1.width, canvas1.height);
 
 
-    // put data to the img element
     let dstImg = document.createElement('img');
     dstImg.src = canvas1.toDataURL("image/png");
     result.replaceChild(dstImg, result.childNodes[0])
@@ -144,20 +129,39 @@ export class CropTool {
   render() {
     return (
       <Host>
-        <div class="content">
-          <div class="resizeContainer">
-            <div class='mainElement' >
-              <canvas></canvas>
+        <div class='uploadButtonDiv'>
+          <label class='uploadButton'>
+            Välj Bild...
+            <input class='catImages' type='file' onChange={() => { this.open() }} hidden />
+          </label>
+        </div>
+        <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
+          <div class="modal-overlay" onClick={() => this.close()}></div>
+          <div class="modal">
+            <div class="header">
             </div>
-            <div class="resize" id='resize' onMouseMove={(event: any) => this.resize()}>
-              <div class={'drag'} draggable={true} onDrag={(event: any) => this.dragElement(event.target.parentElement)}></div>
+            <div class="body">
+              <div class="content">
+                <div class="resizeContainer">
+                  <div class='mainElement' >
+                    <canvas></canvas>
+                  </div>
+                  <div class="resize" id='resize' onMouseMove={(event: any) => this.resize()}>
+                    <div class={'drag'} draggable={true} onDrag={(event: any) => this.dragElement(event.target.parentElement)}></div>
+                  </div>
+                </div>
+              </div>
+              {/* 
+              <div class="result">
+                <img></img>
+              </div> */}
+            </div>
+            <div class="footer">
+              <button class='button-save' type="submit" value="Submit">Spara</button>
             </div>
           </div>
-        </div>
+        </div >
 
-        <div class="result">
-          <img></img>
-        </div>
       </Host >
     );
   }

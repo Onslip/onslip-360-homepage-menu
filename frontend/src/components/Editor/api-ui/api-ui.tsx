@@ -18,7 +18,7 @@ export class ApiUi {
     mutable: true,
     reflect: true,
   })
-  @Prop() isopen: boolean;
+  @State() isopen: boolean;
   @Prop() closeIcon = 'x.svg';
 
   open() {
