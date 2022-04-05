@@ -111,7 +111,7 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
-        <crop-tool Image={getAssetPath('../../../assets/banner.jpeg')} MaxWidth={500} AspectRatio={1}></crop-tool>
+        <crop-tool Image={getAssetPath('../../../assets/long.jpg')} MaxWidth={100} AspectRatio={1}></crop-tool>
 
         <div>
           <toolbar-component></toolbar-component>
