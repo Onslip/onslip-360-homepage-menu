@@ -87,7 +87,6 @@ export class HomepageMenuEditorComponent {
     if (config.Logo) {
       const img = document.createElement('img');
       img.src = loadedImage.toString();
-
       this.element.shadowRoot.querySelector(element).appendChild(img);
     }
   }
@@ -112,7 +111,6 @@ export class HomepageMenuEditorComponent {
     return (
       <Host>
         <div>
-          <toolbar-component></toolbar-component>
         </div>
         <div class='menuContainer'>
           <div class={config?.banner ? 'header' : 'no-banner'}>
@@ -123,7 +121,6 @@ export class HomepageMenuEditorComponent {
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
-
       </Host >
     )
   }

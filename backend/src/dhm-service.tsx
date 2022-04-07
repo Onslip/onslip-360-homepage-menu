@@ -6,7 +6,6 @@ import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { ChangePosition, DBCatImage, DBImage, MainConfig, newApi, Styleconfig } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
-import { type } from 'os';
 
 export class DHMService {
     private api: API;
