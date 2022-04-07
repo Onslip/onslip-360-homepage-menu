@@ -165,14 +165,11 @@ export class MenuEditorComponent {
                             {data?.category?.name}
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                <label class='uploadbutton banner'>
-                                  Välj Bild...
-                                  <input class='catImages' type='file' onChange={(event: any) => { this.UploadCatImage(event.target.files, data.category.id) }} hidden />
-                                </label> : null
+                                <crop-tool url={this.caturl} MaxWidth={100} AspectRatio={1} TargetId={data.category.id}></crop-tool>
+                                : null
                             }
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                           </ion-card-title>
-
                         </ion-card-header>
                       </div>
                       {this.toggle ?

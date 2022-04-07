@@ -23,6 +23,7 @@ export class CropTool {
 
   open() {
     this.isopen = true;
+
   }
 
   close() {
@@ -40,43 +41,39 @@ export class CropTool {
     }
   }
 
-  async dragElement(elmnt: HTMLElement) {
+  dragElement(e) {
+    console.log('click')
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    // elmnt.parentElement.onmousemove = dragMouseDown;
-    if (document.getElementById(elmnt.id + "header")) {
-      // if present, the header is where you move the DIV from:
-      document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-    } else {
-      // otherwise, move the DIV from anywhere inside the DIV:
-      elmnt.onmousedown = dragMouseDown;
-    }
+    const elmnt = e.target;
 
-    function dragMouseDown(e) {
-      e = e || window.event;
-      e.preventDefault();
-      pos3 = e.clientX;
-      pos4 = e.clientY;
+    document.onmousemove = (event) => {
+      console.log('move')
+      e = event || window.event;
+      event.preventDefault();
+      pos3 = event.clientX;
+      pos4 = event.clientY;
       document.onmouseup = closeDragElement;
       document.onmousemove = elementDrag;
     }
 
-    function elementDrag(e) {
-      e = e || window.event;
-      e.preventDefault();
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      elmnt.style.top = `${limit(elmnt.offsetTop, elmnt.parentElement.clientHeight - elmnt.clientHeight - 4, 0)}px`
-      elmnt.style.left = `${limit(elmnt.offsetLeft, elmnt.parentElement.clientWidth - elmnt.clientWidth - 4, 0)}px`
-      this.targetX = elmnt.offsetTop;
-      this.targetY = elmnt.offsetLeft;
+    function elementDrag(ev) {
+      ev = ev || window.event;
+      ev.preventDefault();
+      pos1 = pos3 - ev.clientX;
+      pos2 = pos4 - ev.clientY;
+      pos3 = ev.clientX;
+      pos4 = ev.clientY;
+      elmnt.parentElement.style.top = (elmnt.parentElement.offsetTop - pos2) + "px";
+      elmnt.parentElement.style.left = (elmnt.parentElement.offsetLeft - pos1) + "px";
+      elmnt.parentElement.style.top = `${limit(elmnt.parentElement.offsetTop, elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.clientHeight, 0)}px`
+      elmnt.parentElement.style.left = `${limit(elmnt.parentElement.offsetLeft, elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.clientWidth, 0)}px`
+
+      console.log(elmnt.parentElement.offsetTop)
     }
 
     function closeDragElement() {
+      console.log('ehe')
       document.onmouseup = null;
       document.onmousemove = null;
     }
@@ -105,7 +102,9 @@ export class CropTool {
     }
     this.targetW = elmnt.clientWidth;
     this.targetH = elmnt.clientHeight;
-    console.log(this.targetH, this.targetW)
+    this.targetX = elmnt.offsetLeft;
+    this.targetY = elmnt.offsetTop;
+    this.CreateCanvas();
   }
 
   async CreateCanvas() {
@@ -113,12 +112,12 @@ export class CropTool {
     let canvas = document.createElement("canvas");
     const imageAspectRation: number = this.img.width / this.img.height
     if (this.img.height <= this.img.width) {
-      canvas.width = 500 * this.scale;
-      canvas.height = 500 / imageAspectRation * this.scale;
+      canvas.width = 500;
+      canvas.height = 500 / imageAspectRation;
     }
     else {
-      canvas.height = 500 * this.scale;
-      canvas.width = 500 * imageAspectRation * this.scale;
+      canvas.height = 500;
+      canvas.width = 500 * imageAspectRation;
     }
     let ctx = canvas.getContext("2d");
     ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, canvas.width, canvas.height);
@@ -138,11 +137,17 @@ export class CropTool {
     canvas1.height = this.MaxWidth / this.AspectRatio;
     let ctx1 = canvas1.getContext("2d");
 
-    ctx1.drawImage(this.img, this.targetX / this.scale, this.targetY / this.scale, this.targetW / this.scale, this.targetH / this.scale, 0, 0, canvas1.width, canvas1.height);
+    console.log(this.targetH, this.targetW, this.targetX, this.targetY)
+
+    ctx1.drawImage(this.img, this.targetX * this.scale, this.targetY * this.scale, this.targetW * this.scale, this.targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
     let dstImg = document.createElement('img');
     dstImg.src = canvas1.toDataURL("image/png");
     const ele = this.element.shadowRoot.querySelector('.imgElement');
     ele.replaceChild(dstImg, ele.childNodes[0]);
+    this.scale = this.img.width / canvas.width;
+
+    console.log(this.scale);
+
   }
 
   UploadImage(File: File, id: number) {
@@ -154,11 +159,12 @@ export class CropTool {
   }
 
   async Compress() {
+
     let canvas1 = document.createElement("canvas");
     canvas1.width = this.MaxWidth;
     canvas1.height = this.MaxWidth / this.AspectRatio;
     let ctx1 = canvas1.getContext("2d");
-    ctx1.drawImage(this.img, this.targetX / this.scale, this.targetY / this.scale, this.targetW / this.scale, this.targetH / this.scale, 0, 0, canvas1.width, canvas1.height);
+    ctx1.drawImage(this.img, this.targetX * this.scale, this.targetY * this.scale, this.targetW * this.scale, this.targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
     const data = await fetch(canvas1.toDataURL("image/png"))
       .then(async res => await res.blob())
     console.log(data);
@@ -176,6 +182,7 @@ export class CropTool {
           </label>
         </div>
         <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
+
           <div class="modal-overlay" onClick={() => this.close()}></div>
           <div class="modal">
             <div class="header">
@@ -186,23 +193,20 @@ export class CropTool {
                   <div class='mainElement' >
                     <canvas></canvas>
                   </div>
-
-                  <div class="resize" id='resize' onMouseDown={() => this.resize()}>
-                    <div class={'drag'} onMouseDown={(event: any) => this.dragElement(event.target)}></div>
+                  <div class="resize" id='resize' onMouseMove={() => this.resize()}>
+                    <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="footer">
-
               <button class='button-save' type="submit" value="Submit" onClick={() => { this.close(); this.Compress(); }}>Spara</button>
             </div>
           </div>
-
+          <div class='imgElement'>
+            <img></img>
+          </div>
         </div >
-        <div class='imgElement'>
-          <img></img>
-        </div>
       </Host >
     );
   }
