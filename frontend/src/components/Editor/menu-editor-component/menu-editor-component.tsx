@@ -63,7 +63,7 @@ export class MenuEditorComponent {
   }
 
   async LoadCatImages(DBimages: DBCatImage[]) {
-    this.categories.forEach(async c => {
+    this.categories?.forEach(async c => {
       loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
         .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
         .then(() => c.category.imageLoaded = true)
@@ -116,10 +116,9 @@ export class MenuEditorComponent {
       <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
-          : <div hidden={config?.productImages?.style != 'Background'}><label class={'uploadbutton'}>
-            Välj Bild...
-            <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x?.id, x?.productcategory_id)} hidden />
-          </label></div>}
+          : <div hidden={config?.productImages?.style != 'Background'}>
+            <crop-tool url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></crop-tool>
+            </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
         </ion-col>
@@ -134,10 +133,7 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-              <label class={'uploadbutton'}>
-                Välj Bild...
-                <input type='file' onChange={(event: any) => this.uploadProdImage(event.target.files, x.id, x.productcategory_id)} hidden />
-              </label>]
+                <crop-tool url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></crop-tool>]
           }
         </ion-col>
       </content-component>
@@ -157,17 +153,17 @@ export class MenuEditorComponent {
               this.categories?.map(data => {
 
                 return (
-                  <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data.category.image : null }}>
-                    <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages.style}>
+                  <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                    <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
                       <div>
-                        <ion-card-header class='background' style={{ backgroundImage: config.categoryImages.style == 'Banner' && data.category.imageLoaded ? data.category.image : null }}>
+                        <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data.category.imageLoaded ? data.category.image : null }}>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
-                            {data?.category?.name}
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                <crop-tool url={this.caturl} MaxWidth={100} AspectRatio={2} TargetId={data.category.id}></crop-tool>
-                                : null
+                              <crop-tool buttonClass='banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id}></crop-tool>
+                              : null
                             }
+                            {data?.category?.name}
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                           </ion-card-title>
                         </ion-card-header>

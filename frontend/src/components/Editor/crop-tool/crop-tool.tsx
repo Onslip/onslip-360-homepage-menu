@@ -7,18 +7,16 @@ import { PostImage } from '../../utils/post';
   shadow: true,
 })
 export class CropTool {
-  @Prop() url: string;
   @Element() element: HTMLElement;
+  @State() isopen: boolean;
+  @Prop() url: string;
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
+  @Prop() TargetId: number
+  @Prop() buttonClass: string
   private img = new Image();
   private scale: number;
-  @State() isopen: boolean;
-  @Prop() TargetId: number
-  private targetX = 0;
-  private targetY = 0;
-  private targetW = 0;
-  private targetH = 0;
+  private renderedWidth: number = 500
 
   open() {
     this.isopen = true;
@@ -26,7 +24,6 @@ export class CropTool {
 
   close() {
     this.isopen = false;
-    this.element.shadowRoot.getElementById('resize')
   }
 
   LoadImage(image) {
@@ -44,7 +41,6 @@ export class CropTool {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
     const elmnt = e.target;
-    console.log(e.button)
     document.onmouseup = closeDragElement;
 
     document.onmousemove = (event) => {
@@ -66,8 +62,8 @@ export class CropTool {
       pos4 = ev.clientY;
       elmnt.parentElement.style.top = (elmnt.parentElement.offsetTop - pos2) + "px";
       elmnt.parentElement.style.left = (elmnt.parentElement.offsetLeft - pos1) + "px";
-      elmnt.parentElement.style.top = `${limit(elmnt.parentElement.offsetTop, elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.clientHeight - 5, 5)}px`
-      elmnt.parentElement.style.left = `${limit(elmnt.parentElement.offsetLeft, elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.clientWidth - 5, 5)}px`
+      elmnt.parentElement.style.top = `${limit(elmnt.parentElement.offsetTop, elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.clientHeight, 0)}px`
+      elmnt.parentElement.style.left = `${limit(elmnt.parentElement.offsetLeft, elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.clientWidth, 0)}px`
     }
 
     function closeDragElement() {
@@ -90,7 +86,6 @@ export class CropTool {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     const ar = this.AspectRatio
     const elmnt = e.target;
-    console.log(e.button)
     document.onmouseup = closeDragElement;
 
     document.onmousemove = (event) => {
@@ -111,36 +106,25 @@ export class CropTool {
       pos3 = ev.clientX;
       pos4 = ev.clientY;
 
-      switch (elmnt.id) {
-        case 'ne':
-          pos1 *= -1
-          pos2 *= 1
-          elmnt.parentElement.style.top = `${elmnt.parentElement.offsetTop - pos2}px`
-          break;
-        case 'se':
-          pos1 *= -1
-          pos2 *= -1
-          break;
-        case 'nw':
-          pos1 *= 1
-          pos2 *= 1
-          elmnt.parentElement.style.top = `${elmnt.parentElement.offsetTop - pos2}px`
-          elmnt.parentElement.style.left = `${elmnt.parentElement.offsetLeft - pos1}px`
-          break;
-        case 'sw':
-          pos1 *= 1
-          pos2 *= -1
-          elmnt.parentElement.style.left = `${elmnt.parentElement.offsetLeft - pos1}px`
-          break;
-        default:
-          break;
+      const maxW: Boolean = elmnt.parentElement.clientWidth > elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft
+      const maxH: Boolean = elmnt.parentElement.clientHeight > elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop
+      // console.log(pos1, pos2)
+      // console.log(maxH, maxW)
+      if ((!maxH && !maxW) || (pos1 > 0 || pos2 > 0)) {
+        if (!maxW || pos1 > 0) {
+          elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1) + "px";
+          elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
+        }
+        if (!maxH || pos2 > 0) {
+          elmnt.parentElement.style.height = (elmnt.parentElement.clientHeight - pos2) + "px";
+          elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
+        }
+      }
+      if (maxW) {
+        elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar - 5) + "px";
       }
 
-      elmnt.parentElement.style.height = (limit(elmnt.parentElement.clientHeight + pos2, elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop - 5, 20)) + "px";
-      elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
 
-      elmnt.parentElement.style.width = (limit(elmnt.parentElement.clientWidth + pos1, elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft - 5, 20)) + "px";
-      elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
     }
 
     function closeDragElement() {
@@ -185,40 +169,23 @@ export class CropTool {
     let canvas = document.createElement("canvas");
     const imageAspectRation: number = this.img.width / this.img.height
     if (this.img.height <= this.img.width) {
-      canvas.width = 500;
-      canvas.height = 500 / imageAspectRation;
+      canvas.width = this.renderedWidth;
+      canvas.height = this.renderedWidth / imageAspectRation;
     }
     else {
-      canvas.height = 500;
-      canvas.width = 500 * imageAspectRation;
+      canvas.height = this.renderedWidth;
+      canvas.width = this.renderedWidth * imageAspectRation;
     }
+    this.scale = this.img.width / canvas.width;
     let ctx = canvas.getContext("2d");
     ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, canvas.width, canvas.height);
     main.replaceChild(canvas, main.childNodes[0]);
     const element = this.element.shadowRoot.getElementById('resize')
-    if (this.AspectRatio >= 1 && imageAspectRation >= 1) {
-      element.style.resize = 'vertical'
-    }
-    else {
-      element.style.resize = 'horizontal'
-    }
-    element.style.width = `${500 * 0.5}px`
-    element.style.height = `${500 * 0.5 / this.AspectRatio}px`
 
-    let canvas1 = document.createElement("canvas");
-    canvas1.width = this.MaxWidth;
-    canvas1.height = this.MaxWidth / this.AspectRatio;
-    let ctx1 = canvas1.getContext("2d");
-
-    console.log(this.targetH, this.targetW, this.targetX, this.targetY)
-
-    ctx1.drawImage(this.img, this.targetX * this.scale, this.targetY * this.scale, this.targetW * this.scale, this.targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
-    let dstImg = document.createElement('img');
-    dstImg.src = canvas1.toDataURL("image/png");
-    const ele = this.element.shadowRoot.querySelector('.imgElement');
-    ele.replaceChild(dstImg, ele.childNodes[0]);
-    this.scale = this.img.width / canvas.width;
-
+    element.style.width = `${this.renderedWidth * 0.5}px`
+    element.style.height = `${this.renderedWidth * 0.5 / this.AspectRatio}px`
+    element.style.top = `${element.parentElement.clientHeight / 2 - element.clientHeight / 2}px`
+    element.style.left = `${element.parentElement.clientWidth / 2 - element.clientWidth / 2}px`
   }
 
   UploadImage(File: File, id: number) {
@@ -230,13 +197,18 @@ export class CropTool {
   }
 
   async Compress() {
+    const resize = this.element.shadowRoot.getElementById('resize')
+    const targetX = resize.offsetLeft 
+    const targetY = resize.offsetTop
+    const targetW = resize.clientWidth;
+    const targetH = resize.clientHeight;
 
     let canvas1 = document.createElement("canvas");
     canvas1.width = this.MaxWidth;
     canvas1.height = this.MaxWidth / this.AspectRatio;
     let ctx1 = canvas1.getContext("2d");
-    ctx1.drawImage(this.img, this.targetX * this.scale, this.targetY * this.scale, this.targetW * this.scale, this.targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
-    const data = await fetch(canvas1.toDataURL("image/png"))
+    ctx1.drawImage(this.img, targetX * this.scale, targetY * this.scale, targetW * this.scale, targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
+    const data = await fetch(canvas1.toDataURL("image/jpg"))
       .then(res => res)
     console.log(data);
     const file = new File([await data.blob()], 'image');
@@ -246,7 +218,7 @@ export class CropTool {
   render() {
     return (
       <Host>
-        <label class='uploadButton'>
+        <label class={`uploadButton ${this.buttonClass}`}>
           Välj Bild...
           <input class='catImages' type='file' onChange={(event: any) => { this.LoadImage(event.target.files), this.open(); }} hidden />
         </label>
@@ -263,10 +235,7 @@ export class CropTool {
                   <canvas></canvas>
                 </div>
                 <div class="resize" id='resize'>
-                  <div class={'pullhandle ne'} id="ne" onMouseDown={(event) => this.resizeElement(event)}></div>
-                  <div class={'pullhandle nw'} id="nw" onMouseDown={(event) => this.resizeElement(event)}></div>
-                  <div class={'pullhandle se'} id="se" onMouseDown={(event) => this.resizeElement(event)}></div>
-                  <div class={'pullhandle sw'} id="sw" onMouseDown={(event) => this.resizeElement(event)}></div>
+                  <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
                   <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
                 </div>
               </div>

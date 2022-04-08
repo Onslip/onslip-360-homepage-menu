@@ -16,6 +16,7 @@ export namespace Components {
         "AspectRatio": number;
         "MaxWidth": number;
         "TargetId": number;
+        "buttonClass": string;
         "url": string;
     }
     interface EditorVisualCheck {
@@ -129,6 +130,7 @@ declare namespace LocalJSX {
         "AspectRatio"?: number;
         "MaxWidth"?: number;
         "TargetId"?: number;
+        "buttonClass"?: string;
         "url"?: string;
     }
     interface EditorVisualCheck {
