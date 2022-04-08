@@ -1,11 +1,10 @@
 :host {
   display: block;
+  font-family: var(--globalfont);
 }
 
 .mainElement {
   position: relative;
-  margin: 0;
-  padding: 0;
   font-size: 0;
 }
 
@@ -19,17 +18,47 @@
 }
 
 .resizeContainer {
-  position: absolute;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  width: min-content;
+  height: min-content;
+}
+
+.pullhandle {
+    height: 0px;
+    width: 0px;
+    border: 5px solid var(--primary);
+    /* transform: rotate(-45deg); */
+    position: absolute;
+}
+
+.se {
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
+}
+.ne {
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+.sw {
+    left: -5px;
+    bottom: -5px;
+    cursor: sw-resize;
+}
+.nw {
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
 }
 
 .resize {
-  resize: both;
   position: absolute;
-  overflow: auto;
+  overflow: none;
   max-width: 100%;
   max-height: 100%;
   border: 2px dashed var(--primary);
@@ -46,19 +75,6 @@
   cursor: pointer;
 }
 
-.content {
-  width: 80%;
-  height: 80%;
-  background-color: white;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: scroll;
-  z-index: 10;
-}
-
-
 .modal-wrapper {
   position: fixed;
   display: flex;
@@ -70,7 +86,6 @@
   opacity: 0;
   visibility: hidden;
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
-  z-index: 10;
 }
 
 .modal-overlay {
@@ -82,14 +97,14 @@
 
 .modal-wrapper .modal {
   background: white;
-  width: 75%;
-  height: 80%;
+  width: min-content;
+  height: min-content;
   position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, 0px);
+  transform: translate(-50%, -50%);
   border-radius: 4px;
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-  z-index: 10;
 }
 
 .modal-wrapper .modal .header {
@@ -123,14 +138,10 @@
 }
 
 .modal-wrapper .modal .body {
-  padding: 16px;
-  font-size: 14px;
-  /* line-height: 21px; */
-  max-height: 550px;
-  height: auto;
-  overflow-y: auto;
   color: var(--mono-50);
+  margin: 0 10px;
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -162,27 +173,14 @@
   z-index: 10;
 }
 
-.is-open .modal {
-  transform: translate(-50%, 90px)
-}
-
 @media (max-width: 600px) {
   .modal-wrapper .modal {
     width: 100%;
-    bottom: 0;
-    transform: translate(-50%, 100%);
-    opacity: 1;
-  }
-
-  .is-open .modal {
-    transform: translate(-50%, 0);
   }
 }
 
 .button-save {
   display: block;
-  position: fixed;
-  bottom: 5%;
   appearance: button;
   backface-visibility: hidden;
   background-color: #a4d463;
@@ -192,11 +190,9 @@
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  font-size: 100%;
   line-height: 1;
-  outline: none;
-  overflow: hidden;
-  padding: 15px 25px;
+  padding: 10px 15px;
+  margin:0 5px;
   text-transform: none;
   transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
@@ -206,110 +202,39 @@
   width: fit-content;
 }
 
-.icon {
-  position: absolute;
-  right: 10px;
-}
-
-.button-9 {
-  margin-right: 120px;
-  display: block;
-  backface-visibility: hidden;
-  border-width: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 100%;
-  line-height: 1;
-  outline: none;
-  overflow: hidden;
-  padding: 15px 5px;
-  text-transform: none;
-  transition: all .2s, box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  height: max-content;
-  width: 100%;
-}
-
-.button-9:hover {
-  background-color: var(--primary);
-}
-
 .button-save:hover {
-  background-color: #647c2e;
-}
-
-#changekey {
-  margin: 12px 0 0;
-  position: absolute;
-
-}
-
-.button-9:disabled {
-  cursor: default;
+  background-color: var(--secondary);
 }
 
 .button-close {
+  display: block;
   appearance: button;
   backface-visibility: hidden;
-  background-color: #f54040;
+  background-color: var(--alert);
   border-radius: 6px;
   border-width: 0;
   box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
-  font-size: 100%;
-  height: 30px;
   line-height: 1;
-  margin: 5px 0 0;
-  outline: none;
-  overflow: hidden;
-  padding: 0 10px;
-  text-align: center;
+  padding: 10px 15px;
+  margin:0 5px;
   text-transform: none;
-  transform: translateZ(0);
   transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: auto;
+  height: max-content;
+  width: fit-content;
 }
 
-.button-close:disabled {
-  cursor: default;
-}
-
-.button-close:focus {
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
-}
-
-input {
-  width: 100%;
-}
-
-.inputfield {
-  margin-left: 5px;
-  padding-bottom: 0.6rem;
-  padding-top: 0.6rem;
-}
-
-p {
-  color: var(--alert);
-  padding: 0;
-  margin: 0;
-}
-
-h3 {
-  margin: 0;
-  padding: 0;
+.button-close:hover {
+    background-color: rgb(172, 2, 2);
 }
 
 .uploadButton {
   font-family: var(--globalfont);
-  padding: 3px 0;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -318,15 +243,16 @@ h3 {
   background-color: var(--primary);
   font-weight: normal;
   font-style: normal;
-  padding: 10%;
-}
 
-.uploadButtonDiv {
   position: absolute;
+  top: 50%;
+  left: 20px;
+  padding: 8px 10px;
+  transform: translate(0, -50%)
 }
 
-.footer {
-  bottom: 3%;
+.uploadButton:hover {
+  background-color: var(--secondary);
 }
 
 .imgElement {

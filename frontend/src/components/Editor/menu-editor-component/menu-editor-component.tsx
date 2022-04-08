@@ -165,7 +165,7 @@ export class MenuEditorComponent {
                             {data?.category?.name}
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                <crop-tool url={this.caturl} MaxWidth={100} AspectRatio={1} TargetId={data.category.id}></crop-tool>
+                                <crop-tool url={this.caturl} MaxWidth={100} AspectRatio={2} TargetId={data.category.id}></crop-tool>
                                 : null
                             }
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
