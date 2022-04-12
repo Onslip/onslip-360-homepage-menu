@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Element, State, Method } from '@stencil/core';
-import { loadImage } from '../../utils/image';
-import { PostImage } from '../../utils/post';
+import { loadImage } from '../../../utils/image';
+import { PostImage } from '../../../utils/post';
 
 @Component({
   tag: 'crop-tool',
@@ -33,7 +33,7 @@ export class CropTool {
       }
     }
   }
-  
+
   async close() {
     await customElements.whenDefined('ion-modal')
     const modal = document.querySelector('ion-modal')
@@ -194,7 +194,7 @@ export class CropTool {
       <Host>
           <div class="modal">
             <div class="header">
-              <h6>Redigera bild</h6>
+              <h4>Redigera bild</h4>
             </div>
             <div class="body">
               <div class="resizeContainer">

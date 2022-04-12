@@ -82,28 +82,20 @@ export class ToolbarComponent {
                 <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
               </ion-row>] : null}
               <ion-row>
-                <div>
                   <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                   <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
-                </div>
               </ion-row>
               <ion-row>
-                <div>
                   <label htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                   <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
-                </div>
               </ion-row>
               <ion-row>
-                <div>
                   <label htmlFor='fontColor' class='button-9'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                   <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor() }} hidden />
-                </div>
               </ion-row>
               <ion-row>
-                <div>
                   <label htmlFor='fontTitleColor' class='button-9'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                   <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor() }} hidden />
-                </div>
               </ion-row>
               <ion-row>
                 <modal-ovelay RenderType='Api' buttonValue='Ändra API-nyckel' buttonClass='button-9'></modal-ovelay>

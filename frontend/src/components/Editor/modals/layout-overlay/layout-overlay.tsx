@@ -1,6 +1,6 @@
 import { Component, h, Prop } from '@stencil/core';
-import { PostData } from '../../utils/post';
-import { config, DBConnection } from '../../utils/utils'
+import { PostData } from '../../../utils/post';
+import { config, DBConnection } from '../../../utils/utils'
 
 @Component({
   tag: 'layout-overlay',
@@ -37,14 +37,6 @@ export class LayoutOverlay {
 
   render() {
     return (
-      <div>
-        {/* <div>
-          <label class={'button-9'} htmlFor='changekey'>Layout och placering<ion-icon class="icon" name="settings-sharp"></ion-icon></label>
-          <button id='changekey' onClick={this.open.bind(this)} hidden></button>
-        </div> */}
-        {/* <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
-          <div class="modal-overlay" onClick={this.close.bind(this)}></div> */}
-        <ion-content class='content'>
           <div class="modal">
             <div class="header">
               <h4>Ändra layout och placering av text och bilder</h4>
@@ -114,9 +106,6 @@ export class LayoutOverlay {
 
             </div>
           </div>
-        </ion-content>
-
-      </div >
     );
   }
 }

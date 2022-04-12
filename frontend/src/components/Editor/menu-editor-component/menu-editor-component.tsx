@@ -33,6 +33,7 @@ export class MenuEditorComponent {
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
       .then(() => this.getCatImages())
+      .then(() => this.getProdImages())
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
@@ -40,11 +41,10 @@ export class MenuEditorComponent {
       });
   }
 
-  private getCatImages() {
+  async getCatImages() {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })
-        .then(() => this.getProdImages())
         .catch(() => {
         });
     }
@@ -62,23 +62,33 @@ export class MenuEditorComponent {
   async LoadImages(DBimages: DBImage[]) {
     this.categories.forEach(async c => {
       c.products.forEach(async p => {
-        loadImage(DBimages?.find(i => i.product_id == p.id).image.data)
+        try {
+          loadImage(DBimages.find(i => i.product_id == p.id).image.data)
           .then(response => p.image = response.toString())
           .then(() => p.imageLoaded = true)
           .then(() => this.categories = [...this.categories])
-          .catch(() => p.imageLoaded = true)
+          .catch(err => err)
+        } catch (error) {
+          p.imageLoaded = true
+          this.categories = [...this.categories]
+        }
+        
       })
     })
   }
 
   async LoadCatImages(DBimages: DBCatImage[]) {
     this.categories?.forEach(async c => {
-      loadImage(DBimages?.find(i => i.category_id == c.category.id).image.data)
+      try {
+        loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
         .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
         .then(() => c.category.imageLoaded = true)
         .then(() => this.categories = [...this.categories])
-        .catch(() => c.category.imageLoaded = true)
-        
+        .catch(err => err)
+      } catch (error) {
+        c.category.imageLoaded = true
+        this.categories = [...this.categories]
+      }
     })
   }
 
@@ -180,6 +190,7 @@ export class MenuEditorComponent {
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                           </ion-card-title>
                         </ion-card-header>
+                        {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
                       </div>
                       {this.toggle ?
                         this.renderProducts(data?.products)

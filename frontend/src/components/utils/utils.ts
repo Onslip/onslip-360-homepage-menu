@@ -1,7 +1,7 @@
 import { GetData } from "./get";
 
 export interface DBImage {
-  image: any
+  image?: any
   product_id: number
 }
 
