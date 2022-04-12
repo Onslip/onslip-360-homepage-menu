@@ -14,8 +14,8 @@ export class LayoutOverlay {
   @Prop() closeIcon = 'x.svg';
 
   async componentWillLoad() {
-    if(config.productImages.style == 'Background') {
-      if(config.categoryImages.style == 'Background') {
+    if (config.productImages.style == 'Background') {
+      if (config.categoryImages.style == 'Background') {
         config.categoryImages.style = 'Banner'
       }
     }
@@ -25,8 +25,10 @@ export class LayoutOverlay {
     this.isopen = true;
   }
 
-  close() {
-    this.isopen = false;
+  async close() {
+    await customElements.whenDefined('ion-modal')
+    const modal = document.querySelector('ion-modal')
+    await modal.dismiss();
   }
 
   async PostData() {
@@ -36,18 +38,16 @@ export class LayoutOverlay {
   render() {
     return (
       <div>
-        <div>
+        {/* <div>
           <label class={'button-9'} htmlFor='changekey'>Layout och placering<ion-icon class="icon" name="settings-sharp"></ion-icon></label>
           <button id='changekey' onClick={this.open.bind(this)} hidden></button>
-        </div>
-        <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
-          <div class="modal-overlay" onClick={this.close.bind(this)}></div>
+        </div> */}
+        {/* <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
+          <div class="modal-overlay" onClick={this.close.bind(this)}></div> */}
+        <ion-content class='content'>
           <div class="modal">
             <div class="header">
-              <h6>Ändra layout och placering av text och bilder</h6>
-              <button class='button-close' onClick={this.close.bind(this)}>
-                <ion-icon name="close"></ion-icon>
-              </button>
+              <h4>Ändra layout och placering av text och bilder</h4>
             </div>
             <div class="body">
               <ion-list>
@@ -110,10 +110,13 @@ export class LayoutOverlay {
             </div>
             <div class="footer">
               <button class='button-save' onClick={this.PostData.bind(this)} type="submit">Spara</button>
+              <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+
             </div>
           </div>
-        </div >
-      </div>
+        </ion-content>
+
+      </div >
     );
   }
 }

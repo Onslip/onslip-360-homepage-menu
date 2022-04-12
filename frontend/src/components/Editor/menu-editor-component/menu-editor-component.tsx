@@ -117,8 +117,8 @@ export class MenuEditorComponent {
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
           : <div hidden={config?.productImages?.style != 'Background'}>
-            <modal-ovelay url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></modal-ovelay>
-            </div>}
+            <modal-ovelay buttonClass='' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image'></modal-ovelay>
+          </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
         </ion-col>
@@ -133,7 +133,8 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></modal-ovelay>]
+              <modal-ovelay buttonClass='' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image'></modal-ovelay>
+              ]
           }
         </ion-col>
       </content-component>
@@ -160,8 +161,8 @@ export class MenuEditorComponent {
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                              <modal-ovelay buttonClass='banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id}></modal-ovelay>
-                              : null
+                                <modal-ovelay buttonClass='banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image'></modal-ovelay>
+                                : null
                             }
                             {data?.category?.name}
                             <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>

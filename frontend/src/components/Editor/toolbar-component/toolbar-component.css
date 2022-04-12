@@ -64,7 +64,7 @@ ion-nav {
   overflow: hidden;
   padding: 15px 5px;
   text-transform: none;
-  transition: all .2s,box-shadow .08s ease-in;
+  transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -109,21 +109,13 @@ ion-button:hover {
   padding: 0;
 }
 
-api-ui {
-  width: 100%;
-}
-
-layout-overlay {
-  width: 100%;
-}
-
 .fontselector {
-  --color:white;
-  --background:none;
+  --color: white;
+  --background: none;
   max-width: 100px;
   font-family: unset;
 }
 
 ion-toggle {
-  float:right;
+  float: right;
 }

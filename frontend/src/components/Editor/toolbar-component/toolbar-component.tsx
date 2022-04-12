@@ -106,10 +106,10 @@ export class ToolbarComponent {
                 </div>
               </ion-row>
               <ion-row>
-                <api-ui></api-ui>
+                <modal-ovelay RenderType='Api' buttonValue='Ändra API-nyckel' buttonClass='button-9'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <layout-overlay></layout-overlay>
+                <modal-ovelay RenderType='layout-overlay' buttonValue='Layout och placering' buttonClass='button-9'></modal-ovelay>
               </ion-row>
             </ion-col>
             {DBConnection ? [
