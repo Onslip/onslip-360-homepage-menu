@@ -4,8 +4,8 @@
 }
 
 .icon {
-  position: absolute;
-  right: 10px;
+  float: right;
+  margin-right: 5px;
 
 }
 
@@ -27,7 +27,7 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   height: max-content;
-  width: 100%;
+  width: 250px;
 }
 
 .button-9:hover {
