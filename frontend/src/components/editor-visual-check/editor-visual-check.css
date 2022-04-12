@@ -1,6 +1,7 @@
 :host {
   display: block;
   --color: white;
+  overflow: hidden;
 }
 
 .checkbox {
@@ -8,11 +9,18 @@
 }
 
 .content {
-  height: 100%;
+  --height: 100%;
   position: unset;
   --background: unset;
 }
 
 .content #background-content{
   background: unset;
+}
+
+toolbar-component {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }

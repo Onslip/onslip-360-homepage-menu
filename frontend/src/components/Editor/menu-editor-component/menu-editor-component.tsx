@@ -32,41 +32,53 @@ export class MenuEditorComponent {
       .then(response => this.menu = response[config.menuInUse])
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
+      .then(() => this.getCatImages())
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
         config.connect = false
       });
+  }
+
+  private getCatImages() {
+    if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
+      GetData(this.caturl)
+        .then(response => { this.LoadCatImages(response); })
+        .then(() => this.getProdImages())
+        .catch(() => {
+        });
+    }
+  }
+
+  private getProdImages() {
     if (config?.productImages?.style != 'Disabled' && DBConnection) {
       GetData(this.produrl)
         .then(response => this.LoadImages(response))
         .catch(() => {
         });
     }
-    if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
-      GetData(this.caturl)
-        .then(response => { this.LoadCatImages(response); })
-        .catch(() => {
-        })
-    }
   }
 
   async LoadImages(DBimages: DBImage[]) {
     this.categories.forEach(async c => {
       c.products.forEach(async p => {
-        loadImage(DBimages.find(i => i.product_id == p.id).image.data)
+        loadImage(DBimages?.find(i => i.product_id == p.id).image.data)
           .then(response => p.image = response.toString())
           .then(() => p.imageLoaded = true)
           .then(() => this.categories = [...this.categories])
+          .catch(() => p.imageLoaded = true)
       })
     })
   }
 
   async LoadCatImages(DBimages: DBCatImage[]) {
     this.categories?.forEach(async c => {
-      loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
+      loadImage(DBimages?.find(i => i.category_id == c.category.id).image.data)
         .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
         .then(() => c.category.imageLoaded = true)
+        .then(() => this.categories = [...this.categories])
+        .catch(() => c.category.imageLoaded = true)
+        
     })
   }
 
@@ -117,7 +129,7 @@ export class MenuEditorComponent {
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
           : <div hidden={config?.productImages?.style != 'Background'}>
-            <modal-ovelay url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></modal-ovelay>
+            <modal-ovelay url={this.produrl} MaxWidth={200} AspectRatio={1.25} TargetId={x.id}></modal-ovelay>
             </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
@@ -133,7 +145,7 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></modal-ovelay>]
+                <modal-ovelay url={this.produrl} MaxWidth={200} AspectRatio={1.25} TargetId={x.id}></modal-ovelay>]
           }
         </ion-col>
       </content-component>
@@ -156,7 +168,7 @@ export class MenuEditorComponent {
                   <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
                     <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
                       <div>
-                        <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data.category.imageLoaded ? data.category.image : null }}>
+                        <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?

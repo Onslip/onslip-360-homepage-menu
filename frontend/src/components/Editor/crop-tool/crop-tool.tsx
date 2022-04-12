@@ -14,20 +14,15 @@ export class CropTool {
   @Prop() MaxWidth: number;
   @Prop() TargetId: number
   @Prop() imageFile: File
-  private img = new Image();
+  private img: HTMLImageElement = new Image();
   private scale: number;
-  private renderedWidth: number = 500
+  private renderedWidth: number = 550
 
-  async close() {
-    await customElements.whenDefined('ion-modal')
-    const modal = document.querySelector('ion-modal')
-    await modal.dismiss();
-  }
-
+  
   async componentDidRender() {
     this.LoadImage()
   }
-
+  
   LoadImage() {
     const reader = new FileReader();
     reader.readAsDataURL(this.imageFile[0]);
@@ -37,6 +32,12 @@ export class CropTool {
         this.CreateCanvas();
       }
     }
+  }
+  
+  async close() {
+    await customElements.whenDefined('ion-modal')
+    const modal = document.querySelector('ion-modal')
+    await modal.dismiss();
   }
 
   async dragElement(e) {
@@ -88,6 +89,7 @@ export class CropTool {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     const ar = this.AspectRatio
     const elmnt = e.target;
+
     document.onmouseup = closeDragElement;
 
     document.onmousemove = (event) => {
@@ -108,25 +110,26 @@ export class CropTool {
       pos3 = ev.clientX;
       pos4 = ev.clientY;
 
-      const maxW: Boolean = elmnt.parentElement.clientWidth > elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft
-      const maxH: Boolean = elmnt.parentElement.clientHeight > elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop
-      // console.log(pos1, pos2)
-      // console.log(maxH, maxW)
-      if ((!maxH && !maxW) || (pos1 > 0 || pos2 > 0)) {
-        if (!maxW || pos1 > 0) {
-          elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1) + "px";
-          elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
-        }
-        if (!maxH || pos2 > 0) {
-          elmnt.parentElement.style.height = (elmnt.parentElement.clientHeight - pos2) + "px";
-          elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
-        }
+
+      let maxW: boolean = elmnt.parentElement.clientWidth > elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft
+      let maxH: boolean = elmnt.parentElement.clientHeight > elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop
+
+
+      if ((!maxW && pos1 < 0) || pos1 > 0) {
+        elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1) + "px";
+        elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
       }
+      if ((!maxH && pos2 < 0) || pos2 > 0) {
+        elmnt.parentElement.style.height = (elmnt.parentElement.clientHeight - pos2) + "px";
+        elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
+      }
+
       if (maxW) {
-        elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar - 5) + "px";
+        elmnt.parentElement.style.width = (elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft) + "px";
       }
-
-
+      if (maxH) {
+        elmnt.parentElement.style.height = (elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop) + "px";
+      }
     }
 
     function closeDragElement() {
@@ -161,10 +164,10 @@ export class CropTool {
 
   UploadImage(File: File, id: number) {
     let fd = new FormData()
-    console.log(File);
     fd.append('image', File);
     fd.append('id', String(id));
-    PostImage(this.url, fd).then(res => console.log(res)).catch(err => console.log(err));
+    PostImage(this.url, fd).then(() => location.reload()).catch(err => console.log(err));
+
   }
 
   async Compress() {
@@ -181,7 +184,6 @@ export class CropTool {
     ctx1.drawImage(this.img, targetX * this.scale, targetY * this.scale, targetW * this.scale, targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
     const data = await fetch(canvas1.toDataURL())
       .then(res => res)
-    console.log(data);
     const file = new File([await data.blob()], 'image');
     this.UploadImage(file, this.TargetId);
     this.close()
@@ -190,29 +192,29 @@ export class CropTool {
   render() {
     return (
       <Host>
-        <div class="modal">
-          <div class="header">
-            <h6>Redigera bild</h6>
-          </div>
-          <div class="body">
-            <div class="resizeContainer">
-              <div class='mainElement' >
-                <canvas></canvas>
-              </div>
-              <div class="resize" id='resize'>
-                <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
-                <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
+          <div class="modal">
+            <div class="header">
+              <h6>Redigera bild</h6>
+            </div>
+            <div class="body">
+              <div class="resizeContainer">
+                <div class='mainElement' >
+                  <canvas></canvas>
+                </div>
+                <div class="resize" id='resize'>
+                  <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
+                  <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
+                </div>
               </div>
             </div>
+            <div class="footer">
+              <button class='button-save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
+              <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+            </div>
           </div>
-          <div class="footer">
-            <button class='button-save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
-            <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+          <div class='imgElement'>
+            <img></img>
           </div>
-        </div>
-        <div class='imgElement'>
-          <img></img>
-        </div>
       </Host >
     );
   }

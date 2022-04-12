@@ -54,21 +54,21 @@ export class ToolbarComponent {
 
   render() {
     return (
-      <Host>
-        <ion-toolbar class="toolbar">
-          <ion-buttons slot="start">
-            <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
-              <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
-              <ion-label>MENY</ion-label>
-            </ion-button>
-            {config ? [
-              <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
-              <selector-component value={config?.id?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
-            ] : null}
-          </ion-buttons>
-          <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
-          <ion-title slot="end">Digital Dynamic Menu</ion-title>
-        </ion-toolbar>
+        <ion-header>
+          <ion-toolbar class="toolbar">
+            <ion-buttons slot="start">
+              <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
+                <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
+                <ion-label>MENY</ion-label>
+              </ion-button>
+              {config ? [
+                <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
+                <selector-component value={config?.id?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+              ] : null}
+            </ion-buttons>
+            <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
+            <ion-title slot="end">Digital Dynamic Menu</ion-title>
+          </ion-toolbar>
         <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
           <ion-row>
             <ion-col class="menu-col">
@@ -129,7 +129,7 @@ export class ToolbarComponent {
               </ion-col>] : null}
           </ion-row>
         </div >
-      </Host >
+        </ion-header>
     );
   }
 

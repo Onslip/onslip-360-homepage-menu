@@ -20,7 +20,7 @@ export class ModalOvelay {
     const modal = await modalController.create({
       component: 'crop-tool',
       swipeToClose: true,
-      presentingElement: this.el.closest('ion-modal'),
+      presentingElement: this.el.closest('body'),
       componentProps: {
         'url': this.url,
         'imageFile': this.imageFile,

@@ -24,7 +24,7 @@ ion-nav {
 .menu_box_closed {
   font-size: large;
   display: block;
-  position: fixed;
+  position: absolute;
   transition-duration: .4s;
   transform: translateY(-100%);
   color: white;
@@ -37,7 +37,7 @@ ion-nav {
 .menu_box {
   font-size: large;
   display: inline-block;
-  position: fixed;
+  position: absolute;
   transition-duration: .4s;
   background-color: rgb(51, 51, 51);
   color: white;
