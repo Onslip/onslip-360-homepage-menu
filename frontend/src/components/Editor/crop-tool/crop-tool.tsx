@@ -1,4 +1,5 @@
-import { Component, Host, h, Prop, Element, State } from '@stencil/core';
+import { Component, Host, h, Prop, Element, State, Method } from '@stencil/core';
+import { loadImage } from '../../utils/image';
 import { PostImage } from '../../utils/post';
 
 @Component({
@@ -8,27 +9,28 @@ import { PostImage } from '../../utils/post';
 })
 export class CropTool {
   @Element() element: HTMLElement;
-  @State() isopen: boolean;
   @Prop() url: string;
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
   @Prop() TargetId: number
-  @Prop() buttonClass: string
+  @Prop() imageFile: File
   private img = new Image();
   private scale: number;
   private renderedWidth: number = 500
 
-  open() {
-    this.isopen = true;
+  async close() {
+    await customElements.whenDefined('ion-modal')
+    const modal = document.querySelector('ion-modal')
+    await modal.dismiss();
   }
 
-  close() {
-    this.isopen = false;
+  async componentDidRender() {
+    this.LoadImage()
   }
 
-  LoadImage(image) {
+  LoadImage() {
     const reader = new FileReader();
-    reader.readAsDataURL(image[0]);
+    reader.readAsDataURL(this.imageFile[0]);
     reader.onload = () => {
       this.img.src = reader.result.toString();
       this.img.onload = () => {
@@ -131,38 +133,7 @@ export class CropTool {
       document.onmouseup = null;
       document.onmousemove = null;
     }
-
-    function limit(value: number, maxLimit: number, minLimit: number): number {
-      if (value > maxLimit) {
-        return maxLimit
-      }
-      else if (value < minLimit) {
-        return minLimit
-      }
-      return value
-    }
   }
-
-
-  // async resize(event: MouseEvent) {
-  //   console.log('se')
-  //   const elmnt: HTMLElement = this.element.shadowRoot.getElementById('resize')
-  //   if (event.button == 0) {
-  //     console.log("hejhej")
-  //   }
-  //   if (elmnt.offsetLeft + elmnt.clientWidth <= elmnt.parentElement.clientWidth && this.AspectRatio <= 1) {
-  //     elmnt.style.resize = "vertical"
-  //     elmnt.style.width = `${elmnt.clientHeight * this.AspectRatio}px`
-  //   }
-  //   else if (elmnt.offsetTop + elmnt.clientHeight <= elmnt.parentElement.clientHeight && this.AspectRatio > 1) {
-  //     elmnt.style.resize = "horizontal"
-  //     elmnt.style.height = `${elmnt.clientWidth / this.AspectRatio}px`
-  //   }
-  //   this.targetW = elmnt.clientWidth;
-  //   this.targetH = elmnt.clientHeight;
-  //   this.targetX = elmnt.offsetLeft;
-  //   this.targetY = elmnt.offsetTop;
-  // }
 
   async CreateCanvas() {
     const main = this.element.shadowRoot.querySelector('.mainElement')
@@ -198,7 +169,7 @@ export class CropTool {
 
   async Compress() {
     const resize = this.element.shadowRoot.getElementById('resize')
-    const targetX = resize.offsetLeft 
+    const targetX = resize.offsetLeft
     const targetY = resize.offsetTop
     const targetW = resize.clientWidth;
     const targetH = resize.clientHeight;
@@ -208,47 +179,40 @@ export class CropTool {
     canvas1.height = this.MaxWidth / this.AspectRatio;
     let ctx1 = canvas1.getContext("2d");
     ctx1.drawImage(this.img, targetX * this.scale, targetY * this.scale, targetW * this.scale, targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
-    const data = await fetch(canvas1.toDataURL("image/jpg"))
+    const data = await fetch(canvas1.toDataURL())
       .then(res => res)
     console.log(data);
     const file = new File([await data.blob()], 'image');
     this.UploadImage(file, this.TargetId);
+    this.close()
   }
 
   render() {
     return (
       <Host>
-        <label class={`uploadButton ${this.buttonClass}`}>
-          Välj Bild...
-          <input class='catImages' type='file' onChange={(event: any) => { this.LoadImage(event.target.files), this.open(); }} hidden />
-        </label>
-        <div class={this.isopen ? 'modal-wrapper is-open' : 'modal-wrapper'}>
-
-          <div class="modal-overlay" onClick={() => this.close()}></div>
-          <div class="modal">
-            <div class="header">
-              <h6>Redigera bild</h6>
-            </div>
-            <div class="body">
-              <div class="resizeContainer">
-                <div class='mainElement' >
-                  <canvas></canvas>
-                </div>
-                <div class="resize" id='resize'>
-                  <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
-                  <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
-                </div>
+        <div class="modal">
+          <div class="header">
+            <h6>Redigera bild</h6>
+          </div>
+          <div class="body">
+            <div class="resizeContainer">
+              <div class='mainElement' >
+                <canvas></canvas>
+              </div>
+              <div class="resize" id='resize'>
+                <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
+                <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
               </div>
             </div>
-            <div class="footer">
-              <button class='button-save' type="submit" value="Submit" onClick={() => { this.close(); this.Compress(); }}>Spara</button>
-              <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
-            </div>
           </div>
-          <div class='imgElement'>
-            <img></img>
+          <div class="footer">
+            <button class='button-save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
+            <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
           </div>
-        </div >
+        </div>
+        <div class='imgElement'>
+          <img></img>
+        </div>
       </Host >
     );
   }

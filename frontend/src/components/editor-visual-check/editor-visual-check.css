@@ -10,6 +10,7 @@
 .content {
   height: 100%;
   position: unset;
+  --background: unset;
 }
 
 .content #background-content{

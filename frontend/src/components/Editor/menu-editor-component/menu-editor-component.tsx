@@ -117,7 +117,7 @@ export class MenuEditorComponent {
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
           : <div hidden={config?.productImages?.style != 'Background'}>
-            <crop-tool url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></crop-tool>
+            <modal-ovelay url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></modal-ovelay>
             </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
@@ -133,7 +133,7 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-                <crop-tool url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></crop-tool>]
+                <modal-ovelay url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id}></modal-ovelay>]
           }
         </ion-col>
       </content-component>
@@ -160,7 +160,7 @@ export class MenuEditorComponent {
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                              <crop-tool buttonClass='banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id}></crop-tool>
+                              <modal-ovelay buttonClass='banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id}></modal-ovelay>
                               : null
                             }
                             {data?.category?.name}

@@ -9,24 +9,21 @@ export class EditorVisualCheck {
   @State() switch: boolean;
 
   render() {
-    return <Host>
-      <header>
-        <toolbar-component></toolbar-component>
-
-      </header>
+    return (
       <body>
-        {
-          this.switch ?
+        <ion-content class="content">
+          <toolbar-component></toolbar-component>
+          {
+            this.switch ?
             <homepage-menu-component></homepage-menu-component>
             : <homepage-menu-editor-component></homepage-menu-editor-component>
-        }
-        <ion-item class='checkbox'>
-          <input type="checkbox" id="scales" name="scales" onChange={(event: any) => { this.switch = event.target.checked }} />
-          <label htmlFor="scales">Förhandsvisning</label>
-        </ion-item>
+          }
+          <ion-item class='checkbox'>
+            <input type="checkbox" id="scales" name="scales" onChange={(event: any) => { this.switch = event.target.checked }} />
+            <label htmlFor="scales">Förhandsvisning</label>
+          </ion-item>
+        </ion-content>
       </body>
-
-    </Host>
-
+    )
   }
 }

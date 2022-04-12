@@ -16,7 +16,7 @@ export namespace Components {
         "AspectRatio": number;
         "MaxWidth": number;
         "TargetId": number;
-        "buttonClass": string;
+        "imageFile": File;
         "url": string;
     }
     interface EditorVisualCheck {
@@ -29,6 +29,13 @@ export namespace Components {
     }
     interface MenuEditorComponent {
         "toggle": boolean;
+    }
+    interface ModalOvelay {
+        "AspectRatio": number;
+        "MaxWidth": number;
+        "TargetId": number;
+        "buttonClass": string;
+        "url": string;
     }
     interface SelectorComponent {
         "DisplayName": string;
@@ -88,6 +95,12 @@ declare global {
         prototype: HTMLMenuEditorComponentElement;
         new (): HTMLMenuEditorComponentElement;
     };
+    interface HTMLModalOvelayElement extends Components.ModalOvelay, HTMLStencilElement {
+    }
+    var HTMLModalOvelayElement: {
+        prototype: HTMLModalOvelayElement;
+        new (): HTMLModalOvelayElement;
+    };
     interface HTMLSelectorComponentElement extends Components.SelectorComponent, HTMLStencilElement {
     }
     var HTMLSelectorComponentElement: {
@@ -114,6 +127,7 @@ declare global {
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
+        "modal-ovelay": HTMLModalOvelayElement;
         "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
         "upload-image-button": HTMLUploadImageButtonElement;
@@ -130,7 +144,7 @@ declare namespace LocalJSX {
         "AspectRatio"?: number;
         "MaxWidth"?: number;
         "TargetId"?: number;
-        "buttonClass"?: string;
+        "imageFile"?: File;
         "url"?: string;
     }
     interface EditorVisualCheck {
@@ -143,6 +157,13 @@ declare namespace LocalJSX {
     }
     interface MenuEditorComponent {
         "toggle"?: boolean;
+    }
+    interface ModalOvelay {
+        "AspectRatio"?: number;
+        "MaxWidth"?: number;
+        "TargetId"?: number;
+        "buttonClass"?: string;
+        "url"?: string;
     }
     interface SelectorComponent {
         "DisplayName"?: string;
@@ -166,6 +187,7 @@ declare namespace LocalJSX {
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
         "menu-editor-component": MenuEditorComponent;
+        "modal-ovelay": ModalOvelay;
         "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
         "upload-image-button": UploadImageButton;
@@ -182,6 +204,7 @@ declare module "@stencil/core" {
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
+            "modal-ovelay": LocalJSX.ModalOvelay & JSXBase.HTMLAttributes<HTMLModalOvelayElement>;
             "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
             "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;

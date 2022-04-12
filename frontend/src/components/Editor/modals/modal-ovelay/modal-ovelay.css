@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  font-family: var(--globalfont);
+}
+
+.uploadButton {
+  font-family: var(--globalfont);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: small;
+  color: white;
+  background-color: var(--primary);
+  font-weight: normal;
+  font-style: normal; 
+}
+
+.uploadButton.banner {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  padding: 8px 10px;
+  transform: translate(0, -50%)
+}
+
+.uploadButton:hover {
+  background-color: var(--secondary);
+}
