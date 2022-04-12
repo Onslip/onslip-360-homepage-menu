@@ -7,8 +7,6 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface ApiUi {
-        "closeIcon": string;
-        "isopen": boolean;
     }
     interface ContentComponent {
     }
@@ -33,8 +31,10 @@ export namespace Components {
     interface ModalOvelay {
         "AspectRatio": number;
         "MaxWidth": number;
+        "RenderType": string;
         "TargetId": number;
         "buttonClass": string;
+        "buttonValue": string;
         "url": string;
     }
     interface SelectorComponent {
@@ -135,8 +135,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface ApiUi {
-        "closeIcon"?: string;
-        "isopen"?: boolean;
     }
     interface ContentComponent {
     }
@@ -161,8 +159,10 @@ declare namespace LocalJSX {
     interface ModalOvelay {
         "AspectRatio"?: number;
         "MaxWidth"?: number;
+        "RenderType"?: string;
         "TargetId"?: number;
         "buttonClass"?: string;
+        "buttonValue"?: string;
         "url"?: string;
     }
     interface SelectorComponent {

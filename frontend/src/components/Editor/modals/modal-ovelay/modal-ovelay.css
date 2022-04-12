@@ -12,7 +12,7 @@
   color: white;
   background-color: var(--primary);
   font-weight: normal;
-  font-style: normal; 
+  font-style: normal;
 }
 
 .uploadButton.banner {
@@ -25,4 +25,38 @@
 
 .uploadButton:hover {
   background-color: var(--secondary);
+}
+
+.button-9 {
+  margin-right: 120px;
+  display: block;
+  backface-visibility: hidden;
+  border-width: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 100%;
+  line-height: 1;
+  outline: none;
+  overflow: hidden;
+  padding: 15px 5px;
+  text-transform: none;
+  transition: all .2s, box-shadow .08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  height: max-content;
+  width: 100%;
+}
+
+.button-9:hover {
+  background-color: var(--primary);
+}
+
+.menuButton {
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
 }

@@ -28,17 +28,17 @@
 }
 
 .pullhandle {
-    height: 0px;
-    width: 0px;
-    border: 5px solid var(--primary);
-    /* transform: rotate(-45deg); */
-    position: absolute;
+  height: 0px;
+  width: 0px;
+  border: 5px solid var(--primary);
+  /* transform: rotate(-45deg); */
+  position: absolute;
 }
 
 .se {
-    bottom: 0;
-    right: 0;
-    cursor: se-resize;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
 }
 
 .resize {
@@ -133,7 +133,7 @@
   cursor: pointer;
   line-height: 1;
   padding: 10px 15px;
-  margin:0 5px;
+  margin: 0 5px;
   text-transform: none;
   transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
@@ -160,7 +160,7 @@
   cursor: pointer;
   line-height: 1;
   padding: 10px 15px;
-  margin:0 5px;
+  margin: 0 5px;
   text-transform: none;
   transition: all .2s, box-shadow .08s ease-in;
   user-select: none;
@@ -168,34 +168,6 @@
   touch-action: manipulation;
   height: max-content;
   width: fit-content;
-}
-
-.button-close:hover {
-    background-color: rgb(172, 2, 2);
-}
-
-.uploadButton {
-  font-family: var(--globalfont);
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  font-size: small;
-  color: white;
-  background-color: var(--primary);
-  font-weight: normal;
-  font-style: normal; 
-}
-
-.uploadButton.banner {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  padding: 8px 10px;
-  transform: translate(0, -50%)
-}
-
-.uploadButton:hover {
-  background-color: var(--secondary);
 }
 
 .imgElement {
