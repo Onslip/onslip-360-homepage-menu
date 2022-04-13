@@ -1,0 +1,65 @@
+.modal {
+    background: white;
+    width: min-content;
+    height: min-content;
+    border-radius: 4px;
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .modal .header {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--mono-05);
+  }
+  
+  .modal .body {
+    color: var(--mono-50);
+    margin: 0 20px;
+    overflow: auto;
+  }
+  
+  .modal .footer {
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid var(--mono-05);
+  }
+  
+  .button {
+    display: block;
+    border-radius: 6px;
+    border-width: 0;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    padding: 10px 15px;
+    margin: 0 5px;
+    transition: all .2s, box-shadow .08s ease-in;
+    touch-action: manipulation;
+    height: max-content;
+    width: fit-content;
+  }
+  
+  .button.save {
+    background-color: var(--primary);
+  }
+  
+  .button.close {
+    background-color: var(--alert);
+  }
+  
+  .button:hover {
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
+  }
+  
+  .button:focus {
+    box-shadow: inset -1px -1px 2px 1px rgba(255, 255, 255, 0.456);
+  }

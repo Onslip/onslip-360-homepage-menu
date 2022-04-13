@@ -101,8 +101,8 @@ export class LayoutOverlay {
               </ion-list>
             </div>
             <div class="footer">
-              <button class='button-save' onClick={this.PostData.bind(this)} type="submit">Spara</button>
-              <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+              <button class='button save' onClick={this.PostData.bind(this)} type="submit">Spara</button>
+              <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
 
             </div>
           </div>

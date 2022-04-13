@@ -2,9 +2,9 @@
   display: block;
   height: 100%;
 }
+@import url("../modal-ovelay/modalstyle.css");
 
-
-.modal {
+/* .modal {
   background: white;
   width: min-content;
   height: min-content;
@@ -25,24 +25,9 @@
   border-bottom: 1px solid var(--mono-05);
 }
 
-.modal .header .close {
-  height: 24px;
-  width: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.1s ease-in-out;
-}
-
-.modal .header .close:hover {
-  background: var(--mono-10);
-}
-
 .modal .body {
   color: var(--mono-50);
-  margin: 0 10px;
+  margin: 0 20px;
   overflow: auto;
 }
 
@@ -54,83 +39,42 @@
   border-top: 1px solid var(--mono-05);
 }
 
-.is-open {
-  opacity: 1;
-  visibility: visible;
-  transition: visbility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-  color: black;
-  z-index: 10;
-}
-
-.button-save {
+.button {
   display: block;
-  appearance: button;
-  backface-visibility: hidden;
-  background-color: #a4d463;
   border-radius: 6px;
   border-width: 0;
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
-  box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   line-height: 1;
   padding: 10px 15px;
   margin: 0 5px;
-  text-transform: none;
   transition: all .2s, box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
   touch-action: manipulation;
   height: max-content;
   width: fit-content;
 }
 
-.button-save:hover {
-  background-color: var(--secondary);
+.button.save {
+  background-color: var(--primary);
 }
 
-.button-close {
-  display: block;
-  appearance: button;
-  backface-visibility: hidden;
+.button.close {
   background-color: var(--alert);
-  border-radius: 6px;
-  border-width: 0;
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  line-height: 1;
-  padding: 10px 15px;
-  margin: 0 5px;
-  text-transform: none;
-  transition: all .2s, box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  height: max-content;
-  width: fit-content;
 }
 
-input {
-  width: 95%;
+.button:hover {
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
 }
 
-.inputfield {
-  margin-left: 5px;
-  padding-bottom: 0.6rem;
-  padding-top: 0.6rem;
-}
+.button:focus {
+  box-shadow: inset -1px -1px 2px 1px rgba(255, 255, 255, 0.456);
+} */
 
 .error {
   font-size: small;
   color: var(--alert);
-  padding: 0;
+  padding-top: 10px;
   margin: 0;
-}
-
-label {
-  font-size: 0.75rem;
 }
 
 .title {
@@ -138,16 +82,6 @@ label {
   padding: 0;
 }
 
-h4,h6 {
-  margin: 0;
-}
-
 ion-item {
   --highlight-color-focused: var(--primary);
-}
-
-.content {
-  height: 100%;
-  position: unset;
-  --background: unset;
 }

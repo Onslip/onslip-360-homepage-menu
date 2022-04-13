@@ -40,7 +40,7 @@ export class ModalOvelay {
       const modal = await modalController.create({
         component: 'api-ui',
         swipeToClose: true,
-        presentingElement: this.el.closest('ion-modal')
+        presentingElement: this.el.closest('ion-modal'),
       });
       await modal.present();
     }
