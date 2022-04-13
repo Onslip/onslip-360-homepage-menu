@@ -14,6 +14,7 @@ export class ModalOvelay {
   @Prop() buttonClass: string;
   @Prop() RenderType: string;
   @Prop() buttonValue: string;
+  @Prop() ImagePosition: string;
   private imageFile: File;
 
   @Element() el: any
@@ -29,7 +30,8 @@ export class ModalOvelay {
           'imageFile': this.imageFile,
           'MaxWidth': this.MaxWidth,
           'AspectRatio': this.AspectRatio,
-          'TargetId': this.TargetId
+          'TargetId': this.TargetId,
+          'ImagePosition': this.ImagePosition
         }
       });
       await modal.present();
@@ -56,8 +58,8 @@ export class ModalOvelay {
     if (this.RenderType == 'image') {
       return (
         <Host>
-          <label class={`uploadButton ${this.buttonClass}`}>
-            {this.buttonValue}
+          <label class={this.buttonClass}>
+            {this.buttonValue}{this.ImagePosition != 'Menu' ? <ion-icon class="icon" name="folder-sharp"></ion-icon> : null}
             <input class='catImages' type='file' onChange={(event: any) => { this.imageFile = event.target.files; this.presentModal(); }} hidden />
           </label>
         </Host>
