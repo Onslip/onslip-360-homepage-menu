@@ -5,7 +5,7 @@ import { DBConnection, newApi } from '../../../utils/utils';
 
 @Component({
   tag: 'api-ui',
-  styleUrl: 'api-ui.css',
+  styleUrls: ['api-ui.css'],
   shadow: true,
   assetsDirs: ['assets'],
 })
@@ -46,7 +46,7 @@ export class ApiUi {
     return (
       <div class="modal">
         <div class="header">
-          <h4>Ändra api-nyckel:</h4>
+          <ion-title class="title">Ändra api-nyckel:</ion-title>
         </div>
         {
           !this.loading ?
@@ -87,8 +87,8 @@ export class ApiUi {
             </div>
             : null}
         <div class="footer">
-          <button class='button-save' onClick={this.TestData.bind(this)} type="submit" value="Submit">Spara</button>
-          <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+          <button class='button save' onClick={this.TestData.bind(this)} type="submit" value="Submit">Spara</button>
+          <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
         </div>
       </div >
     );

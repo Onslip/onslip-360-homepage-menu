@@ -150,6 +150,7 @@ export class CropTool {
       canvas.height = this.renderedWidth;
       canvas.width = this.renderedWidth * imageAspectRation;
     }
+
     this.scale = this.img.width / canvas.width;
     let ctx = canvas.getContext("2d");
     ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, canvas.width, canvas.height);
@@ -208,12 +209,9 @@ export class CropTool {
               </div>
             </div>
             <div class="footer">
-              <button class='button-save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
-              <button class='button-close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+              <button class='button save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
+              <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
             </div>
-          </div>
-          <div class='imgElement'>
-            <img></img>
           </div>
       </Host >
     );
