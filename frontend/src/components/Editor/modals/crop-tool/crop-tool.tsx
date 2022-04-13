@@ -219,11 +219,11 @@ export class CropTool {
                 <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
               </div>
             </div>
+          </div>
             <div class="footer">
               <button class='button save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
               <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
             </div>
-          </div>
         </div>
       </Host >
     );
