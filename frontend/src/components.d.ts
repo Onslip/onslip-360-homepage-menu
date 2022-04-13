@@ -12,6 +12,7 @@ export namespace Components {
     }
     interface CropTool {
         "AspectRatio": number;
+        "ImagePosition": any;
         "MaxWidth": number;
         "TargetId": number;
         "imageFile": File;
@@ -30,6 +31,7 @@ export namespace Components {
     }
     interface ModalOvelay {
         "AspectRatio": number;
+        "ImagePosition": string;
         "MaxWidth": number;
         "RenderType": string;
         "TargetId": number;
@@ -140,6 +142,7 @@ declare namespace LocalJSX {
     }
     interface CropTool {
         "AspectRatio"?: number;
+        "ImagePosition"?: any;
         "MaxWidth"?: number;
         "TargetId"?: number;
         "imageFile"?: File;
@@ -158,6 +161,7 @@ declare namespace LocalJSX {
     }
     interface ModalOvelay {
         "AspectRatio"?: number;
+        "ImagePosition"?: string;
         "MaxWidth"?: number;
         "RenderType"?: string;
         "TargetId"?: number;

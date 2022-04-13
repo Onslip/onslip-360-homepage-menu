@@ -64,15 +64,15 @@ export class MenuEditorComponent {
       c.products.forEach(async p => {
         try {
           loadImage(DBimages.find(i => i.product_id == p.id).image.data)
-          .then(response => p.image = response.toString())
-          .then(() => p.imageLoaded = true)
-          .then(() => this.categories = [...this.categories])
-          .catch(err => err)
+            .then(response => p.image = response.toString())
+            .then(() => p.imageLoaded = true)
+            .then(() => this.categories = [...this.categories])
+            .catch(err => err)
         } catch (error) {
           p.imageLoaded = true
           this.categories = [...this.categories]
         }
-        
+
       })
     })
   }
@@ -81,10 +81,10 @@ export class MenuEditorComponent {
     this.categories?.forEach(async c => {
       try {
         loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
-        .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
-        .then(() => c.category.imageLoaded = true)
-        .then(() => this.categories = [...this.categories])
-        .catch(err => err)
+          .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
+          .then(() => c.category.imageLoaded = true)
+          .then(() => this.categories = [...this.categories])
+          .catch(err => err)
       } catch (error) {
         c.category.imageLoaded = true
         this.categories = [...this.categories]
@@ -139,7 +139,7 @@ export class MenuEditorComponent {
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
           : <div hidden={config?.productImages?.style != 'Background'}>
-            <modal-ovelay buttonClass='' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image'></modal-ovelay>
+            <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu'></modal-ovelay>
           </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
@@ -155,7 +155,7 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-              <modal-ovelay buttonClass='' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image'></modal-ovelay>
+              <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu'></modal-ovelay>
               ]
           }
         </ion-col>
@@ -183,7 +183,7 @@ export class MenuEditorComponent {
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                <modal-ovelay buttonClass='banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image'></modal-ovelay>
+                                <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu' ></modal-ovelay>
                                 : null
                             }
                             {data?.category?.name}

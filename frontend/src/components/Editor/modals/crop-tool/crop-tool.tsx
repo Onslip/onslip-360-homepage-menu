@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, Element, State, Method } from '@stencil/core';
 import { loadImage } from '../../../utils/image';
 import { PostImage } from '../../../utils/post';
+import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
 
 @Component({
   tag: 'crop-tool',
@@ -13,16 +14,17 @@ export class CropTool {
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
   @Prop() TargetId: number
-  @Prop() imageFile: File
+  @Prop() imageFile: File;
+  @Prop() ImagePosition;
   private img: HTMLImageElement = new Image();
   private scale: number;
   private renderedWidth: number = 550
 
-  
+
   async componentDidRender() {
     this.LoadImage()
   }
-  
+
   LoadImage() {
     const reader = new FileReader();
     reader.readAsDataURL(this.imageFile[0]);
@@ -163,14 +165,6 @@ export class CropTool {
     element.style.left = `${element.parentElement.clientWidth / 2 - element.clientWidth / 2}px`
   }
 
-  UploadImage(File: File, id: number) {
-    let fd = new FormData()
-    fd.append('image', File);
-    fd.append('id', String(id));
-    PostImage(this.url, fd).then(() => location.reload()).catch(err => console.log(err));
-
-  }
-
   async Compress() {
     const resize = this.element.shadowRoot.getElementById('resize')
     const targetX = resize.offsetLeft
@@ -190,22 +184,39 @@ export class CropTool {
     this.close()
   }
 
+  UploadImage(File: File, id: number) {
+    let fd = new FormData()
+    if (this.ImagePosition == 'Background') {
+      LoadBackground(File);
+    }
+    else if (this.ImagePosition == 'Logo') {
+      LoadLogo(File, '.header');
+    }
+    else if (this.ImagePosition == 'Banner') {
+      LoadBanner(File, '.header');
+    }
+    fd.append('image', File);
+    if (this.ImagePosition == 'Menu') {
+      fd.append('id', String(id));
+    }
+    PostImage(this.url, fd).catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Host>
-          <div class="modal">
-            <div class="header">
-              <h4>Redigera bild</h4>
-            </div>
-            <div class="body">
-              <div class="resizeContainer">
-                <div class='mainElement' >
-                  <canvas></canvas>
-                </div>
-                <div class="resize" id='resize'>
-                  <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
-                  <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
-                </div>
+        <div class="modal">
+          <div class="header">
+            <h4>Redigera bild</h4>
+          </div>
+          <div class="body">
+            <div class="resizeContainer">
+              <div class='mainElement' >
+                <canvas></canvas>
+              </div>
+              <div class="resize" id='resize'>
+                <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
+                <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
               </div>
             </div>
             <div class="footer">
@@ -213,6 +224,7 @@ export class CropTool {
               <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
             </div>
           </div>
+        </div>
       </Host >
     );
   }
