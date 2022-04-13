@@ -112,7 +112,7 @@ export class HomepageMenuEditorComponent {
       <Host>
         <div class='menuContainer'>
           <div class={config?.banner ? 'header' : 'no-banner'}>
-            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+            {!config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
           </div>
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
