@@ -75,7 +75,7 @@ export interface Menu {
 }
 
 export interface Styleconfig {
-    id: number
+    configId: number
     background?: {
         enabled?: boolean
         color?: string,
@@ -108,7 +108,9 @@ interface font {
 }
 
 export interface MainConfig {
-    id: number;
+    configId: number;
+    selectedLocation: string;
+    selectedMenu: string;
 };
 
 export interface ChangePosition {

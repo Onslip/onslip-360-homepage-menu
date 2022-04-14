@@ -25,7 +25,7 @@ export interface DBcategory {
 }
 
 export interface Styleconfig {
-  id: number;
+  configId: number;
   background?: {
     enabled?: boolean
     color?: string,
@@ -104,7 +104,7 @@ export async function getConfig(): Promise<Styleconfig> {
   let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
   if (data.categoryImages == undefined)
     return {
-      id: 1,
+      configId: 1,
       background: {
         enabled: false,
         color: null,
@@ -129,7 +129,7 @@ export async function getConfig(): Promise<Styleconfig> {
       },
       menuBackground: null,
       connect: true,
-      menuInUse: 0,
+      menuInUse: 1,
     } as Styleconfig
   else return data
 }

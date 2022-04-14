@@ -1,6 +1,7 @@
-import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
-import { buttonvalues, Fonts, config, DBConnection } from '../../utils/utils';
+import { Component, h, State, getAssetPath, Element } from '@stencil/core';
+import { Fonts, config, DBConnection } from '../../utils/utils';
 import { PostData } from '../../utils/post';
+import { GetData } from '../../utils/get';
 
 @Component({
   tag: 'toolbar-component',
@@ -15,6 +16,15 @@ export class ToolbarComponent {
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
+  @State() locations;
+  @State() menus;
+
+  async componentWillLoad() {
+    this.locations = await GetData('http://localhost:8080/setlocation');
+    this.menus = await GetData('http://localhost:8080/listmenus');
+
+    console.log(this.locations)
+  }
 
   async useLogoPic(event) {
     config.Logo = event.detail.checked;
@@ -63,7 +73,10 @@ export class ToolbarComponent {
             </ion-button>
             {config ? [
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
-              <selector-component value={config?.id?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+              <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
+              <selector-component value={this.locations.selectedLocation} DropDownvalues={this.locations.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
+              // <selector-component value={this.menus.selectedMenu.name} DropDownvalues={this.menus.menuList} IconName='location-sharp' element='.menuContainer' type='menu'></selector-component>
+
             ] : null}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>

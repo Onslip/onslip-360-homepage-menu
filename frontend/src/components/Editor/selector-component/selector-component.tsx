@@ -1,5 +1,5 @@
 
-import { Component, Host, h, State, Prop, getAssetPath } from '@stencil/core';
+import { Component, Host, h, State, Prop } from '@stencil/core';
 import { PostData } from '../../utils/post';
 import { config } from '../../utils/utils';
 
@@ -66,9 +66,11 @@ export class SelectorComponent {
     }
     else if (this.type == 'preset') {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
-      console.log({id: Number(event)})
-      await PostData('http://localhost:8080/configId', {id: event})
+      await PostData('http://localhost:8080/configId', { configId: event })
       location.reload();
+    }
+    else if (this.type == 'location') {
+      await PostData('http://localhost:8080/setlocation', { selectedLocation: event })
     }
   }
 
@@ -88,7 +90,7 @@ export class SelectorComponent {
             </ion-item>
             {this.type == 'font' ? [
               <ion-item lines='none' class='outerItem'>
-                <ion-item class='sizeSelect' button='true'>
+                <ion-item class='sizeSelect' button={true}>
                   <ion-select onIonChange={(event: any) => this.FontSize(event.target.value, ':root')} interface='popover' interfaceOptions={this.customPopoverOptions} class='fontSize label'>
                     <ion-select-option value={'1.4em'}>Larger</ion-select-option>
                     <ion-select-option value={'1.2em'}>Large</ion-select-option>
