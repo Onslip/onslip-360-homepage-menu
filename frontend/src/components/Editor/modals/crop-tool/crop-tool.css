@@ -4,11 +4,12 @@
   height: 100%;
 }
 
-@import url("../modal-ovelay/modalstyle.css");
+@import url("../../../../global/modalstyle.css");
 
-.modal .body {
+.modal .body .content {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .mainElement {
@@ -17,9 +18,10 @@
 }
 
 .resizeContainer {
+  margin: auto;
   position: relative;
-  display: flex;
   overflow: hidden;
+  width: min-content;
 }
 
 .pullhandle {

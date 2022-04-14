@@ -21,10 +21,18 @@
   
   .modal .body {
     color: var(--mono-50);
-    margin: 0 30px;
     overflow: auto;
+    height: 100%;
+    align-items: center;
   }
   
+  .modal .body .content {
+    margin: 0 30px;
+    margin-bottom: 10px;
+    width: 90%;
+    height: 90%;
+  }
+
   .modal .footer {
     padding: 16px;
     display: flex;
@@ -32,6 +40,7 @@
     align-items: center;
     border-top: 1px solid var(--mono-05);
   }
+
   
   .button {
     display: block;

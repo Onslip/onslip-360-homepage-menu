@@ -5,7 +5,7 @@ import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
 
 @Component({
   tag: 'crop-tool',
-  styleUrl: 'crop-tool.css',
+  styleUrls: ['crop-tool.css'],
   shadow: true,
 })
 export class CropTool {
@@ -140,17 +140,21 @@ export class CropTool {
     }
   }
 
-  async CreateCanvas() {
+  CreateCanvas() {
     const main = this.element.shadowRoot.querySelector('.mainElement')
+    const content = this.element.shadowRoot.querySelector('.content')
     let canvas = document.createElement("canvas");
     const imageAspectRation: number = this.img.width / this.img.height
-    if (this.img.height <= this.img.width) {
-      canvas.width = this.renderedWidth;
-      canvas.height = this.renderedWidth / imageAspectRation;
-    }
-    else {
+
+    if (imageAspectRation < content.clientWidth / content.clientHeight) {
+      this.renderedWidth = content.clientHeight - 10
       canvas.height = this.renderedWidth;
       canvas.width = this.renderedWidth * imageAspectRation;
+    }
+    else {
+      this.renderedWidth = content.clientWidth - 10
+      canvas.width = this.renderedWidth;
+      canvas.height = this.renderedWidth / imageAspectRation;
     }
 
     this.scale = this.img.width / canvas.width;
@@ -210,20 +214,22 @@ export class CropTool {
             <h4>Redigera bild</h4>
           </div>
           <div class="body">
-            <div class="resizeContainer">
-              <div class='mainElement' >
-                <canvas></canvas>
-              </div>
-              <div class="resize" id='resize'>
-                <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
-                <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
+            <div class="content">
+              <div class="resizeContainer">
+                <div class='mainElement' >
+                  <canvas></canvas>
+                </div>
+                <div class="resize" id='resize'>
+                  <div class={'pullhandle se'} onMouseDown={(event) => this.resizeElement(event)}></div>
+                  <div class='drag' onMouseDown={(event: any) => this.dragElement(event)}></div>
+                </div>
               </div>
             </div>
           </div>
-            <div class="footer">
-              <button class='button save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
-              <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
-            </div>
+          <div class="footer">
+            <button class='button save' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Spara</button>
+            <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
+          </div>
         </div>
       </Host >
     );

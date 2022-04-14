@@ -23,8 +23,6 @@ export namespace Components {
     interface HomepageMenuEditorComponent {
     }
     interface LayoutOverlay {
-        "closeIcon": string;
-        "isopen": boolean;
     }
     interface MenuEditorComponent {
         "toggle": boolean;
@@ -48,10 +46,6 @@ export namespace Components {
         "value": string;
     }
     interface ToolbarComponent {
-    }
-    interface UploadImageButton {
-        "URL": string;
-        "buttonvalue": string;
     }
 }
 declare global {
@@ -115,12 +109,6 @@ declare global {
         prototype: HTMLToolbarComponentElement;
         new (): HTMLToolbarComponentElement;
     };
-    interface HTMLUploadImageButtonElement extends Components.UploadImageButton, HTMLStencilElement {
-    }
-    var HTMLUploadImageButtonElement: {
-        prototype: HTMLUploadImageButtonElement;
-        new (): HTMLUploadImageButtonElement;
-    };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "content-component": HTMLContentComponentElement;
@@ -132,7 +120,6 @@ declare global {
         "modal-ovelay": HTMLModalOvelayElement;
         "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
-        "upload-image-button": HTMLUploadImageButtonElement;
     }
 }
 declare namespace LocalJSX {
@@ -153,8 +140,6 @@ declare namespace LocalJSX {
     interface HomepageMenuEditorComponent {
     }
     interface LayoutOverlay {
-        "closeIcon"?: string;
-        "isopen"?: boolean;
     }
     interface MenuEditorComponent {
         "toggle"?: boolean;
@@ -179,10 +164,6 @@ declare namespace LocalJSX {
     }
     interface ToolbarComponent {
     }
-    interface UploadImageButton {
-        "URL"?: string;
-        "buttonvalue"?: string;
-    }
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "content-component": ContentComponent;
@@ -194,7 +175,6 @@ declare namespace LocalJSX {
         "modal-ovelay": ModalOvelay;
         "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
-        "upload-image-button": UploadImageButton;
     }
 }
 export { LocalJSX as JSX };
@@ -211,7 +191,6 @@ declare module "@stencil/core" {
             "modal-ovelay": LocalJSX.ModalOvelay & JSXBase.HTMLAttributes<HTMLModalOvelayElement>;
             "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
-            "upload-image-button": LocalJSX.UploadImageButton & JSXBase.HTMLAttributes<HTMLUploadImageButtonElement>;
         }
     }
 }

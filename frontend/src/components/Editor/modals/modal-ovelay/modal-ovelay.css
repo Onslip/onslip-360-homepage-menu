@@ -3,60 +3,8 @@
   font-family: var(--globalfont);
 }
 
-.uploadButton {
-  font-family: var(--globalfont);
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  font-size: small;
-  color: white;
-  background-color: var(--primary);
-  font-weight: normal;
-  font-style: normal;
-}
-
-.uploadButton.banner {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  padding: 8px 10px;
-  transform: translate(0, -50%)
-}
-
-.uploadButton:hover {
-  background-color: var(--secondary);
-}
-
-.button-9 {
-  display: block;
-  backface-visibility: hidden;
-  border-width: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 100%;
-  line-height: 1;
-  outline: none;
-  overflow: hidden;
-  padding: 15px 5px;
-  text-transform: none;
-  transition: all .2s, box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  height: max-content;
-  width: 250px;
-  text-overflow: clip;
-}
-
-.button-9:hover {
-  background-color: var(--primary);
-}
+@import url(../../../../global/buttons.css);
 
 .menuButton {
   width: 100%;
-}
-
-.icon {
-  float: right;
-  margin-right: 5px;
 }
