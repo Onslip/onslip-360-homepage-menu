@@ -76,31 +76,6 @@
   text-align: start;
 }
 
-.uploadbutton {
-  font-family: var(--globalfont);
-  padding: 3px 0;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  font-size: small;
-  color: white;
-  background-color: var(--primary);
-  font-weight: normal;
-  font-style: normal;
-}
-
-.uploadbutton.banner {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  padding: 5px 10px;
-  transform: translate(0, -50%)
-}
-
-.uploadbutton:hover {
-  background-color: var(--secondary);
-}
-
 ion-reorder {
   position: absolute;
   right: 10px;

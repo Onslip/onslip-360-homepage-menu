@@ -21,7 +21,7 @@ ion-nav {
   overflow: visible;
 }
 
-.menu_box_closed {
+.menu_box.closed {
   font-size: large;
   display: block;
   position: absolute;
@@ -46,67 +46,11 @@ ion-nav {
   z-index: 1;
 }
 
-.icon {
-  float: right;
-  margin-right: 5px;
-}
-
-.button-9 {
-  display: block;
-  backface-visibility: hidden;
-  border-width: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 100%;
-  line-height: 1;
-  outline: none;
-  overflow: hidden;
-  padding: 15px 5px;
-  text-transform: none;
-  transition: all .2s, box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  height: max-content;
-  width: 250px;
-  text-overflow: clip;
-}
-
-.button-9:hover {
-  background-color: var(--primary);
-}
-
-.toggle {
-  width: 250px;
-  font-size: 100%;
-  font-size: 100%;
-  line-height: 1;
-  padding: 5px 5px;
-  --min-height: 0;
-  --background: transparent;
-  --color: white;
-  --border-style: none;
-  --inner-padding-end: 0;
-  --padding-start: 0;
-}
-
-ion-toggle {
-  --background: var(--faded);
-  --background-checked: var(--primary);
-  --handle-background: var(--faded);
-  --handle-background-checked: var(--primary);
-  --border-radius: 5px;
-  --handle-border-radius: 5px;
-  --handle-width: 15px;
-  --width: auto;
-}
-
-ion-button:hover {
-  background-color: var(--primary);
-}
+@import url(../../../global/buttons.css);
 
 .menu-col {
   padding: 0;
+  width: min-content;
 }
 
 .fontselector {
@@ -114,8 +58,4 @@ ion-button:hover {
   --background: none;
   max-width: 100px;
   font-family: unset;
-}
-
-ion-toggle {
-  float: right;
 }

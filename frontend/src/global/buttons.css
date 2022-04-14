@@ -1,0 +1,76 @@
+.menu-button {
+    display: block;
+    backface-visibility: hidden;
+    border-width: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 1em;
+    line-height: 1;
+    outline: none;
+    overflow: hidden;
+    padding: 15px 5px;
+    text-transform: none;
+    transition: all .2s, box-shadow .08s ease-in;
+    touch-action: manipulation;
+    height: max-content;
+    width: 220px;
+    text-overflow: ellipsis;
+}
+
+.menu-button:hover {
+    background-color: var(--primary);
+}
+
+.menu-button>.icon {
+    float: right;
+}
+
+.uploadButton {
+  font-family: var(--globalfont);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: small;
+  color: white;
+  background-color: var(--primary);
+  font-weight: normal;
+  font-style: normal;
+}
+
+.uploadButton.banner {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  padding: 8px 10px;
+  transform: translate(0, -50%)
+}
+
+.uploadButton:hover {
+  background-color: var(--secondary);
+}
+
+.toggle {
+    font-size: 1em;
+    width: 220px;
+    padding: 0 5px;
+    --overflow: visible;
+    --background: transparent;
+    --color: white;
+    --border-style: none;
+    --inner-padding-end: 0;
+    --padding-start: 0;
+}
+
+.toggle>ion-toggle {
+    --background: var(--faded);
+    --background-checked: var(--primary);
+    --handle-background: white;
+    --handle-background-checked: white;
+    --border-radius: 5px;
+    --handle-border-radius: 5px;
+    --handle-width: 15px;
+    --handle-spacing: 0px;
+    --handle-height: 100%;
+    --width: auto;
+    height: 20px;
+}
