@@ -1,11 +1,13 @@
-import { DatabaseURI, DBQuery, FIELDS, FormData, STATUS, URI } from '@divine/uri';
+import { DatabaseURI, DBMetadata, DBQuery, FIELDS, FormData, STATUS, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
-import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
+import { CORSFilter, WebArguments, WebRequest, WebResource, WebResourceBase, WebResponse, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { ChangePosition, DBCatImage, DBImage, MainConfig, newApi, Styleconfig } from './interfaces';
+import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
+import { Get } from '@divine/x4e/build/src/private/x4e-utils';
+import { kill } from 'process';
 
 export class DHMService {
     private api: API;
@@ -45,6 +47,7 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = RegExp('');
                 async GET() {
+
                     return svc.rootResponse();
                 }
             })
@@ -61,6 +64,23 @@ export class DHMService {
                     const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
                     svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 1)`;
                     return data;
+                }
+            })
+
+            .addResource(class implements WebResource {
+                static path = /setlocation/;
+                async GET() {
+
+                    const config: MainConfig = await new URI(`./configs/main.json`).load()
+                    const location = { locations: (await svc.api.listLocations()).map(x => x.name), selectedLocation: config.selectedLocation }
+                    return JSON.stringify(location);
+                }
+                async POST(args: WebArguments) {
+                    const body: MainConfig = await args.body();
+                    const config: MainConfig = await new URI(`./configs/main.json`).load();
+
+                    await new URI(`./configs/main.json`).save(JSON.stringify({ configId: config.configId, selectedLocation: body.selectedLocation, selectedMenu: config.selectedMenu }))
+                    return args.body();
                 }
             })
 
@@ -114,14 +134,14 @@ export class DHMService {
                 static path = /config/;
                 async GET() {
                     const id: MainConfig = await new URI(`./configs/main.json`).load()
-                    const data = await new URI(`./configs/config${id.id}.json`).load()
+                    const data = await new URI(`./configs/config${id.configId}.json`).load()
                     return data;
                 }
 
                 async POST(args: WebArguments) {
                     const body: Styleconfig = await args.body();
 
-                    await new URI(`./configs/config${body.id}.json`).save(JSON.stringify(body))
+                    await new URI(`./configs/config${body.configId}.json`).save(JSON.stringify(body))
                     return args.body();
                 }
             })
@@ -144,7 +164,8 @@ export class DHMService {
 
                 async POST(args: WebArguments) {
                     const body: MainConfig = await args.body();
-                    await new URI(`./configs/main.json`).save(JSON.stringify({ id: body.id }))
+                    const location: MainConfig = await new URI(`./configs/main.json`).load();
+                    await new URI(`./configs/main.json`).save(JSON.stringify({ configId: body.configId, selectedLocation: location.selectedLocation, selectedMenu: location.selectedMenu }))
                     return body;
                 }
             })
@@ -166,7 +187,41 @@ export class DHMService {
                 }
             })
 
+            .addResource(class implements WebResource {
+                static path = /listmenus/;
 
+                async GET() {
+                    const location: MainConfig = await new URI(`./configs/main.json`).load();
+                    const buttonMaps: API.Stored_Location[] = (await svc.api.listLocations()).filter(x => x.name == location.selectedLocation);
+                    const menus: Menu[] = await svc.db.query<Menu[]>`select * from onslip.menu`
+                    const a = await buttonMaps.map(x => menus.find(c => c.id == x['take-out-config']?.['button-map']))
+                    const body = { menuList: await a, selectedMenu: location.selectedMenu };
+                    return JSON.stringify(body);
+                }
+
+                async POST(args: WebArguments) {
+                    const body: Styleconfig = await args.body();
+
+                    return args.body();
+                }
+            })
+
+            .addResources([class implements WebResource {
+                static path = /asd/;
+
+                async GET() {
+                    return ''
+                }
+
+                async POST(args: WebArguments) {
+                    return args.body();
+                }
+            },
+            class implements WebResource {
+                static path = /asfasf/;
+            },
+
+            ])
 
             .addResource(class implements WebResource {
                 static path = /api/;
@@ -288,7 +343,7 @@ export class DHMService {
             (await this.api.getLocation(1))['company-name'];
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
-            return await GetProdByGroup(this.db);
+            return await GetProdByGroup(this.db, this.api);
         }
         catch (error) {
             this.dbConnect = false;
