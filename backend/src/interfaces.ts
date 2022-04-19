@@ -108,9 +108,9 @@ interface font {
 }
 
 export interface MainConfig {
-    configId: number;
-    selectedLocation: string;
-    selectedMenu: string;
+    configId?: number;
+    selectedLocation?: string;
+    selectedMenu?: 0;
 };
 
 export interface ChangePosition {

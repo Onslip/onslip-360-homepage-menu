@@ -1,4 +1,4 @@
-import { Component, State, Host, h, Element, Prop, getAssetPath } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, getAssetPath, Method } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
@@ -17,11 +17,20 @@ export class MenuEditorComponent {
   private produrl: string = 'http://localhost:8080/product-image';
   private caturl: string = 'http://localhost:8080/category-image';
   @State() categories: categorywithproduct[];
+  @State() AllMenus: MenuWithCategory[]
   @State() menu: MenuWithCategory;
   @State() errormessage: string
   @State() loading: boolean = true
   @State() CanSave: boolean;
   @Prop() toggle: boolean;
+
+  @Method() async GetMenu(): Promise<MenuWithCategory[]> {
+    return this.AllMenus
+  }
+
+  // @Method() async ReturnMenu(menu) {
+  //   this.menu = [...menu]
+  // }
 
   async componentWillLoad() {
     if (!DBConnection) {
@@ -29,6 +38,7 @@ export class MenuEditorComponent {
       config.productImages.style = 'Disabled';
     }
     GetData(this.url)
+      .then(response => this.AllMenus = response)
       .then(response => this.menu = response[config.menuInUse])
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
@@ -40,6 +50,8 @@ export class MenuEditorComponent {
         config.connect = false
       });
   }
+
+
 
   async getCatImages() {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {

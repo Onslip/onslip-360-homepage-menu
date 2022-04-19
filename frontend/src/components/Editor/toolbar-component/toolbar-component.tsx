@@ -1,4 +1,4 @@
-import { Component, h, State, getAssetPath, Element } from '@stencil/core';
+import { Component, h, State, getAssetPath, Element, Method } from '@stencil/core';
 import { Fonts, config, DBConnection } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
@@ -18,15 +18,17 @@ export class ToolbarComponent {
   @Element() element: HTMLElement;
   @State() locations;
   @State() menus;
+  @State() menuNames;
 
   async componentWillLoad() {
     this.locations = await GetData('http://localhost:8080/setlocation');
-    this.menus = await GetData('http://localhost:8080/listmenus');
-
-    console.log(this.locations)
   }
 
-  async menuClick(event: MouseEvent) {
+  @Method() async GetLocations() {
+    return this.locations
+  }
+
+  async menuClick() {
     this.menuopen = !this.menuopen
   }
 
@@ -71,7 +73,7 @@ export class ToolbarComponent {
       <ion-header>
         <ion-toolbar class="toolbar">
           <ion-buttons slot="start">
-            <ion-button onClick={(event: MouseEvent) => { this.menuClick(event) }}>
+            <ion-button onClick={() => { this.menuClick() }}>
               <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
               <ion-label>MENY</ion-label>
             </ion-button>
@@ -79,8 +81,6 @@ export class ToolbarComponent {
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
               <selector-component value={this.locations.selectedLocation} DropDownvalues={this.locations.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
-              // <selector-component value={this.menus.selectedMenu.name} DropDownvalues={this.menus.menuList} IconName='location-sharp' element='.menuContainer' type='menu'></selector-component>
-
             ] : null}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
@@ -115,10 +115,13 @@ export class ToolbarComponent {
                 <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor() }} hidden />
               </ion-row>
               <ion-row>
-                <modal-ovelay RenderType='Api' buttonValue='Ändra API-nyckel' buttonClass='menu-button'></modal-ovelay>
+                <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button'></modal-ovelay>
               </ion-row>
               <ion-row>
                 <modal-ovelay RenderType='layout-overlay' buttonValue='Layout och placering' buttonClass='menu-button'></modal-ovelay>
+              </ion-row>
+              <ion-row>
+                <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button'></modal-ovelay>
               </ion-row>
             </ion-col>
             {DBConnection ? [

@@ -36,22 +36,15 @@ export class ModalOvelay {
       });
       await modal.present();
     }
-    else if (this.RenderType == 'Api') {
-      const modal = await modalController.create({
-        component: 'api-ui',
-        swipeToClose: true,
-        presentingElement: this.el.closest('ion-modal'),
-      });
-      await modal.present();
-    }
     else {
       const modal = await modalController.create({
-        component: 'layout-overlay',
+        component: this.RenderType,
         swipeToClose: true,
         presentingElement: this.el.closest('ion-modal'),
       });
       await modal.present();
     }
+
   }
 
   render() {

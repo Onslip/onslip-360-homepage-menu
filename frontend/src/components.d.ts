@@ -5,6 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { MenuWithCategory } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
     }
@@ -25,6 +26,7 @@ export namespace Components {
     interface LayoutOverlay {
     }
     interface MenuEditorComponent {
+        "GetMenu": () => Promise<MenuWithCategory[]>;
         "toggle": boolean;
     }
     interface ModalOvelay {
@@ -37,6 +39,8 @@ export namespace Components {
         "buttonValue": string;
         "url": string;
     }
+    interface ScheduleOverlay {
+    }
     interface SelectorComponent {
         "DisplayName": string;
         "DropDownvalues": string[];
@@ -46,6 +50,7 @@ export namespace Components {
         "value": string;
     }
     interface ToolbarComponent {
+        "GetLocations": () => Promise<any>;
     }
 }
 declare global {
@@ -97,6 +102,12 @@ declare global {
         prototype: HTMLModalOvelayElement;
         new (): HTMLModalOvelayElement;
     };
+    interface HTMLScheduleOverlayElement extends Components.ScheduleOverlay, HTMLStencilElement {
+    }
+    var HTMLScheduleOverlayElement: {
+        prototype: HTMLScheduleOverlayElement;
+        new (): HTMLScheduleOverlayElement;
+    };
     interface HTMLSelectorComponentElement extends Components.SelectorComponent, HTMLStencilElement {
     }
     var HTMLSelectorComponentElement: {
@@ -118,6 +129,7 @@ declare global {
         "layout-overlay": HTMLLayoutOverlayElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
         "modal-ovelay": HTMLModalOvelayElement;
+        "schedule-overlay": HTMLScheduleOverlayElement;
         "selector-component": HTMLSelectorComponentElement;
         "toolbar-component": HTMLToolbarComponentElement;
     }
@@ -154,6 +166,8 @@ declare namespace LocalJSX {
         "buttonValue"?: string;
         "url"?: string;
     }
+    interface ScheduleOverlay {
+    }
     interface SelectorComponent {
         "DisplayName"?: string;
         "DropDownvalues"?: string[];
@@ -173,6 +187,7 @@ declare namespace LocalJSX {
         "layout-overlay": LayoutOverlay;
         "menu-editor-component": MenuEditorComponent;
         "modal-ovelay": ModalOvelay;
+        "schedule-overlay": ScheduleOverlay;
         "selector-component": SelectorComponent;
         "toolbar-component": ToolbarComponent;
     }
@@ -189,6 +204,7 @@ declare module "@stencil/core" {
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "modal-ovelay": LocalJSX.ModalOvelay & JSXBase.HTMLAttributes<HTMLModalOvelayElement>;
+            "schedule-overlay": LocalJSX.ScheduleOverlay & JSXBase.HTMLAttributes<HTMLScheduleOverlayElement>;
             "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
         }

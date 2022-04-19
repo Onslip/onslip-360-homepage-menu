@@ -1,0 +1,93 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+@import url("../../../../global/modalstyle.css");
+
+ion-item {
+  --highlight-color-focused: var(--primary);
+}
+
+.row {
+  width: 50%;
+}
+
+
+.HeaderTable {
+  width: 100%;
+  text-align: center;
+  /* padding-right: 5px; */
+  table-layout: fixed;
+  margin-right: 18px;
+}
+
+.HeaderRow {
+  /* padding: 0 20px; */
+  /* margin: 0 30px; */
+  /* width: 90%; */
+  /* position: fixed; */
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+
+}
+
+.DaysOfWeekHeaders {
+  user-select: none;
+  font-size: 15px;
+  width: 100%;
+}
+
+.Schedule {
+  width: 100%;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.Time {
+  border-right: 1px solid lightgray;
+  user-select: none;
+  vertical-align: top;
+  text-align: center;
+  font-size: 17px;
+}
+
+.box {
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  margin: 0;
+  padding: 0;
+  display: table-cell;
+  vertical-align: inherit;
+  height: 28px;
+}
+
+.modal .body {
+  /* width: 100%;
+  height: 90%; */
+  /* margin: 0; */
+  /* padding: 0; */
+  overflow: hidden;
+}
+
+.modal .body .content {
+  width: 100%;
+  margin: 0;
+}
+
+.TableBody {
+  width: 100%;
+}
+
+.TimeText {
+  transform: translate(0, -50%);
+}
+
+.scroll {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}

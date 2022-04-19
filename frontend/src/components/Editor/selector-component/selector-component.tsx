@@ -85,7 +85,7 @@ export class SelectorComponent {
           <ion-item lines='none' class={this.menu ? 'is-open' : 'is-closed'}>
             <ion-item>
               <ion-select class="select" onIonChange={(event: any) => { this.action(event.target.value, this.element) }} value={this.value} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj'>
-                {this.DropDownvalues.map(x => <ion-select-option value={x}>{this.DisplayName} {x}</ion-select-option>)}
+                {this.DropDownvalues.map(x => <ion-select-option value={x}>{this.DisplayName}{x}</ion-select-option>)}
               </ion-select>
             </ion-item>
             {this.type == 'font' ? [

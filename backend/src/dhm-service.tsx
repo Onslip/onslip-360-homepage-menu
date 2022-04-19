@@ -187,41 +187,23 @@ export class DHMService {
                 }
             })
 
-            .addResource(class implements WebResource {
-                static path = /listmenus/;
 
-                async GET() {
-                    const location: MainConfig = await new URI(`./configs/main.json`).load();
-                    const buttonMaps: API.Stored_Location[] = (await svc.api.listLocations()).filter(x => x.name == location.selectedLocation);
-                    const menus: Menu[] = await svc.db.query<Menu[]>`select * from onslip.menu`
-                    const a = await buttonMaps.map(x => menus.find(c => c.id == x['take-out-config']?.['button-map']))
-                    const body = { menuList: await a, selectedMenu: location.selectedMenu };
-                    return JSON.stringify(body);
-                }
+            // .addResources([class implements WebResource {
+            //     static path = /asd/;
 
-                async POST(args: WebArguments) {
-                    const body: Styleconfig = await args.body();
+            //     async GET() {
+            //         return ''
+            //     }
 
-                    return args.body();
-                }
-            })
+            //     async POST(args: WebArguments) {
+            //         return args.body();
+            //     }
+            // },
+            // class implements WebResource {
+            //     static path = /asfasf/;
+            // },
 
-            .addResources([class implements WebResource {
-                static path = /asd/;
-
-                async GET() {
-                    return ''
-                }
-
-                async POST(args: WebArguments) {
-                    return args.body();
-                }
-            },
-            class implements WebResource {
-                static path = /asfasf/;
-            },
-
-            ])
+            // ])
 
             .addResource(class implements WebResource {
                 static path = /api/;
