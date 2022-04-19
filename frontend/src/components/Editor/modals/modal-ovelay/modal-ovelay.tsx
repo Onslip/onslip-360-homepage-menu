@@ -68,12 +68,10 @@ export class ModalOvelay {
     else {
       return (
         <Host>
-          <div class='menuButton'>
             <label class={this.buttonClass}>
               {this.buttonValue}<ion-icon class="icon" name="settings-sharp"></ion-icon>
               <input class='catImages' onClick={() => { this.presentModal(); }} hidden />
             </label>
-          </div>
         </Host>
       );
     }
