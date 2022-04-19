@@ -2,6 +2,8 @@
   display: block;
 }
 
+@import url(../../../global/buttons.css);
+
 .toolbar {
   --background: #a4d463;
   --color: white;
@@ -14,43 +16,27 @@
 }
 
 
-ion-nav {
-  position: fixed;
-  height: min-content;
-  z-index: 2;
-  overflow: visible;
-}
-
 .menu_box.closed {
-  font-size: large;
-  display: block;
-  position: absolute;
-  transition-duration: .4s;
   transform: translateY(-100%);
-  color: white;
   opacity: 0;
-  top: 50px;
-  left: 0;
-  z-index: 1;
 }
 
 .menu_box {
-  font-size: large;
-  display: inline-block;
+  font-size: medium;
+  display: block;
   position: absolute;
   transition-duration: .4s;
   background-color: rgb(51, 51, 51);
   color: white;
-  top: 55px;
-  left: 0;
   z-index: 1;
 }
 
-@import url(../../../global/buttons.css);
-
 .menu-col {
   padding: 0;
-  width: min-content;
+}
+
+ion-row {
+  height: min-content;
 }
 
 .fontselector {

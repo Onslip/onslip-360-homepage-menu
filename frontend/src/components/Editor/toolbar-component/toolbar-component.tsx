@@ -69,7 +69,7 @@ export class ToolbarComponent {
   }
 
   render() {
-    return (
+    return [
       <ion-header>
         <ion-toolbar class="toolbar">
           <ion-buttons slot="start">
@@ -86,6 +86,7 @@ export class ToolbarComponent {
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
           <ion-title slot="end">Digital Dynamic Menu</ion-title>
         </ion-toolbar>
+        
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">
@@ -142,7 +143,7 @@ export class ToolbarComponent {
           </ion-row>
         </div >
       </ion-header>
-    );
+    ];
   }
 
 }

@@ -11,7 +11,7 @@ export class EditorVisualCheck {
   render() {
     return (
       <body>
-        <ion-content class="content" >
+        <ion-content class="content" id="main">
           <toolbar-component></toolbar-component>
           {
             this.switch ?

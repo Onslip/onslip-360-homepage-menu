@@ -4,51 +4,24 @@
 }
 
 .menuContainer {
-  margin: 80px auto;
+  margin: 50px auto;
   width: 65%;
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(15px) saturate(120%) contrast(200%);
 }
 
 .logoDiv {
-  flex: content;
-  flex-direction: row;
-  padding-left: 90%;
+  display: flex;
+  justify-content: end;
 }
 
-.onslipLogo {
-  width: 80%;
+.logoDiv .onslipLogo {
+  width: 100px;
+  margin: 10px;
 }
 
 .header img {
   width: 100px;
+  margin: 10px;
   float: right;
-  margin: auto;
-}
-
-.toggle {
-  font-family: var(--globalfont);
-  font-size: small;
-  color: white;
-  --background: var(--primary);
-  border-radius: 0 0 3px 3px;
-  font-weight: normal;
-  font-style: normal;
-  border-radius: 2px;
-  float: left;
-  vertical-align: middle;
-}
-.no-banner img {
-  width: 100px;
-  float: center;
-  margin: auto;
-}
-
-.no-banner {
-  text-align: center;
-  font-size: 1.3rem;
-  width: 100%;
-  height: min-content;
 }
 
 .header {
@@ -59,6 +32,24 @@
   background-position: center;
   background-size:cover;
   background-repeat: no-repeat;
+  vertical-align: middle;
+}
+.header.no-banner {
+  font-size: 1.3rem;
+  width: 100%;
+  padding: 10px;
+  height: min-content;
+}
+
+.toggle {
+  font-family: var(--globalfont);
+  --background: var(--primary);
+  position: absolute;
+  display: block;
+  color: white;
+  font-size: small;
+  border-radius: 2px;
+  margin: 10px;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -71,13 +62,5 @@
   .menuContainer {
     width: 100%;
   }
-}
-
-
-.scroll {
-      display: table;
-
-  position: absolute;
-    height: 100%;
 }
 
