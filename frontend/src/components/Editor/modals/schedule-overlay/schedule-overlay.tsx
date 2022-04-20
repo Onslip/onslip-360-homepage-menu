@@ -1,4 +1,5 @@
 import { Component, h, State, Element } from '@stencil/core';
+import { Z_ASCII } from 'zlib';
 import { MenuWithCategory } from '../../../utils/utils';
 
 @Component({
@@ -28,7 +29,7 @@ export class ScheduleOverlay {
     this.timeTables = this.locationList.locations.flatMap(l => {
       return {
         locationId: l.id,
-        menus: this.menus.flatMap(x => { return { MenuId: x.menu.id, Days: this.daysOfWeek.flatMap(x => { return { Day: x, Times: [] } }) } })
+        menus: this.menus.flatMap(x => { return { MenuId: x.menu.id, Days: this.daysOfWeek.map(x => { return { Day: x, Times: [] } }) } })
       }
     })
   }
@@ -39,41 +40,46 @@ export class ScheduleOverlay {
     await modal.dismiss();
   }
 
-  SelectTime(event) {
-    let rect = event.originalTarget.getBoundingClientRect();
-    console.log(rect)
-    const posX = rect.left;
-    const posY = rect.top;
-
+  SelectTime(ev) {
+    const table = ev.target.parentElement.parentElement;
     if (this.selectedMenuId != null) {
-      document.onmousemove = (event: any) => {
-        let rect2 = event.originalTarget.getBoundingClientRect();
+      table.onmousemove = (event: any) => {
+        event.preventDefault();
 
-        const posXEnd = rect2.left;
-        const posYEnd = rect2.top;
-        this.element.shadowRoot.querySelectorAll('.box').forEach(x => {
-          const xRect = x.getBoundingClientRect();
-          // console.log(xRect)
-          // console.log(x.getClientRects())
-          console.log(posYEnd)
-          if (xRect.left > posX && xRect.left < posXEnd && xRect.top > posY, xRect.top < posYEnd) {
-            console.log(xRect.left)
-            x.classList.add('inactive')
+        if (event.target.classList.contains('box')) {
+          if (event.target.classList.contains('active')) {
+            const allbox = this.element.shadowRoot.querySelectorAll('.box')
+            const active = this.element.shadowRoot.querySelectorAll('.active')
+            active.forEach(x => {
+              allbox.forEach(a => {
+                if (x.parentElement.id == a.parentElement.id && event.target.id == x.id || a.id == x.id && event.target.parentElement.id == x.parentElement.id) {
+                  console.log('a')
+                  x.classList.remove('active')
+                  x.classList.add('deselect')
+                }
+              })
+            })
           }
-        }
-        )
-        if (event.originalTarget.classList.contains('box')) {
-          event.preventDefault();
-          if (event.originalTarget.classList.contains('active')) {
-            event.originalTarget.classList.remove('active')
-            event.originalTarget.classList.add('deselect')
+          else if (event.target.classList.contains('select')) {
+
           }
-          else if (!event.originalTarget.classList.contains('inactive')) {
-            event.originalTarget.classList.add('select');
+
+          else if (!event.target.classList.contains('inactive')) {
+            event.target.classList.add('select');
+            const selected = this.element.shadowRoot.querySelectorAll('.select')
+            const allbox = this.element.shadowRoot.querySelectorAll('.box')
+
+            selected.forEach(x => {
+              allbox.forEach(a => {
+                if (a.parentElement.id == x.parentElement.id && a.id == event.target.id || a.id == x.id && a.parentElement.id == event.target.parentElement.id) {
+                  a.classList.add('select')
+                }
+              })
+            })
           }
         }
       }
-      document.onmouseup = () => {
+      table.onmouseup = () => {
         this.element.shadowRoot.querySelectorAll('.select').forEach(x => {
           x.classList.remove('select');
           x.classList.add('active')
@@ -91,17 +97,17 @@ export class ScheduleOverlay {
             .Times;
           a.splice(a.indexOf(a.find(c => c.time == x.parentElement.id)));
         })
-        document.onmouseup = null;
-        document.onmousemove = null;
+        table.onmouseup = null;
+        table.onmousemove = null;
         // this.select(this.days);
       }
     }
   }
 
   markUnavailableTimes() {
-    this.timeTables.find(t => t.locationId == this.selectedLocation.id)
-      .menus.filter(m => m.MenuId != this.selectedMenuId)
-      .forEach(s => s.Days.forEach(d => d.Times.forEach(time => {
+    this.timeTables?.find(t => t.locationId == this.selectedLocation?.id)
+      .menus?.filter(m => m.MenuId != this.selectedMenuId)
+      .forEach(s => s.Days?.forEach(d => d.Times?.forEach(time => {
         this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
           if (c.id == d.Day && c.parentElement.id == time.time) {
             c.classList.add('inactive');
@@ -109,8 +115,8 @@ export class ScheduleOverlay {
           }
         })
       })))
-    this.timeTables.find(t => t.locationId == this.selectedLocation.id)
-      .menus.find(m => m.MenuId == this.selectedMenuId).Days.forEach(d => d.Times.forEach(time => {
+    this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
+      .menus?.find(m => m.MenuId == this.selectedMenuId)?.Days?.forEach(d => d.Times.forEach(time => {
         this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
           if (c.id == d.Day && c.parentElement.id == time.time) {
             c.classList.remove('inactive');
@@ -145,7 +151,7 @@ export class ScheduleOverlay {
             </ion-row>
             <ion-row>
               <ion-item class='row'>
-                <ion-select value={this.locationList?.selectedLocation.name} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Plats' onIonChange={(event: any) => { this.selectedLocation = event.target.value, this.changeLocation() }}>
+                <ion-select value={this.locationList?.selectedLocation?.name} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Plats' onIonChange={(event: any) => { this.selectedLocation = event.target.value, this.changeLocation() }}>
                   {this.locationList?.locations?.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
                 </ion-select>
               </ion-item>
@@ -213,5 +219,5 @@ export interface times {
 
 export interface menu {
   MenuId: number
-  Days?: days[]
+  Days: days[]
 }
