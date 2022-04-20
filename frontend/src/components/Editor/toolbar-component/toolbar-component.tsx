@@ -20,8 +20,11 @@ export class ToolbarComponent {
   @State() menus;
   @State() menuNames;
 
+
   async componentWillLoad() {
     this.locations = await GetData('http://localhost:8080/setlocation');
+    console.log(this.locations)
+
   }
 
   @Method() async GetLocations() {
@@ -80,13 +83,13 @@ export class ToolbarComponent {
             {config ? [
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
-              <selector-component value={this.locations.selectedLocation} DropDownvalues={this.locations.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
+              <selector-component value={this.locations?.selectedLocation} DropDownvalues={this.locations?.locations.map(x => x)} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
             ] : null}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
           <ion-title slot="end">Digital Dynamic Menu</ion-title>
         </ion-toolbar>
-        
+
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">

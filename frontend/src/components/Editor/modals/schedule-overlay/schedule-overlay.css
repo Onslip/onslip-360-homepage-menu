@@ -27,6 +27,7 @@ ion-item {
   /* margin: 0 30px; */
   /* width: 90%; */
   /* position: fixed; */
+
 }
 
 table {
@@ -34,6 +35,8 @@ table {
   border-collapse: collapse;
 
 }
+
+
 
 .DaysOfWeekHeaders {
   user-select: none;
@@ -45,6 +48,7 @@ table {
   width: 100%;
   border-spacing: 0;
   table-layout: fixed;
+  user-select: none;
 }
 
 .Time {
@@ -63,6 +67,8 @@ table {
   display: table-cell;
   vertical-align: inherit;
   height: 28px;
+  user-select: none;
+  transition: 0.13s;
 }
 
 .modal .body {
@@ -80,6 +86,8 @@ table {
 
 .TableBody {
   width: 100%;
+  user-select: none;
+
 }
 
 .TimeText {
@@ -90,4 +98,22 @@ table {
   overflow: auto;
   height: 100%;
   width: 100%;
+}
+
+.select {
+  background-color: var(--faded);
+}
+
+.deselect {
+  background-color: rgb(231, 231, 231);
+}
+
+.active {
+  background-color: var(--primary);
+
+}
+
+.inactive {
+  background-color: goldenrod;
+  cursor: not-allowed;
 }

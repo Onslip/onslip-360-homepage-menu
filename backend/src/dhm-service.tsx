@@ -72,14 +72,14 @@ export class DHMService {
                 async GET() {
 
                     const config: MainConfig = await new URI(`./configs/main.json`).load()
-                    const location = { locations: (await svc.api.listLocations()).map(x => x.name), selectedLocation: config.selectedLocation }
+                    const location = { locations: (await svc.api.listLocations()).flatMap(x => { return { name: x.name, id: Number(x.id) } }), selectedLocation: config.selectedLocation }
                     return JSON.stringify(location);
                 }
                 async POST(args: WebArguments) {
                     const body: MainConfig = await args.body();
                     const config: MainConfig = await new URI(`./configs/main.json`).load();
 
-                    await new URI(`./configs/main.json`).save(JSON.stringify({ configId: config.configId, selectedLocation: body.selectedLocation, selectedMenu: config.selectedMenu }))
+                    await new URI(`./configs/main.json`).save(JSON.stringify({ configId: config.configId, selectedLocation: { name: body.selectedLocation?.name, id: body.selectedLocation?.id }, selectedMenu: config.selectedMenu }))
                     return args.body();
                 }
             })
