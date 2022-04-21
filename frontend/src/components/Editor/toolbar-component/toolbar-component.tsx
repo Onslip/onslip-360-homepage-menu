@@ -17,12 +17,10 @@ export class ToolbarComponent {
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
   @State() locations: location;
-  @State() menus;
-  @State() menuNames;
-
 
   async componentWillLoad() {
-    this.locations = await GetData('http://localhost:8080/setlocation');
+    await GetData('http://localhost:8080/setlocation').then(res => this.locations = res);
+    console.log(this.locations)
   }
 
   @Method() async GetLocations() {
@@ -69,6 +67,14 @@ export class ToolbarComponent {
     location.reload();
   }
 
+  async selectLocation(event) {
+    await PostData('http://localhost:8080/setlocation', { selectedLocation: event })
+  }
+
+  private customPopoverOptions: any = {
+    reference: "event",
+  };
+
   render() {
     return [
       <ion-header>
@@ -81,7 +87,10 @@ export class ToolbarComponent {
             {config ? [
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
-              <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
+              // <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
+              <ion-select class="select" onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={this.locations.selectedLocation} selectedText={this.locations.selectedLocation.name}>
+                {this.locations.locations.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
+              </ion-select>
             ] : null}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
