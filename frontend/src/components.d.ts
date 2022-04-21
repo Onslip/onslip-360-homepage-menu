@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenuWithCategory } from "./components/utils/utils";
+import { location, MenuWithCategory } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
     }
@@ -43,14 +43,14 @@ export namespace Components {
     }
     interface SelectorComponent {
         "DisplayName": string;
-        "DropDownvalues": string[];
+        "DropDownvalues": any[];
         "IconName": string;
         "element": string;
         "type": string;
         "value": string;
     }
     interface ToolbarComponent {
-        "GetLocations": () => Promise<any>;
+        "GetLocations": () => Promise<location>;
     }
 }
 declare global {
@@ -170,7 +170,7 @@ declare namespace LocalJSX {
     }
     interface SelectorComponent {
         "DisplayName"?: string;
-        "DropDownvalues"?: string[];
+        "DropDownvalues"?: any[];
         "IconName"?: string;
         "element"?: string;
         "type"?: string;

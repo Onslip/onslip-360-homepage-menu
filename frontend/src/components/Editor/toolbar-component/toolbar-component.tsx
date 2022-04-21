@@ -1,5 +1,5 @@
 import { Component, h, State, getAssetPath, Element, Method } from '@stencil/core';
-import { Fonts, config, DBConnection } from '../../utils/utils';
+import { Fonts, config, DBConnection, location } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -16,7 +16,7 @@ export class ToolbarComponent {
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
-  @State() locations;
+  @State() locations: location;
   @State() menus;
   @State() menuNames;
 
@@ -81,7 +81,7 @@ export class ToolbarComponent {
             {config ? [
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
-              <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations.map(x => x)} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
+              <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
             ] : null}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>

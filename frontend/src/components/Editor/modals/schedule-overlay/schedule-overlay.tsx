@@ -1,6 +1,6 @@
 import { Component, h, State, Element } from '@stencil/core';
-import { Z_ASCII } from 'zlib';
-import { MenuWithCategory } from '../../../utils/utils';
+import { TimeLike } from 'fs';
+import { MenuWithCategory, location } from '../../../utils/utils';
 
 @Component({
   tag: 'schedule-overlay',
@@ -9,7 +9,7 @@ import { MenuWithCategory } from '../../../utils/utils';
 })
 export class ScheduleOverlay {
   @State() menus: MenuWithCategory[]
-  @State() locationList;
+  @State() locationList: location;
   @State() daysOfWeek: string[] = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag']
   @State() hours: string[] = ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   @State() selectedMenuId: number;
@@ -25,7 +25,7 @@ export class ScheduleOverlay {
     this.menus = await menu?.GetMenu();
     this.locationList = await toolbar?.GetLocations();
 
-
+    console.log(this.locationList.selectedLocation.name)
     this.timeTables = this.locationList.locations.flatMap(l => {
       return {
         locationId: l.id,
@@ -41,65 +41,83 @@ export class ScheduleOverlay {
   }
 
   SelectTime(ev) {
+    const originalEventTarget = ev.target;
     const table = ev.target.parentElement.parentElement;
-    if (this.selectedMenuId != null) {
-      table.onmousemove = (event: any) => {
-        event.preventDefault();
-
-        if (event.target.classList.contains('box')) {
-          if (event.target.classList.contains('active')) {
-            const allbox = this.element.shadowRoot.querySelectorAll('.box')
-            const active = this.element.shadowRoot.querySelectorAll('.active')
-            active.forEach(x => {
-              allbox.forEach(a => {
-                if (x.parentElement.id == a.parentElement.id && event.target.id == x.id || a.id == x.id && event.target.parentElement.id == x.parentElement.id) {
-                  console.log('a')
-                  x.classList.remove('active')
-                  x.classList.add('deselect')
-                }
-              })
-            })
-          }
-          else if (event.target.classList.contains('select')) {
-
-          }
-
-          else if (!event.target.classList.contains('inactive')) {
-            event.target.classList.add('select');
-            const selected = this.element.shadowRoot.querySelectorAll('.select')
-            const allbox = this.element.shadowRoot.querySelectorAll('.box')
-
-            selected.forEach(x => {
-              allbox.forEach(a => {
-                if (a.parentElement.id == x.parentElement.id && a.id == event.target.id || a.id == x.id && a.parentElement.id == event.target.parentElement.id) {
-                  a.classList.add('select')
-                }
-              })
-            })
-          }
+    if (this.selectedMenuId != null && originalEventTarget.classList.contains('box')) {
+      if(!originalEventTarget.classList.contains('inactive')) {
+        if (originalEventTarget.classList.contains('active') || originalEventTarget.classList.contains('deselect')) {
+          originalEventTarget.classList.add('deselect')
+        }
+        else if (!originalEventTarget.classList.contains('active')) {
+          originalEventTarget.classList.add('select')
         }
       }
-      table.onmouseup = () => {
+
+      table.onmousemove = (event: any) => {
+        event.preventDefault();
+        const newEventTargetRect = event.target.getBoundingClientRect()
+
+        this.element.shadowRoot.querySelectorAll('.box').forEach(box => {
+          const boxRect = box.getBoundingClientRect()
+          const originalEventTargetRect = originalEventTarget.getBoundingClientRect()
+
+          const bx1 = boxRect.x >= originalEventTargetRect.x
+          const bx2 = boxRect.x <= newEventTargetRect.x
+          const by1 = boxRect.y >= originalEventTargetRect.y
+          const by2 = boxRect.y <= newEventTargetRect.y
+
+          const bx3 = boxRect.x <= originalEventTargetRect.x
+          const bx4 = boxRect.x >= newEventTargetRect.x
+          const by3 = boxRect.y <= originalEventTargetRect.y
+          const by4 = boxRect.y >= newEventTargetRect.y
+
+          if (((bx1 && bx2) || (bx3 && bx4)) && ((by1 && by2) || (by3 && by4))) {
+            if (!box.classList.contains('inactive')) {
+              if (originalEventTarget.classList.contains('active') || originalEventTarget.classList.contains('deselect')) {
+                box.classList.add('deselect')
+              }
+              else if (!originalEventTarget.classList.contains('active')) {
+                box.classList.add('select')
+              }
+            }
+          }
+          else {
+            box.classList.remove('deselect', 'select')
+          }
+        })
+      }
+      window.onmouseup = () => {
+        this.timeTables.find(t => t.locationId == this.selectedLocation.id)
+            .menus.find(m => m.MenuId == this.selectedMenuId)
+            .Days.forEach(d => d.Times = [])
+
         this.element.shadowRoot.querySelectorAll('.select').forEach(x => {
           x.classList.remove('select');
           x.classList.add('active')
-          this.timeTables.find(t => t.locationId == this.selectedLocation.id)
-            .menus.find(m => m.MenuId == this.selectedMenuId)
-            .Days.find(d => d.Day == x.id)
-            .Times.push({ time: x.parentElement.id })
         })
+
         this.element.shadowRoot.querySelectorAll('.deselect').forEach(x => {
           x.classList.remove('active')
           x.classList.remove('deselect');
-          let a = this.timeTables.find(t => t.locationId == this.selectedLocation.id)
+        })
+
+        this.element.shadowRoot.querySelectorAll('.active').forEach(x => {
+          const a = this.timeTables.find(t => t.locationId == this.selectedLocation.id)
             .menus.find(m => m.MenuId == this.selectedMenuId)
             .Days.find(d => d.Day == x.id)
-            .Times;
-          a.splice(a.indexOf(a.find(c => c.time == x.parentElement.id)));
+            .Times
+          a.push({ time: x.parentElement.id })
+          console.log(a)
         })
+          // let a = this.timeTables.find(t => t.locationId == this.selectedLocation.id)
+          //   .menus.find(m => m.MenuId == this.selectedMenuId)
+          //   .Days.find(d => d.Day == x.id)
+          //   .Times;
+          // a.splice(a.indexOf(a.find(c => c.time == x.parentElement.id)));
         table.onmouseup = null;
         table.onmousemove = null;
         // this.select(this.days);
+        console.log(this.timeTables)
       }
     }
   }
@@ -214,7 +232,7 @@ export interface days {
 }
 
 export interface times {
-  time: string
+  time: TimeLike
 }
 
 export interface menu {

@@ -155,3 +155,14 @@ interface DHMConfig {
     key?: string;
   }
 }
+
+export interface location {
+  locations: {
+    name: string
+    id: number
+  }[]
+  selectedLocation?: {
+    name: string,
+    id: number
+}
+}

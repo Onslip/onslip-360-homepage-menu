@@ -68,7 +68,7 @@ table {
   vertical-align: inherit;
   height: 28px;
   user-select: none;
-  transition: 0.13s;
+  transition: 0.1s;
 }
 
 .modal .body {
@@ -100,20 +100,19 @@ table {
   width: 100%;
 }
 
+.active {
+  background-color: var(--primary);
+}
+
+.inactive {
+  background-color: goldenrod;
+  cursor: not-allowed;
+}
+
 .select {
   background-color: var(--faded);
 }
 
 .deselect {
   background-color: rgb(231, 231, 231);
-}
-
-.active {
-  background-color: var(--primary);
-
-}
-
-.inactive {
-  background-color: goldenrod;
-  cursor: not-allowed;
 }
