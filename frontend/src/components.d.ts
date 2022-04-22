@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenuWithCategory } from "./components/utils/utils";
+import { location, MenuWithCategory } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
     }
@@ -50,6 +50,7 @@ export namespace Components {
         "value": string;
     }
     interface ToolbarComponent {
+        "GetLocations": () => Promise<location>;
     }
 }
 declare global {

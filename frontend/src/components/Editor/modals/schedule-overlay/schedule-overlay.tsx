@@ -11,7 +11,7 @@ import { MenuWithCategory, location } from '../../../utils/utils';
 export class ScheduleOverlay {
   @State() menus: MenuWithCategory[]
   @State() locationList: location;
-  @State() daysOfWeek: [string, number][] = [['Måndag', 1], ['Tisdag', 2], ['Onsdag', 3], ['Torsdag', 4], ['Fredag', 5], ['Lördag', 6], ['Söndag', 0]] 
+  @State() daysOfWeek: [string, number][] = [['Måndag', 1], ['Tisdag', 2], ['Onsdag', 3], ['Torsdag', 4], ['Fredag', 5], ['Lördag', 6], ['Söndag', 0]]
   @State() hours: string[] = ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
   @State() selectedMenuId: number;
   @State() selectedLocation
@@ -24,6 +24,7 @@ export class ScheduleOverlay {
     let d = new Date()
     let allD = d.toDateString()
     console.log(allD)
+
 
     this.locationList = await GetData('http://localhost:8080/setlocation');
     this.selectedLocation = this.locationList.selectedLocation;
@@ -52,7 +53,7 @@ export class ScheduleOverlay {
     const originalEventTarget = ev.target;
     const table = ev.target.parentElement.parentElement;
     if (this.selectedMenuId != null && originalEventTarget.classList.contains('box')) {
-      if(!originalEventTarget.classList.contains('inactive')) {
+      if (!originalEventTarget.classList.contains('inactive')) {
         if (originalEventTarget.classList.contains('active') || originalEventTarget.classList.contains('deselect')) {
           originalEventTarget.classList.add('deselect')
         }
@@ -96,8 +97,8 @@ export class ScheduleOverlay {
       }
       window.onmouseup = () => {
         this.timeTables.find(t => t.locationId == this.selectedLocation.id)
-            .menus.find(m => m.MenuId == this.selectedMenuId)
-            .Days.forEach(d => d.Times = [])
+          .menus.find(m => m.MenuId == this.selectedMenuId)
+          .Days.forEach(d => d.Times = [])
 
         this.element.shadowRoot.querySelectorAll('.select').forEach(x => {
           x.classList.remove('select');
@@ -117,15 +118,9 @@ export class ScheduleOverlay {
           a.push({ time: x.parentElement.id })
           console.log(a)
         })
-          // let a = this.timeTables.find(t => t.locationId == this.selectedLocation.id)
-          //   .menus.find(m => m.MenuId == this.selectedMenuId)
-          //   .Days.find(d => d.Day == x.id)
-          //   .Times;
-          // a.splice(a.indexOf(a.find(c => c.time == x.parentElement.id)));
+
         table.onmouseup = null;
         table.onmousemove = null;
-        // this.select(this.days);
-        console.log(this.timeTables)
       }
     }
   }

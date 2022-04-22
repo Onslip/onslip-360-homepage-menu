@@ -1,4 +1,4 @@
-import { Component, State, Host, h, Element, Prop, getAssetPath, Method } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, Method } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
@@ -28,10 +28,6 @@ export class MenuEditorComponent {
     return this.AllMenus
   }
 
-  // @Method() async ReturnMenu(menu) {
-  //   this.menu = [...menu]
-  // }
-
   async componentWillLoad() {
     if (!DBConnection) {
       config.categoryImages.style = 'Disabled';
@@ -50,8 +46,6 @@ export class MenuEditorComponent {
         config.connect = false
       });
   }
-
-
 
   async getCatImages() {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
