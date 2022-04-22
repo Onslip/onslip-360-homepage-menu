@@ -47,7 +47,6 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = RegExp('');
                 async GET() {
-
                     return svc.rootResponse();
                 }
             })
@@ -239,6 +238,15 @@ export class DHMService {
             .addResource(class implements WebResource {
                 static path = /product-image/;
 
+                async GET() {
+                    const data = await svc.db.query<DBImage[]>`select * from onslip.productimages`;
+                    const list: DBImage[] = data.map(x => ({
+                        product_id: Number(x.product_id),
+                        image: x.image
+                    }))
+                    return list;
+                }
+                
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
@@ -256,14 +264,6 @@ export class DHMService {
                     return data;
                 }
 
-                async GET() {
-                    const data = await svc.db.query<DBImage[]>`select * from onslip.productimages`;
-                    const list: DBImage[] = data.map(x => ({
-                        product_id: Number(x.product_id),
-                        image: x.image
-                    }))
-                    return list;
-                }
             })
 
             .addResource(class implements WebResource {

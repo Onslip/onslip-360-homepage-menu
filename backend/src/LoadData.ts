@@ -1,6 +1,6 @@
-import { DatabaseURI, URI } from "@divine/uri";
+import { DatabaseURI, DBQuery, URI } from "@divine/uri";
 import { API } from "@onslip/onslip-360-node-api";
-import { categorywithproduct, DBcategory, DBproduct, Junction, MainConfig, Menu, MenuWithCategory } from "./interfaces";
+import { categorywithproduct, DBcategory, DBproduct, Junction, MainConfig, Menu, MenuWithCategory, DBJointTables } from "./interfaces";
 
 export async function GetProdFromApi(api: API): Promise<MenuWithCategory[]> {
     const categorybuttonamp = (await api.listButtonMaps()).filter(c => c.type == 'menu-section');
@@ -49,10 +49,30 @@ export async function GetProdFromApi(api: API): Promise<MenuWithCategory[]> {
 }
 
 export async function GetProdByGroup(db: DatabaseURI, api: API): Promise<MenuWithCategory[]> {
-    const categories = await db.query<DBcategory[]>`select * from onslip.productcategories`;
-    const products = await db.query<DBproduct[]>`select * from onslip.products`;
-    const junction = await db.query<Junction[]>`select * from onslip.grouptoproduct`
+    const mainConf: MainConfig = await new URI('./configs/main.json').load()
+
+    const jointTable:DBJointTables[] = await db.query<DBJointTables[]>`
+    SELECT menu.id as menuId, menu.name as menuName, productcategories.id as categoryId, productcategories.name as categoryName, productcategories.position, products.id, products.name, products.description, products.price, grouptoproduct.productposition
+    FROM onslip.menu
+    LEFT JOIN onslip.productcategories ON onslip.productcategories.menu_id = onslip.menu.id
+    LEFT JOIN onslip.grouptoproduct ON onslip.grouptoproduct.category_id = onslip.productcategories.id
+    LEFT JOIN onslip.products ON onslip.products.id = onslip.grouptoproduct.product_id
+    WHERE onslip.menu.id = ${mainConf.selectedMenu ?? 0}`
+
+    jointTable.forEach(jT => {
+        jT.categoryid = Number(jT.categoryid)
+        jT.menuid = Number(jT.menuid)
+        jT.id = Number(jT.id)
+        jT.position = Number(jT.position)
+        jT.productposition = Number(jT.productposition)
+    })
+
+    console.log(jointTable)
+
     const menu = await db.query<Menu[]>`select * from onslip.menu`;
+    const categories = await db.query<DBcategory[]>`select * from onslip.productcategories`;
+    const junction = await db.query<Junction[]>`select * from onslip.grouptoproduct`
+    const products = await db.query<DBproduct[]>`select * from onslip.products`;
     const GetProducts = (id: number): DBproduct[] => {
         return (
             products.filter(p => p.id == id).flatMap(p => {
