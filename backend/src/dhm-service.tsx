@@ -215,6 +215,15 @@ export class DHMService {
             class implements WebResource {
                 static path = /product-image/;
 
+                async GET() {
+                    const data = await svc.db.query<DBImage[]>`select * from onslip.productimages`;
+                    const list: DBImage[] = data.map(x => ({
+                        product_id: Number(x.product_id),
+                        image: x.image
+                    }))
+                    return list;
+                }
+
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
@@ -230,15 +239,6 @@ export class DHMService {
                         await svc.db.query<DBQuery[]>`update onslip.productimages set (image) = (${dataBuffer}) where product_id = ${id}`;
                     }
                     return data;
-                }
-
-                async GET() {
-                    const data = await svc.db.query<DBImage[]>`select * from onslip.productimages`;
-                    const list: DBImage[] = data.map(x => ({
-                        product_id: Number(x.product_id),
-                        image: x.image
-                    }))
-                    return list;
                 }
             },
             class implements WebResource {
