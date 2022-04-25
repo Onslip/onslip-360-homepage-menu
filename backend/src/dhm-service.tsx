@@ -1,13 +1,11 @@
-import { DatabaseURI, DBMetadata, DBQuery, FIELDS, FormData, STATUS, URI } from '@divine/uri';
+import { DatabaseURI, DBQuery, FIELDS, FormData, URI } from '@divine/uri';
 import { ContentType } from '@divine/headers'
-import { CORSFilter, WebArguments, WebRequest, WebResource, WebResourceBase, WebResponse, WebService } from '@divine/web-service';
+import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
 import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
-import { Get } from '@divine/x4e/build/src/private/x4e-utils';
-import { kill } from 'process';
 
 export class DHMService {
     private api: API;
@@ -44,32 +42,33 @@ export class DHMService {
                 static path = /.*/;
             })
 
-            .addResource(class implements WebResource {
+
+            .addResources([class implements WebResource {
                 static path = RegExp('');
                 async GET() {
                     return svc.rootResponse();
                 }
-            })
 
-            .addResource(class implements WebResource {
-                static path = /background/;
+                async POST(args: WebArguments) {
+                    return args.body();
+                }
+            },
+
+            class implements WebResource {
+                static path = /schedule/;
+
                 async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 1`;
-                    return data[0];
+                    return '';
                 }
                 async POST(args: WebArguments) {
-                    const data = await args.body() as FormData
-                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 1)`;
-                    return data;
+                    return args.body();
                 }
-            })
 
-            .addResource(class implements WebResource {
-                static path = /setlocation/;
+            },
+
+            class implements WebResource {
+                static path = /mainconfig/;
                 async GET() {
-
                     const config: MainConfig = await new URI(`./configs/main.json`).load()
                     const location = { locations: (await svc.api.listLocations()).flatMap(x => { return { name: x.name, id: Number(x.id) } }), selectedLocation: config.selectedLocation }
                     return JSON.stringify(location);
@@ -77,59 +76,15 @@ export class DHMService {
                 async POST(args: WebArguments) {
                     const body: MainConfig = await args.body();
                     const config: MainConfig = await new URI(`./configs/main.json`).load();
-
                     await new URI(`./configs/main.json`).save(JSON.stringify({ configId: config.configId, selectedLocation: { name: body.selectedLocation?.name, id: body.selectedLocation?.id }, selectedMenu: config.selectedMenu }))
                     return args.body();
                 }
-            })
 
-            .addResource(class implements WebResource {
-                static path = /banner/;
-                async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 2`;
-                    return data[0];
+                async PUT(args: WebArguments) {
+                    return args.body()
                 }
-
-                async POST(args: WebArguments) {
-                    const data = await args.body() as FormData
-                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 2)`;
-                    return data;
-                }
-            })
-
-            .addResource(class implements WebResource {
-                static path = /logo/;
-                async GET() {
-                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 3`;
-                    return data[0];
-                }
-
-                async POST(args: WebArguments) {
-                    const data = await args.body() as FormData
-                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
-                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 3)`;
-                    return data;
-                }
-            })
-
-            .addResource(class implements WebResource {
-                static path = /location/;
-                async GET() {
-                    const data = (await svc.api.getLocation(1))['company-name'];
-                    return JSON.stringify(data ?? [0]);
-                }
-                async POST(args: WebArguments) {
-                    const data = await args.body() as FormData;
-                    const cacheURI = data[FIELDS]?.values().next().value['value']['href'];
-                    const dataBuffer = await new URI(cacheURI).load(ContentType.json);
-                    return data;
-                }
-            })
-
-            .addResource(class implements WebResource {
+            },
+            class implements WebResource {
                 static path = /config/;
                 async GET() {
                     const id: MainConfig = await new URI(`./configs/main.json`).load()
@@ -143,9 +98,8 @@ export class DHMService {
                     await new URI(`./configs/config${body.configId}.json`).save(JSON.stringify(body))
                     return args.body();
                 }
-            })
-
-            .addResource(class implements WebResource {
+            },
+            class implements WebResource {
                 static path = /configId/;
 
                 async GET() {
@@ -167,9 +121,8 @@ export class DHMService {
                     await new URI(`./configs/main.json`).save(JSON.stringify({ configId: body.configId, selectedLocation: location.selectedLocation, selectedMenu: location.selectedMenu }))
                     return body;
                 }
-            })
-
-            .addResource(class implements WebResource {
+            },
+            class implements WebResource {
                 static path = /updateposition/;
 
                 async POST(args: WebArguments) {
@@ -184,27 +137,8 @@ export class DHMService {
                     (await svc.api.updateButtonMap(data.menu, sortedMenu))
                     return sortedMenu;
                 }
-            })
-
-
-            // .addResources([class implements WebResource {
-            //     static path = /asd/;
-
-            //     async GET() {
-            //         return ''
-            //     }
-
-            //     async POST(args: WebArguments) {
-            //         return args.body();
-            //     }
-            // },
-            // class implements WebResource {
-            //     static path = /asfasf/;
-            // },
-
-            // ])
-
-            .addResource(class implements WebResource {
+            },
+            class implements WebResource {
                 static path = /api/;
 
                 async GET() {
@@ -233,9 +167,52 @@ export class DHMService {
                     svc.WritetoFile(api.api);
                     return args.body()
                 }
-            })
+            },
+            class implements WebResource {
+                static path = /background/;
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 1`;
+                    return data[0];
+                }
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 1)`;
+                    return data;
+                }
+            },
+            class implements WebResource {
+                static path = /banner/;
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 2`;
+                    return data[0];
+                }
 
-            .addResource(class implements WebResource {
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 2)`;
+                    return data;
+                }
+            },
+            class implements WebResource {
+                static path = /logo/;
+                async GET() {
+                    const data = await svc.db.query<DBQuery[]>`select image from onslip.images where id = 3`;
+                    return data[0];
+                }
+
+                async POST(args: WebArguments) {
+                    const data = await args.body() as FormData
+                    const cacheURI = data[FIELDS]?.values().next().value['value']['href']
+                    const dataBuffer = await new URI(cacheURI).load(ContentType.bytes);
+                    svc.db.query<DBQuery[]>`upsert into onslip.images (image, id) values (${dataBuffer}, 3)`;
+                    return data;
+                }
+            },
+            class implements WebResource {
                 static path = /product-image/;
 
                 async GET() {
@@ -246,7 +223,7 @@ export class DHMService {
                     }))
                     return list;
                 }
-                
+
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
@@ -263,12 +240,9 @@ export class DHMService {
                     }
                     return data;
                 }
-
-            })
-
-            .addResource(class implements WebResource {
+            },
+            class implements WebResource {
                 static path = /category-image/;
-
 
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
@@ -296,7 +270,8 @@ export class DHMService {
                     }))
                     return list;
                 }
-            })
+            }
+            ])
     }
 
     private async WritetoFile(api: DHMConfig) {
