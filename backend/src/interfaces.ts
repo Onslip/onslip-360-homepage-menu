@@ -30,18 +30,18 @@ export interface DBCatImage {
 
 }
 
-export interface DBJointTables {
-    menuid: number,
-    menuname: string,
-    categoryid: number,
-    categoryname: string,
-    position: number,
-    id: number,
-    name: string,
-    description: string,
-    price: string,
-    productposition: number
-}
+// export interface DBJointTables {
+//     menuid: number,
+//     menuname: string,
+//     categoryid: number,
+//     categoryname: string,
+//     position: number,
+//     id: number,
+//     name: string,
+//     description: string,
+//     price: string,
+//     productposition: number
+// }
 
 export interface MenuWithCategory {
     menu: Menu

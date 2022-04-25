@@ -21,9 +21,6 @@ export class ScheduleOverlay {
 
 
   async componentWillLoad() {
-    let d = new Date()
-    let allD = d.toDateString()
-    console.log(allD)
 
     this.locationList = await GetData('http://localhost:8080/setlocation');
     this.selectedLocation = this.locationList.selectedLocation;
@@ -95,6 +92,9 @@ export class ScheduleOverlay {
         })
       }
       window.onmouseup = () => {
+        table.onmouseup = null;
+        table.onmousemove = null;
+
         this.timeTables.find(t => t.locationId == this.selectedLocation.id)
             .menus.find(m => m.MenuId == this.selectedMenuId)
             .Days.forEach(d => d.Times = [])
@@ -117,15 +117,6 @@ export class ScheduleOverlay {
           a.push({ time: x.parentElement.id })
           console.log(a)
         })
-          // let a = this.timeTables.find(t => t.locationId == this.selectedLocation.id)
-          //   .menus.find(m => m.MenuId == this.selectedMenuId)
-          //   .Days.find(d => d.Day == x.id)
-          //   .Times;
-          // a.splice(a.indexOf(a.find(c => c.time == x.parentElement.id)));
-        table.onmouseup = null;
-        table.onmousemove = null;
-        // this.select(this.days);
-        console.log(this.timeTables)
       }
     }
   }
@@ -196,7 +187,7 @@ export class ScheduleOverlay {
                 <tbody>
                   <tr class='DaysOfWeekHeaders'>
                     <th class='Days'></th>
-                    {this.daysOfWeek.map(x => <th class='Days'>{x}</th>)}
+                    {this.daysOfWeek.map(x => <th class='Days'>{x[0]}</th>)}
                   </tr>
                 </tbody>
               </table></ion-row>
