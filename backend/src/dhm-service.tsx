@@ -54,10 +54,11 @@ export class DHMService {
                 static path = /schedule/;
 
                 async GET() {
-                    return '';
+                    const schedule: Timetable[] = await new URI('./configs/ScheduleConfig.json').load();
+                    return schedule;
                 }
                 async POST(args: WebArguments) {
-                    const scheduleTime: Timetable = await args.body();
+                    const scheduleTime: Timetable[] = await args.body();
                     await new URI(`./configs/ScheduleConfig.json`).save(JSON.stringify(scheduleTime))
                     return args.body();
                 }
