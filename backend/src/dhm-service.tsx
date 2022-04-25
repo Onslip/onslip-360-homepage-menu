@@ -67,12 +67,10 @@ export class DHMService {
                 static path = /mainconfig/;
                 async GET() {
                     const config: MainConfig = await new URI(`./configs/main.json`).load()
-                    // const location = { locations: (await svc.api.listLocations()).flatMap(x => { return { name: x.name, id: Number(x.id) } }), selectedLocation: config.selectedLocation }
                     return config;
                 }
                 async POST(args: WebArguments) {
                     const body: MainConfig = await args.body();
-                    // const config: MainConfig = await new URI(`./configs/main.json`).load();
                     await new URI(`./configs/main.json`).save(body)
                     return args.body();
                 }
@@ -82,7 +80,7 @@ export class DHMService {
                 static path = /locations/;
 
                 async GET() {
-                    const locations = (await svc.api.listLocations()).map(l => {l.id, l.name})
+                    const locations = (await svc.api.listLocations()).map(l => { l.id, l.name })
                     return locations
                 }
             },
@@ -162,7 +160,7 @@ export class DHMService {
                     catch (err) {
                         api.DatabaseConnected = false;
                     }
-                    
+
                     return api;
                 }
 

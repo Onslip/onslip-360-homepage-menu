@@ -1,6 +1,7 @@
 import { Component, h, State, Element } from '@stencil/core';
 import { TimeLike } from 'fs';
 import { GetData } from '../../../utils/get';
+import { PostData } from '../../../utils/post';
 import { MenuWithCategory, location } from '../../../utils/utils';
 
 @Component({
@@ -12,7 +13,7 @@ export class ScheduleOverlay {
   @State() menus: MenuWithCategory[]
   @State() locationList: location;
   @State() daysOfWeek: [string, number][] = [['Måndag', 1], ['Tisdag', 2], ['Onsdag', 3], ['Torsdag', 4], ['Fredag', 5], ['Lördag', 6], ['Söndag', 0]]
-  @State() hours: string[] = ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+  @State() hours: [string, number][] = [['01:00', 1], ['02:00', 2], ['03:00', 3], ['04:00', 4], ['05:00', 5], ['06:00', 6], ['07:00', 7], ['08:00', 8], ['09:00', 9], ['10:00', 10], ['11:00', 11], ['12:00', 12], ['13:00', 13], ['14:00', 14], ['15:00', 15], ['16:00', 16], ['17:00', 17], ['18:00', 18], ['19:00', 19], ['20:00', 20], ['21:00', 21], ['22:00', 22], ['23:00', 23]]
   @State() selectedMenuId: number;
   @State() selectedLocation
   @State() activeBox: string;
@@ -148,8 +149,9 @@ export class ScheduleOverlay {
     reference: "event",
   };
 
-  Save() {
+  async Save() {
     // this.timeTables.find(x => x.locationId == 1).menus.find(z => z.MenuId == this.selectedMenuId).Days = days;
+    await PostData('http://localhost:8080/schedule', this.timeTables).then(() => this.close());
   }
 
   changeLocation() {
@@ -200,7 +202,7 @@ export class ScheduleOverlay {
                     {this.daysOfWeek.map(d => <td id={d[0]} class='box'></td>)}
                   </tr>
                   {
-                    this.hours.map(x => <tr id={x} class='TimeSlots'>
+                    this.hours.map(x => <tr id={String(x[1])} class='TimeSlots'>
                       <td class='Time'><div class='TimeText'>{x}</div></td>
                       {this.daysOfWeek.map((d) => <td id={d[0]} class='box'></td>)}
                     </tr>)
