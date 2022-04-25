@@ -1,7 +1,7 @@
 
 import { Component, Host, h, State, Prop } from '@stencil/core';
 import { PostData } from '../../utils/post';
-import { config } from '../../utils/utils';
+import { config, mainConfig } from '../../utils/utils';
 
 @Component({
   tag: 'selector-component',
@@ -66,12 +66,14 @@ export class SelectorComponent {
     }
     else if (this.type == 'preset') {
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
-      await PostData('http://localhost:8080/configId', { configId: event })
+      mainConfig.configId = event
+      await PostData('http://localhost:8080/mainconfig', mainConfig)
       location.reload();
     }
     else if (this.type == 'location') {
       console.log(event)
-      await PostData('http://localhost:8080/setlocation', { selectedLocation: event })
+      mainConfig.selectedLocation = event
+      await PostData('http://localhost:8080/maincofig', mainConfig)
     }
   }
 

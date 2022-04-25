@@ -67,47 +67,12 @@ export class DHMService {
                 static path = /mainconfig/;
                 async GET() {
                     const config: MainConfig = await new URI(`./configs/main.json`).load()
-                    // const location = { locations: (await svc.api.listLocations()).flatMap(x => { return { name: x.name, id: Number(x.id) } }), selectedLocation: config.selectedLocation }
                     return config;
                 }
                 async POST(args: WebArguments) {
                     const body: MainConfig = await args.body();
-                    // const config: MainConfig = await new URI(`./configs/main.json`).load();
                     await new URI(`./configs/main.json`).save(body)
                     return args.body();
-                }
-            },
-
-            class implements WebResource {
-                static path = /locations/;
-
-                async GET() {
-                    const locations: location[] = (await svc.api.listLocations()).map(l => ({name: l.name, id: l.id}))
-                    return locations
-                }
-            },
-
-            class implements WebResource {
-                static path = /configId/;
-
-                async GET() {
-                    try {
-                        (await svc.api.getLocation(1))['company-name'];
-                        await svc.db.query<DBQuery>`select version()`;
-                        svc.dbConnect = true;
-                        return JSON.stringify(svc.dbConnect ?? [0]);
-                    }
-                    catch (error) {
-                        svc.dbConnect = false;
-                        return JSON.stringify(svc.dbConnect ?? [0]);
-                    }
-                }
-
-                async POST(args: WebArguments) {
-                    const body: MainConfig = await args.body();
-                    const location: MainConfig = await new URI(`./configs/main.json`).load();
-                    await new URI(`./configs/main.json`).save(JSON.stringify({ configId: body.configId, selectedLocation: location.selectedLocation, selectedMenu: location.selectedMenu }))
-                    return body;
                 }
             },
 
@@ -125,6 +90,16 @@ export class DHMService {
                     return args.body();
                 }
             },
+            
+            class implements WebResource {
+                static path = /locations/;
+
+                async GET() {
+                    const locations: location[] = (await svc.api.listLocations()).map(l => ({name: l.name, id: l.id}))
+                    return locations
+                }
+            },
+
             class implements WebResource {
                 static path = /updateposition/;
 
