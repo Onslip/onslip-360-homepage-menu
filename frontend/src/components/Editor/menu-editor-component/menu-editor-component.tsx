@@ -1,9 +1,10 @@
 import { Component, State, Host, h, Element, Prop, Method } from '@stencil/core';
-import { categorywithproduct, DBConnection, DBImage, DBproduct, MenuWithCategory } from '../../utils/utils';
+import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
 import { PostData, PostImage } from '../../utils/post';
+import { Timetable } from '../modals/schedule-overlay/schedule-overlay';
 
 @Component({
   tag: 'menu-editor-component',
@@ -33,9 +34,16 @@ export class MenuEditorComponent {
       config.categoryImages.style = 'Disabled';
       config.productImages.style = 'Disabled';
     }
+
+    const date = new Date()
+    const schedule:Timetable[] = await GetData('http://localhost:8080/schedule')
+    const menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+      .find(d => d.Day == date.getDay())?.Times
+      .find(t => t.time == date.getHours())?.menuid
+
     GetData(this.url)
       .then(response => this.AllMenus = response)
-      .then(response => this.menu = response[config.menuInUse])
+      .then(() => this.menu = this.AllMenus.find(m => m.menu.id == menuId))
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
       .then(() => this.getCatImages())
@@ -45,6 +53,8 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
+
+      
   }
 
   async getCatImages() {

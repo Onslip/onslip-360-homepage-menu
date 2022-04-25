@@ -59,7 +59,7 @@ export class DHMService {
                 }
                 async POST(args: WebArguments) {
                     const scheduleTime: Timetable[] = await args.body();
-                    await new URI(`./configs/ScheduleConfig.json`).save(JSON.stringify(scheduleTime))
+                    await new URI(`./configs/ScheduleConfig.json`).save(scheduleTime)
                     return args.body();
                 }
             },
@@ -274,14 +274,10 @@ export class DHMService {
     }
 
     private async rootResponse() {
-        try {
-            (await this.api.getLocation(1))['company-name'];
-            await this.db.query<DBQuery>`select version()`
-            this.dbConnect = true;
+        if(this.dbConnect == true) {
             return await GetProdByGroup(this.db, this.api);
         }
-        catch (error) {
-            this.dbConnect = false;
+        else {
             return await GetProdFromApi(this.api);
         }
     }

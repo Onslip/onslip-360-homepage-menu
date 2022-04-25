@@ -69,6 +69,10 @@ table {
   height: 28px;
   user-select: none;
   transition: 0.1s;
+  text-align: center;
+  font-size: x-small;
+  font-weight: bold;
+  color: rgb(99, 99, 99);
 }
 
 .modal .body {
@@ -94,6 +98,16 @@ table {
   transform: translate(0, -50%);
 }
 
+.alert {
+  color: var(--alert);
+  font-size: large;
+}
+
+ion-select::part(icon) {
+  position: absolute;
+  right: 40px;
+}
+
 .scroll {
   overflow: auto;
   height: 100%;
@@ -105,12 +119,12 @@ table {
 }
 
 .inactive {
-  background-color: goldenrod;
+  background-color: var(--warning);
   cursor: not-allowed;
 }
 
 .select {
-  background-color: var(--faded);
+  background-color: #93BD58;
 }
 
 .deselect {

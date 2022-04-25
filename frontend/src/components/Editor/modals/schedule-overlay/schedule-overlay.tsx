@@ -32,14 +32,18 @@ export class ScheduleOverlay {
 
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))
+    this.timeTables = await GetData('http://localhost:8080/schedule')
 
+    // this.locationList.forEach(x => {
+    //   this.timeTables.push({
+    //     locationId: x.id,
+    //     days: this.daysOfWeek.flatMap(d => { return { Day: d[1], Times: hours.flatMap(h => { return { time: h } }) } })
+    //   })
+    // })
+  }
 
-    this.locationList.forEach(x => {
-      this.timeTables.push({
-        locationId: x.id,
-        days: this.daysOfWeek.flatMap(d => { return { Day: d[1], Times: hours.flatMap(h => { return { time: h } }) } })
-      })
-    })
+  async componentDidRender() {
+    this.markUnavailableTimes()
   }
 
   async close() {
@@ -108,11 +112,16 @@ export class ScheduleOverlay {
           x.classList.remove('deselect');
         })
 
-        this.element.shadowRoot.querySelectorAll('.active').forEach(x => {
+        this.element.shadowRoot.querySelectorAll('.box').forEach(x => {
           const a = this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
             .days.find(d => d.Day == Number(x.id))
             .Times.find(t => t.time == Number(x.parentElement.id))
-          a.menuid = this.selectedMenuId
+            if(x.classList.contains('active')) {
+              a.menuid = this.selectedMenuId
+            }
+            else if(x.className == 'box') {
+              a.menuid = undefined
+            }
         })
         console.log(this.timeTables)
 
@@ -122,7 +131,8 @@ export class ScheduleOverlay {
 
   markUnavailableTimes() {
     this.element.shadowRoot.querySelectorAll('.box').forEach(x => {
-      x.className = 'box'
+      x.classList.remove('inactive', 'active')
+      x.textContent = ''
     })
     this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
       .days.forEach(d => {
@@ -132,6 +142,7 @@ export class ScheduleOverlay {
               if (Number(c.id) == d.Day && Number(c.parentElement.id) == f.time) {
                 c.classList.add('inactive');
                 c.classList.remove('active')
+                c.textContent = this.menus.find(m => m.menu.id == f.menuid).menu.name
               }
             }
           })
@@ -178,20 +189,25 @@ export class ScheduleOverlay {
             </ion-row>
             <ion-row>
               <ion-item class='row'>
-                <ion-select selectedText={this.selectedLocation.name} value={mainConfig.selectedLocation} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Plats' onIonChange={(event: any) => { this.changeLocation(event) }}>
+                <ion-select selectedText={this.selectedLocation.name} value={mainConfig.selectedLocation} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj Plats...' onIonChange={(event: any) => { this.changeLocation(event) }}>
                   {this.locationList?.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
                 </ion-select>
               </ion-item>
               <ion-item class='row'>
-                <ion-select value={this.selectedMenuId} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Meny' onIonChange={(event: any) => { this.changeMenu(event) }}>
+                <ion-select slot='start' value={this.selectedMenuId} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder={'Välj Meny...'} onIonChange={(event: any) => { this.changeMenu(event) }}>
                   {this.menus.map(x => <ion-select-option value={x.menu.id}>{x.menu.name}</ion-select-option>)}
                 </ion-select>
+                  {
+                    this.selectedMenuId == null ?
+                    <ion-icon class="alert" slot="end" name="alert-circle-sharp"></ion-icon>
+                    :null
+                  }
               </ion-item>
             </ion-row>
           </ion-col>
         </div>
         <div class="body">
-          {this.selectedLocation != undefined && this.selectedMenuId != undefined ?
+          {this.selectedLocation != undefined || this.selectedMenuId != undefined ?
             <div class="content">
               <ion-row class='HeaderRow'>
                 <table class='HeaderTable'>

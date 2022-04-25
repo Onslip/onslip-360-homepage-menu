@@ -142,7 +142,7 @@ export interface Timetable {
 
 export interface days {
     Day: number,
-    Times?: times[]
+    Times: times[]
 }
 
 export interface times {
