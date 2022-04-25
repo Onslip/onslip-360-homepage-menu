@@ -4,7 +4,7 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig } from './interfaces';
+import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
@@ -61,9 +61,10 @@ export class DHMService {
                     return '';
                 }
                 async POST(args: WebArguments) {
+                    const scheduleTime: Timetable = await args.body();
+                    await new URI(`./configs/ScheduleConfig.json`).save(JSON.stringify(scheduleTime))
                     return args.body();
                 }
-
             },
 
             class implements WebResource {
@@ -78,10 +79,6 @@ export class DHMService {
                     const config: MainConfig = await new URI(`./configs/main.json`).load();
                     await new URI(`./configs/main.json`).save(JSON.stringify({ configId: config.configId, selectedLocation: { name: body.selectedLocation?.name, id: body.selectedLocation?.id }, selectedMenu: config.selectedMenu }))
                     return args.body();
-                }
-
-                async PUT(args: WebArguments) {
-                    return args.body()
                 }
             },
             class implements WebResource {
@@ -308,4 +305,3 @@ export class DHMService {
         }
     }
 }
-

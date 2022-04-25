@@ -88,8 +88,8 @@ export class ToolbarComponent {
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
               // <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
-              <ion-select class="select" onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={this.locations.selectedLocation} selectedText={this.locations.selectedLocation.name}>
-                {this.locations.locations.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
+              <ion-select class="select" onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={this.locations?.selectedLocation} selectedText={this.locations?.selectedLocation?.name}>
+                {this.locations?.locations?.map(x => <ion-select-option value={x}>{x?.name}</ion-select-option>)}
               </ion-select>
             ] : null}
           </ion-buttons>
@@ -100,7 +100,7 @@ export class ToolbarComponent {
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">
-              {DBConnection ? [<ion-row>
+              {DBConnection?.DatabaseConnected ? [<ion-row>
                 <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={500} AspectRatio={1.77}></modal-ovelay>
               </ion-row>,
               <ion-row>
@@ -135,7 +135,7 @@ export class ToolbarComponent {
                 <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button'></modal-ovelay>
               </ion-row>
             </ion-col>
-            {DBConnection ? [
+            {DBConnection?.DatabaseConnected ? [
               <ion-col class="menu-col">
                 <ion-row>
                   <ion-item class="toggle">
