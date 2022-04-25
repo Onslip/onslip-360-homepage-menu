@@ -115,9 +115,7 @@ export class ScheduleOverlay {
             .menus.find(m => m.MenuId == this.selectedMenuId)
             .Days.find(d => d.Day == Number(x.id))
             .Times
-            console.log(x.id)
           a.push({ time: x.parentElement.id })
-          console.log(a)
         })
       }
     }
