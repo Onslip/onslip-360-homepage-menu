@@ -121,12 +121,12 @@ interface font {
 }
 
 export interface MainConfig {
-    configId?: number;
-    selectedLocation?: {
+    configId: number;
+    selectedLocation: {
         name: string,
         id: number
     }
-    selectedMenu?: 0;
+    selectedMenu: 0;
 };
 
 export interface ChangePosition {

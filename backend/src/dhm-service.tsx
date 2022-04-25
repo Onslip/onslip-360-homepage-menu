@@ -48,10 +48,6 @@ export class DHMService {
                 async GET() {
                     return svc.rootResponse();
                 }
-
-                async POST(args: WebArguments) {
-                    return args.body();
-                }
             },
 
             class implements WebResource {
@@ -70,35 +66,26 @@ export class DHMService {
                 static path = /mainconfig/;
                 async GET() {
                     const config: MainConfig = await new URI(`./configs/main.json`).load()
-                    const location = { locations: (await svc.api.listLocations()).flatMap(x => { return { name: x.name, id: Number(x.id) } }), selectedLocation: config.selectedLocation }
-                    return JSON.stringify(location);
+                    // const location = { locations: (await svc.api.listLocations()).flatMap(x => { return { name: x.name, id: Number(x.id) } }), selectedLocation: config.selectedLocation }
+                    return config;
                 }
                 async POST(args: WebArguments) {
                     const body: MainConfig = await args.body();
-                    const config: MainConfig = await new URI(`./configs/main.json`).load();
-                    await new URI(`./configs/main.json`).save(JSON.stringify({ configId: config.configId, selectedLocation: { name: body.selectedLocation?.name, id: body.selectedLocation?.id }, selectedMenu: config.selectedMenu }))
+                    // const config: MainConfig = await new URI(`./configs/main.json`).load();
+                    await new URI(`./configs/main.json`).save(body)
                     return args.body();
                 }
-
-                async PUT(args: WebArguments) {
-                    return args.body()
-                }
             },
+
             class implements WebResource {
-                static path = /config/;
+                static path = /locations/;
+
                 async GET() {
-                    const id: MainConfig = await new URI(`./configs/main.json`).load()
-                    const data = await new URI(`./configs/config${id.configId}.json`).load()
-                    return data;
-                }
-
-                async POST(args: WebArguments) {
-                    const body: Styleconfig = await args.body();
-
-                    await new URI(`./configs/config${body.configId}.json`).save(JSON.stringify(body))
-                    return args.body();
+                    const locations = (await svc.api.listLocations()).map(l => {l.id, l.name})
+                    return locations
                 }
             },
+
             class implements WebResource {
                 static path = /configId/;
 
@@ -120,6 +107,21 @@ export class DHMService {
                     const location: MainConfig = await new URI(`./configs/main.json`).load();
                     await new URI(`./configs/main.json`).save(JSON.stringify({ configId: body.configId, selectedLocation: location.selectedLocation, selectedMenu: location.selectedMenu }))
                     return body;
+                }
+            },
+
+            class implements WebResource {
+                static path = /config/;
+                async GET() {
+                    const config: MainConfig = await new URI(`./configs/main.json`).load()
+                    const data = await new URI(`./configs/config${config.configId}.json`).load()
+                    return data;
+                }
+
+                async POST(args: WebArguments) {
+                    const body: Styleconfig = await args.body();
+                    await new URI(`./configs/config${body.configId}.json`).save(body)
+                    return args.body();
                 }
             },
             class implements WebResource {
@@ -159,11 +161,12 @@ export class DHMService {
                     catch (err) {
                         api.DatabaseConnected = false;
                     }
-                    return JSON.stringify(api);
+                    
+                    return api;
                 }
 
                 async POST(args: WebArguments) {
-                    const api = await args.body() as newApi;
+                    const api: newApi = await args.body();
                     svc.WritetoFile(api.api);
                     return args.body()
                 }
@@ -243,7 +246,15 @@ export class DHMService {
             },
             class implements WebResource {
                 static path = /category-image/;
+                async GET() {
+                    const data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`;
+                    const list: DBCatImage[] = data.map(x => ({
 
+                        image: x.image,
+                        category_id: Number(x.category_id)
+                    }))
+                    return list;
+                }
                 async POST(args: WebArguments) {
                     const data = await args.body() as FormData;
                     const id = Number(data[FIELDS]?.find(x => x.name == 'id')?.value);
@@ -259,16 +270,6 @@ export class DHMService {
                         await svc.db.query<DBQuery[]>`update onslip.categoryimages set (image) = (${dataBuffer}) where category_id = ${id}`;
                     }
                     return data;
-                }
-
-                async GET() {
-                    const data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`;
-                    const list: DBCatImage[] = data.map(x => ({
-
-                        image: x.image,
-                        category_id: Number(x.category_id)
-                    }))
-                    return list;
                 }
             }
             ])
