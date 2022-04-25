@@ -93,7 +93,7 @@ export const Fonts = [
   'Verdana, Geneva, Tahoma, sans-serif',
 ];
 
-export const DBConnection = await GetData(`http://localhost:8080/configId`).then(response => response).catch(err => err);
+export const DBConnection: newApi = await GetData(`http://localhost:8080/api`).then(response => response).catch(err => err);
 
 export const editorvisual: boolean = false;
 
@@ -164,5 +164,5 @@ export interface location {
   selectedLocation?: {
     name: string,
     id: number
-}
+  }
 }

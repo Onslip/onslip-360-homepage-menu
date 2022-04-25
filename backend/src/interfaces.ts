@@ -134,3 +134,23 @@ export interface ChangePosition {
     categories: { id: number, position: number }[]
 }
 
+
+export interface Timetable {
+    locationId: number,
+    menus: menu[]
+
+}
+
+export interface days {
+    Day: number,
+    Times?: times[]
+}
+
+export interface times {
+    time: number
+}
+
+export interface menu {
+    MenuId: number
+    Days: days[]
+}
