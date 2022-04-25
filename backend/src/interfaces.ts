@@ -137,8 +137,7 @@ export interface ChangePosition {
 
 export interface Timetable {
     locationId: number,
-    menus: menu[]
-
+    days: days[]
 }
 
 export interface days {
@@ -147,13 +146,10 @@ export interface days {
 }
 
 export interface times {
-    time: number
+    time: number,
+    menuid?: number
 }
 
-export interface menu {
-    MenuId: number
-    Days: days[]
-}
 
 export interface location {
     name: string

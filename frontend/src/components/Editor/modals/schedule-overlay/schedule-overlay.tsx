@@ -1,7 +1,6 @@
 import { Component, h, State, Element } from '@stencil/core';
-import { TimeLike } from 'fs';
-import { config } from 'process';
 import { GetData } from '../../../utils/get';
+import { PostData } from '../../../utils/post';
 import { MenuWithCategory, location, mainConfig } from '../../../utils/utils';
 
 @Component({
@@ -13,7 +12,7 @@ export class ScheduleOverlay {
   @State() menus: MenuWithCategory[]
   @State() locationList: location[];
   @State() daysOfWeek: [string, number][] = [['Måndag', 1], ['Tisdag', 2], ['Onsdag', 3], ['Torsdag', 4], ['Fredag', 5], ['Lördag', 6], ['Söndag', 0]]
-  @State() hours: string[] = ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+  @State() hours: [string, number][] = [['01:00', 1], ['02:00', 2], ['03:00', 3], ['04:00', 4], ['05:00', 5], ['06:00', 6], ['07:00', 7], ['08:00', 8], ['09:00', 9], ['10:00', 10], ['11:00', 11], ['12:00', 12], ['13:00', 13], ['14:00', 14], ['15:00', 15], ['16:00', 16], ['17:00', 17], ['18:00', 18], ['19:00', 19], ['20:00', 20], ['21:00', 21], ['22:00', 22], ['23:00', 23]]
   @State() selectedMenuId: number;
   @State() selectedLocation: location
   @State() activeBox: string;
@@ -31,12 +30,15 @@ export class ScheduleOverlay {
     this.menus = await menu?.GetMenu();
     this.locationList = await toolbar?.GetLocations();
 
-    console.log(mainConfig.selectedLocation.name)
-    this.timeTables = this.locationList.flatMap(l => {
-      return {
-        locationId: l.id,
-        menus: this.menus.flatMap(m => { return { MenuId: m.menu.id, Days: this.daysOfWeek.map(d => { return { Day: d[1], Times: [] } }) } })
-      }
+    let hours = [0]
+    this.hours.flatMap(x => hours.push(x[1]))
+
+
+    this.locationList.forEach(x => {
+      this.timeTables.push({
+        locationId: x.id,
+        days: this.daysOfWeek.flatMap(d => { return { Day: d[1], Times: hours.flatMap(h => { return { time: h } }) } })
+      })
     })
   }
 
@@ -96,10 +98,6 @@ export class ScheduleOverlay {
         table.onmouseup = null;
         table.onmousemove = null;
 
-        this.timeTables.find(t => t.locationId == mainConfig.selectedLocation.id)
-          .menus.find(m => m.MenuId == this.selectedMenuId)
-          .Days.forEach(d => d.Times = [])
-
         this.element.shadowRoot.querySelectorAll('.select').forEach(x => {
           x.classList.remove('select');
           x.classList.add('active')
@@ -111,12 +109,13 @@ export class ScheduleOverlay {
         })
 
         this.element.shadowRoot.querySelectorAll('.active').forEach(x => {
-          const a = this.timeTables?.find(t => t.locationId == mainConfig.selectedLocation.id)
-            .menus.find(m => m.MenuId == this.selectedMenuId)
-            .Days.find(d => d.Day == Number(x.id))
-            .Times
-          a.push({ time: x.parentElement.id })
+          const a = this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
+            .days.find(d => d.Day == Number(x.id))
+            .Times.find(t => t.time == Number(x.parentElement.id))
+          a.menuid = this.selectedMenuId
         })
+        console.log(this.timeTables)
+
       }
     }
   }
@@ -126,32 +125,38 @@ export class ScheduleOverlay {
       x.className = 'box'
     })
     this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
-      .menus?.filter(m => m.MenuId != this.selectedMenuId)
-      .forEach(s => s.Days?.forEach(d => d.Times?.forEach(time => {
+      .days.forEach(d => {
+        d.Times.filter(t => t.menuid != this.selectedMenuId).forEach(f => {
+          this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
+            if (f.menuid != undefined) {
+              if (Number(c.id) == d.Day && Number(c.parentElement.id) == f.time) {
+                c.classList.add('inactive');
+                c.classList.remove('active')
+              }
+            }
+          })
+        })
+      })
+
+    this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
+      .days?.find(d => d.Times.filter(t => t.menuid == this.selectedMenuId).forEach(f =>
         this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
-          if (Number(c.id) == d.Day && c.parentElement.id == time.time) {
-            c.classList.add('inactive');
-            c.classList.remove('active')
+          if (f.menuid != undefined) {
+            if (Number(c.id) == d.Day && Number(c.parentElement.id) == f.time) {
+              c.classList.remove('inactive');
+              c.classList.add('active');
+            }
           }
         })
-      })))
-    this.timeTables?.find(t => t.locationId == mainConfig.selectedLocation.id)
-      .menus?.find(m => m.MenuId == this.selectedMenuId)?.Days?.forEach(d => d.Times.forEach(time => {
-        this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
-          if (Number(c.id) == d.Day && c.parentElement.id == time.time) {
-            c.classList.remove('inactive');
-            c.classList.add('active');
-          }
-        })
-      }))
+      ))
   }
 
   private customPopoverOptions: any = {
     reference: "event",
   };
 
-  Save() {
-    // this.timeTables.find(x => x.locationId == 1).menus.find(z => z.MenuId == this.selectedMenuId).Days = days;
+  async Save() {
+    await PostData('http://localhost:8080/schedule', this.timeTables).then(() => this.close());
   }
 
   changeLocation(event: any) {
@@ -159,7 +164,7 @@ export class ScheduleOverlay {
     this.markUnavailableTimes();
   }
   changeMenu(event: any) {
-    this.selectedMenuId = event.target.value  
+    this.selectedMenuId = event.target.value
     this.markUnavailableTimes();
   }
 
@@ -173,12 +178,12 @@ export class ScheduleOverlay {
             </ion-row>
             <ion-row>
               <ion-item class='row'>
-                <ion-select selectedText={this.selectedLocation.name} value={mainConfig.selectedLocation} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Plats' onIonChange={(event: any) => {this.changeLocation(event) }}>
+                <ion-select selectedText={this.selectedLocation.name} value={mainConfig.selectedLocation} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Plats' onIonChange={(event: any) => { this.changeLocation(event) }}>
                   {this.locationList?.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
                 </ion-select>
               </ion-item>
               <ion-item class='row'>
-                <ion-select value={this.selectedMenuId} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Meny' onIonChange={(event: any) => {this.changeMenu(event) }}>
+                <ion-select value={this.selectedMenuId} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Meny' onIonChange={(event: any) => { this.changeMenu(event) }}>
                   {this.menus.map(x => <ion-select-option value={x.menu.id}>{x.menu.name}</ion-select-option>)}
                 </ion-select>
               </ion-item>
@@ -186,33 +191,35 @@ export class ScheduleOverlay {
           </ion-col>
         </div>
         <div class="body">
-          <div class="content">
-            <ion-row class='HeaderRow'>
-              <table class='HeaderTable'>
-                <tbody>
-                  <tr class='DaysOfWeekHeaders'>
-                    <th class='Days'></th>
-                    {this.daysOfWeek.map(x => <th class='Days'>{x[0]}</th>)}
-                  </tr>
-                </tbody>
-              </table></ion-row>
-            <div class='scroll'>
-              <table class='Schedule'>
-                <tbody class='TableBody' onMouseDown={(event: any) => this.SelectTime(event)}>
-                  <tr id='00:00' class='TimeSlots'>
-                    <td class='Time'><div></div></td>
-                    {this.daysOfWeek.map(d => <td id={String(d[1])} class='box'></td>)}
-                  </tr>
-                  {
-                    this.hours.map(x => <tr id={x} class='TimeSlots'>
-                      <td class='Time'><div class='TimeText'>{x}</div></td>
-                      {this.daysOfWeek.map((d) => <td id={String(d[1])} class='box'></td>)}
-                    </tr>)
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {this.selectedLocation != undefined && this.selectedMenuId != undefined ?
+            <div class="content">
+              <ion-row class='HeaderRow'>
+                <table class='HeaderTable'>
+                  <tbody>
+                    <tr class='DaysOfWeekHeaders'>
+                      <th class='Days'></th>
+                      {this.daysOfWeek.map(x => <th class='Days'>{x[0]}</th>)}
+                    </tr>
+                  </tbody>
+                </table></ion-row>
+              <div class='scroll'>
+                <table class='Schedule'>
+                  <tbody class='TableBody' onMouseDown={(event: any) => this.SelectTime(event)}>
+                    <tr id='0' class='TimeSlots'>
+                      <td class='Time'><div></div></td>
+                      {this.daysOfWeek.map(d => <td id={String(d[1])} class='box'></td>)}
+                    </tr>
+                    {
+                      this.hours.map(x => <tr id={String(x[1])} class='TimeSlots'>
+                        <td class='Time'><div class='TimeText'>{x[0]}</div></td>
+                        {this.daysOfWeek.map((d) => <td id={String(d[1])} class='box'></td>)}
+                      </tr>)
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div> : null}
+
         </div>
         <div class="footer">
           <button class='button save' onClick={() => this.Save()} type="submit">Spara</button>
@@ -226,8 +233,7 @@ export class ScheduleOverlay {
 
 export interface Timetable {
   locationId: number,
-  menus: menu[]
-
+  days: days[]
 }
 
 export interface days {
@@ -236,10 +242,7 @@ export interface days {
 }
 
 export interface times {
-  time: TimeLike
+  time: number,
+  menuid?: number
 }
 
-export interface menu {
-  MenuId: number
-  Days: days[]
-}
