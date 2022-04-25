@@ -50,7 +50,7 @@ export namespace Components {
         "value": string;
     }
     interface ToolbarComponent {
-        "GetLocations": () => Promise<location>;
+        "GetLocations": () => Promise<location[]>;
     }
 }
 declare global {
