@@ -1,5 +1,4 @@
 import { Component, h, State, Element } from '@stencil/core';
-import { TimeLike } from 'fs';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
 import { MenuWithCategory, location, mainConfig } from '../../../utils/utils';
@@ -115,7 +114,7 @@ export class ScheduleOverlay {
             .menus.find(m => m.MenuId == this.selectedMenuId)
             .Days.find(d => d.Day == Number(x.id))
             .Times
-          a.push({ time: x.parentElement.id })
+          a.push({ time: Number(x.parentElement.id) })
         })
       }
     }
@@ -129,7 +128,7 @@ export class ScheduleOverlay {
       .menus?.filter(m => m.MenuId != this.selectedMenuId)
       .forEach(s => s.Days?.forEach(d => d.Times?.forEach(time => {
         this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
-          if (Number(c.id) == d.Day && c.parentElement.id == time.time) {
+          if (Number(c.id) == d.Day && Number(c.parentElement.id) == time.time) {
             c.classList.add('inactive');
             c.classList.remove('active')
           }
@@ -138,7 +137,7 @@ export class ScheduleOverlay {
     this.timeTables?.find(t => t.locationId == mainConfig.selectedLocation.id)
       .menus?.find(m => m.MenuId == this.selectedMenuId)?.Days?.forEach(d => d.Times.forEach(time => {
         this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
-          if (Number(c.id) == d.Day && c.parentElement.id == time.time) {
+          if (Number(c.id) == d.Day && Number(c.parentElement.id) == time.time) {
             c.classList.remove('inactive');
             c.classList.add('active');
           }
@@ -200,7 +199,7 @@ export class ScheduleOverlay {
             <div class='scroll'>
               <table class='Schedule'>
                 <tbody class='TableBody' onMouseDown={(event: any) => this.SelectTime(event)}>
-                  <tr id='00:00' class='TimeSlots'>
+                  <tr id='0' class='TimeSlots'>
                     <td class='Time'><div></div></td>
                     {this.daysOfWeek.map(d => <td id={String(d[1])} class='box'></td>)}
                   </tr>
@@ -237,7 +236,7 @@ export interface days {
 }
 
 export interface times {
-  time: TimeLike
+  time: number
 }
 
 export interface menu {
