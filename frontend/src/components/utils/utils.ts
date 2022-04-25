@@ -95,6 +95,8 @@ export const Fonts = [
 
 export const DBConnection: newApi = await GetData(`http://localhost:8080/api`).then(response => response).catch(err => err);
 
+export const mainConfig: mainConfigInterface = await GetData(`http://localhost:8080/mainconfig`).then(response => response).catch(err => err);
+
 export const editorvisual: boolean = false;
 
 
@@ -157,12 +159,12 @@ interface DHMConfig {
 }
 
 export interface location {
-  locations: {
-    name: string
-    id: number
-  }[]
-  selectedLocation?: {
-    name: string,
-    id: number
-  }
+  name: string
+  id: number
 }
+
+export interface mainConfigInterface {
+  configId: number;
+  selectedLocation: location
+  selectedMenu: 0;
+};

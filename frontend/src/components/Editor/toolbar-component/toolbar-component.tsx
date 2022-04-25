@@ -1,5 +1,5 @@
 import { Component, h, State, getAssetPath, Element, Method } from '@stencil/core';
-import { Fonts, config, DBConnection, location } from '../../utils/utils';
+import { Fonts, config, DBConnection, location, mainConfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -16,10 +16,10 @@ export class ToolbarComponent {
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
-  @State() locations: location;
+  @State() locations: location[];
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/setlocation').then(res => this.locations = res);
+    await GetData('http://localhost:8080/locations').then(res => this.locations = res);
     console.log(this.locations)
   }
 
@@ -68,7 +68,9 @@ export class ToolbarComponent {
   }
 
   async selectLocation(event) {
-    await PostData('http://localhost:8080/setlocation', { selectedLocation: event })
+    mainConfig.selectedLocation = event
+    await PostData('http://localhost:8080/mainconfig', mainConfig)
+      .then(() => location.reload())
   }
 
   private customPopoverOptions: any = {
@@ -88,8 +90,8 @@ export class ToolbarComponent {
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
               // <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
-              <ion-select class="select" onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={this.locations?.selectedLocation} selectedText={this.locations?.selectedLocation?.name}>
-                {this.locations?.locations?.map(x => <ion-select-option value={x}>{x?.name}</ion-select-option>)}
+              <ion-select class="select" onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={mainConfig.selectedLocation} selectedText={mainConfig.selectedLocation.name}>
+                {this.locations?.map(x => <ion-select-option value={x}>{x?.name}</ion-select-option>)}
               </ion-select>
             ] : null}
           </ion-buttons>

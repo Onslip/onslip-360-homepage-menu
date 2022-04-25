@@ -4,7 +4,7 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Listener } from './Listener';
-import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable } from './interfaces';
+import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable, location } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
@@ -82,7 +82,7 @@ export class DHMService {
                 static path = /locations/;
 
                 async GET() {
-                    const locations = (await svc.api.listLocations()).map(l => {l.id, l.name})
+                    const locations: location[] = (await svc.api.listLocations()).map(l => ({name: l.name, id: l.id}))
                     return locations
                 }
             },

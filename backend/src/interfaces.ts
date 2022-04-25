@@ -154,3 +154,8 @@ export interface menu {
     MenuId: number
     Days: days[]
 }
+
+export interface location {
+    name: string
+    id: number
+}
