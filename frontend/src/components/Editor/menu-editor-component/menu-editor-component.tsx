@@ -3,7 +3,7 @@ import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, Menu
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
-import { PostData, PostImage } from '../../utils/post';
+import { PostData } from '../../utils/post';
 import { Timetable } from '../modals/schedule-overlay/schedule-overlay';
 
 @Component({
@@ -29,6 +29,10 @@ export class MenuEditorComponent {
     return this.AllMenus
   }
 
+  @Method() async GetMenuWithImages(): Promise<MenuWithCategory> {
+    return this.menu
+  }
+
   async componentWillLoad() {
     if (!DBConnection) {
       config.categoryImages.style = 'Disabled';
@@ -36,7 +40,7 @@ export class MenuEditorComponent {
     }
 
     const date = new Date()
-    const schedule:Timetable[] = await GetData('http://localhost:8080/schedule')
+    const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
     const menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
       .find(d => d.Day == date.getDay())?.Times
       .find(t => t.time == date.getHours())?.menuid
@@ -53,8 +57,6 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
-
-      
   }
 
   async getCatImages() {
@@ -108,33 +110,25 @@ export class MenuEditorComponent {
     })
   }
 
-  async uploadProdImage(file: File, id: number, catId: number) {
-    if (CheckImage(file[0])) {
-      let fd = new FormData()
-      fd.append('image', await file[0]);
-      fd.append('id', String(id));
-      await PostImage(this.produrl, fd);
+  @Method() async uploadProdImage(file: File, id: number, catId: number) {
+    if (CheckImage(file)) {
       const fileReader = new FileReader()
       fileReader.onload = () => {
-        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = `url(${fileReader.result})`
         this.categories = [...this.categories]
       }
-      fileReader.readAsDataURL(file[0])
+      fileReader.readAsDataURL(file)
     }
   }
 
-  async UploadCatImage(file: File, id: number) {
-    if (CheckImage(file[0])) {
-      let fd = new FormData()
-      fd.append('image', await file[0]);
-      fd.append('id', String(id));
-      await PostImage(this.caturl, fd);
+  @Method() async UploadCatImage(file: File, id: number) {
+    if (CheckImage(file)) {
       const fileReader = new FileReader()
       fileReader.onload = () => {
         this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
         this.categories = [...this.categories]
       }
-      fileReader.readAsDataURL(file[0])
+      fileReader.readAsDataURL(file)
     }
   }
 
@@ -149,13 +143,17 @@ export class MenuEditorComponent {
     PostData('http://localhost:8080/updateposition', newMenu)
   }
 
+  componentShouldUpdate() {
+    return true;
+  }
+
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
       <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
           : <div hidden={config?.productImages?.style != 'Background'}>
-            <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu'></modal-ovelay>
+            <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
           </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
@@ -171,7 +169,7 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-              <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu'></modal-ovelay>
+              <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
               ]
           }
         </ion-col>
@@ -199,7 +197,7 @@ export class MenuEditorComponent {
                           <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
                             {
                               config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu' ></modal-ovelay>
+                                <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
                                 : null
                             }
                             {data?.category?.name}

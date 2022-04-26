@@ -15,6 +15,7 @@ export class ModalOvelay {
   @Prop() RenderType: string;
   @Prop() buttonValue: string;
   @Prop() ImagePosition: string;
+  @Prop() CategoryId: number;
   private imageFile: File;
 
   @Element() el: any
@@ -31,7 +32,8 @@ export class ModalOvelay {
           'MaxWidth': this.MaxWidth,
           'AspectRatio': this.AspectRatio,
           'TargetId': this.TargetId,
-          'ImagePosition': this.ImagePosition
+          'ImagePosition': this.ImagePosition,
+          'CategoryId': this.CategoryId
         }
       });
       await modal.present();
@@ -52,7 +54,7 @@ export class ModalOvelay {
       return (
         <Host>
           <label class={this.buttonClass}>
-            {this.buttonValue}{this.ImagePosition != 'Menu' ? <ion-icon class="icon" name="folder-sharp"></ion-icon> : null}
+            {this.buttonValue}{this.ImagePosition != 'Category' && this.ImagePosition != 'Product' ? <ion-icon class="icon" name="folder-sharp"></ion-icon> : null}
             <input class='catImages' type='file' onChange={(event: any) => { this.imageFile = event.target.files; this.presentModal(); }} hidden />
           </label>
         </Host>
@@ -61,10 +63,10 @@ export class ModalOvelay {
     else {
       return (
         <Host>
-            <label class={this.buttonClass}>
-              {this.buttonValue}<ion-icon class="icon" name="settings-sharp"></ion-icon>
-              <input class='catImages' onClick={() => { this.presentModal(); }} hidden />
-            </label>
+          <label class={this.buttonClass}>
+            {this.buttonValue}<ion-icon class="icon" name="settings-sharp"></ion-icon>
+            <input class='catImages' onClick={() => { this.presentModal(); }} hidden />
+          </label>
         </Host>
       );
     }
