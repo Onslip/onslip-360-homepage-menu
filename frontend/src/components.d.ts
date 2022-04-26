@@ -13,6 +13,7 @@ export namespace Components {
     }
     interface CropTool {
         "AspectRatio": number;
+        "CategoryId": number;
         "ImagePosition": any;
         "MaxWidth": number;
         "TargetId": number;
@@ -27,10 +28,14 @@ export namespace Components {
     }
     interface MenuEditorComponent {
         "GetMenu": () => Promise<MenuWithCategory[]>;
+        "GetMenuWithImages": () => Promise<MenuWithCategory>;
+        "UploadCatImage": (file: File, id: number) => Promise<void>;
         "toggle": boolean;
+        "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
     interface ModalOvelay {
         "AspectRatio": number;
+        "CategoryId": number;
         "ImagePosition": string;
         "MaxWidth": number;
         "RenderType": string;
@@ -141,6 +146,7 @@ declare namespace LocalJSX {
     }
     interface CropTool {
         "AspectRatio"?: number;
+        "CategoryId"?: number;
         "ImagePosition"?: any;
         "MaxWidth"?: number;
         "TargetId"?: number;
@@ -158,6 +164,7 @@ declare namespace LocalJSX {
     }
     interface ModalOvelay {
         "AspectRatio"?: number;
+        "CategoryId"?: number;
         "ImagePosition"?: string;
         "MaxWidth"?: number;
         "RenderType"?: string;

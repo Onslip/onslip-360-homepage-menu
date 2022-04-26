@@ -3,7 +3,7 @@ import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, Menu
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
-import { PostData, PostImage } from '../../utils/post';
+import { PostData } from '../../utils/post';
 import { Timetable } from '../modals/schedule-overlay/schedule-overlay';
 
 @Component({
@@ -27,6 +27,10 @@ export class MenuEditorComponent {
 
   @Method() async GetMenu(): Promise<MenuWithCategory[]> {
     return this.AllMenus
+  }
+
+  @Method() async GetMenuWithImages(): Promise<MenuWithCategory> {
+    return this.menu
   }
 
   async componentWillLoad() {
@@ -53,8 +57,6 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
-
-
   }
 
   async getCatImages() {
@@ -108,33 +110,25 @@ export class MenuEditorComponent {
     })
   }
 
-  async uploadProdImage(file: File, id: number, catId: number) {
-    if (CheckImage(file[0])) {
-      let fd = new FormData()
-      fd.append('image', await file[0]);
-      fd.append('id', String(id));
-      await PostImage(this.produrl, fd);
+  @Method() async uploadProdImage(file: File, id: number, catId: number) {
+    if (CheckImage(file)) {
       const fileReader = new FileReader()
       fileReader.onload = () => {
-        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = `url(${fileReader.result})`
         this.categories = [...this.categories]
       }
-      fileReader.readAsDataURL(file[0])
+      fileReader.readAsDataURL(file)
     }
   }
 
-  async UploadCatImage(file: File, id: number) {
-    if (CheckImage(file[0])) {
-      let fd = new FormData()
-      fd.append('image', await file[0]);
-      fd.append('id', String(id));
-      await PostImage(this.caturl, fd);
+  @Method() async UploadCatImage(file: File, id: number) {
+    if (CheckImage(file)) {
       const fileReader = new FileReader()
       fileReader.onload = () => {
         this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
         this.categories = [...this.categories]
       }
-      fileReader.readAsDataURL(file[0])
+      fileReader.readAsDataURL(file)
     }
   }
 
@@ -149,13 +143,17 @@ export class MenuEditorComponent {
     PostData('http://localhost:8080/updateposition', newMenu)
   }
 
+  componentShouldUpdate() {
+    return true;
+  }
+
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
       <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
         {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
           <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
           : <div hidden={config?.productImages?.style != 'Background'}>
-            <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu'></modal-ovelay>
+            <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
           </div>}
         <ion-col class="productName" slot="primary">
           <div>{x?.name}</div>
@@ -171,7 +169,7 @@ export class MenuEditorComponent {
             !x.imageLoaded ?
               <ion-spinner class="spinner"></ion-spinner>
               : [<ion-img src={x.image} ></ion-img>,
-              <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu'></modal-ovelay>
+              <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={100} AspectRatio={1} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
               ]
           }
         </ion-col>
@@ -186,41 +184,39 @@ export class MenuEditorComponent {
           <ion-label>{this.errormessage}</ion-label>
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
-        <div>
-          <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
-            {
-              !this.loading ?
-                this.categories?.map(data => {
+        <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
+          {
+            !this.loading ?
+              this.categories?.map(data => {
 
-                  return (
-                    <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                      <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
-                        <div>
-                          <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                            <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
-                              {
-                                config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                  <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Menu' ></modal-ovelay>
-                                  : null
-                              }
-                              {data?.category?.name}
-                              <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
-                            </ion-card-title>
-                          </ion-card-header>
-                          {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
-                        </div>
-                        {this.toggle ?
-                          this.renderProducts(data?.products)
-                          : null}
-                      </ion-card>
-                    </div>
-                  )
-                })
-                : null
+                return (
+                  <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                    <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
+                      <div>
+                        <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                          <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
+                            {
+                              config?.categoryImages?.style != 'Disabled' && this.toggle ?
+                                <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={1000} AspectRatio={6} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
+                                : null
+                            }
+                            {data?.category?.name}
+                            <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
+                          </ion-card-title>
+                        </ion-card-header>
+                        {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+                      </div>
+                      {this.toggle ?
+                        this.renderProducts(data?.products)
+                        : null}
+                    </ion-card>
+                  </div>
+                )
+              })
+              : null
 
-            }
-          </ion-reorder-group>
-        </div>
+          }
+        </ion-reorder-group>
         {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null}
       </Host>
     )

@@ -16,6 +16,7 @@ export class CropTool {
   @Prop() TargetId: number
   @Prop() imageFile: File;
   @Prop() ImagePosition;
+  @Prop() CategoryId: number;
   private img: HTMLImageElement = new Image();
   private scale: number;
   private renderedWidth: number = 550
@@ -189,6 +190,7 @@ export class CropTool {
   }
 
   UploadImage(File: File, id: number) {
+    const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
     let fd = new FormData()
     if (this.ImagePosition == 'Background') {
       LoadBackground(File);
@@ -200,8 +202,13 @@ export class CropTool {
       LoadBanner(File, '.header');
     }
     fd.append('image', File);
-    if (this.ImagePosition == 'Menu') {
+    if (this.ImagePosition == 'Category') {
       fd.append('id', String(id));
+      a.UploadCatImage(File, id)
+    }
+    else if (this.ImagePosition == 'Product') {
+      fd.append('id', String(id));
+      a.uploadProdImage(File, id, this.CategoryId);
     }
     PostImage(this.url, fd).catch(err => console.log(err));
   }
