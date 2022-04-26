@@ -12,7 +12,7 @@ export class EditorVisualCheck {
     return (
       <body>
         <ion-content class="content" id="main">
-          <toolbar-component></toolbar-component>
+          <toolbar-component slot='fixed'></toolbar-component>
           {
             this.switch ?
               <homepage-menu-component></homepage-menu-component>

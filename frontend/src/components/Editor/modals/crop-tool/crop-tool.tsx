@@ -117,13 +117,13 @@ export class CropTool {
       let maxH: boolean = elmnt.parentElement.clientHeight > elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop
 
 
-      if ((!maxW && pos1 < 0) || pos1 > 0) {
-        elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1) + "px";
-        elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
-      }
       if ((!maxH && pos2 < 0) || pos2 > 0) {
         elmnt.parentElement.style.height = (elmnt.parentElement.clientHeight - pos2) + "px";
         elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
+      }
+      if ((!maxW && pos1 > 0) || pos1 < 0) {
+        elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1) + "px";
+        elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
       }
 
       if (maxW) {

@@ -45,3 +45,8 @@ ion-row {
   max-width: 100px;
   font-family: unset;
 }
+
+.select {
+  color: white;
+  --background: unset;
+}

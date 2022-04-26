@@ -4,7 +4,7 @@
 }
 
 .menuContainer {
-  margin: 50px auto;
+  margin: 70px auto;
   width: 65%;
 }
 
@@ -26,31 +26,31 @@
 
 .header-text {
   padding: 20px;
-  margin: 0;
+  margin: auto;
 }
 
 .header {
-  text-align: center;
   font-size: 1.3rem;
   width: 100%;
   height: 200px;
   background-position: center;
   background-size:cover;
   background-repeat: no-repeat;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
+  --margin-bottom: 5px;
+  --background: transparent;
 }
 .header.no-banner {
-  height: 130px;
+  height: min-content;
 }
 
 .toggle {
   font-family: var(--globalfont);
   --background: var(--primary);
   position: absolute;
-  display: block;
   color: white;
   font-size: small;
   border-radius: 2px;
-  margin: 10px;
 }
 
 @media only screen and (max-width: 1000px) {

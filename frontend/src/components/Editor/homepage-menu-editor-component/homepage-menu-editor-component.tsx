@@ -89,11 +89,11 @@ export class HomepageMenuEditorComponent {
     return (
       <Host>
         <div class='menuContainer'>
-          <div class={config?.banner ? 'header' : 'header no-banner'}>
-            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+          <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
+            {config?.connect ? <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
-            <img src={this.logoImage} class="logo" hidden={!config.Logo}></img>
-          </div>
+            <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
+          </ion-item>
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
         <div class='logoDiv'>

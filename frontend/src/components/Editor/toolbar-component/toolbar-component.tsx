@@ -90,9 +90,11 @@ export class ToolbarComponent {
               <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
               <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>,
               // <selector-component value={this.locations?.selectedLocation?.name} DropDownvalues={this.locations?.locations} IconName='location-sharp' element='.menuContainer' type='location'></selector-component>,
-              <ion-select class="select" onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={mainConfig.selectedLocation} selectedText={mainConfig.selectedLocation.name}>
-                {this.locations?.map(x => <ion-select-option value={x}>{x?.name}</ion-select-option>)}
-              </ion-select>
+              <ion-item class="select">
+                <ion-select onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={mainConfig.selectedLocation} selectedText={mainConfig.selectedLocation.name}>
+                  {this.locations?.map(x => <ion-select-option value={x}>{x?.name}</ion-select-option>)}
+                </ion-select>
+              </ion-item>,
             ] : null}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
