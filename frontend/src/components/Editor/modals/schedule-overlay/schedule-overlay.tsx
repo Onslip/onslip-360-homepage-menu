@@ -1,4 +1,5 @@
 import { Component, h, State, Element } from '@stencil/core';
+import { json } from 'stream/consumers';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
 import { MenuWithCategory, location, mainConfig } from '../../../utils/utils';
@@ -16,8 +17,10 @@ export class ScheduleOverlay {
   @State() selectedMenuId: number;
   @State() selectedLocation: location
   @State() activeBox: string;
+  @State() canSave: boolean = false 
   @Element() element: HTMLElement;
   @State() timeTables?: Timetable[] = [];
+  private oldTimeTables?: Timetable[] = [];
 
 
   async componentWillLoad() {
@@ -33,6 +36,7 @@ export class ScheduleOverlay {
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))
     this.timeTables = await GetData('http://localhost:8080/schedule')
+    this.oldTimeTables = await GetData('http://localhost:8080/schedule')
 
     // this.locationList.forEach(x => {
     //   this.timeTables.push({
@@ -123,10 +127,14 @@ export class ScheduleOverlay {
               a.menuid = undefined
             }
         })
-        console.log(this.timeTables)
 
+        this.checkSave();
       }
     }
+  }
+
+  async checkSave() {
+    this.canSave = JSON.stringify(this.timeTables) !== JSON.stringify(this.oldTimeTables)
   }
 
   markUnavailableTimes() {
@@ -238,7 +246,7 @@ export class ScheduleOverlay {
 
         </div>
         <div class="footer">
-          <button class='button save' onClick={() => this.Save()} type="submit">Spara</button>
+          <button disabled={!this.canSave}  class={this.canSave ? 'button save': 'button disabled'} onClick={() => this.Save()} type="submit">Spara</button>
           <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
         </div>
       </div>

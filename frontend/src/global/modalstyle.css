@@ -64,11 +64,15 @@
 .button.close {
   background-color: var(--alert);
 }
+.button.disabled {
+  background-color: gray;
+  cursor: unset;
+}
 
-.button:hover {
+.save,.close:hover {
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
 }
 
-.button:focus {
+.save,.close:focus {
   box-shadow: inset -1px -1px 2px 1px rgba(255, 255, 255, 0.456);
 }

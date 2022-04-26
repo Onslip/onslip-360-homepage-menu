@@ -112,9 +112,10 @@ export class MenuEditorComponent {
 
   @Method() async uploadProdImage(file: File, id: number, catId: number) {
     if (CheckImage(file)) {
+      console.log([catId, id, file])
       const fileReader = new FileReader()
       fileReader.onload = () => {
-        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = `url(${fileReader.result})`
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
         this.categories = [...this.categories]
       }
       fileReader.readAsDataURL(file)
@@ -123,6 +124,7 @@ export class MenuEditorComponent {
 
   @Method() async UploadCatImage(file: File, id: number) {
     if (CheckImage(file)) {
+      console.log(id)
       const fileReader = new FileReader()
       fileReader.onload = () => {
         this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
