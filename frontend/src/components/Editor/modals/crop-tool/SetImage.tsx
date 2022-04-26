@@ -10,7 +10,6 @@ export async function LoadBackground(file) {
             document.querySelector('body').style.backgroundImage = image
             config.background.enabled = false
             PostData('http://localhost:8080/config', config);
-
         }
     };
 }
@@ -21,12 +20,8 @@ export async function LoadLogo(file, element) {
     reader.onload = () => {
         const image = `url(${reader.result})`;
         if (image != null) {
-            const img = document.createElement('img');
             const mainelement = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
-            img.src = reader.result.toString();
-            const a = mainelement.shadowRoot.querySelector(element);
-            a.removeChild(a.childNodes[0]);
-            mainelement.shadowRoot.querySelector(element).appendChild(img);
+            mainelement.shadowRoot.querySelector(element).querySelector('img').src = reader.result.toString();
         }
     };
 }
