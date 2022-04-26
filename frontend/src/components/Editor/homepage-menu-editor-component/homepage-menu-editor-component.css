@@ -18,10 +18,15 @@
   margin: 10px;
 }
 
-.header img {
+.header .logo {
+  float: right;
   width: 100px;
   margin: 10px;
-  float: right;
+}
+
+.header-text {
+  padding: 20px;
+  margin: 0;
 }
 
 .header {
@@ -32,13 +37,9 @@
   background-position: center;
   background-size:cover;
   background-repeat: no-repeat;
-  vertical-align: middle;
 }
 .header.no-banner {
-  font-size: 1.3rem;
-  width: 100%;
-  padding: 10px;
-  height: min-content;
+  height: 130px;
 }
 
 .toggle {

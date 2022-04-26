@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { config, DBConnection } from '../../utils/utils';
+import { config, DBConnection, mainConfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
@@ -12,48 +12,31 @@ import '@ionic/core'
 })
 export class HomepageMenuEditorComponent {
 
-  @State() private imageurl: string = 'http://localhost:8080/background';
-  @State() private bannerUrl: string = 'http://localhost:8080/banner';
-  @State() private logoUrl: string = 'http://localhost:8080/logo';
-  @State() private locationUrl: string = 'http://localhost:8080/location';
+  private imageurl: string = 'http://localhost:8080/background';
+  private bannerUrl: string = 'http://localhost:8080/banner';
+  private logoUrl: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
+  @State() logoImage: string = ''
 
   async componentWillLoad() {
-    if (!config?.background?.enabled && DBConnection) {
-      GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
-    }
-    if (config?.banner && DBConnection) {
-      GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
-    }
-
-    if (config?.Logo && DBConnection) {
+    if (DBConnection) {
+      if (!config?.background?.enabled) {
+        GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+      }
       if (config?.banner) {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+        GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
       }
-      else {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.no-banner')).catch(err => err);
-
-      }
-
-    }
-    else {
-      GetData(this.locationUrl).then(response => {
-        const node = document.createElement("h1");
-        node.innerText = response;
+  
+      if (config?.Logo) {
         if (config?.banner) {
-          this.element.shadowRoot.querySelector('.header').appendChild(node);
+          GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
         }
         else {
-          // const divnode = document.createElement("div");
-          // divnode.className = "no-banner";
-          // this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
-          this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
+          GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
         }
-
-      })
-        .catch(err => console.log(err))
+      }
     }
   }
 
@@ -82,13 +65,8 @@ export class HomepageMenuEditorComponent {
     document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
   }
 
-  private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image.image.data)
-    if (config.Logo) {
-      const img = document.createElement('img');
-      img.src = loadedImage.toString();
-      this.element.shadowRoot.querySelector(element).appendChild(img);
-    }
+  private async LoadLogo(image) {
+    this.logoImage = await (await loadImage(image.image.data)).toString()
   }
 
   private async LoadBanner(image, element) {
@@ -113,6 +91,8 @@ export class HomepageMenuEditorComponent {
         <div class='menuContainer'>
           <div class={config?.banner ? 'header' : 'header no-banner'}>
             {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+            <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
+            <img src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </div>
           <menu-editor-component toggle={this.toggle}></menu-editor-component>
         </div>
