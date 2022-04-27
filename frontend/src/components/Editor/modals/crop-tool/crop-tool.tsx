@@ -1,5 +1,4 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
-import { loadImage } from '../../../utils/image';
 import { PostImage } from '../../../utils/post';
 import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
 
@@ -10,6 +9,7 @@ import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
 })
 export class CropTool {
   @Element() element: HTMLElement;
+  @Prop() format?: "image/jpeg" | "image/jpg" | "image/png";
   @Prop() url: string;
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
@@ -182,9 +182,10 @@ export class CropTool {
     canvas1.height = this.MaxWidth / this.AspectRatio;
     let ctx1 = canvas1.getContext("2d");
     ctx1.drawImage(this.img, targetX * this.scale, targetY * this.scale, targetW * this.scale, targetH * this.scale, 0, 0, canvas1.width, canvas1.height);
-    const data = await fetch(canvas1.toDataURL())
+    const data = await fetch(canvas1.toDataURL(this.format, 0.8))
       .then(res => res)
     const file = new File([await data.blob()], 'image');
+    console.log(file)
     this.UploadImage(file, this.TargetId);
     this.close()
   }

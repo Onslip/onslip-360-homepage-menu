@@ -8,6 +8,7 @@ import { modalController } from '@ionic/core';
 })
 export class ModalOvelay {
   @Prop() url: string;
+  @Prop() format?: "image/jpeg" | "image/jpg" | "image/png";
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
   @Prop() TargetId: number
@@ -28,6 +29,7 @@ export class ModalOvelay {
         presentingElement: this.el.closest('ion-modal'),
         componentProps: {
           'url': this.url,
+          'format': this.format,
           'imageFile': this.imageFile,
           'MaxWidth': this.MaxWidth,
           'AspectRatio': this.AspectRatio,

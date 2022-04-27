@@ -17,6 +17,7 @@ export namespace Components {
         "ImagePosition": any;
         "MaxWidth": number;
         "TargetId": number;
+        "format"?: "image/jpeg" | "image/jpg" | "image/png";
         "imageFile": File;
         "url": string;
     }
@@ -42,6 +43,7 @@ export namespace Components {
         "TargetId": number;
         "buttonClass": string;
         "buttonValue": string;
+        "format"?: "image/jpeg" | "image/jpg" | "image/png";
         "url": string;
     }
     interface ScheduleOverlay {
@@ -150,6 +152,7 @@ declare namespace LocalJSX {
         "ImagePosition"?: any;
         "MaxWidth"?: number;
         "TargetId"?: number;
+        "format"?: "image/jpeg" | "image/jpg" | "image/png";
         "imageFile"?: File;
         "url"?: string;
     }
@@ -171,6 +174,7 @@ declare namespace LocalJSX {
         "TargetId"?: number;
         "buttonClass"?: string;
         "buttonValue"?: string;
+        "format"?: "image/jpeg" | "image/jpg" | "image/png";
         "url"?: string;
     }
     interface ScheduleOverlay {

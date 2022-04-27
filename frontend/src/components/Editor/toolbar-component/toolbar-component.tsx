@@ -105,13 +105,13 @@ export class ToolbarComponent {
           <ion-row>
             <ion-col class="menu-col">
               {DBConnection?.DatabaseConnected ? [<ion-row>
-                <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={500} AspectRatio={1.77}></modal-ovelay>
+                <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg"></modal-ovelay>
               </ion-row>,
               <ion-row>
-                <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2}></modal-ovelay>
+                <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg"></modal-ovelay>
               </ion-row>,
               <ion-row>
-                <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={500} AspectRatio={1}></modal-ovelay>
+                <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png"></modal-ovelay>
               </ion-row>] : null}
               <ion-row>
                 <label htmlFor='color' class='menu-button'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
