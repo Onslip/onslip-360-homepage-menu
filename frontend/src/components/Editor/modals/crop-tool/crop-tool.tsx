@@ -214,6 +214,8 @@ export class CropTool {
     PostImage(this.url, fd).catch(err => console.log(err));
   }
 
+
+
   render() {
     return (
       <Host>

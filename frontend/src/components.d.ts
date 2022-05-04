@@ -59,7 +59,9 @@ export namespace Components {
     interface TestMenu {
         "GetMenu": () => Promise<MenuWithCategory[]>;
         "GetMenuWithImages": () => Promise<MenuWithCategory>;
+        "UploadCatImage": (file: File, id: number) => Promise<void>;
         "toggle": boolean;
+        "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
     interface ToolbarComponent {
         "GetLocations": () => Promise<location[]>;

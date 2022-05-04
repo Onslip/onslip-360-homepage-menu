@@ -1,6 +1,6 @@
 import { Component, Host, h, State, Method, Element, Prop } from '@stencil/core';
 import { GetData } from '../../utils/get';
-import { loadImage } from '../../utils/image';
+import { CheckImage, loadImage } from '../../utils/image';
 import { categorywithproduct, config, DBConnection, DBImage, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { Timetable } from '../modals/schedule-overlay/schedule-overlay';
 
@@ -106,6 +106,30 @@ export class TestMenu {
     })
   }
 
+  @Method() async uploadProdImage(file: File, id: number, catId: number) {
+    if (CheckImage(file)) {
+      console.log([catId, id, file])
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+        this.categories = [...this.categories]
+      }
+      fileReader.readAsDataURL(file)
+    }
+  }
+
+  @Method() async UploadCatImage(file: File, id: number) {
+    if (CheckImage(file)) {
+      console.log(id)
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
+        this.categories = [...this.categories]
+      }
+      fileReader.readAsDataURL(file)
+    }
+  }
+
   scrollSideways(e: CustomEvent) {
     const el = this.element.shadowRoot.querySelector('#scroll-container');
     el.scrollLeft += e.detail.direction * 100;
@@ -150,7 +174,7 @@ export class TestMenu {
                               !x.imageLoaded ?
                                 <ion-spinner class="spinner"></ion-spinner>
                                 : [<ion-img src={x.image} ></ion-img>,
-                                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.5} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
                                 ]
                             }
                             <div class="card-text">

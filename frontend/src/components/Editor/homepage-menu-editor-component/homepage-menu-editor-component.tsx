@@ -94,8 +94,8 @@ export class HomepageMenuEditorComponent {
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item>
-          {/* <menu-editor-component toggle={this.toggle}></menu-editor-component> */}
-          <test-menu></test-menu>
+          <menu-editor-component toggle={this.toggle}></menu-editor-component>
+          {/* <test-menu></test-menu> */}
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>

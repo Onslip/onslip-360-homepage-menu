@@ -173,6 +173,30 @@ export class MenuEditorComponent {
     ))
   }
 
+  renderCards(products?: DBproduct[]) {
+    return <ion-row class='products'>
+      {(products?.map(x =>
+        <ion-card class={"product"} id='scroll-container'>
+          {
+            !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+              <ion-spinner class="spinner"></ion-spinner>
+              : [<ion-img src={x.image} ></ion-img>,
+              <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+              ]
+          }
+          <div class="card-text">
+            <ion-card-header>
+              <ion-card-title class='productName'>{x.name}</ion-card-title>
+              <ion-card-subtitle class='description'>{x.description}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <div class='price'>{x.price} sek</div>
+            </ion-card-content>
+          </div>
+        </ion-card>))}
+    </ion-row>
+  }
+
   render() {
     return (
       <Host>
@@ -203,8 +227,11 @@ export class MenuEditorComponent {
                           </ion-card-header>
                           {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
                         </div>
-                        {this.toggle ?
+                        {this.toggle && config.menuType == 'inline' ?
                           this.renderProducts(data?.products)
+                          : null}
+                        {this.toggle && config.menuType == 'card' ?
+                          this.renderCards(data?.products)
                           : null}
                       </ion-card>
                     </div>

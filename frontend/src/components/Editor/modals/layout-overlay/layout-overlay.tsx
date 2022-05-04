@@ -92,18 +92,18 @@ export class LayoutOverlay {
               </ion-radio-group>
             </ion-list>
             <ion-list>
-              <ion-title class="title">Kolumner för kategorier</ion-title>
-              <ion-radio-group value={config?.columns} onIonChange={(event) => config.columns = event.detail.value}>
+              <ion-title class="title">Utseende</ion-title>
+              <ion-radio-group value={config?.menuType} onIonChange={(event) => config.menuType = event.detail.value}>
                 <ion-list-header>
-                  <ion-label>Kolumner</ion-label>
+                  <ion-label>Produkt-layout</ion-label>
                 </ion-list-header>
                 <ion-item>
-                  <ion-label>En kolumn</ion-label>
-                  <ion-radio slot="start" value='Background' disabled={!DBConnection || config.columns == 1}></ion-radio>
+                  <ion-label>Kort</ion-label>
+                  <ion-radio slot="start" value='card' disabled={!DBConnection}></ion-radio>
                 </ion-item>
                 <ion-item>
-                  <ion-label>Två kolumner</ion-label>
-                  <ion-radio slot="start" value='Banner' disabled={!DBConnection || config.columns == 2}></ion-radio>
+                  <ion-label>Lista</ion-label>
+                  <ion-radio slot="start" value='inline' disabled={!DBConnection}></ion-radio>
                 </ion-item>
               </ion-radio-group>
             </ion-list>
