@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { PostImage } from '../../../utils/post';
 import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
+import Compressor from 'compressorjs'
 
 @Component({
   tag: 'crop-tool',
@@ -185,7 +186,6 @@ export class CropTool {
     const data = await fetch(canvas1.toDataURL(this.format, 0.8))
       .then(res => res)
     const file = new File([await data.blob()], 'image');
-    console.log(file)
     this.UploadImage(file, this.TargetId);
     this.close()
   }

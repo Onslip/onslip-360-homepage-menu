@@ -142,12 +142,16 @@ export class Listener {
 
     private async CreateJunction() {
         await this.db.query<DBQuery>`create table if not exists onslip.grouptoproduct (product_id INT REFERENCES onslip.products(id), category_id INT REFERENCES onslip.productcategories(id), productposition INT NOT NULL)`
-        const products = await this.Getproducts()
+        const products = await this.Getproducts();
         products.forEach(async (x) => {
+            // const list = await this.db.query<DBQuery[]>`select * from onslip.grouptoproduct where `;
             const list = await this.db.query<DBQuery[]>`select * from onslip.grouptoproduct where product_id = ${x.product?.id ?? null} and category_id = ${x.category_id}`;
-            const a: boolean = list.length != 0
-            if (!a) {
+            const itemExists: boolean = list.length != 0
+            if (!itemExists) {
                 this.db.query <DBQuery[]>`insert into onslip.grouptoproduct (product_id, category_id, productposition) VALUES(${x.product?.id ?? null}, ${x.category_id}, ${x.position}) `
+            }
+            else {
+                this.db.query<DBQuery[]>`update onslip.grouptoproduct set (product_id, category_id, productposition) = (${x.product?.id ?? null}, ${x.category_id}, ${x.position}) where product_id = ${x.product?.id ?? null} and category_id = ${x.category_id}`
             }
         });
     }
