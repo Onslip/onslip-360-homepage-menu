@@ -1,4 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
+import { copyFile } from 'fs';
 import { PostData } from '../../../utils/post';
 import { config, DBConnection } from '../../../utils/utils'
 
@@ -87,6 +88,22 @@ export class LayoutOverlay {
                 <ion-item>
                   <ion-label>Avstängd</ion-label>
                   <ion-radio slot="start" value='Disabled' disabled={!DBConnection}></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
+            <ion-list>
+              <ion-title class="title">Kolumner för kategorier</ion-title>
+              <ion-radio-group value={config?.columns} onIonChange={(event) => config.columns = event.detail.value}>
+                <ion-list-header>
+                  <ion-label>Kolumner</ion-label>
+                </ion-list-header>
+                <ion-item>
+                  <ion-label>En kolumn</ion-label>
+                  <ion-radio slot="start" value='Background' disabled={!DBConnection || config.columns == 1}></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Två kolumner</ion-label>
+                  <ion-radio slot="start" value='Banner' disabled={!DBConnection || config.columns == 2}></ion-radio>
                 </ion-item>
               </ion-radio-group>
             </ion-list>

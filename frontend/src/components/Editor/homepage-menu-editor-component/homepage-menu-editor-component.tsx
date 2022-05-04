@@ -28,7 +28,7 @@ export class HomepageMenuEditorComponent {
       if (config?.banner) {
         GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
       }
-  
+
       if (config?.Logo) {
         if (config?.banner) {
           GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
@@ -94,7 +94,8 @@ export class HomepageMenuEditorComponent {
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item>
-          <menu-editor-component toggle={this.toggle}></menu-editor-component>
+          {/* <menu-editor-component toggle={this.toggle}></menu-editor-component> */}
+          <test-menu></test-menu>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>

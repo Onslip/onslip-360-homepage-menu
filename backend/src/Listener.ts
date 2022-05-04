@@ -118,9 +118,6 @@ export class Listener {
             if (!categoryExists) {
                 await this.db.query<DBQuery[]>`insert into onslip.productcategories (id, position, name, menu_id) VALUES (${x.id ?? null}, ${x.position}, ${x.name ?? null}, ${x.menu_id})`
             }
-            else {
-                await this.db.query<DBQuery[]>`update onslip.productcategories set (position, name, menu_id) = (${x.position}, ${x.name ?? null}, ${x.menu_id}) where id = ${x.id}`
-            }
         });
     }
 

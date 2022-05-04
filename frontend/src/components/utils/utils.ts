@@ -43,6 +43,7 @@ export interface Styleconfig {
   menuBackground?: string,
   connect?: boolean,
   menuInUse?: number;
+  columns: 1 | 2,
 }
 
 interface font {
@@ -134,6 +135,7 @@ export async function getConfig(): Promise<Styleconfig> {
       menuBackground: null,
       connect: true,
       menuInUse: 1,
+      columns: 1
     } as Styleconfig
   else return data
 }

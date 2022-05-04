@@ -56,6 +56,11 @@ export namespace Components {
         "type": string;
         "value": string;
     }
+    interface TestMenu {
+        "GetMenu": () => Promise<MenuWithCategory[]>;
+        "GetMenuWithImages": () => Promise<MenuWithCategory>;
+        "toggle": boolean;
+    }
     interface ToolbarComponent {
         "GetLocations": () => Promise<location[]>;
     }
@@ -121,6 +126,12 @@ declare global {
         prototype: HTMLSelectorComponentElement;
         new (): HTMLSelectorComponentElement;
     };
+    interface HTMLTestMenuElement extends Components.TestMenu, HTMLStencilElement {
+    }
+    var HTMLTestMenuElement: {
+        prototype: HTMLTestMenuElement;
+        new (): HTMLTestMenuElement;
+    };
     interface HTMLToolbarComponentElement extends Components.ToolbarComponent, HTMLStencilElement {
     }
     var HTMLToolbarComponentElement: {
@@ -138,6 +149,7 @@ declare global {
         "modal-ovelay": HTMLModalOvelayElement;
         "schedule-overlay": HTMLScheduleOverlayElement;
         "selector-component": HTMLSelectorComponentElement;
+        "test-menu": HTMLTestMenuElement;
         "toolbar-component": HTMLToolbarComponentElement;
     }
 }
@@ -187,6 +199,9 @@ declare namespace LocalJSX {
         "type"?: string;
         "value"?: string;
     }
+    interface TestMenu {
+        "toggle"?: boolean;
+    }
     interface ToolbarComponent {
     }
     interface IntrinsicElements {
@@ -200,6 +215,7 @@ declare namespace LocalJSX {
         "modal-ovelay": ModalOvelay;
         "schedule-overlay": ScheduleOverlay;
         "selector-component": SelectorComponent;
+        "test-menu": TestMenu;
         "toolbar-component": ToolbarComponent;
     }
 }
@@ -217,6 +233,7 @@ declare module "@stencil/core" {
             "modal-ovelay": LocalJSX.ModalOvelay & JSXBase.HTMLAttributes<HTMLModalOvelayElement>;
             "schedule-overlay": LocalJSX.ScheduleOverlay & JSXBase.HTMLAttributes<HTMLScheduleOverlayElement>;
             "selector-component": LocalJSX.SelectorComponent & JSXBase.HTMLAttributes<HTMLSelectorComponentElement>;
+            "test-menu": LocalJSX.TestMenu & JSXBase.HTMLAttributes<HTMLTestMenuElement>;
             "toolbar-component": LocalJSX.ToolbarComponent & JSXBase.HTMLAttributes<HTMLToolbarComponentElement>;
         }
     }
