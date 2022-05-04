@@ -3,15 +3,21 @@
 }
 
 
-ion-card {
-  width: 300px;
-  height: 500px;
+.product {
+  flex-basis: 30%;
+  flex-grow: 1;
+  min-width: 200px;
+  max-width: 300px;
+  margin: 5px;
 }
 
-.content {
-  width: 100%;
+.card-text {
+  padding: 5px;
 }
 
+.products {
+  justify-content: center;
+}
 
 .card {
   background-color: rgba(255, 255, 255, 0.5);
@@ -30,17 +36,14 @@ ion-card {
 
 .productName {
   font-size: 1rem;
-  text-align: center;
 }
 
 .price {
   font-size: 1rem;
-
 }
 
 .description {
   font-size: 0.8rem;
-  text-align: center;
 }
 
 ion-img {

@@ -141,22 +141,26 @@ export class TestMenu {
                       </ion-title>
                       {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
                     </div>
-                    <ion-row>
+                    <ion-row class="products">
 
                       {data.products.map(x => {
                         return (
-                          <ion-card id='scroll-container' onScroll={(event: any) => this.scrollSideways(event)}>
-                            <div class='img'>
-                              {
-                                !x.imageLoaded ?
-                                  <ion-spinner class="spinner"></ion-spinner>
-                                  : [<ion-img src={x.image} ></ion-img>,
-                                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                                  ]
-                              }
-                              <ion-card-title class='productName'>{x.name}</ion-card-title>
-                              <div class='description'>{x.description}</div>
-                              <div class='price'>{x.price} sek</div>
+                          <ion-card class={"product"} id='scroll-container' onScroll={(event: any) => this.scrollSideways(event)}>
+                            {
+                              !x.imageLoaded ?
+                                <ion-spinner class="spinner"></ion-spinner>
+                                : [<ion-img src={x.image} ></ion-img>,
+                                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.5} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                                ]
+                            }
+                            <div class="card-text">
+                              <ion-card-header>
+                                <ion-card-title class='productName'>{x.name}</ion-card-title>
+                                <ion-card-subtitle class='description'>{x.description}</ion-card-subtitle>
+                              </ion-card-header>
+                              <ion-card-content>
+                                <div class='price'>{x.price} sek</div>
+                              </ion-card-content>
                             </div>
                           </ion-card>
                         )

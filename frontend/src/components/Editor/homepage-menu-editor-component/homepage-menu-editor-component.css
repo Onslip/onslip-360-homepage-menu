@@ -5,7 +5,8 @@
 
 .menuContainer {
   margin: 70px auto;
-  width: 80%;
+  width: auto;
+  max-width: 1000px;
 }
 
 .logoDiv {
@@ -54,7 +55,7 @@
   border-radius: 2px;
 }
 
-@media only screen and (max-width: 1000px) {
+/* @media only screen and (max-width: 1000px) {
   .menuContainer {
     width: 90%;
   }
@@ -64,4 +65,4 @@
   .menuContainer {
     width: 100%;
   }
-}
+} */
