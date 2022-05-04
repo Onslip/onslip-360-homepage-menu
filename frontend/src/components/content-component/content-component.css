@@ -3,13 +3,29 @@
 }
 
 ion-row {
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
-ion-card-content[data-status="Left"]{
+.start {
+  text-align: start;
+}
+
+.primary {
+  text-align: start;
+}
+
+.secondary {
+  text-align: center;
+}
+
+.end {
+  text-align: end;
+}
+
+ion-card-content[data-status="Left"] {
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.9));
 }
-ion-card-content[data-status="Right"]{
+
+ion-card-content[data-status="Right"] {
   background-image: linear-gradient(to left, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.9));
 }

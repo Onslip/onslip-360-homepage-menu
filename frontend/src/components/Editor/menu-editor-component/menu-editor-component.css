@@ -9,6 +9,10 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  min-width: 200px;
+  flex-grow: 1;
+  flex-basis: 45%;
+  align-content: start;
 }
 
 llasff .content {
@@ -54,18 +58,21 @@ llasff .content {
 }
 
 .productName {
-  font-size: 1rem;
-  text-align: start;
+  font-size: 0.9rem;
 }
 
 .productPrice {
-  font-size: 1rem;
-  text-align: end;
+  font-size: 0.9rem;
 }
 
 .productDesc {
-  font-size: 0.8rem;
-  text-align: start;
+  font-size: 0.7rem;
+}
+
+.iconLogo {
+  width: 100%;
+  min-width: 70px;
+  max-width: 100px;
 }
 
 ion-reorder {
@@ -80,7 +87,10 @@ ion-reorder-group {
   /* transition: none;
   animation: none;
   transition-duration: 0s; */
+  display: flex;
+  flex-wrap: wrap;
 
+  justify-content: center;
 }
 
 .catImages {

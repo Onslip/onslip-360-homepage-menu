@@ -19,20 +19,32 @@ export class ContentComponent {
       <Host>
         <ion-card-content data-status={config.productImages.style == 'Background' ? config.productImages.placement : ''}>
           <ion-row>
-            <slot name="start">
-            </slot>
             <ion-col>
-              <ion-row class='primary'>
-                <slot name='primary'>
-                </slot>
+              <ion-row>
+                <ion-col class="start">
+                  <slot name="start">
+                  </slot>
+                </ion-col>
+                <ion-col class="primary">
+                  <slot name='primary'>
+                  </slot>
+                </ion-col>
               </ion-row>
-              <ion-row class='secondary'>
-                <slot name='secondary'>
-                </slot>
+              <ion-row>
+                <ion-col class='secondary'>
+                  <slot name='secondary'>
+                  </slot>
+                </ion-col>
               </ion-row>
             </ion-col>
-              <slot name='end'>
-              </slot>
+            <ion-col>
+              <ion-row>
+                <ion-col class="end">
+                  <slot name='end'>
+                  </slot>
+                </ion-col>
+              </ion-row>
+            </ion-col>
           </ion-row>
         </ion-card-content>
         <slot></slot>
