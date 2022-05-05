@@ -179,7 +179,5 @@ export class Listener {
             }
         }
     }
-
-
 }
 
