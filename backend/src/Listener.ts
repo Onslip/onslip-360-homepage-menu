@@ -158,8 +158,8 @@ export class Listener {
 
     async Listener() {
         this.CreateDB();
-        const cancel = new AbortController();
         while (true) {
+            const cancel = new AbortController();
             try {
                 const stream = await this.api.addEventStream({
                     state: "pending",
@@ -168,17 +168,18 @@ export class Listener {
                         { resource: "button-maps", query: `type=menu` },
                     ],
                 });
-                setTimeout(() => cancel.abort, 60_000);
+                setTimeout(() => cancel.abort(), 60_000);
 
                 const event = (await this.api.signal(cancel.signal).openEventStream(stream.id).next());
                 if (event != null) {
                     console.log('done');
-                    this.CreateDB();
+                    await this.CreateDB();
+                    cancel.abort()
                 }
 
             } catch (error) {
                 console.error(error);
-                cancel.abort;
+                cancel.abort();
             }
         }
     }
