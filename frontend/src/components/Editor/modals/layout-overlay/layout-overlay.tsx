@@ -105,6 +105,10 @@ export class LayoutOverlay {
                   <ion-label>Lista</ion-label>
                   <ion-radio slot="start" value='inline' disabled={!DBConnection}></ion-radio>
                 </ion-item>
+                <ion-item>
+                  <ion-label>Pappersmeny</ion-label>
+                  <ion-radio slot="start" value='paper' disabled={!DBConnection}></ion-radio>
+                </ion-item>
               </ion-radio-group>
             </ion-list>
           </div>

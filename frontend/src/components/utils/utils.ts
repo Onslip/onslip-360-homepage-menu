@@ -43,7 +43,7 @@ export interface Styleconfig {
   menuBackground?: string,
   connect?: boolean,
   menuInUse?: number;
-  menuType: 'card' | 'inline';
+  menuType: 'card' | 'inline' | 'paper';
 }
 
 interface font {
