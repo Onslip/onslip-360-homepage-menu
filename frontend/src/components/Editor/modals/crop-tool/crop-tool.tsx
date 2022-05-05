@@ -1,7 +1,6 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { PostImage } from '../../../utils/post';
 import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
-import Compressor from 'compressorjs'
 
 @Component({
   tag: 'crop-tool',
