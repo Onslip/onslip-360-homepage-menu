@@ -197,8 +197,56 @@ export class MenuEditorComponent {
     </ion-row>
   }
 
-  renderPaper(products?: DBproduct[]) {
+  renderPaper() {
+    return (
+      <div class='paper-content'>
+          <ion-reorder-group onIonItemReorder={(ev) => this.doReorder(ev)} disabled={this.toggle} class={this.toggle? 'paper-content' : 'reorder'}>
+          {
+            !this.loading ?
+              this.categories?.map(data => {
 
+                return (
+                  <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
+                    <div>
+                      <ion-title class='categoryTitle'>
+                        <div>
+                          {data?.category?.name}
+                          <ion-reorder hidden={this.toggle}>
+                            <ion-icon name="reorder-three-sharp"></ion-icon>
+                          </ion-reorder>
+                        </div>
+                      </ion-title>
+                    </div>
+                    <ion-col hidden={!this.toggle} class="paper-products">
+
+                      {data.products.map(x => {
+                        return (
+                          <ion-row>
+                            <ion-col>
+                              <ion-row>
+                                <div class='productName'>{x.name}</div>
+                                <ion-col class="separator"></ion-col>
+                                <div class='productPrice'>{x.price} sek</div>
+                              </ion-row>
+                              <ion-row>
+                                <div class='productDesc'>{x.description}</div>
+                              </ion-row>
+                            </ion-col>
+                          </ion-row>
+                        )
+                      })
+                      }
+                    </ion-col>
+
+                  </div>
+                )
+              })
+              : null
+
+          }
+      </ion-reorder-group>
+        </div>
+    )
   }
 
   render() {
@@ -209,43 +257,44 @@ export class MenuEditorComponent {
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
         <div>
-          <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
-            {
-              !this.loading ?
-                this.categories?.map(data => {
+          {config.menuType == 'paper' ? this.renderPaper() :
+            <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
+              {
+                !this.loading ?
+                  this.categories?.map(data => {
 
-                  return (
-                    <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                      <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
-                        <div>
-                          <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                            <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
-                              {
-                                config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                  <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
-                                  : null
-                              }
-                              {data?.category?.name}
-                              <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
-                            </ion-card-title>
-                          </ion-card-header>
-                          {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
-                        </div>
-                        {this.toggle && config.menuType == 'inline' ?
-                          this.renderProducts(data?.products)
-                          : null}
-                        {this.toggle && config.menuType == 'card' ?
-                          this.renderCards(data?.products)
-                          : null}
-                        {this.toggle && config.menuType == 'paper' ? this.renderPaper(data?.products) : null}
-                      </ion-card>
-                    </div>
-                  )
-                })
-                : null
+                    return (
+                      <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                        <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
+                          <div>
+                            <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                              <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
+                                {
+                                  config?.categoryImages?.style != 'Disabled' && this.toggle ?
+                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
+                                    : null
+                                }
+                                {data?.category?.name}
+                                <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
+                              </ion-card-title>
+                            </ion-card-header>
+                            {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+                          </div>
+                          {this.toggle && config.menuType == 'inline' ?
+                            this.renderProducts(data?.products)
+                            : null}
+                          {this.toggle && config.menuType == 'card' ?
+                            this.renderCards(data?.products)
+                            : null}
 
-            }
-          </ion-reorder-group>
+                        </ion-card>
+                      </div>
+                    )
+                  })
+                  : null
+              }
+            </ion-reorder-group>
+          }
         </div>
         {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null}
       </Host>

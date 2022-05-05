@@ -144,13 +144,13 @@ export class TestMenu {
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
         {/* <ion-reorder-group disabled={this.toggle} class='reorder'> */}
-        <div class='card'>
+        <div class='paper-content'>
         {
           !this.loading ?
             this.categories?.map(data => {
 
               return (
-                  <div class={this.toggle ? 'content' : 'content categoryToggled'}>
+                  <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
                     <div>
                       <ion-title class='categoryTitle'>
                         <div>
@@ -159,11 +159,11 @@ export class TestMenu {
                         </div>
                       </ion-title>
                     </div>
-                    <ion-col class="products">
+                    <ion-col class="paper-products">
 
                       {data.products.map(x => {
                         return (
-                          <ion-row class={"product"}>
+                          <ion-row>
                             <ion-col>
                               <ion-row>
                                 <div class='productName'>{x.name}</div>

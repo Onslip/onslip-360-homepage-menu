@@ -2,11 +2,11 @@
   display: block;
 }
 
-.products {
+.paper-products {
   justify-content: center;
 }
 
-.card {
+.paper-content {
   margin: 5px;
   background-repeat: no-repeat;
   background-position: center;
@@ -16,7 +16,7 @@
   flex-wrap: wrap;
 }
 
-.content {
+.paper-section {
   flex-basis: 40%;
   min-width: 400px;
   max-width: 550px;
@@ -25,17 +25,17 @@
   border-radius: 0;
 }
 
-.productName {
-  font-size: 1rem;
-}
-
 .separator {
   border-bottom: 2px dotted gray;
 }
 
+.productName {
+  font-size: 1rem;
+}
+
+
 .price {
   font-size: 1rem;
-  text-align: end;
 }
 
 .description {
@@ -49,9 +49,4 @@
   text-align: center;
   font-weight: bold;
   padding: 15px;
-}
-
-.categoryTitle[data-status='Banner'] {
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.5);
 }

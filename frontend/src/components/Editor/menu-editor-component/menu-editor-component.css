@@ -133,3 +133,30 @@ ion-reorder {
 .products {
   justify-content: center;
 }
+
+.paper-products {
+  justify-content: center;
+}
+
+.paper-content {
+  margin: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.paper-section {
+  flex-basis: 40%;
+  min-width: 400px;
+  max-width: 550px;
+  flex-grow: 1;
+  margin: 5px;
+  border-radius: 0;
+}
+
+.separator {
+  border-bottom: 2px dotted gray;
+}
