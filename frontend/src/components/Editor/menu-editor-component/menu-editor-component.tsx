@@ -197,6 +197,10 @@ export class MenuEditorComponent {
     </ion-row>
   }
 
+  renderPaper(products?: DBproduct[]) {
+
+  }
+
   render() {
     return (
       <Host>
@@ -233,6 +237,7 @@ export class MenuEditorComponent {
                         {this.toggle && config.menuType == 'card' ?
                           this.renderCards(data?.products)
                           : null}
+                        {this.toggle && config.menuType == 'paper' ? this.renderPaper(data?.products) : null}
                       </ion-card>
                     </div>
                   )

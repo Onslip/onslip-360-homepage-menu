@@ -87,7 +87,7 @@ export class Listener {
         const menuList = await this.db.query<Menu[]>`select * from onslip.menu`;
         junctionList.forEach(async x => {
             const checkProduct = (await this.Getproducts()).find(z => z.product?.id == x.product_id && z.category_id == x.category_id) == undefined
-            if(checkProduct) {
+            if (checkProduct) {
                 await this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.product_id} and category_id = ${x.category_id}`
             }
         })
@@ -176,6 +176,7 @@ export class Listener {
                     await this.CreateDB();
                     cancel.abort()
                 }
+
 
             } catch (error) {
                 console.error(error);
