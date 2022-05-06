@@ -1,6 +1,6 @@
 import { Component, Host, h, State, Method, Element, Prop } from '@stencil/core';
 import { GetData } from '../../utils/get';
-import { loadImage } from '../../utils/image';
+import { CheckImage, loadImage } from '../../utils/image';
 import { categorywithproduct, config, DBConnection, DBImage, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { Timetable } from '../modals/schedule-overlay/schedule-overlay';
 
@@ -106,6 +106,30 @@ export class TestMenu {
     })
   }
 
+  @Method() async uploadProdImage(file: File, id: number, catId: number) {
+    if (CheckImage(file)) {
+      console.log([catId, id, file])
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+        this.categories = [...this.categories]
+      }
+      fileReader.readAsDataURL(file)
+    }
+  }
+
+  @Method() async UploadCatImage(file: File, id: number) {
+    if (CheckImage(file)) {
+      console.log(id)
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
+        this.categories = [...this.categories]
+      }
+      fileReader.readAsDataURL(file)
+    }
+  }
+
   scrollSideways(e: CustomEvent) {
     const el = this.element.shadowRoot.querySelector('#scroll-container');
     el.scrollLeft += e.detail.direction * 100;
@@ -120,61 +144,49 @@ export class TestMenu {
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
         {/* <ion-reorder-group disabled={this.toggle} class='reorder'> */}
+        <div class='paper-content'>
         {
           !this.loading ?
             this.categories?.map(data => {
 
               return (
-                <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                  <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
+                  <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
                     <div>
-                      <ion-title class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                        <div class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
-                          {
-                            config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                              <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
-                              : null
-                          }
+                      <ion-title class='categoryTitle'>
+                        <div>
                           {data?.category?.name}
                           <ion-icon name="reorder-three-sharp"></ion-icon>
                         </div>
                       </ion-title>
-                      {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
                     </div>
-                    <ion-row class="products">
+                    <ion-col class="paper-products">
 
                       {data.products.map(x => {
                         return (
-                          <ion-card class={"product"} id='scroll-container' onScroll={(event: any) => this.scrollSideways(event)}>
-                            {
-                              !x.imageLoaded ?
-                                <ion-spinner class="spinner"></ion-spinner>
-                                : [<ion-img src={x.image} ></ion-img>,
-                                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.5} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                                ]
-                            }
-                            <div class="card-text">
-                              <ion-card-header>
-                                <ion-card-title class='productName'>{x.name}</ion-card-title>
-                                <ion-card-subtitle class='description'>{x.description}</ion-card-subtitle>
-                              </ion-card-header>
-                              <ion-card-content>
+                          <ion-row>
+                            <ion-col>
+                              <ion-row>
+                                <div class='productName'>{x.name}</div>
+                                <ion-col class="separator"></ion-col>
                                 <div class='price'>{x.price} sek</div>
-                              </ion-card-content>
-                            </div>
-                          </ion-card>
+                              </ion-row>
+                              <ion-row>
+                                <div class='description'>{x.description}</div>
+                              </ion-row>
+                            </ion-col>
+                          </ion-row>
                         )
                       })
                       }
-                    </ion-row>
+                    </ion-col>
 
-                  </ion-card>
-                </div>
+                  </div>
               )
             })
             : null
-
-        }
+            
+          }
+          </div>
         {/* </ion-reorder-group> */}
         {/* {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null} */}
       </Host>

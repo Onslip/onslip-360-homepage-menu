@@ -15,7 +15,7 @@
   align-content: start;
 }
 
-llasff .content {
+.content {
   width: 100%;
   margin: 0;
   border-radius: 0;
@@ -83,15 +83,6 @@ ion-reorder {
   color: black;
 }
 
-ion-reorder-group {
-  /* transition: none;
-  animation: none;
-  transition-duration: 0s; */
-  display: flex;
-  flex-wrap: wrap;
-
-  justify-content: center;
-}
 
 .catImages {
   left: 85%;
@@ -125,4 +116,47 @@ ion-reorder-group {
   font-style: normal;
   float: right;
   margin-right: 20px;
+}
+
+.product {
+  flex-basis: 30%;
+  flex-grow: 1;
+  min-width: 200px;
+  max-width: 350px;
+  margin: 5px;
+}
+
+.card-text {
+  padding: 5px;
+}
+
+.products {
+  justify-content: center;
+}
+
+.paper-products {
+  justify-content: center;
+}
+
+.paper-content {
+  margin: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.paper-section {
+  flex-basis: 40%;
+  min-width: 400px;
+  max-width: 550px;
+  flex-grow: 1;
+  margin: 5px;
+  border-radius: 0;
+}
+
+.separator {
+  border-bottom: 2px dotted gray;
 }

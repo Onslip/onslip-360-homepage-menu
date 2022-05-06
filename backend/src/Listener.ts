@@ -1,6 +1,6 @@
 import { API, AbortController } from "@onslip/onslip-360-node-api";
 import { DatabaseURI, DBQuery, FIELDS } from "@divine/uri";
-import { DBcategory, DBproduct, ICategory, IProduct, Menu } from "./interfaces";
+import { DBcategory, DBproduct, ICategory, IProduct, Junction, Menu } from "./interfaces";
 
 export class Listener {
     private api: API;
@@ -82,24 +82,30 @@ export class Listener {
 
     async Delete() {
         const productList = await this.db.query<DBproduct[]>`select * from onslip.products`;
+        const junctionList = await this.db.query<Junction[]>`select * from onslip.grouptoproduct`
+        const categoryList = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
+        const menuList = await this.db.query<Menu[]>`select * from onslip.menu`;
+        junctionList.forEach(async x => {
+            const checkProduct = (await this.Getproducts()).find(z => z.product?.id == x.product_id && z.category_id == x.category_id) == undefined
+            if (checkProduct) {
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.product_id} and category_id = ${x.category_id}`
+            }
+        })
         productList.forEach(async x => {
             const chack = (await this.Getproducts()).find(z => z.product?.id == x.id) == undefined
+
             if (chack) {
-                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.id ?? null}`
                 await this.db.query<DBQuery>`delete from onslip.productimages where product_id = ${x.id ?? null}`
                 await this.db.query<DBQuery>`delete from onslip.products where id = ${x.id ?? null}`;
             }
         })
-        const categoryList = await this.db.query<DBcategory[]>`select * from onslip.productcategories`;
         categoryList.forEach(async x => {
             const chack = (await this.GetCategories()).find(z => z.id == x.id) == undefined
             if (chack) {
-                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where category_id = ${x.id}`
                 await this.db.query<DBQuery>`delete from onslip.categoryimages where category_id = ${x.id}`
                 await this.db.query<DBQuery>`delete from onslip.productcategories where id = ${x.id}`;
             }
         })
-        const menuList = await this.db.query<Menu[]>`select * from onslip.menu`;
         menuList.forEach(async x => {
             const chack = (await (await this.api.listButtonMaps()).filter(c => c.type == 'menu')).find(z => z.id == x.id) == undefined
             if (chack) {
@@ -147,16 +153,13 @@ export class Listener {
             if (!itemExists) {
                 this.db.query <DBQuery[]>`insert into onslip.grouptoproduct (product_id, category_id, productposition) VALUES(${x.product?.id ?? null}, ${x.category_id}, ${x.position}) `
             }
-            else {
-                this.db.query<DBQuery[]>`update onslip.grouptoproduct set (product_id, category_id, productposition) = (${x.product?.id ?? null}, ${x.category_id}, ${x.position}) where product_id = ${x.product?.id ?? null} and category_id = ${x.category_id}`
-            }
         });
     }
 
     async Listener() {
         this.CreateDB();
-        const cancel = new AbortController();
         while (true) {
+            const cancel = new AbortController();
             try {
                 const stream = await this.api.addEventStream({
                     state: "pending",
@@ -165,21 +168,21 @@ export class Listener {
                         { resource: "button-maps", query: `type=menu` },
                     ],
                 });
-                setTimeout(() => cancel.abort, 60_000);
+                setTimeout(() => cancel.abort(), 60_000);
 
                 const event = (await this.api.signal(cancel.signal).openEventStream(stream.id).next());
                 if (event != null) {
                     console.log('done');
-                    this.CreateDB();
+                    await this.CreateDB();
+                    cancel.abort()
                 }
+
 
             } catch (error) {
                 console.error(error);
-                cancel.abort;
+                cancel.abort();
             }
         }
     }
-
-
 }
 

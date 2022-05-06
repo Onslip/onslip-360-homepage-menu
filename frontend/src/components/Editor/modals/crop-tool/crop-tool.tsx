@@ -1,7 +1,6 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { PostImage } from '../../../utils/post';
 import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
-import Compressor from 'compressorjs'
 
 @Component({
   tag: 'crop-tool',
@@ -213,6 +212,8 @@ export class CropTool {
     }
     PostImage(this.url, fd).catch(err => console.log(err));
   }
+
+
 
   render() {
     return (
