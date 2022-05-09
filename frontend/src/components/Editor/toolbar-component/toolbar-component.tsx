@@ -58,7 +58,7 @@ export class ToolbarComponent {
 
   async ChangeMenuColor(element) {
     console.log(config)
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
     PostData('http://localhost:8080/config', config);
   }
 

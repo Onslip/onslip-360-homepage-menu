@@ -1,10 +1,27 @@
 :host {
   display: block;
+  background-repeat: no-repeat;
 }
 
-.card {
-  background-color: rgba(255, 255, 255, 0.466);
-} 
+.outer-card {
+  background-color: rgba(255, 255, 255, 0.5);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-width: 200px;
+  flex-grow: 1;
+  flex-basis: 45%;
+  align-content: start;
+  border-radius: 5px;
+  margin: 5px;
+
+}
+
+.content {
+  width: 100%;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 
 .progressbar {
   --progress-background: var(--primary);
@@ -21,80 +38,172 @@
 }
 
 .categoryTitle {
-  /* color: black; */
   font-size: 1.5rem;
   margin: 0;
-  border-bottom: 2px solid black;
   text-align: center;
   font-weight: bold;
-  transition-duration: .4s;
+  padding: 15px;
+}
+
+.categoryTitle[data-status='Banner'] {
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .categoryToggled {
   font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
-  position: sticky;
-  transition-duration: .4s;
-}
-.prodContainer-no-image {
-  text-align: left;
-  margin-bottom: 0.5rem;
-}
-
-.productContainer {
-  text-align: center;
-  margin-bottom: 0.5rem;
-
-}
-
-.productIcon {
-  text-align: left;
-  /* margin-bottom: 0.5rem; */
-  background-size: contain;
-  background-repeat: no-repeat;
+  padding: 15px;
 }
 
 .productName {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .productPrice {
-  text-align: right;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: #737373;
+  text-align: end;
 }
 
 .productDesc {
-  font-size: 0.8rem;
-  margin: 0 10px;
+  font-size: 0.7rem;
 }
 
-.uploadbutton {
-  opacity: 0;
-  text-align: center;
-  font-size: large;
-  color: white;
+.card.productName{
+  font-size: 1rem;
+}
+
+.card.productPrice {
+  font-size: 0.9rem;
+}
+.card.productDesc {
+  font-size: 0.7rem;
+}
+
+.card.image {
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.iconLogo {
+  min-width: 80px;
+}
+
+.text {
+  align-self: flex-start;
+}
+
+ion-reorder {
   position: absolute;
-  width: fit-content  ;
-  height: 100%;
-  background: transparent;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+
+.catImages {
+  left: 85%;
+  position: absolute;
+}
+
+.background {
+  padding: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.312);
+}
+
+.spinner {
+  color: var(--primary);
+  transform: translate(50%, 50%);
+  padding: 5px;
+}
+
+.productContainer {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: flex;
-  font-size: 1.5rem;
+}
+
+.saveButton {
+  font-family: var(--globalfont);
+  --background: var(--primary);
+  font-weight: normal;
+  font-style: normal;
+  float: right;
+  margin-right: 20px;
+}
+
+.product {
+  flex-basis: 30%;
+  flex-grow: 1;
+  min-width: 200px;
+  max-width: 350px;
+  margin: 5px;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.card-text {
+  padding: 5px;
+}
+
+.products {
   justify-content: center;
-  align-items: center;
-  height: 100%;
 }
 
-.uploadbutton:hover {
-  opacity: 100%;
-  background-color: rgba(0, 0, 0, 0.644);
-  border: 3px solid black 
+.paper-products {
+  justify-content: center;
 }
 
-.productIcon {
-  width: 100%;
+.paper-content {
+  margin: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.paper-section {
+  flex-basis: 40%;
+  min-width: 400px;
+  max-width: 550px;
+  flex-grow: 1;
+  margin: 5px;
+  border-radius: 0;
+  
+}
+
+.separator {
+  border-bottom: 2px dotted gray;
+}
+
+@media only screen and (max-width: 1000px) {
+  .menuContainer {
+    margin: 0;
+  }
+  .product {
+    flex-basis: 45%;
+    flex-grow: 1;
+    min-width: 270px;
+    max-width: 350px;
+    margin: 5px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .product {
+    flex-basis: 100%;
+    flex-grow: 1;
+    min-width: unset;
+    max-width: unset;
+  }
+  .outer-card {
+    margin: 5px 0;
+  }
 }

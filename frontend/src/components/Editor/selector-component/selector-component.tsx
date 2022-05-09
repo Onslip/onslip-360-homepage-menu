@@ -59,13 +59,13 @@ export class SelectorComponent {
 
   async action(event, element) {
     if (this.type == 'font') {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
+      document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
       config.font.fontFamily = event;
       await PostData('http://localhost:8080/config', config)
       location.reload()
     }
     else if (this.type == 'preset') {
-      document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
+      document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
       mainConfig.configId = event
       await PostData('http://localhost:8080/mainconfig', mainConfig)
       location.reload();

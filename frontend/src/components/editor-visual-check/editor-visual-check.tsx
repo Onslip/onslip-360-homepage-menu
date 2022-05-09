@@ -3,27 +3,25 @@ import { Component, Host, h, State } from '@stencil/core';
 @Component({
   tag: 'editor-visual-check',
   styleUrl: 'editor-visual-check.css',
-  shadow: true,
 })
 export class EditorVisualCheck {
   @State() switch: boolean;
 
   render() {
     return (
-      <body>
+      <div>
+        <ion-router useHash={false}>
+          <ion-route url="/" component="test-menu" />
+          <ion-route-redirect to='/menu' from='/' />
+          <ion-route url='/menu' component="homepage-menu-component" />
+          <ion-route url='/menu/:Id' component="homepage-menu-component" />
+          <ion-route url='/menu/editor' component='homepage-menu-editor-component' />
+          <ion-route url='menu/editor/:Id' component='homepage-menu-editor-component' />
+        </ion-router>
         <ion-content class="content" id="main">
-          <toolbar-component slot='fixed'></toolbar-component>
-          {
-            this.switch ?
-              <homepage-menu-component></homepage-menu-component>
-              : <homepage-menu-editor-component></homepage-menu-editor-component>
-          }
-          <ion-item class='checkbox'>
-            <input type="checkbox" id="scales" name="scales" onChange={(event: any) => { this.switch = event.target.checked }} />
-            <label htmlFor="scales">Förhandsvisning</label>
-          </ion-item>
+          <ion-router-outlet />
         </ion-content>
-      </body>
+      </div>
     )
   }
 }

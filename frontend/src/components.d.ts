@@ -26,13 +26,20 @@ export namespace Components {
     interface FontModal {
     }
     interface HomepageMenuEditorComponent {
+        "Id": number;
     }
     interface LayoutOverlay {
+    }
+    interface MenuComponent {
+        "GetMenu": () => Promise<MenuWithCategory[]>;
+        "GetMenuWithImages": () => Promise<MenuWithCategory>;
+        "menuId"?: number;
     }
     interface MenuEditorComponent {
         "GetMenu": () => Promise<MenuWithCategory[]>;
         "GetMenuWithImages": () => Promise<MenuWithCategory>;
         "UploadCatImage": (file: File, id: number) => Promise<void>;
+        "menuId"?: number;
         "toggle": boolean;
         "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
@@ -59,11 +66,6 @@ export namespace Components {
         "value": string;
     }
     interface TestMenu {
-        "GetMenu": () => Promise<MenuWithCategory[]>;
-        "GetMenuWithImages": () => Promise<MenuWithCategory>;
-        "UploadCatImage": (file: File, id: number) => Promise<void>;
-        "toggle": boolean;
-        "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
     interface ToolbarComponent {
         "GetLocations": () => Promise<location[]>;
@@ -74,79 +76,85 @@ declare global {
     }
     var HTMLApiUiElement: {
         prototype: HTMLApiUiElement;
-        new (): HTMLApiUiElement;
+        new(): HTMLApiUiElement;
     };
     interface HTMLContentComponentElement extends Components.ContentComponent, HTMLStencilElement {
     }
     var HTMLContentComponentElement: {
         prototype: HTMLContentComponentElement;
-        new (): HTMLContentComponentElement;
+        new(): HTMLContentComponentElement;
     };
     interface HTMLCropToolElement extends Components.CropTool, HTMLStencilElement {
     }
     var HTMLCropToolElement: {
         prototype: HTMLCropToolElement;
-        new (): HTMLCropToolElement;
+        new(): HTMLCropToolElement;
     };
     interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
     }
     var HTMLEditorVisualCheckElement: {
         prototype: HTMLEditorVisualCheckElement;
-        new (): HTMLEditorVisualCheckElement;
+        new(): HTMLEditorVisualCheckElement;
     };
     interface HTMLFontModalElement extends Components.FontModal, HTMLStencilElement {
     }
     var HTMLFontModalElement: {
         prototype: HTMLFontModalElement;
-        new (): HTMLFontModalElement;
+        new(): HTMLFontModalElement;
     };
     interface HTMLHomepageMenuEditorComponentElement extends Components.HomepageMenuEditorComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuEditorComponentElement: {
         prototype: HTMLHomepageMenuEditorComponentElement;
-        new (): HTMLHomepageMenuEditorComponentElement;
+        new(): HTMLHomepageMenuEditorComponentElement;
     };
     interface HTMLLayoutOverlayElement extends Components.LayoutOverlay, HTMLStencilElement {
     }
     var HTMLLayoutOverlayElement: {
         prototype: HTMLLayoutOverlayElement;
-        new (): HTMLLayoutOverlayElement;
+        new(): HTMLLayoutOverlayElement;
+    };
+    interface HTMLMenuComponentElement extends Components.MenuComponent, HTMLStencilElement {
+    }
+    var HTMLMenuComponentElement: {
+        prototype: HTMLMenuComponentElement;
+        new(): HTMLMenuComponentElement;
     };
     interface HTMLMenuEditorComponentElement extends Components.MenuEditorComponent, HTMLStencilElement {
     }
     var HTMLMenuEditorComponentElement: {
         prototype: HTMLMenuEditorComponentElement;
-        new (): HTMLMenuEditorComponentElement;
+        new(): HTMLMenuEditorComponentElement;
     };
     interface HTMLModalOvelayElement extends Components.ModalOvelay, HTMLStencilElement {
     }
     var HTMLModalOvelayElement: {
         prototype: HTMLModalOvelayElement;
-        new (): HTMLModalOvelayElement;
+        new(): HTMLModalOvelayElement;
     };
     interface HTMLScheduleOverlayElement extends Components.ScheduleOverlay, HTMLStencilElement {
     }
     var HTMLScheduleOverlayElement: {
         prototype: HTMLScheduleOverlayElement;
-        new (): HTMLScheduleOverlayElement;
+        new(): HTMLScheduleOverlayElement;
     };
     interface HTMLSelectorComponentElement extends Components.SelectorComponent, HTMLStencilElement {
     }
     var HTMLSelectorComponentElement: {
         prototype: HTMLSelectorComponentElement;
-        new (): HTMLSelectorComponentElement;
+        new(): HTMLSelectorComponentElement;
     };
     interface HTMLTestMenuElement extends Components.TestMenu, HTMLStencilElement {
     }
     var HTMLTestMenuElement: {
         prototype: HTMLTestMenuElement;
-        new (): HTMLTestMenuElement;
+        new(): HTMLTestMenuElement;
     };
     interface HTMLToolbarComponentElement extends Components.ToolbarComponent, HTMLStencilElement {
     }
     var HTMLToolbarComponentElement: {
         prototype: HTMLToolbarComponentElement;
-        new (): HTMLToolbarComponentElement;
+        new(): HTMLToolbarComponentElement;
     };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
@@ -156,6 +164,7 @@ declare global {
         "font-modal": HTMLFontModalElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
+        "menu-component": HTMLMenuComponentElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
         "modal-ovelay": HTMLModalOvelayElement;
         "schedule-overlay": HTMLScheduleOverlayElement;
@@ -184,10 +193,15 @@ declare namespace LocalJSX {
     interface FontModal {
     }
     interface HomepageMenuEditorComponent {
+        "Id"?: number;
     }
     interface LayoutOverlay {
     }
+    interface MenuComponent {
+        "menuId"?: number;
+    }
     interface MenuEditorComponent {
+        "menuId"?: number;
         "toggle"?: boolean;
     }
     interface ModalOvelay {
@@ -213,7 +227,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface TestMenu {
-        "toggle"?: boolean;
     }
     interface ToolbarComponent {
     }
@@ -225,6 +238,7 @@ declare namespace LocalJSX {
         "font-modal": FontModal;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
+        "menu-component": MenuComponent;
         "menu-editor-component": MenuEditorComponent;
         "modal-ovelay": ModalOvelay;
         "schedule-overlay": ScheduleOverlay;
@@ -244,6 +258,7 @@ declare module "@stencil/core" {
             "font-modal": LocalJSX.FontModal & JSXBase.HTMLAttributes<HTMLFontModalElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
+            "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "modal-ovelay": LocalJSX.ModalOvelay & JSXBase.HTMLAttributes<HTMLModalOvelayElement>;
             "schedule-overlay": LocalJSX.ScheduleOverlay & JSXBase.HTMLAttributes<HTMLScheduleOverlayElement>;

@@ -1,119 +1,290 @@
-// import { Component, State, Host, h, Element, Prop } from '@stencil/core';
-// import { DBItems, DBImage } from '../../utils/utils';
-// import { GetData } from '../../utils/get';
-// import { config } from '../../utils/utils';
-// import { loadImage } from '../../utils/image';
+import { Component, State, Host, h, Element, Method, Prop } from '@stencil/core';
+import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
+import { GetData } from '../../utils/get';
+import { config, Timetable } from '../../utils/utils';
+import { loadImage } from '../../utils/image';
 
-// @Component({
-//   tag: 'menu-component',
-//   styleUrl: 'menu-component.css',
-//   shadow: true,
-// })
-// export class MenuComponent {
+@Component({
+    tag: 'menu-component',
+    styleUrl: 'menu-component.css',
+    shadow: true,
+})
+export class MenuComponent {
 
-//   @State() private url = 'http://localhost:8080'
-//   private produrl: string = 'http://localhost:8080/productimage-upload';
-//   @State() responsedata: DBItems[]
-//   @State() loading: boolean = true
-//   @State() errormessage: string
-//   @Element() element: HTMLElement;
-//   @Prop() toggle: boolean;
-//   @State() images: DBImage[]
+    @Element() element: HTMLElement;
+    private url = 'http://localhost:8080'
+    private produrl: string = 'http://localhost:8080/product-image';
+    private caturl: string = 'http://localhost:8080/category-image';
+    @State() categories: categorywithproduct[];
+    @State() AllMenus: MenuWithCategory[]
+    @State() menu: MenuWithCategory;
+    @State() errormessage: string
+    @State() loading: boolean = true
+    @Prop() menuId?: number
 
-//   async componentWillLoad() {
-//     GetData(this.url)
-//       .then(response => this.responsedata = response)
-//       .then(() => { this.loading = false })
-//       .catch(() => {
-//         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
-//         this.loading = false
-//       });
-//     if (config?.useProductImages) {
-//       GetData(this.produrl)
-//         .then(response => this.images = response)
-//         .catch(() => {
-//           // this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
-//         });
-//     }
-//   }
+    @Method() async GetMenu(): Promise<MenuWithCategory[]> {
+        return this.AllMenus
+    }
 
-//   async componentDidRender() {
-//     if (config?.useProductImages && this.toggle && this.loading == false) {
-//       this.LoadImages();
-//     }
-//   }
+    @Method() async GetMenuWithImages(): Promise<MenuWithCategory> {
+        return this.menu
+    }
 
-//   async LoadImages() {
-//     this.images.map(async i => {
-//       const loadedImage = await loadImage(i);
-//       const img = document.createElement('img');
-//       img.className = 'productIcon';
-//       img.src = loadedImage.toString();
-//       img.id = i.product_id.toString();
-//       this.element.shadowRoot.getElementById(`${i.product_id}`).replaceWith(img);
-//     })
-//   }
+    async componentWillLoad() {
+        if (!DBConnection) {
+            config.categoryImages.style = 'Disabled';
+            config.productImages.style = 'Disabled';
+        }
 
-//   renderProducts(products) {
-//     return (products.map(x =>
-//       <ion-card-content class={config.useProductImages ? 'productContainer' : 'prodContainer-no-image'} >
-//         <ion-row>
-//           <ion-col size="1" class='productIcon' hidden={!config.useProductImages} >
-//             <img id={x.id}></img>
-//           </ion-col>
-//           <ion-col size="10">
-//             <ion-row>
-//               <ion-col class="productName">
-//                 <div>{x.name}</div>
-//               </ion-col>
-//             </ion-row>
-//             <ion-row>
-//               <ion-col class='productDesc'>
-//                 <div>{x.description}</div>
-//               </ion-col>
-//             </ion-row>
-//           </ion-col>
-//           <ion-col size="1" class='productPrice'>
-//             <div>{x.price}kr</div>
-//           </ion-col>
-//         </ion-row>
-//       </ion-card-content>
-//     ))
-//   }
+        if (this.menuId == undefined) {
+            const date = new Date()
+            const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
+            this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+                .find(d => d.Day == date.getDay())?.Times
+                .find(t => t.time == date.getHours())?.menuid
+        }
 
-//   render() {
-//     return (
-//       <Host>
-//         <div class="error-message">
-//           <ion-label>{this.errormessage}</ion-label>
-//           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
-//         </div>
+        GetData(this.url)
+            .then(response => this.AllMenus = response)
+            .then(() => this.menu = this.AllMenus.find(m => m.menu.id == this.menuId))
+            .then(() => { this.loading = false, config.connect = true })
+            .then(() => this.categories = this.menu.categories)
+            .then(() => this.getCatImages())
+            .then(() => this.getProdImages())
+            .catch(() => {
+                this.errormessage += 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
+                this.loading = false
+                config.connect = false
+            });
+    }
 
-//         {
-//           !this.loading ?
-//             this.responsedata?.map(data => {
-//               return (
-//                 <div>
-//                   <ion-card class='card' style={{ color: config?.font?.fontColor }}>
-//                     <div>
-//                       <ion-card-header>
-//                         <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryToggled'} style={{ color: config?.font?.fontTitleColor }}>
-//                           {data.category.name}
-//                         </ion-card-title>
-//                       </ion-card-header>
-//                     </div>
-//                     {this.toggle ?
-//                       this.renderProducts(data.products)
-//                       : null}
-//                   </ion-card>
-//                 </div>
-//               )
-//             })
-//             : null
-//         }
-//       </Host>
-//     )
-//   }
+    async getCatImages() {
+        if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
+            GetData(this.caturl)
+                .then(response => { this.LoadCatImages(response); })
+                .catch(() => {
+                });
+        }
+    }
 
-// }
+    private getProdImages() {
+        if (config?.productImages?.style != 'Disabled' && DBConnection) {
+            GetData(this.produrl)
+                .then(response => this.LoadImages(response))
+                .catch(() => {
+                });
+        }
+    }
+
+    async LoadImages(DBimages: DBImage[]) {
+        this.categories.forEach(async c => {
+            c.products.forEach(async p => {
+                try {
+                    loadImage(DBimages.find(i => i.product_id == p.id).image.data)
+                        .then(response => p.image = response.toString())
+                        .then(() => p.imageLoaded = true)
+                        .then(() => this.categories = [...this.categories])
+                        .catch(err => err)
+                } catch (error) {
+                    p.imageLoaded = true
+                    this.categories = [...this.categories]
+                }
+
+            })
+        })
+    }
+
+    async LoadCatImages(DBimages: DBCatImage[]) {
+        this.categories?.forEach(async c => {
+            try {
+                loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
+                    .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
+                    .then(() => c.category.imageLoaded = true)
+                    .then(() => this.categories = [...this.categories])
+                    .catch(err => err)
+            } catch (error) {
+                c.category.imageLoaded = true
+                this.categories = [...this.categories]
+            }
+        })
+    }
+
+    renderProducts(products?: DBproduct[]) {
+        return (products?.map(x =>
+            // <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
+            //     {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
+            //         <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
+            //         : <div hidden={config?.productImages?.style != 'Background'}>
+            //         </div>}
+            //     <div class="productName" slot="primary">{x?.name}</div>
+            //     <div class="productPrice" slot={config?.productImages?.placement == "Left" ? 'end' : 'start'}>{x?.price}kr</div>
+            //     <div class="productDesc" slot="secondary">{x?.description}</div>
+            //     <div class={config?.productImages?.style == 'Background' ? 'iconBackground' : 'iconLogo'} hidden={config?.productImages?.style != 'Logo'} slot={config?.productImages?.placement == "Left" ? 'start' : 'end'}>
+            //         {
+            //             !x.imageLoaded ?
+            //                 <ion-spinner class="spinner"></ion-spinner>
+            //                 : <ion-img src={x.image} ></ion-img>
+            //         }
+            //     </div>
+            // </content-component>
+            <div class='productContainer'>
+                <ion-col hidden={config.productImages.placement == 'Right'} class='iconLogo' size='3'>
+                    <div>
+                        {
+                            !x.imageLoaded ?
+                                <ion-spinner class="spinner"></ion-spinner>
+                                : <ion-img src={x.image} ></ion-img>
+                        }
+                    </div>
+                </ion-col>
+                <ion-col class='text'>
+                    <ion-row>
+                        <ion-col>
+                            <div class="productName">{x?.name}</div>
+                        </ion-col>
+                        <ion-col>
+                            <div class="productPrice">{x?.price}kr</div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <div class="productDesc">{x?.description}</div>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col hidden={config.productImages.placement == 'Left'} class='iconLogo' size='3'>
+                    <div>
+                        {
+                            !x.imageLoaded ?
+                                <ion-spinner class="spinner"></ion-spinner>
+                                : <ion-img src={x.image} ></ion-img>
+                        }
+                    </div>
+                </ion-col>
+            </div>
+        ))
+    }
+
+    renderCards(products?: DBproduct[]) {
+        return <ion-row class='products'>
+            {(products?.map(x =>
+                <ion-card class={"product"} id='scroll-container'>
+                    {
+                        !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                            <ion-spinner class="spinner"></ion-spinner>
+                            : <ion-img src={x.image} class="card image"></ion-img>
+                    }
+                    <div class="card-text" style={{ '--color': config?.font?.fontColor }}>
+                        <ion-card-header>
+                            <div class='card productName'>{x.name}</div>
+                            <div class='card productDesc'>{x.description}</div>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <div class='card productPrice'>{x.price} sek</div>
+                        </ion-card-content>
+                    </div>
+                </ion-card>))}
+        </ion-row>
+    }
+
+    renderPaper() {
+        return (
+
+            <div class="paper-content">
+                {
+                    !this.loading ?
+                        this.categories?.map(data => {
+
+                            return (
+                                <div class='paper-section'>
+                                    <div>
+                                        <ion-title style={{ color: config?.font?.fontTitleColor }} class='categoryTitle'>
+                                            {data?.category?.name}
+                                        </ion-title>
+                                    </div>
+                                    <ion-col class="paper-products">
+                                        {data.products.map(x => {
+                                            return (
+                                                <ion-row style={{ color: config?.font?.fontColor }}>
+                                                    <ion-col>
+                                                        <ion-row>
+                                                            <div class='productName'>{x.name}</div>
+                                                            <ion-col class="separator"></ion-col>
+                                                            <div class='productPrice'>{x.price} sek</div>
+                                                        </ion-row>
+                                                        <ion-row>
+                                                            <div class='productDesc'>{x.description}</div>
+                                                        </ion-row>
+                                                    </ion-col>
+                                                </ion-row>
+                                            )
+                                        })
+                                        }
+                                    </ion-col>
+
+                                </div>
+                            )
+                        })
+                        : null
+                }
+            </div>
+        )
+    }
+
+    render() {
+        return (
+            <Host>
+                <div class="error-message">
+                    <ion-label>{this.errormessage}</ion-label>
+                    {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+                </div>
+                <div>
+                    {config.menuType == 'paper' ? this.renderPaper() :
+                        <div>
+                            {
+                                !this.loading ?
+                                    this.categories?.map(data => {
+
+                                        return (
+                                            <div id={data?.category?.id.toString()} class='outer-card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                                                <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
+                                                    <div>
+                                                        <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                                                            <ion-card-title class='categoryTitle' style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
+                                                                {data?.category?.name}
+                                                            </ion-card-title>
+                                                        </ion-card-header>
+                                                        {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+                                                    </div>
+                                                    {config.menuType == 'inline' ?
+                                                        this.renderProducts(data?.products)
+                                                        : null}
+                                                    {config.menuType == 'card' ?
+                                                        this.renderCards(data?.products)
+                                                        : null}
+
+                                                </ion-card>
+                                            </div>
+                                        )
+                                    })
+                                    : null
+                            }
+                        </div>
+                    }
+                </div>
+            </Host>
+        )
+    }
+}
+
+export interface image {
+    id: number,
+    image: string
+}
+
+
+interface DBCatImage {
+    image: any,
+    category_id: number
+}
 
