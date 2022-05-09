@@ -9,7 +9,6 @@
 }
 
 .content {
-  --height: 100%;
   position: unset;
   --background: unset;
 }
@@ -23,4 +22,8 @@ toolbar-component {
   width: 100%;
   top: 0;
   left: 0;
+}
+
+ion-router-outlet {
+  height: max-content;
 }

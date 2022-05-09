@@ -20,7 +20,7 @@ export async function LoadLogo(file, element) {
     reader.onload = () => {
         const image = `url(${reader.result})`;
         if (image != null) {
-            const mainelement = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
+            const mainelement = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component');
             mainelement.shadowRoot.querySelector(element).querySelector('img').src = reader.result.toString();
         }
     };
@@ -31,7 +31,7 @@ export async function LoadBanner(file, element) {
     reader.onload = () => {
         const image = `url(${reader.result})`;
         if (image != null) {
-            const mainelement = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
+            const mainelement = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component');
             mainelement.shadowRoot.querySelector(element).style.backgroundImage = image;
         }
     };

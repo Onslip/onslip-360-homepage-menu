@@ -23,14 +23,24 @@ export namespace Components {
     }
     interface EditorVisualCheck {
     }
+    interface HomepageMenuComponent {
+        "Id": number;
+    }
     interface HomepageMenuEditorComponent {
+        "Id": number;
     }
     interface LayoutOverlay {
+    }
+    interface MenuComponent {
+        "GetMenu": () => Promise<MenuWithCategory[]>;
+        "GetMenuWithImages": () => Promise<MenuWithCategory>;
+        "menuId"?: number;
     }
     interface MenuEditorComponent {
         "GetMenu": () => Promise<MenuWithCategory[]>;
         "GetMenuWithImages": () => Promise<MenuWithCategory>;
         "UploadCatImage": (file: File, id: number) => Promise<void>;
+        "menuId"?: number;
         "toggle": boolean;
         "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
@@ -57,11 +67,6 @@ export namespace Components {
         "value": string;
     }
     interface TestMenu {
-        "GetMenu": () => Promise<MenuWithCategory[]>;
-        "GetMenuWithImages": () => Promise<MenuWithCategory>;
-        "UploadCatImage": (file: File, id: number) => Promise<void>;
-        "toggle": boolean;
-        "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
     interface ToolbarComponent {
         "GetLocations": () => Promise<location[]>;
@@ -92,6 +97,12 @@ declare global {
         prototype: HTMLEditorVisualCheckElement;
         new (): HTMLEditorVisualCheckElement;
     };
+    interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
+    }
+    var HTMLHomepageMenuComponentElement: {
+        prototype: HTMLHomepageMenuComponentElement;
+        new (): HTMLHomepageMenuComponentElement;
+    };
     interface HTMLHomepageMenuEditorComponentElement extends Components.HomepageMenuEditorComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuEditorComponentElement: {
@@ -103,6 +114,12 @@ declare global {
     var HTMLLayoutOverlayElement: {
         prototype: HTMLLayoutOverlayElement;
         new (): HTMLLayoutOverlayElement;
+    };
+    interface HTMLMenuComponentElement extends Components.MenuComponent, HTMLStencilElement {
+    }
+    var HTMLMenuComponentElement: {
+        prototype: HTMLMenuComponentElement;
+        new (): HTMLMenuComponentElement;
     };
     interface HTMLMenuEditorComponentElement extends Components.MenuEditorComponent, HTMLStencilElement {
     }
@@ -145,8 +162,10 @@ declare global {
         "content-component": HTMLContentComponentElement;
         "crop-tool": HTMLCropToolElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
+        "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
+        "menu-component": HTMLMenuComponentElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
         "modal-ovelay": HTMLModalOvelayElement;
         "schedule-overlay": HTMLScheduleOverlayElement;
@@ -172,11 +191,19 @@ declare namespace LocalJSX {
     }
     interface EditorVisualCheck {
     }
+    interface HomepageMenuComponent {
+        "Id"?: number;
+    }
     interface HomepageMenuEditorComponent {
+        "Id"?: number;
     }
     interface LayoutOverlay {
     }
+    interface MenuComponent {
+        "menuId"?: number;
+    }
     interface MenuEditorComponent {
+        "menuId"?: number;
         "toggle"?: boolean;
     }
     interface ModalOvelay {
@@ -202,7 +229,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface TestMenu {
-        "toggle"?: boolean;
     }
     interface ToolbarComponent {
     }
@@ -211,8 +237,10 @@ declare namespace LocalJSX {
         "content-component": ContentComponent;
         "crop-tool": CropTool;
         "editor-visual-check": EditorVisualCheck;
+        "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
+        "menu-component": MenuComponent;
         "menu-editor-component": MenuEditorComponent;
         "modal-ovelay": ModalOvelay;
         "schedule-overlay": ScheduleOverlay;
@@ -229,8 +257,10 @@ declare module "@stencil/core" {
             "content-component": LocalJSX.ContentComponent & JSXBase.HTMLAttributes<HTMLContentComponentElement>;
             "crop-tool": LocalJSX.CropTool & JSXBase.HTMLAttributes<HTMLCropToolElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
+            "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
+            "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
             "modal-ovelay": LocalJSX.ModalOvelay & JSXBase.HTMLAttributes<HTMLModalOvelayElement>;
             "schedule-overlay": LocalJSX.ScheduleOverlay & JSXBase.HTMLAttributes<HTMLScheduleOverlayElement>;

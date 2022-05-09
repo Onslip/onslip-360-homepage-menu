@@ -190,7 +190,7 @@ export class CropTool {
   }
 
   UploadImage(File: File, id: number) {
-    const a = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
+    const a = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector('menu-editor-component');
     let fd = new FormData()
     if (this.ImagePosition == 'Background') {
       LoadBackground(File);

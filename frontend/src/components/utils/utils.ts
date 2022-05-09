@@ -170,3 +170,18 @@ export interface mainConfigInterface {
   selectedLocation: location
   selectedMenu: 0;
 };
+
+export interface Timetable {
+  locationId: number,
+  days: days[]
+}
+
+export interface days {
+  Day: number,
+  Times?: times[]
+}
+
+export interface times {
+  time: number,
+  menuid?: number
+}

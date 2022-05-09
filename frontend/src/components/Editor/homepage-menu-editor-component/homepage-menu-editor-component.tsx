@@ -3,6 +3,7 @@ import { config, DBConnection, mainConfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
+import { Prop } from '@ionic/core/dist/types/stencil-public-runtime';
 
 @Component({
   tag: 'homepage-menu-editor-component',
@@ -19,8 +20,10 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
   @State() logoImage: string = ''
+  @Prop() Id: number
 
   async componentWillLoad() {
+
     if (DBConnection) {
       if (!config?.background?.enabled) {
         GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
@@ -41,7 +44,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadConfig(element, element1) {
-    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
+    const component = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component');
     component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
     if (config?.font?.fontWeight) {
       component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
@@ -88,13 +91,14 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
+        <toolbar-component></toolbar-component>
         <div class='menuContainer'>
           <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
             {config?.connect ? <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item>
-          <menu-editor-component toggle={this.toggle}></menu-editor-component>
+          <menu-editor-component toggle={this.toggle} menuId={this.Id}></menu-editor-component>
           {/* <test-menu></test-menu> */}
         </div>
         <div class='logoDiv'>

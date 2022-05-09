@@ -87,7 +87,7 @@ ion-popover {
   font-size: 1.3em;
   padding-left: 5px;
   padding-right: 5px;
-  content:url('./build/assets/font-size.svg');
+  content:url('/build/assets/font-size.svg');
 }
 
 .sizeSelect {

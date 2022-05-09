@@ -36,6 +36,7 @@
     "@nestjs/common": "^8.4.4",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@stencil/core": "^2.15.1",
+    "@stencil/router": "^1.0.1",
     "common": "link:@angular/common",
     "compressorjs": "^1.1.1",
     "http": "link:@angular/common/http",

@@ -2,7 +2,7 @@ import { Component, h, State, Element } from '@stencil/core';
 import { json } from 'stream/consumers';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
-import { MenuWithCategory, location, mainConfig } from '../../../utils/utils';
+import { MenuWithCategory, location, mainConfig, Timetable } from '../../../utils/utils';
 
 @Component({
   tag: 'schedule-overlay',
@@ -28,8 +28,8 @@ export class ScheduleOverlay {
 
     this.locationList = await GetData('http://localhost:8080/locations');
 
-    const menu = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
-    const toolbar = document.querySelector('editor-visual-check').shadowRoot.querySelector('toolbar-component');
+    const menu = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector('menu-editor-component');
+    const toolbar = document.querySelector('editor-visual-check').querySelector('toolbar-component');
     this.menus = await menu?.GetMenu();
     this.locationList = await toolbar?.GetLocations();
 
@@ -253,20 +253,3 @@ export class ScheduleOverlay {
     );
   }
 }
-
-
-export interface Timetable {
-  locationId: number,
-  days: days[]
-}
-
-export interface days {
-  Day: number,
-  Times?: times[]
-}
-
-export interface times {
-  time: number,
-  menuid?: number
-}
-

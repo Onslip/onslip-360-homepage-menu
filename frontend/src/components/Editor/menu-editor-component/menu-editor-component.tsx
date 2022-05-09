@@ -1,10 +1,9 @@
 import { Component, State, Host, h, Element, Prop, Method } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
-import { config } from '../../utils/utils';
+import { config, Timetable } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
 import { PostData } from '../../utils/post';
-import { Timetable } from '../modals/schedule-overlay/schedule-overlay';
 
 @Component({
   tag: 'menu-editor-component',
@@ -24,6 +23,7 @@ export class MenuEditorComponent {
   @State() loading: boolean = true
   @State() CanSave: boolean;
   @Prop() toggle: boolean;
+  @Prop() menuId?: number;
 
   @Method() async GetMenu(): Promise<MenuWithCategory[]> {
     return this.AllMenus
@@ -38,16 +38,17 @@ export class MenuEditorComponent {
       config.categoryImages.style = 'Disabled';
       config.productImages.style = 'Disabled';
     }
-
-    const date = new Date()
-    const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
-    const menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
-      .find(d => d.Day == date.getDay())?.Times
-      .find(t => t.time == date.getHours())?.menuid
+    if(this.menuId == undefined) {
+      const date = new Date()
+      const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
+      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+        .find(d => d.Day == date.getDay())?.Times
+        .find(t => t.time == date.getHours())?.menuid
+    }
 
     GetData(this.url)
       .then(response => this.AllMenus = response)
-      .then(() => this.menu = this.AllMenus.find(m => m.menu.id == menuId))
+      .then(() => this.menu = this.AllMenus.find(m => m.menu.id == this.menuId))
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
       .then(() => this.getCatImages())
@@ -145,10 +146,6 @@ export class MenuEditorComponent {
     PostData('http://localhost:8080/updateposition', newMenu)
   }
 
-  componentShouldUpdate() {
-    return true;
-  }
-
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
       <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
@@ -184,13 +181,13 @@ export class MenuEditorComponent {
               <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
               ]
           }
-          <div class="card-text">
+          <div class="card-text" style={{'--color': config?.font?.fontColor }}>
             <ion-card-header>
-              <ion-card-title class='productName'>{x.name}</ion-card-title>
-              <ion-card-subtitle class='description'>{x.description}</ion-card-subtitle>
+              <div class='card productName'>{x.name}</div>
+              <div class='card productDesc'>{x.description}</div>
             </ion-card-header>
             <ion-card-content>
-              <div class='price'>{x.price} sek</div>
+              <div class='card productPrice'>{x.price} sek</div>
             </ion-card-content>
           </div>
         </ion-card>))}
@@ -199,7 +196,7 @@ export class MenuEditorComponent {
 
   renderPaper() {
     return (
-      <div class='paper-content'>
+
           <ion-reorder-group onIonItemReorder={(ev) => this.doReorder(ev)} disabled={this.toggle} class={this.toggle? 'paper-content' : 'reorder'}>
           {
             !this.loading ?
@@ -208,7 +205,7 @@ export class MenuEditorComponent {
                 return (
                   <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
                     <div>
-                      <ion-title class='categoryTitle'>
+                      <ion-title style={{ color: config?.font?.fontTitleColor }} class='categoryTitle'>
                         <div>
                           {data?.category?.name}
                           <ion-reorder hidden={this.toggle}>
@@ -221,7 +218,7 @@ export class MenuEditorComponent {
 
                       {data.products.map(x => {
                         return (
-                          <ion-row>
+                          <ion-row style={{ color: config?.font?.fontColor }}>
                             <ion-col>
                               <ion-row>
                                 <div class='productName'>{x.name}</div>
@@ -245,7 +242,6 @@ export class MenuEditorComponent {
 
           }
       </ion-reorder-group>
-        </div>
     )
   }
 
@@ -264,7 +260,7 @@ export class MenuEditorComponent {
                   this.categories?.map(data => {
 
                     return (
-                      <div id={data?.category?.id.toString()} class='card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                      <div id={data?.category?.id.toString()} class='outer-card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
                         <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
                           <div>
                             <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
