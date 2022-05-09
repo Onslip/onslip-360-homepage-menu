@@ -138,6 +138,9 @@ export class ToolbarComponent {
               <ion-row>
                 <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button'></modal-ovelay>
               </ion-row>
+              <ion-row>
+                <modal-ovelay RenderType='font-modal' buttonValue='Fonts' buttonClass='menu-button'></modal-ovelay>
+              </ion-row>
             </ion-col>
             {DBConnection?.DatabaseConnected ? [
               <ion-col class="menu-col">

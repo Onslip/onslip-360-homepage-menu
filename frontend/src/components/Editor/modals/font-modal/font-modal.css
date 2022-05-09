@@ -1,0 +1,118 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+@import url("../../../../global/modalstyle.css");
+
+
+.row {
+  width: max-content;
+}
+
+.modal .header {
+  padding-bottom: 0px;
+}
+
+ion-item {
+  --highlight-color-focused: var(--primary);
+}
+
+.select {
+  --color-hover: white;
+  width: 70%;
+}
+
+.bold-button {
+  font-size: large;
+  font-weight: bold;
+  width: 25px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+}
+
+.cursive-button {
+  width: 25px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  font-style: italic;
+}
+
+.label {
+  --background: var(--primary);
+  --color: white;
+  --box-shadow: none;
+}
+
+.label:hover {
+  background-color: #8cbb4abd;
+}
+
+.labelpressed {
+  --text-shadow: 1;
+  --background: rgba(67, 124, 67, 0.57);
+  --box-shadow: none;
+}
+
+.slider {
+  width: 100%;
+}
+
+.small {
+  font-size: small;
+}
+
+.big {
+  font-size: x-large;
+}
+
+ion-range {
+  padding-top: 0;
+  --color: var(--primary)
+}
+
+.tab-button {
+  width: 50%;
+  height: 40px;
+  background-color: white;
+  border-top: none;
+  border-color: lightgray;
+  border-radius: 3px;
+  box-shadow: none;
+  font-weight: bold;
+}
+
+.left {
+  text-align: right;
+  border-left: none;
+}
+
+.right {
+  text-align: left;
+  border-right: none;
+}
+
+.settings {
+  width: 100%;
+}
+
+.product {
+  align-items: flex-start;
+}
+
+.productName {
+  text-align: start;
+}
+
+.productDesc {
+  text-align: center;
+}
+
+.productPrice {
+  text-align: end;
+}
+
+.inputRow {
+  width: 100%;
+}

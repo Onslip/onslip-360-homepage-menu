@@ -200,7 +200,7 @@ export class MenuEditorComponent {
   renderPaper() {
     return (
       <div class='paper-content'>
-          <ion-reorder-group onIonItemReorder={(ev) => this.doReorder(ev)} disabled={this.toggle} class={this.toggle? 'paper-content' : 'reorder'}>
+        <ion-reorder-group onIonItemReorder={(ev) => this.doReorder(ev)} disabled={this.toggle} class={this.toggle ? 'paper-content' : 'reorder'}>
           {
             !this.loading ?
               this.categories?.map(data => {
@@ -244,8 +244,8 @@ export class MenuEditorComponent {
               : null
 
           }
-      </ion-reorder-group>
-        </div>
+        </ion-reorder-group>
+      </div>
     )
   }
 

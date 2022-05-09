@@ -24,7 +24,7 @@ export class DHMService {
         try {
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
-            this.listener.Listener();
+            // this.listener.Listener();
             return this;
         }
         catch (error) {
@@ -91,12 +91,12 @@ export class DHMService {
                     return args.body();
                 }
             },
-            
+
             class implements WebResource {
                 static path = /locations/;
 
                 async GET() {
-                    const locations: location[] = (await svc.api.listLocations()).map(l => ({name: l.name, id: l.id}))
+                    const locations: location[] = (await svc.api.listLocations()).map(l => ({ name: l.name, id: l.id }))
                     return locations
                 }
             },
@@ -274,7 +274,7 @@ export class DHMService {
     }
 
     private async rootResponse() {
-        if(this.dbConnect == true) {
+        if (this.dbConnect == true) {
             return await GetProdByGroup(this.db, this.api);
         }
         else {

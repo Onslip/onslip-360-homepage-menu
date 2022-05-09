@@ -23,6 +23,8 @@ export namespace Components {
     }
     interface EditorVisualCheck {
     }
+    interface FontModal {
+    }
     interface HomepageMenuEditorComponent {
     }
     interface LayoutOverlay {
@@ -92,6 +94,12 @@ declare global {
         prototype: HTMLEditorVisualCheckElement;
         new (): HTMLEditorVisualCheckElement;
     };
+    interface HTMLFontModalElement extends Components.FontModal, HTMLStencilElement {
+    }
+    var HTMLFontModalElement: {
+        prototype: HTMLFontModalElement;
+        new (): HTMLFontModalElement;
+    };
     interface HTMLHomepageMenuEditorComponentElement extends Components.HomepageMenuEditorComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuEditorComponentElement: {
@@ -145,6 +153,7 @@ declare global {
         "content-component": HTMLContentComponentElement;
         "crop-tool": HTMLCropToolElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
+        "font-modal": HTMLFontModalElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
         "menu-editor-component": HTMLMenuEditorComponentElement;
@@ -171,6 +180,8 @@ declare namespace LocalJSX {
         "url"?: string;
     }
     interface EditorVisualCheck {
+    }
+    interface FontModal {
     }
     interface HomepageMenuEditorComponent {
     }
@@ -211,6 +222,7 @@ declare namespace LocalJSX {
         "content-component": ContentComponent;
         "crop-tool": CropTool;
         "editor-visual-check": EditorVisualCheck;
+        "font-modal": FontModal;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
         "menu-editor-component": MenuEditorComponent;
@@ -229,6 +241,7 @@ declare module "@stencil/core" {
             "content-component": LocalJSX.ContentComponent & JSXBase.HTMLAttributes<HTMLContentComponentElement>;
             "crop-tool": LocalJSX.CropTool & JSXBase.HTMLAttributes<HTMLCropToolElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
+            "font-modal": LocalJSX.FontModal & JSXBase.HTMLAttributes<HTMLFontModalElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
             "menu-editor-component": LocalJSX.MenuEditorComponent & JSXBase.HTMLAttributes<HTMLMenuEditorComponentElement>;
