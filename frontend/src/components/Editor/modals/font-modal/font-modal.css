@@ -10,9 +10,6 @@
   width: max-content;
 }
 
-.modal .header {
-  padding-bottom: 0px;
-}
 
 ion-item {
   --highlight-color-focused: var(--primary);
@@ -84,12 +81,10 @@ ion-range {
 }
 
 .left {
-  text-align: right;
   border-left: none;
 }
 
 .right {
-  text-align: left;
   border-right: none;
 }
 
@@ -115,4 +110,24 @@ ion-range {
 
 .inputRow {
   width: 100%;
+}
+
+.modal .header {
+  padding: 0;
+}
+
+ion-tabs {
+  position: unset;
+}
+
+ion-tab-bar {
+  justify-content: space-evenly;
+}
+
+ion-tab-button {
+  --color-selected: var(--primary);
+}
+
+ion-tab-button.focus {
+  box-shadow: 0px -6px 5px -7px inset var(--primary);
 }

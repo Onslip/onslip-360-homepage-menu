@@ -25,6 +25,9 @@ export namespace Components {
     }
     interface FontModal {
     }
+    interface HomepageMenuComponent {
+        "Id": number;
+    }
     interface HomepageMenuEditorComponent {
         "Id": number;
     }
@@ -76,85 +79,91 @@ declare global {
     }
     var HTMLApiUiElement: {
         prototype: HTMLApiUiElement;
-        new(): HTMLApiUiElement;
+        new (): HTMLApiUiElement;
     };
     interface HTMLContentComponentElement extends Components.ContentComponent, HTMLStencilElement {
     }
     var HTMLContentComponentElement: {
         prototype: HTMLContentComponentElement;
-        new(): HTMLContentComponentElement;
+        new (): HTMLContentComponentElement;
     };
     interface HTMLCropToolElement extends Components.CropTool, HTMLStencilElement {
     }
     var HTMLCropToolElement: {
         prototype: HTMLCropToolElement;
-        new(): HTMLCropToolElement;
+        new (): HTMLCropToolElement;
     };
     interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
     }
     var HTMLEditorVisualCheckElement: {
         prototype: HTMLEditorVisualCheckElement;
-        new(): HTMLEditorVisualCheckElement;
+        new (): HTMLEditorVisualCheckElement;
     };
     interface HTMLFontModalElement extends Components.FontModal, HTMLStencilElement {
     }
     var HTMLFontModalElement: {
         prototype: HTMLFontModalElement;
-        new(): HTMLFontModalElement;
+        new (): HTMLFontModalElement;
+    };
+    interface HTMLHomepageMenuComponentElement extends Components.HomepageMenuComponent, HTMLStencilElement {
+    }
+    var HTMLHomepageMenuComponentElement: {
+        prototype: HTMLHomepageMenuComponentElement;
+        new (): HTMLHomepageMenuComponentElement;
     };
     interface HTMLHomepageMenuEditorComponentElement extends Components.HomepageMenuEditorComponent, HTMLStencilElement {
     }
     var HTMLHomepageMenuEditorComponentElement: {
         prototype: HTMLHomepageMenuEditorComponentElement;
-        new(): HTMLHomepageMenuEditorComponentElement;
+        new (): HTMLHomepageMenuEditorComponentElement;
     };
     interface HTMLLayoutOverlayElement extends Components.LayoutOverlay, HTMLStencilElement {
     }
     var HTMLLayoutOverlayElement: {
         prototype: HTMLLayoutOverlayElement;
-        new(): HTMLLayoutOverlayElement;
+        new (): HTMLLayoutOverlayElement;
     };
     interface HTMLMenuComponentElement extends Components.MenuComponent, HTMLStencilElement {
     }
     var HTMLMenuComponentElement: {
         prototype: HTMLMenuComponentElement;
-        new(): HTMLMenuComponentElement;
+        new (): HTMLMenuComponentElement;
     };
     interface HTMLMenuEditorComponentElement extends Components.MenuEditorComponent, HTMLStencilElement {
     }
     var HTMLMenuEditorComponentElement: {
         prototype: HTMLMenuEditorComponentElement;
-        new(): HTMLMenuEditorComponentElement;
+        new (): HTMLMenuEditorComponentElement;
     };
     interface HTMLModalOvelayElement extends Components.ModalOvelay, HTMLStencilElement {
     }
     var HTMLModalOvelayElement: {
         prototype: HTMLModalOvelayElement;
-        new(): HTMLModalOvelayElement;
+        new (): HTMLModalOvelayElement;
     };
     interface HTMLScheduleOverlayElement extends Components.ScheduleOverlay, HTMLStencilElement {
     }
     var HTMLScheduleOverlayElement: {
         prototype: HTMLScheduleOverlayElement;
-        new(): HTMLScheduleOverlayElement;
+        new (): HTMLScheduleOverlayElement;
     };
     interface HTMLSelectorComponentElement extends Components.SelectorComponent, HTMLStencilElement {
     }
     var HTMLSelectorComponentElement: {
         prototype: HTMLSelectorComponentElement;
-        new(): HTMLSelectorComponentElement;
+        new (): HTMLSelectorComponentElement;
     };
     interface HTMLTestMenuElement extends Components.TestMenu, HTMLStencilElement {
     }
     var HTMLTestMenuElement: {
         prototype: HTMLTestMenuElement;
-        new(): HTMLTestMenuElement;
+        new (): HTMLTestMenuElement;
     };
     interface HTMLToolbarComponentElement extends Components.ToolbarComponent, HTMLStencilElement {
     }
     var HTMLToolbarComponentElement: {
         prototype: HTMLToolbarComponentElement;
-        new(): HTMLToolbarComponentElement;
+        new (): HTMLToolbarComponentElement;
     };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
@@ -162,6 +171,7 @@ declare global {
         "crop-tool": HTMLCropToolElement;
         "editor-visual-check": HTMLEditorVisualCheckElement;
         "font-modal": HTMLFontModalElement;
+        "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
         "layout-overlay": HTMLLayoutOverlayElement;
         "menu-component": HTMLMenuComponentElement;
@@ -191,6 +201,9 @@ declare namespace LocalJSX {
     interface EditorVisualCheck {
     }
     interface FontModal {
+    }
+    interface HomepageMenuComponent {
+        "Id"?: number;
     }
     interface HomepageMenuEditorComponent {
         "Id"?: number;
@@ -236,6 +249,7 @@ declare namespace LocalJSX {
         "crop-tool": CropTool;
         "editor-visual-check": EditorVisualCheck;
         "font-modal": FontModal;
+        "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
         "layout-overlay": LayoutOverlay;
         "menu-component": MenuComponent;
@@ -256,6 +270,7 @@ declare module "@stencil/core" {
             "crop-tool": LocalJSX.CropTool & JSXBase.HTMLAttributes<HTMLCropToolElement>;
             "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "font-modal": LocalJSX.FontModal & JSXBase.HTMLAttributes<HTMLFontModalElement>;
+            "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;
             "layout-overlay": LocalJSX.LayoutOverlay & JSXBase.HTMLAttributes<HTMLLayoutOverlayElement>;
             "menu-component": LocalJSX.MenuComponent & JSXBase.HTMLAttributes<HTMLMenuComponentElement>;

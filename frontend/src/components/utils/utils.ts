@@ -51,9 +51,13 @@ interface font {
   fontWeight?: boolean;
   fontStyle?: boolean;
   fontSize?: string;
-  fontColor?: string;
-  fontTitleColor?: string;
   fontOutline?: boolean;
+  colors?: {
+    categoryTitle?: string;
+    productName?: string;
+    productPrice?: string;
+    productDesc?: string;
+  }
 }
 
 export interface MenuWithCategory {
@@ -128,9 +132,13 @@ export async function getConfig(): Promise<Styleconfig> {
         fontWeight: false,
         fontStyle: false,
         fontSize: null,
-        fontColor: null,
-        fontTitleColor: null,
-        fontOutline: false
+        fontOutline: false,
+        colors: {
+          categoryTitle: null,
+          productName: null,
+          productPrice: null,
+          productDesc: null,
+        }
       },
       menuBackground: null,
       connect: true,

@@ -1,7 +1,6 @@
-import { IonicSafeString } from '@ionic/core';
 import { Component, h, Element, State } from '@stencil/core';
 import { PostData } from '../../../utils/post';
-import { config, Fonts } from '../../../utils/utils';
+import { config, Fonts, Styleconfig } from '../../../utils/utils';
 
 @Component({
   tag: 'font-modal',
@@ -11,10 +10,11 @@ import { config, Fonts } from '../../../utils/utils';
 export class FontModal {
   @Element() element: HTMLElement;
   @State() buttonPressed: boolean = false;
-  @State() butpress: boolean = false;
-  @State() buttonpress: boolean = false;
+  @State() butpress: boolean = config.font.fontStyle;
+  @State() buttonpress: boolean = config.font.fontWeight;
   @State() RenderButton: boolean;
   @State() FontSize: string;
+  @State() tempConf: Styleconfig = config;
 
   async close() {
     await customElements.whenDefined('ion-modal')
@@ -31,41 +31,47 @@ export class FontModal {
   };
 
   changeFont(element, ev) {
-
+    this.tempConf.font.fontFamily = ev.target.value;
     this.element.shadowRoot.querySelector(element).style.fontFamily = ev.target.value;
   }
 
-  changeFontSize(element, ev) {
+  changeFontSize(ev) {
+    const ele: HTMLElement = this.element.shadowRoot.querySelector('.categoryTitle')
+    const div: HTMLElement = this.element.shadowRoot.querySelector('.hej')
     console.log(ev.target.value)
-    if (ev.target.value == 5) {
-      this.FontSize = 'clamp(10px, 4vw, 30px)'
+    switch (ev.target.value) {
+      case 1:
+        this.tempConf.font.fontSize = 'clamp(10px, 2vw, 10px)'
+        break;
+      case 2:
+        this.tempConf.font.fontSize = 'clamp(10px, 2.5vw, 15px)'
+        break;
+      case 3:
+        this.tempConf.font.fontSize = 'clamp(10px, 3vw, 20px)'
+        break;
+      case 4:
+        this.tempConf.font.fontSize = 'clamp(10px, 3.5vw, 25px)'
+        break;
+      case 5:
+        this.tempConf.font.fontSize = 'clamp(10px, 4vw, 30px)'
+        break;
+      default:
+        break;
     }
-    else if (ev.target.value == 4) {
-      this.FontSize = 'clamp(10px, 3.5vw, 25px)'
-    }
-    else if (ev.target.value == 3) {
-      this.FontSize = 'clamp(10px, 3vw, 20px)'
-    }
-    else if (ev.target.value == 2) {
-      this.FontSize = 'clamp(10px, 2.5vw, 15px)'
-    }
-    else {
-      this.FontSize = 'clamp(10px, 2vw, 10px)'
-    }
-    this.element.shadowRoot.querySelector(element).style.fontSize = this.FontSize;
-    console.log(this.element.shadowRoot.querySelector(element).style.fontSize)
+    div.style.fontSize = this.tempConf.font.fontSize;
+    ele.style.fontSize = this.tempConf.font.fontSize;
   }
 
   setFontWeight(element) {
     const exampleDiv = this.element.shadowRoot.querySelector(element);
-    if (config?.font?.fontWeight == false) {
+    if (this.tempConf.font.fontWeight == false) {
       this.buttonPressed = true;
-      config.font.fontWeight = true;
+      this.tempConf.font.fontWeight = true;
       exampleDiv.style.fontWeight = 'bold';
     }
-    else if (config?.font?.fontWeight == true) {
+    else if (this.tempConf.font.fontWeight == true) {
       this.buttonPressed = false;
-      config.font.fontWeight = false;
+      this.tempConf.font.fontWeight = false;
       exampleDiv.style.fontWeight = 'normal';
     }
   }
@@ -73,14 +79,14 @@ export class FontModal {
   setItalic(element) {
     const exampleDiv = this.element.shadowRoot.querySelector(element);
 
-    if (config?.font?.fontStyle == false) {
+    if (this.tempConf.font.fontWeight == false) {
       this.butpress = true;
-      config.font.fontStyle = true;
+      this.tempConf.font.fontWeight = true;
       exampleDiv.style.fontStyle = 'italic';
     }
-    else if (config?.font?.fontStyle == true) {
+    else if (this.tempConf.font.fontWeight == true) {
       this.butpress = false;
-      config.font.fontStyle = false;
+      this.tempConf.font.fontWeight = false;
       exampleDiv.style.fontStyle = 'normal';
     }
   }
@@ -93,12 +99,13 @@ export class FontModal {
     this.element.shadowRoot.querySelector(element).style.background = ev.target.value
   }
 
-  renderColors() {
+  renderFonts() {
     return (
       <ion-col>
+        <ion-title>Fonts</ion-title>
         <ion-row>
           <ion-item class='slider'>
-            <ion-range min={1} max={5} step={1} value={3} snaps={true} onIonChange={(event: any) => this.changeFontSize('.exampleDiv', event)}>
+            <ion-range min={1} max={5} step={1} value={3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
               <p class='small' slot='start'>A</p>
               <p class='big' slot='end'>A</p>
             </ion-range>
@@ -106,7 +113,7 @@ export class FontModal {
         </ion-row>
         <ion-row class='settings'>
           <ion-item class='row'>
-            <ion-select onIonChange={(event: any) => this.changeFont('.exampleDiv', event)} class="select" interface='popover' placeholder='Välj' value={config?.font?.fontFamily} interfaceOptions={this.customPopoverOptions}>
+            <ion-select onIonChange={(event: any) => this.changeFont('.exampleDiv', event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
               {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
             </ion-select>
             <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.setFontWeight('.exampleDiv') }}>B</ion-button>
@@ -115,46 +122,44 @@ export class FontModal {
 
         </ion-row>
         <ion-row>
-          <ion-row>
-            <ion-item class='inputRow'>
-              <ion-label position='fixed'>Namn:</ion-label>
-              <ion-input type="text"></ion-input>
-            </ion-item>
-            <ion-item class='inputRow'>
-              <ion-label position='fixed'>URL:</ion-label>
-              <ion-input type="text"></ion-input>
-            </ion-item>
-          </ion-row>
+          <ion-item class='inputRow'>
+            <ion-label position='fixed'>Namn:</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+          <ion-item class='inputRow'>
+            <ion-label position='fixed'>URL:</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
 
         </ion-row>
       </ion-col>)
   }
 
-  renderFonts() {
+  renderColors() {
     return (
       <ion-col>
         <ion-title class="title">
           Färger
         </ion-title>
         <ion-item>
-          <ion-label position="fixed">Titelfärg:</ion-label>
-          <input type='color' onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+          <ion-label>Kategorititel:</ion-label>
+          <input slot='end' type='color' onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
         </ion-item>
         <ion-item>
-          <ion-label position="fixed">Produktnamn-färg:</ion-label>
-          <input type='color' onChange={(event: any) => this.changeColor('.productName', event)} />
+          <ion-label >Produktnamn:</ion-label>
+          <input type='color' slot='end' onChange={(event: any) => this.changeColor('.productName', event)} />
         </ion-item>
         <ion-item>
-          <ion-label position="fixed">Produktbeskrivning-färg:</ion-label>
-          <input type='color' onChange={(event: any) => this.changeColor('.productDesc', event)} />
+          <ion-label >Produktbeskrivning:</ion-label>
+          <input type='color' slot='end' onChange={(event: any) => this.changeColor('.productDesc', event)} />
         </ion-item>
         <ion-item>
-          <ion-label position="fixed">Produktpris-färg:</ion-label>
-          <input type='color' onChange={(event: any) => this.changeColor('.productPrice', event)} />
+          <ion-label >Produktpris:</ion-label>
+          <input type='color' slot='end' onChange={(event: any) => this.changeColor('.productPrice', event)} />
         </ion-item>
         <ion-item>
-          <ion-label position="fixed">Bakgrundsfärg:</ion-label>
-          <input type='color' onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+          <ion-label >Bakgrund:</ion-label>
+          <input type='color' slot='end' onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
         </ion-item>
       </ion-col>
     )
@@ -165,31 +170,40 @@ export class FontModal {
       <div class="modal">
         <div class="header">
           <ion-col>
-            <ion-row class='tabs'>
-              <ion-title class="title">Ändra text-stil och-färg</ion-title>
-            </ion-row>
-            <ion-row class='tabs'>
-              <button class='tab-button left' onClick={() => this.RenderButton = false}>Fonts</button>
-              <button class='tab-button right' onClick={() => this.RenderButton = true}>Färger</button>
+            <ion-row>
+              <ion-tabs >
+                <ion-tab-bar >
+                  <ion-tab-button class={!this.RenderButton ? 'focus' : null} selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
+                    <ion-icon name="text-sharp"></ion-icon>
+                    <ion-label>Fonts</ion-label>
+                  </ion-tab-button>
+                  <ion-tab-button class={this.RenderButton ? 'focus' : null} selected={this.RenderButton} onClick={() => this.RenderButton = true}>
+                    <ion-icon name="color-palette-sharp"></ion-icon>
+                    <ion-label>Colors</ion-label>
+                  </ion-tab-button>
+                </ion-tab-bar>
+              </ion-tabs>
             </ion-row>
           </ion-col>
         </div>
         <div class="body">
           <div class="content">
             {
-              this.RenderButton ? this.renderFonts() : this.renderColors()
+              this.RenderButton ? this.renderColors() : this.renderFonts()
             }
             <ion-title>Exempel</ion-title>
             <div class='exampleDiv'>
-              <ion-card>
+              <ion-card class='card'>
                 <ion-card-header>
                   <ion-card-title class='categoryTitle'>Kategori exempel</ion-card-title>
                 </ion-card-header>
-                <div class='product'>
-                  <div class="productName" slot="primary">Produkt-titel</div>
-                  <div class="productDesc" slot="secondary">Det här är en produktbeskrivning som beskriver denna produkt väldigt bra! Tack för mig!</div>
-                  <div class="productPrice" slot='end'>999kr</div>
-                </div>
+                <ion-card class='hej'>
+                  <div class='product'>
+                    <div class="productName" slot="primary">Produkt-titel</div>
+                    <div class="productDesc" slot="secondary">Det här är en produktbeskrivning som beskriver denna produkt väldigt bra! Tack för mig!</div>
+                    <div class="productPrice" slot='end'>999kr</div>
+                  </div>
+                </ion-card>
               </ion-card>
             </div>
           </div>
