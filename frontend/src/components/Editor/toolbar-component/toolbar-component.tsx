@@ -121,14 +121,6 @@ export class ToolbarComponent {
                 <label htmlFor='menucolor' class='menu-button'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                 <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
               </ion-row>
-              {/* <ion-row>
-                <label htmlFor='fontColor' class='menu-button'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor() }} hidden />
-              </ion-row>
-              <ion-row>
-                <label htmlFor='fontTitleColor' class='menu-button'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor() }} hidden />
-              </ion-row> */}
               <ion-row>
                 <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button'></modal-ovelay>
               </ion-row>
