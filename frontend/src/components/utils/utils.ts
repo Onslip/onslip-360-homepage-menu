@@ -50,7 +50,7 @@ interface font {
   fontFamily?: string,
   fontWeight?: boolean;
   fontStyle?: boolean;
-  fontSize?: string;
+  fontSize?: fontSize;
   fontOutline?: boolean;
   colors?: {
     categoryTitle?: string;
@@ -58,6 +58,10 @@ interface font {
     productPrice?: string;
     productDesc?: string;
   }
+}
+
+enum fontSize {
+  'clamp(10px, 2vw, 10px)' = 1, 'clamp(10px, 2.5vw, 15px)' = 2, 'clamp(10px, 3vw, 20px)' = 3, 'clamp(10px, 3vw, 25px)' = 4, 'clamp(10px, 3vw, 30px)'
 }
 
 export interface MenuWithCategory {

@@ -10,11 +10,16 @@ import { config, Fonts, Styleconfig } from '../../../utils/utils';
 export class FontModal {
   @Element() element: HTMLElement;
   @State() buttonPressed: boolean = false;
-  @State() butpress: boolean = config.font.fontStyle;
-  @State() buttonpress: boolean = config.font.fontWeight;
+  @State() butpress: boolean = config?.font?.fontStyle;
+  @State() buttonpress: boolean = config?.font?.fontWeight;
   @State() RenderButton: boolean;
   @State() FontSize: string;
-  @State() tempConf: Styleconfig = config;
+  @State() tempConf?: Styleconfig = config ?? null;
+
+
+  componentWillLoad() {
+
+  }
 
   async close() {
     await customElements.whenDefined('ion-modal')
@@ -41,25 +46,26 @@ export class FontModal {
     console.log(ev.target.value)
     switch (ev.target.value) {
       case 1:
-        this.tempConf.font.fontSize = 'clamp(10px, 2vw, 10px)'
+        this.tempConf.font.fontSize = 1
+
         break;
       case 2:
-        this.tempConf.font.fontSize = 'clamp(10px, 2.5vw, 15px)'
+        this.tempConf.font.fontSize = 2
         break;
       case 3:
-        this.tempConf.font.fontSize = 'clamp(10px, 3vw, 20px)'
+        this.tempConf.font.fontSize = 3
         break;
       case 4:
-        this.tempConf.font.fontSize = 'clamp(10px, 3.5vw, 25px)'
+        this.tempConf.font.fontSize = 4
         break;
       case 5:
-        this.tempConf.font.fontSize = 'clamp(10px, 4vw, 30px)'
+        this.tempConf.font.fontSize = 5
         break;
       default:
         break;
     }
-    div.style.fontSize = this.tempConf.font.fontSize;
-    ele.style.fontSize = this.tempConf.font.fontSize;
+    div.style.fontSize = this.tempConf.font.fontSize[ev.target.value];
+    ele.style.fontSize = this.tempConf.font.fontSize[ev.target.value];
   }
 
   setFontWeight(element) {
@@ -78,7 +84,6 @@ export class FontModal {
 
   setItalic(element) {
     const exampleDiv = this.element.shadowRoot.querySelector(element);
-
     if (this.tempConf.font.fontWeight == false) {
       this.butpress = true;
       this.tempConf.font.fontWeight = true;
@@ -92,10 +97,27 @@ export class FontModal {
   }
 
   changeColor(element, ev) {
+    switch (element) {
+      case ".categoryTitle":
+        this.tempConf.font.colors.categoryTitle = ev.target.value
+        break;
+      case ".productName":
+        this.tempConf.font.colors.productName = ev.target.value
+        break;
+      case ".productDesc":
+        this.tempConf.font.colors.productDesc = ev.target.value
+        break;
+      case ".productPrice":
+        this.tempConf.font.colors.productPrice = ev.target.value
+        break;
+      default:
+        break;
+    }
     this.element.shadowRoot.querySelector(element).style.color = ev.target.value
   }
 
   changeBackgroundColor(element, ev) {
+    this.tempConf.menuBackground = ev.target.value
     this.element.shadowRoot.querySelector(element).style.background = ev.target.value
   }
 
@@ -105,7 +127,7 @@ export class FontModal {
         <ion-title>Fonts</ion-title>
         <ion-row>
           <ion-item class='slider'>
-            <ion-range min={1} max={5} step={1} value={3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
+            <ion-range min={1} max={5} step={1} value={this.tempConf.font.fontSize} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
               <p class='small' slot='start'>A</p>
               <p class='big' slot='end'>A</p>
             </ion-range>
@@ -119,7 +141,6 @@ export class FontModal {
             <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.setFontWeight('.exampleDiv') }}>B</ion-button>
             <ion-button class={this.butpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.setItalic('.exampleDiv') }}>I</ion-button>
           </ion-item>
-
         </ion-row>
         <ion-row>
           <ion-item class='inputRow'>
@@ -216,3 +237,7 @@ export class FontModal {
     );
   }
 }
+
+const listOfFontSizes: string[] = [
+  'clamp(10px, 2vw, 10px)', 'clamp(10px, 2.5vw, 15px)', 'clamp(10px, 3vw, 20px)', 'clamp(10px, 3.5vw, 25px)', 'clamp(10px, 4vw, 30px)'
+]
