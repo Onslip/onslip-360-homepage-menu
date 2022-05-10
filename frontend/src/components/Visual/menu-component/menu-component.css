@@ -71,13 +71,14 @@
   font-size: 0.7rem;
 }
 
-.card.productName{
+.card.productName {
   font-size: 1rem;
 }
 
 .card.productPrice {
   font-size: 0.9rem;
 }
+
 .card.productDesc {
   font-size: 0.7rem;
 }
@@ -88,6 +89,7 @@
 
 .iconLogo {
   min-width: 80px;
+  max-width: 180px !important;
 }
 
 .text {
@@ -176,7 +178,7 @@ ion-reorder {
   flex-grow: 1;
   margin: 5px;
   border-radius: 0;
-  
+
 }
 
 .separator {
@@ -187,6 +189,7 @@ ion-reorder {
   .menuContainer {
     margin: 0;
   }
+
   .product {
     flex-basis: 45%;
     flex-grow: 1;
@@ -203,6 +206,7 @@ ion-reorder {
     min-width: unset;
     max-width: unset;
   }
+
   .outer-card {
     margin: 5px 0;
   }
