@@ -166,25 +166,27 @@ export class MenuComponent {
     }
 
     renderCards(products?: DBproduct[]) {
-        return <ion-row class='products'>
-            {(products?.map(x =>
-                <ion-card class={"product"} id='scroll-container'>
-                    {
-                        !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
-                            <ion-spinner class="spinner"></ion-spinner>
-                            : <ion-img src={x.image} class="card image"></ion-img>
-                    }
-                    <div class="card-text" style={{ '--color': config?.font?.fontColor }}>
-                        <ion-card-header>
-                            <div class='card productName'>{x.name}</div>
-                            <div class='card productDesc'>{x.description}</div>
-                        </ion-card-header>
-                        <ion-card-content>
-                            <div class='card productPrice'>{x.price} sek</div>
-                        </ion-card-content>
-                    </div>
-                </ion-card>))}
-        </ion-row>
+        return (
+            <ion-row class='products'>
+                {(products?.map(x =>
+                    <ion-card class={"product"} id='scroll-container'>
+                        {
+                            !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                                <ion-spinner class="spinner"></ion-spinner>
+                                : <ion-img src={x.image} class="card image"></ion-img>
+                        }
+                        <div class="card-text">
+                            <ion-card-header>
+                                <div style={{ color: config.font.colors.productName }} class='card productName'>{x.name}</div>
+                                <div style={{ color: config.font.colors.productDesc }} class='card productDesc'>{x.description}</div>
+                            </ion-card-header>
+                            <ion-card-content>
+                                <div style={{ color: config.font.colors.productPrice }} class='card productPrice'>{x.price} sek</div>
+                            </ion-card-content>
+                        </div>
+                    </ion-card>))}
+            </ion-row>
+        )
     }
 
     renderPaper() {
@@ -198,22 +200,22 @@ export class MenuComponent {
                             return (
                                 <div class='paper-section'>
                                     <div>
-                                        <ion-title style={{ color: config?.font?.fontTitleColor }} class='categoryTitle'>
+                                        <ion-title style={{ color: config?.font?.colors.categoryTitle }} class='categoryTitle'>
                                             {data?.category?.name}
                                         </ion-title>
                                     </div>
                                     <ion-col class="paper-products">
                                         {data.products.map(x => {
                                             return (
-                                                <ion-row style={{ color: config?.font?.fontColor }}>
+                                                <ion-row>
                                                     <ion-col>
                                                         <ion-row>
-                                                            <div class='productName'>{x.name}</div>
+                                                            <div style={{ color: config?.font?.colors.productName }} class='productName'>{x.name}</div>
                                                             <ion-col class="separator"></ion-col>
-                                                            <div class='productPrice'>{x.price} sek</div>
+                                                            <div style={{ color: config?.font?.colors.productPrice }} class='productPrice'>{x.price} sek</div>
                                                         </ion-row>
                                                         <ion-row>
-                                                            <div class='productDesc'>{x.description}</div>
+                                                            <div style={{ color: config?.font?.colors.productDesc }} class='productDesc'>{x.description}</div>
                                                         </ion-row>
                                                     </ion-col>
                                                 </ion-row>
@@ -247,10 +249,10 @@ export class MenuComponent {
 
                                         return (
                                             <div id={data?.category?.id.toString()} class='outer-card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                                                <ion-card class='content' style={{ color: config?.font?.fontColor }} data-status={config?.categoryImages?.style}>
+                                                <ion-card class='content' data-status={config?.categoryImages?.style}>
                                                     <div>
                                                         <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                                                            <ion-card-title class='categoryTitle' style={{ color: config?.font?.fontTitleColor }} data-status={config?.categoryImages?.style}>
+                                                            <ion-card-title class='categoryTitle' style={{ color: config?.font?.colors.categoryTitle }} data-status={config?.categoryImages?.style}>
                                                                 {data?.category?.name}
                                                             </ion-card-title>
                                                         </ion-card-header>

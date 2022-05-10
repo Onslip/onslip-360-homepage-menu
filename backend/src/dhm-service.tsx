@@ -81,7 +81,7 @@ export class DHMService {
                 static path = /config/;
                 async GET() {
                     const config: MainConfig = await new URI(`./configs/main.json`).load()
-                    const data = await new URI(`./configs/config${config.configId}.json`).load()
+                    const data: Styleconfig = await new URI(`./configs/config${config.configId}.json`).load()
                     return data;
                 }
 

@@ -88,18 +88,16 @@ export interface Menu {
 }
 
 export interface Styleconfig {
-    configId: number
+    configId: number;
     background?: {
         enabled?: boolean
         color?: string,
     },
     productImages?: {
-        useProductImages?: boolean,
         style?: 'Background' | 'Logo' | 'Disabled',
         placement?: 'Left' | 'Right',
     }
     categoryImages?: {
-        useCategoryImages?: boolean,
         style?: 'Background' | 'Banner' | 'Disabled'
     }
     Logo?: boolean,
@@ -108,6 +106,7 @@ export interface Styleconfig {
     menuBackground?: string,
     connect?: boolean,
     menuInUse?: number;
+    menuType: 'card' | 'inline' | 'paper';
 }
 
 interface font {
@@ -115,9 +114,13 @@ interface font {
     fontWeight?: boolean;
     fontStyle?: boolean;
     fontSize?: string;
-    fontColor?: string;
-    fontTitleColor?: string;
     fontOutline?: boolean;
+    colors?: {
+        categoryTitle?: string;
+        productName?: string;
+        productPrice?: string;
+        productDesc?: string;
+    }
 }
 
 export interface MainConfig {
