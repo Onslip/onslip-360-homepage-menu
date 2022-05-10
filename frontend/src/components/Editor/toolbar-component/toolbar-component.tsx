@@ -1,5 +1,5 @@
 import { Component, h, State, getAssetPath, Element, Method } from '@stencil/core';
-import { Fonts, config, DBConnection, location, mainConfig } from '../../utils/utils';
+import { config, DBConnection, location, mainConfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -20,7 +20,6 @@ export class ToolbarComponent {
 
   async componentWillLoad() {
     await GetData('http://localhost:8080/locations').then(res => this.locations = res);
-    console.log(this.locations)
   }
 
   @Method() async GetLocations() {
@@ -57,7 +56,6 @@ export class ToolbarComponent {
   }
 
   async ChangeMenuColor(element) {
-    console.log(config)
     document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
     PostData('http://localhost:8080/config', config);
   }
@@ -154,7 +152,4 @@ export class ToolbarComponent {
       </ion-header>
     ];
   }
-
 }
-
-

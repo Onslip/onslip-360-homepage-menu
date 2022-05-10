@@ -115,7 +115,7 @@ export const config: Styleconfig = await getConfig();
 
 export async function getConfig(): Promise<Styleconfig> {
   let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
-  if (data.categoryImages == undefined)
+  if (data.productImages == undefined)
     return {
       configId: 1,
       background: {
@@ -179,8 +179,8 @@ export interface location {
 
 export interface mainConfigInterface {
   configId: number;
-  selectedLocation: location
-  selectedMenu: 0;
+  selectedLocation: location;
+  selectedMenu: number;
 };
 
 export interface Timetable {

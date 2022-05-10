@@ -164,23 +164,23 @@ export class FontModal {
         </ion-title>
         <ion-item>
           <ion-label>Kategorititel:</ion-label>
-          <input slot='end' type='color' onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+          <input slot='end' type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
         </ion-item>
         <ion-item>
           <ion-label >Produktnamn:</ion-label>
-          <input type='color' slot='end' onChange={(event: any) => this.changeColor('.productName', event)} />
+          <input type='color' slot='end' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
         </ion-item>
         <ion-item>
           <ion-label >Produktbeskrivning:</ion-label>
-          <input type='color' slot='end' onChange={(event: any) => this.changeColor('.productDesc', event)} />
+          <input type='color' slot='end' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
         </ion-item>
         <ion-item>
           <ion-label >Produktpris:</ion-label>
-          <input type='color' slot='end' onChange={(event: any) => this.changeColor('.productPrice', event)} />
+          <input type='color' slot='end' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
         </ion-item>
         <ion-item>
           <ion-label >Bakgrund:</ion-label>
-          <input type='color' slot='end' onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+          <input type='color' slot='end' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
         </ion-item>
       </ion-col>
     )
