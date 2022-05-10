@@ -58,29 +58,29 @@
 }
 
 .productName {
-  font-size: 0.9rem;
+  font-size: 90%;
 }
 
 .productPrice {
-  font-size: 0.9rem;
+  font-size: 90%;
   color: #737373;
   text-align: end;
 }
 
 .productDesc {
-  font-size: 0.7rem;
+  font-size: 70%;
 }
 
 .card.productName {
-  font-size: 1rem;
+  font-size: 90%;
 }
 
 .card.productPrice {
-  font-size: 0.9rem;
+  font-size: 90%;
 }
 
 .card.productDesc {
-  font-size: 0.7rem;
+  font-size: 70%;
 }
 
 .card.image {
