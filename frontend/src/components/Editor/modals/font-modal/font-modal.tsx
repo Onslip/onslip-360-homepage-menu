@@ -237,7 +237,3 @@ export class FontModal {
     );
   }
 }
-
-const listOfFontSizes: string[] = [
-  'clamp(10px, 2vw, 10px)', 'clamp(10px, 2.5vw, 15px)', 'clamp(10px, 3vw, 20px)', 'clamp(10px, 3.5vw, 25px)', 'clamp(10px, 4vw, 30px)'
-]
