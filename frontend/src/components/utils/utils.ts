@@ -50,7 +50,7 @@ interface font {
   fontFamily?: string,
   fontWeight?: boolean;
   fontStyle?: boolean;
-  fontSize?: fontSize;
+  fontSize?: [number, string];
   fontOutline?: boolean;
   colors?: {
     categoryTitle?: string;
@@ -60,9 +60,9 @@ interface font {
   }
 }
 
-enum fontSize {
-  'clamp(10px, 2vw, 10px)' = 1, 'clamp(10px, 2.5vw, 15px)' = 2, 'clamp(10px, 3vw, 20px)' = 3, 'clamp(10px, 3vw, 25px)' = 4, 'clamp(10px, 3vw, 30px)'
-}
+export const fontSize: [number, string][] = [
+  [1, 'clamp(10px, 2vw, 10px)'], [2, 'clamp(10px, 2.5vw, 15px)'], [3, 'clamp(10px, 3vw, 20px)'], [4, 'clamp(10px, 3.5vw, 25px)'], [5, 'clamp(10px, 4vw, 30px)']
+]
 
 export interface MenuWithCategory {
   menu: Menu
@@ -115,7 +115,7 @@ export const config: Styleconfig = await getConfig();
 
 export async function getConfig(): Promise<Styleconfig> {
   let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
-  if (data.productImages == undefined)
+  if (data.categoryImages == undefined)
     return {
       configId: 1,
       background: {
