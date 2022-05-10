@@ -140,15 +140,15 @@ export class MenuComponent {
                 <ion-col class='text'>
                     <ion-row>
                         <ion-col>
-                            <div class="productName">{x?.name}</div>
+                            <div style={{ color: config.font.colors.productName }} class="productName">{x?.name}</div>
                         </ion-col>
                         <ion-col>
-                            <div class="productPrice">{x?.price}kr</div>
+                            <div style={{ color: config.font.colors.productPrice }} class="productPrice">{x?.price}kr</div>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <div class="productDesc">{x?.description}</div>
+                            <div style={{ color: config.font.colors.productDesc }} class="productDesc">{x?.description}</div>
                         </ion-col>
                     </ion-row>
                 </ion-col>

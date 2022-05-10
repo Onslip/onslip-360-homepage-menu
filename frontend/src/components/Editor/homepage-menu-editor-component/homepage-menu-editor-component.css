@@ -4,9 +4,12 @@
 }
 
 .menuContainer {
-  margin: 70px auto;
+  margin: 10px auto;
   width: auto;
   max-width: 1000px;
+  padding-bottom: 1px;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .logoDiv {
@@ -26,19 +29,19 @@
 }
 
 .header-text {
-  padding: 20px;
   margin: auto;
+  margin-top: 10px;
 }
 
 .header {
   font-size: 1.3rem;
   width: 100%;
-  height: 200px;
+  height: 25vw;
+  max-height: 200px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
-  --margin-bottom: 5px;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.3);
   --background: transparent;
 }
 
@@ -55,14 +58,9 @@
   border-radius: 2px;
 }
 
-/* @media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1000px) {
   .menuContainer {
-    width: 90%;
+    margin: 0;
+    border-radius: 0;
   }
 }
-
-@media only screen and (max-width: 700px) {
-  .menuContainer {
-    width: 100%;
-  }
-} */
