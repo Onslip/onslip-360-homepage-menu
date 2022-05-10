@@ -1,0 +1,33 @@
+{
+    "configId": 3,
+    "background": {
+        "enabled": true,
+        "color": "#2075c1"
+    },
+    "productImages": {
+        "style": "Disabled",
+        "placement": "Left"
+    },
+    "categoryImages": {
+        "style": "Disabled"
+    },
+    "Logo": false,
+    "banner": false,
+    "font": {
+        "fontFamily": null,
+        "fontWeight": false,
+        "fontStyle": false,
+        "fontSize": null,
+        "fontOutline": false,
+        "colors": {
+            "categoryTitle": null,
+            "productName": null,
+            "productPrice": null,
+            "productDesc": null
+        }
+    },
+    "menuBackground": null,
+    "connect": true,
+    "menuInUse": 1,
+    "menuType": "inline"
+}

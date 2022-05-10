@@ -20,11 +20,6 @@ export class ToolbarComponent {
 
   async componentWillLoad() {
     await GetData('http://localhost:8080/locations').then(res => this.locations = res);
-    console.log(this.locations)
-  }
-
-  @Method() async GetLocations() {
-    return this.locations
   }
 
   async menuClick() {

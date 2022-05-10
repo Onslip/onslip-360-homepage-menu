@@ -17,7 +17,7 @@ export class ScheduleOverlay {
   @State() selectedMenuId: number;
   @State() selectedLocation: location
   @State() activeBox: string;
-  @State() canSave: boolean = false 
+  @State() canSave: boolean = false
   @Element() element: HTMLElement;
   @State() timeTables?: Timetable[] = [];
   private oldTimeTables?: Timetable[] = [];
@@ -28,10 +28,8 @@ export class ScheduleOverlay {
 
     this.locationList = await GetData('http://localhost:8080/locations');
 
-    const menu = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector('menu-editor-component');
-    const toolbar = document.querySelector('editor-visual-check').querySelector('toolbar-component');
+    const menu = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
     this.menus = await menu?.GetMenu();
-    this.locationList = await toolbar?.GetLocations();
 
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))
@@ -120,12 +118,12 @@ export class ScheduleOverlay {
           const a = this.timeTables?.find(t => t.locationId == this.selectedLocation.id)
             .days.find(d => d.Day == Number(x.id))
             .Times.find(t => t.time == Number(x.parentElement.id))
-            if(x.classList.contains('active')) {
-              a.menuid = this.selectedMenuId
-            }
-            else if(x.className == 'box') {
-              a.menuid = undefined
-            }
+          if (x.classList.contains('active')) {
+            a.menuid = this.selectedMenuId
+          }
+          else if (x.className == 'box') {
+            a.menuid = undefined
+          }
         })
 
         this.checkSave();
@@ -205,11 +203,11 @@ export class ScheduleOverlay {
                 <ion-select slot='start' value={this.selectedMenuId} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder={'Välj Meny...'} onIonChange={(event: any) => { this.changeMenu(event) }}>
                   {this.menus.map(x => <ion-select-option value={x.menu.id}>{x.menu.name}</ion-select-option>)}
                 </ion-select>
-                  {
-                    this.selectedMenuId == null ?
+                {
+                  this.selectedMenuId == null ?
                     <ion-icon class="alert" slot="end" name="alert-circle-sharp"></ion-icon>
-                    :null
-                  }
+                    : null
+                }
               </ion-item>
             </ion-row>
           </ion-col>
@@ -246,7 +244,7 @@ export class ScheduleOverlay {
 
         </div>
         <div class="footer">
-          <button disabled={!this.canSave}  class={this.canSave ? 'button save': 'button disabled'} onClick={() => this.Save()} type="submit">Spara</button>
+          <button disabled={!this.canSave} class={this.canSave ? 'button save' : 'button disabled'} onClick={() => this.Save()} type="submit">Spara</button>
           <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
         </div>
       </div>

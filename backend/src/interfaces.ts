@@ -129,7 +129,7 @@ export interface MainConfig {
         name: string,
         id: number
     }
-    selectedMenu: 0;
+    selectedMenu: number;
 };
 
 export interface ChangePosition {
