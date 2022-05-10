@@ -170,7 +170,7 @@ export class MenuEditorComponent {
         <ion-col hidden={config.productImages.placement == 'Right'} class='iconLogo' size='3'>
           <div>
             {
-              !x.imageLoaded ?
+              !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={x.image} ></ion-img>,
                 <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
@@ -196,7 +196,7 @@ export class MenuEditorComponent {
         <ion-col hidden={config.productImages.placement == 'Left'} class='iconLogo' size='3'>
           <div>
             {
-              !x.imageLoaded ?
+              !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={x.image} ></ion-img>,
                 <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>

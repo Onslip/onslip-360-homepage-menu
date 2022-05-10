@@ -27,10 +27,8 @@ export class ScheduleOverlay {
 
     this.locationList = await GetData('http://localhost:8080/locations');
 
-    const menu = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').querySelector('menu-editor-component');
-    const toolbar = document.querySelector('editor-visual-check').querySelector('toolbar-component');
+    const menu = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
     this.menus = await menu?.GetMenu();
-    this.locationList = await toolbar?.GetLocations();
 
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))

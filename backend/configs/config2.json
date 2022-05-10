@@ -1,8 +1,8 @@
 {
-    "configId": 1,
+    "configId": 2,
     "background": {
-        "enabled": false,
-        "color": null
+        "enabled": true,
+        "color": "#2075c1"
     },
     "productImages": {
         "style": "Disabled",
@@ -12,7 +12,11 @@
         "style": "Disabled"
     },
     "Logo": false,
+<<<<<<< HEAD
     "banner": true,
+=======
+    "banner": false,
+>>>>>>> a359f3cd9b626735d3277d1bc153ed5ffd444840
     "font": {
         "fontFamily": null,
         "fontWeight": false,

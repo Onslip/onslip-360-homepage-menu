@@ -22,10 +22,6 @@ export class ToolbarComponent {
     await GetData('http://localhost:8080/locations').then(res => this.locations = res);
   }
 
-  @Method() async GetLocations() {
-    return this.locations
-  }
-
   async menuClick() {
     this.menuopen = !this.menuopen
   }
