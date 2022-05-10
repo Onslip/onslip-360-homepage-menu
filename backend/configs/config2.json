@@ -1,1 +1,33 @@
-{"configId":2,"background":{"enabled":true,"color":"#2075c1"},"productImages":{"style":"Disabled","placement":"Left"},"categoryImages":{"style":"Disabled"},"Logo":false,"banner":false,"font":{"fontFamily":"fantasy","fontWeight":false,"fontStyle":false,"fontSize":[4,"clamp(10px, 3.5vw, 25px)"],"fontOutline":false,"colors":{"categoryTitle":"#ffbe6f","productName":"#ffa348","productPrice":"#e66100","productDesc":"#ff7800"}},"menuBackground":"#c64600","connect":true,"menuInUse":1,"menuType":"inline"}
+{
+    "configId": 2,
+    "background": {
+        "enabled": true,
+        "color": "#2075c1"
+    },
+    "productImages": {
+        "style": "Disabled",
+        "placement": "Left"
+    },
+    "categoryImages": {
+        "style": "Disabled"
+    },
+    "Logo": false,
+    "banner": false,
+    "font": {
+        "fontFamily": null,
+        "fontWeight": false,
+        "fontStyle": false,
+        "fontSize": null,
+        "fontOutline": false,
+        "colors": {
+            "categoryTitle": null,
+            "productName": null,
+            "productPrice": null,
+            "productDesc": null
+        }
+    },
+    "menuBackground": null,
+    "connect": true,
+    "menuInUse": 1,
+    "menuType": "inline"
+}

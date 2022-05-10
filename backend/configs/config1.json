@@ -1,11 +1,11 @@
 {
     "configId": 1,
     "background": {
-        "enabled": false,
-        "color": null
+        "enabled": true,
+        "color": "#2075c1"
     },
     "productImages": {
-        "style": "Disabled",
+        "style": "Logo",
         "placement": "Left"
     },
     "categoryImages": {
@@ -14,19 +14,19 @@
     "Logo": false,
     "banner": false,
     "font": {
-        "fontFamily": "cursive",
+        "fontFamily": null,
         "fontWeight": false,
         "fontStyle": false,
-        "fontSize": 3,
+        "fontSize": 1,
         "fontOutline": false,
         "colors": {
-            "categoryTitle": "#f8e45c",
-            "productName": "#ffa348",
-            "productPrice": "#c64600",
-            "productDesc": "#ff7800"
+            "categoryTitle": "#3d4e89",
+            "productName": null,
+            "productPrice": null,
+            "productDesc": null
         }
     },
-    "menuBackground": "#dc8add",
+    "menuBackground": "#dfdfdf",
     "connect": true,
     "menuInUse": 1,
     "menuType": "inline"

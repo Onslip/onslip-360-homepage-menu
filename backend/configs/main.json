@@ -1,1 +1,8 @@
-{"selectedLocation":{"name":"Slipon","id":1},"selectedMenu":3,"configId":"2"}
+{
+    "configId": "1",
+    "selectedLocation": {
+        "name": "Slipon",
+        "id": 1
+    },
+    "selectedMenu": 3
+}
