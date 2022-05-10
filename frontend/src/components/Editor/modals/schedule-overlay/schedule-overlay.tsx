@@ -1,5 +1,4 @@
 import { Component, h, State, Element } from '@stencil/core';
-import { json } from 'stream/consumers';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
 import { MenuWithCategory, location, mainConfig, Timetable } from '../../../utils/utils';
