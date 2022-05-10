@@ -12,11 +12,7 @@
         "style": "Disabled"
     },
     "Logo": false,
-<<<<<<< HEAD
-    "banner": true,
-=======
     "banner": false,
->>>>>>> a359f3cd9b626735d3277d1bc153ed5ffd444840
     "font": {
         "fontFamily": null,
         "fontWeight": false,
