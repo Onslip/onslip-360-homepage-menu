@@ -91,6 +91,7 @@ export class HomepageMenuComponent {
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
+        
       </Host >
     )
   }

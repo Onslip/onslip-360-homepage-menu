@@ -1,8 +1,9 @@
-import { Component, Host, h, State } from '@stencil/core';
+import { Component, Host, h, State , getAssetPath} from '@stencil/core';
 
 @Component({
   tag: 'editor-visual-check',
   styleUrl: 'editor-visual-check.css',
+  assetsDirs: ['../../../assets'],
 })
 export class EditorVisualCheck {
   @State() switch: boolean;
@@ -10,6 +11,7 @@ export class EditorVisualCheck {
   render() {
     return (
       <div>
+
         <ion-router useHash={false}>
           <ion-route url="/" component="test-menu" />
           <ion-route-redirect to='/menu' from='/' />

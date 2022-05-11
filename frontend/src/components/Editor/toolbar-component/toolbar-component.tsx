@@ -1,5 +1,5 @@
 import { Component, h, State, getAssetPath, Element, Method } from '@stencil/core';
-import { config, DBConnection, location, mainConfig } from '../../utils/utils';
+import { Fonts, config, DBConnection, location, mainConfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -52,6 +52,7 @@ export class ToolbarComponent {
   }
 
   async ChangeMenuColor(element) {
+    console.log(config)
     document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
     PostData('http://localhost:8080/config', config);
   }
@@ -99,7 +100,11 @@ export class ToolbarComponent {
           <ion-row>
             <ion-col class="menu-col">
               {DBConnection?.DatabaseConnected ? [<ion-row>
+                
                 <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg"></modal-ovelay>
+                {/* <ion-row>
+                <video controls preload="auto" webkit-playsinline><source src={getAssetPath(`../../../assets/kaffe.mp4`)}></source></video>
+                </ion-row> */}
               </ion-row>,
               <ion-row>
                 <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg"></modal-ovelay>
@@ -148,4 +153,7 @@ export class ToolbarComponent {
       </ion-header>
     ];
   }
+
 }
+
+

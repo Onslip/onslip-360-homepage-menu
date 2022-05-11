@@ -91,8 +91,12 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
-        <toolbar-component></toolbar-component>
+        {/* <toolbar-component></toolbar-component> */}
+        <div class="content-container">
+        <video id='Bvideo' autoplay={true} muted loop={true}  preload="auto" playsinline><source src={getAssetPath(`../../../assets/meny.mp4`)}></source></video>
+
         <div class='menuContainer'>
+
           <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
             {config?.connect ? <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
@@ -100,9 +104,11 @@ export class HomepageMenuEditorComponent {
           </ion-item>
           <menu-editor-component toggle={this.toggle} menuId={this.Id}></menu-editor-component>
           {/* <test-menu></test-menu> */}
+          
         </div>
-        <div class='logoDiv'>
+        {/* <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+        </div> */}
         </div>
       </Host >
     )
