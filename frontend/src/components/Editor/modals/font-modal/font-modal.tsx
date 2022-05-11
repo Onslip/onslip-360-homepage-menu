@@ -1,7 +1,6 @@
 import { Component, h, Element, State } from '@stencil/core';
 import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
-import { writeFileSync } from 'fs';
 
 @Component({
   tag: 'font-modal',
@@ -103,7 +102,7 @@ export class FontModal {
     this.element.style.setProperty('--newFont', this.NewFontName)
     this.element.style.setProperty('--newUrl', `url('${this.NewFontURL}')`)
     this.element.style.setProperty('--tempFont', this.NewFontName);
-    writeFileSync('./fontsStyles.css', ``);
+    // writeFileSync('./fontsStyles.css', ``);
     // newStyle.appendChild(document.createTextNode("\
     //   @font-face {\
     //   font-family: " + `'${this.NewFontName}'` + ";\
