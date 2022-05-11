@@ -1,4 +1,4 @@
-import { Component, h, State, Prop } from '@stencil/core';
+import { Component, h, State } from '@stencil/core';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
 import { DBConnection, newApi } from '../../../utils/utils';

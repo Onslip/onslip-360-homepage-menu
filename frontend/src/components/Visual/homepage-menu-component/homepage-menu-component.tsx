@@ -18,7 +18,7 @@ export class HomepageMenuComponent {
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
   @State() logoImage: string = ''
-  @Prop() Id: number
+  @Prop() menuId: number
 
   async componentWillLoad() {
     if (DBConnection) {
@@ -86,7 +86,7 @@ export class HomepageMenuComponent {
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item>
-          <menu-component menuId={this.Id}></menu-component>
+          <menu-component menuId={this.menuId}></menu-component>
         </div>
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
