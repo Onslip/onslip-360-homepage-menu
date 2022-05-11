@@ -5,11 +5,26 @@
 
 @import url("../../../../global/modalstyle.css");
 
+/* General CSS */
 
 .row {
-  width: max-content;
+  width: 100%;
+  flex-direction: column;
 }
 
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.modal .header {
+  padding: 0;
+}
+
+.inputRow {
+  width: 100%;
+}
 
 ion-item {
   --highlight-color-focused: var(--primary);
@@ -17,40 +32,10 @@ ion-item {
 
 .select {
   --color-hover: white;
-  width: 70%;
+  width: 77%;
 }
 
-.bold-button {
-  font-size: large;
-  font-weight: bold;
-  width: 25px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
-
-}
-
-.cursive-button {
-  width: 25px;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: large;
-  font-style: italic;
-}
-
-.label {
-  --background: var(--primary);
-  --color: white;
-  --box-shadow: none;
-}
-
-.label:hover {
-  background-color: #8cbb4abd;
-}
-
-.labelpressed {
-  --text-shadow: 1;
-  --background: rgba(67, 124, 67, 0.57);
-  --box-shadow: none;
-}
+/* Slider */
 
 .slider {
   width: 100%;
@@ -69,28 +54,7 @@ ion-range {
   --color: var(--primary)
 }
 
-.tab-button {
-  width: 50%;
-  height: 40px;
-  background-color: white;
-  border-top: none;
-  border-color: lightgray;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: bold;
-}
-
-.left {
-  border-left: none;
-}
-
-.right {
-  border-right: none;
-}
-
-.settings {
-  width: 100%;
-}
+/* Product CSS */
 
 .product {
   align-items: flex-start;
@@ -108,12 +72,18 @@ ion-range {
   text-align: end;
 }
 
-.inputRow {
-  width: 100%;
-}
 
-.modal .header {
-  padding: 0;
+/* Tabs */
+
+.tab-button {
+  width: 50%;
+  height: 40px;
+  background-color: white;
+  border-top: none;
+  border-color: lightgray;
+  border-radius: 3px;
+  box-shadow: none;
+  font-weight: bold;
 }
 
 ion-tabs {
@@ -130,4 +100,43 @@ ion-tab-button {
 
 ion-tab-button.focus {
   box-shadow: 0px -6px 5px -7px inset var(--primary);
+}
+
+
+/* Buttons */
+
+.add {
+  align-self: flex-end;
+  background-color: var(--warning);
+  margin: 10px 20px 0 0;
+}
+
+.add:hover {
+  background-color: var(--secondary);
+}
+
+.bold {
+  margin-left: 20px;
+  padding: 8px 13px 8px 13px;
+  font-size: large;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.cursive {
+  margin-left: 10px;
+  padding: 8px 15px 8px 15px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  font-style: italic;
+}
+
+.deactivated {
+  background: rgba(67, 124, 67, 0.57);
+  box-shadow: none;
+}
+
+.activated {
+  background: var(--primary);
+  box-shadow: none;
 }
