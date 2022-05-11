@@ -1,9 +1,15 @@
 :host {
   display: block;
   height: 100%;
+  --tempFont: var(--font);
+  --tempSize: var(--fontSize);
+  --newFont: '';
+  --newUrl: '';
+  --importUrl: '';
 }
 
 @import url("../../../../global/modalstyle.css");
+
 
 /* General CSS */
 
@@ -58,18 +64,27 @@ ion-range {
 
 .product {
   align-items: flex-start;
+  font-size: var(--tempSize);
 }
 
 .productName {
   text-align: start;
+  font-family: var(--tempFont);
 }
 
 .productDesc {
   text-align: center;
+  font-family: var(--tempFont);
 }
 
 .productPrice {
   text-align: end;
+  font-family: var(--tempFont);
+}
+
+.categoryTitle {
+  font-family: var(--tempFont);
+  font-size: var(--tempSize);
 }
 
 
@@ -139,4 +154,13 @@ ion-tab-button.focus {
 .activated {
   background: var(--primary);
   box-shadow: none;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+@font-face {
+  font-family: var(--newFont);
+  src: var(--newUrl);
 }

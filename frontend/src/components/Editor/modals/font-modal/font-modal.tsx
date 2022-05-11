@@ -1,6 +1,7 @@
 import { Component, h, Element, State } from '@stencil/core';
 import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
+import { writeFileSync } from 'fs';
 
 @Component({
   tag: 'font-modal',
@@ -24,27 +25,23 @@ export class FontModal {
   }
 
   async PostData() {
-    console.log(this.tempConf)
-    await PostData('http://localhost:8080/config', this.tempConf).then(() => 'as')
+    document.documentElement.style.setProperty('--font', this.tempConf.font.fontFamily)
+    document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
+    await PostData('http://localhost:8080/config', this.tempConf).then(() => this.close())
   }
 
   private customPopoverOptions: any = {
     reference: "event",
   };
 
-  changeFont(element, ev) {
+  changeFont(ev) {
     this.tempConf.font.fontFamily = ev.target.value;
-    this.element.shadowRoot.querySelector(element).style.fontFamily = ev.target.value;
+    this.element.style.setProperty('--tempFont', this.tempConf.font.fontFamily)
   }
 
   changeFontSize(ev) {
-    const ele: HTMLElement = this.element.shadowRoot.querySelector('.categoryTitle')
-    const div: HTMLElement = this.element.shadowRoot.querySelector('.product')
-    console.log(fontSize['clamp(10px, 2.5vw, 15px)'])
     this.tempConf.font.fontSize = fontSize.find(x => x[0] == ev.target.value)
-
-    div.style.fontSize = this.tempConf.font.fontSize[1];
-    ele.style.fontSize = this.tempConf.font.fontSize[1];
+    this.element.style.setProperty('--tempSize', this.tempConf.font.fontSize[1])
   }
 
   setFontWeight(element) {
@@ -101,15 +98,19 @@ export class FontModal {
   }
 
   addCustomFont() {
-    const elem: HTMLElement = this.element.shadowRoot.querySelector('.product')
-    var newStyle = document.createElement('style');
-    newStyle.appendChild(document.createTextNode("\
-      @font-face {\
-      font-family: " + `'${this.NewFontName}'` + ";\
-      src: url('" + `${this.NewFontURL}` + "') format('woff2');\
-    }\ "));
-    elem.appendChild(newStyle);
-    console.log(newStyle)
+    // const elem: HTMLElement = this.element.shadowRoot.querySelector('.product')
+    // var newStyle = document.createElement('style');
+    this.element.style.setProperty('--newFont', this.NewFontName)
+    this.element.style.setProperty('--newUrl', `url('${this.NewFontURL}')`)
+    this.element.style.setProperty('--tempFont', this.NewFontName);
+    writeFileSync('./fontsStyles.css', ``);
+    // newStyle.appendChild(document.createTextNode("\
+    //   @font-face {\
+    //   font-family: " + `'${this.NewFontName}'` + ";\
+    //   src: url('" + `${this.NewFontURL}` + "') format('woff2');\
+    // }\ "));
+    // elem.appendChild(newStyle);
+    // console.log(newStyle)
     this.NewFontName = ''
     this.NewFontURL = ''
   }
@@ -128,7 +129,7 @@ export class FontModal {
         </ion-row>
         <ion-row class='settings'>
           <ion-item class='row'>
-            <ion-select onIonChange={(event: any) => this.changeFont('.exampleDiv', event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
+            <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
               {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
             </ion-select>
             <button class={this.buttonPressed ? 'button bold activated' : 'button bold deactivated'} onClick={() => { this.setFontWeight('.exampleDiv') }}>B</button>
@@ -144,7 +145,7 @@ export class FontModal {
             <ion-label position='fixed'>URL:</ion-label>
             <ion-input type="text" value={this.NewFontURL} onIonChange={(event: any) => this.NewFontURL = event.target.value}></ion-input>
           </ion-item>
-          <button onClick={() => this.addCustomFont()} class='button add'>Lägg till</button>
+          <button onClick={() => this.addCustomFont()} class='button add'>Lägg till <ion-icon class='icon' name="add-circle-sharp" /></button>
         </ion-row>
       </ion-col>)
   }
@@ -208,10 +209,10 @@ export class FontModal {
             <div class='exampleDiv' style={{ color: this.tempConf.menuBackground }}>
               <ion-card class='card'>
                 <ion-card-header>
-                  <ion-card-title class='categoryTitle' style={{ color: this.tempConf.font.colors.categoryTitle, fontSize: this.tempConf.font.fontSize[1] }}>Kategori exempel</ion-card-title>
+                  <ion-card-title class='categoryTitle' style={{ color: this.tempConf.font.colors.categoryTitle }}>Kategori exempel</ion-card-title>
                 </ion-card-header>
                 <ion-card>
-                  <div class='product' style={{ fontSize: this.tempConf.font.fontSize[1] }} >
+                  <div class='product'>
                     <div class="productName" slot="primary" style={{ color: this.tempConf.font.colors.productName }}>Produkt-titel</div>
                     <div class="productDesc" slot="secondary" style={{ color: this.tempConf.font.colors.productDesc }}>Det här är en produktbeskrivning som beskriver denna produkt väldigt bra! Tack för mig!</div>
                     <div class="productPrice" slot='end' style={{ color: this.tempConf.font.colors.productPrice }}>999kr</div>
