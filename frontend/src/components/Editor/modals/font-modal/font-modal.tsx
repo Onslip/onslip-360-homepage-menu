@@ -13,7 +13,6 @@ export class FontModal {
   @State() butpress: boolean = config?.font?.fontStyle;
   @State() buttonpress: boolean = config?.font?.fontWeight;
   @State() RenderButton: boolean;
-  @State() FontSize: string;
   @State() NewFontName: string;
   @State() NewFontURL: string;
   @State() tempConf?: Styleconfig = config ?? null;
@@ -34,7 +33,6 @@ export class FontModal {
   };
 
   changeFont(element, ev) {
-
     this.tempConf.font.fontFamily = ev.target.value;
     this.element.shadowRoot.querySelector(element).style.fontFamily = ev.target.value;
   }
@@ -103,13 +101,22 @@ export class FontModal {
   }
 
   addCustomFont() {
+    const elem: HTMLElement = this.element.shadowRoot.querySelector('.product')
+    var newStyle = document.createElement('style');
+    newStyle.appendChild(document.createTextNode("\
+      @font-face {\
+      font-family: " + `'${this.NewFontName}'` + ";\
+      src: url('" + `${this.NewFontURL}` + "') format('woff2');\
+    }\ "));
+    elem.appendChild(newStyle);
+    console.log(newStyle)
     this.NewFontName = ''
     this.NewFontURL = ''
   }
 
   renderFonts() {
     return (
-      <ion-col>
+      <ion-col class='modalContent'>
         <ion-title>Fonts</ion-title>
         <ion-row>
           <ion-item class='slider'>
@@ -124,11 +131,11 @@ export class FontModal {
             <ion-select onIonChange={(event: any) => this.changeFont('.exampleDiv', event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
               {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
             </ion-select>
-            <ion-button class={this.buttonPressed ? 'bold-button labelpressed' : 'bold-button label'} onClick={() => { this.setFontWeight('.exampleDiv') }}>B</ion-button>
-            <ion-button class={this.butpress ? 'cursive-button labelpressed' : 'cursive-button label'} onClick={() => { this.setItalic('.exampleDiv') }}>I</ion-button>
+            <button class={this.buttonPressed ? 'button bold activated' : 'button bold deactivated'} onClick={() => { this.setFontWeight('.exampleDiv') }}>B</button>
+            <button class={this.butpress ? 'button cursive activated' : 'button cursive deactivated'} onClick={() => { this.setItalic('.exampleDiv') }}>I</button>
           </ion-item>
         </ion-row>
-        <ion-row>
+        <ion-row class='row'>
           <ion-item class='inputRow'>
             <ion-label position='fixed'>Namn:</ion-label>
             <ion-input type="text" value={this.NewFontName} onIonChange={(event: any) => this.NewFontName = event.target.value}></ion-input>
@@ -137,7 +144,7 @@ export class FontModal {
             <ion-label position='fixed'>URL:</ion-label>
             <ion-input type="text" value={this.NewFontURL} onIonChange={(event: any) => this.NewFontURL = event.target.value}></ion-input>
           </ion-item>
-          <button onClick={() => this.addCustomFont()}>Lägg till</button>
+          <button onClick={() => this.addCustomFont()} class='button add'>Lägg till</button>
         </ion-row>
       </ion-col>)
   }
@@ -198,7 +205,6 @@ export class FontModal {
             {
               this.RenderButton ? this.renderColors() : this.renderFonts()
             }
-            <ion-title>Exempel</ion-title>
             <div class='exampleDiv' style={{ color: this.tempConf.menuBackground }}>
               <ion-card class='card'>
                 <ion-card-header>
