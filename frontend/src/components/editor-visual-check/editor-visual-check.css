@@ -9,21 +9,14 @@
 }
 
 .content {
-  position: unset;
+  height: 100vh;
   --background: unset;
 }
 
-.content #background-content {
-  background: unset;
-}
-
-toolbar-component {
-  /* position: relative; */
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-
 ion-router-outlet {
-  height: max-content;
+  overflow: auto;
+  height: 100%;
 }
+
+
+

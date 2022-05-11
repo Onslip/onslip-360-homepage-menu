@@ -92,6 +92,7 @@ export class HomepageMenuEditorComponent {
     return (
       <Host>
         <toolbar-component></toolbar-component>
+
         <div class='menuContainer'>
           <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
             {config?.connect ? <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
