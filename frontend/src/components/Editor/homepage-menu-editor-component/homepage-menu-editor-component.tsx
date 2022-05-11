@@ -47,10 +47,10 @@ export class HomepageMenuEditorComponent {
     const container: HTMLElement = this.element.shadowRoot.querySelector('.menuContainer');
     document.documentElement.style.setProperty('--font', config?.font.fontFamily)
     if (config?.font?.fontWeight) {
-      container.style.fontWeight = 'bold';
+      document.documentElement.style.setProperty('--fontWeight', 'bold')
     }
     if (config?.font?.fontStyle) {
-      container.style.fontStyle = 'italic';
+      document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
     document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
     container.style.background = config?.menuBackground;

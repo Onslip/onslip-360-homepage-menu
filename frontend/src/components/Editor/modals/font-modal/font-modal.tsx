@@ -1,7 +1,7 @@
 import { Component, h, Element, State } from '@stencil/core';
+import { stringify } from 'querystring';
 import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
-import { writeFileSync } from 'fs';
 
 @Component({
   tag: 'font-modal',
@@ -10,9 +10,9 @@ import { writeFileSync } from 'fs';
 })
 export class FontModal {
   @Element() element: HTMLElement;
-  @State() buttonPressed: boolean = false;
+  @State() buttonPressed: boolean = config?.font?.fontWeight;
   @State() butpress: boolean = config?.font?.fontStyle;
-  @State() buttonpress: boolean = config?.font?.fontWeight;
+  @State() buttonpress: boolean = false;
   @State() RenderButton: boolean;
   @State() NewFontName: string;
   @State() NewFontURL: string;
@@ -27,6 +27,20 @@ export class FontModal {
   async PostData() {
     document.documentElement.style.setProperty('--font', this.tempConf.font.fontFamily)
     document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
+    if (this.tempConf.font.fontStyle == true) {
+      document.documentElement.style.setProperty('--fontStyle', 'italic')
+    }
+    else {
+      document.documentElement.style.setProperty('--fontStyle', 'normal')
+
+    }
+    if (this.tempConf.font.fontWeight == true) {
+      document.documentElement.style.setProperty('--fontWeight', 'bold')
+    }
+    else {
+      document.documentElement.style.setProperty('--fontWeight', 'normal')
+
+    }
     await PostData('http://localhost:8080/config', this.tempConf).then(() => this.close())
   }
 
@@ -44,31 +58,29 @@ export class FontModal {
     this.element.style.setProperty('--tempSize', this.tempConf.font.fontSize[1])
   }
 
-  setFontWeight(element) {
-    const exampleDiv = this.element.shadowRoot.querySelector(element);
+  setFontWeight() {
     if (this.tempConf.font.fontWeight == false) {
       this.buttonPressed = true;
       this.tempConf.font.fontWeight = true;
-      exampleDiv.style.fontWeight = 'bold';
+      this.element.style.setProperty('--fontWeight', 'bold')
     }
     else if (this.tempConf.font.fontWeight == true) {
       this.buttonPressed = false;
       this.tempConf.font.fontWeight = false;
-      exampleDiv.style.fontWeight = 'normal';
+      this.element.style.setProperty('--fontWeight', 'normal')
     }
   }
 
-  setItalic(element) {
-    const exampleDiv = this.element.shadowRoot.querySelector(element);
-    if (this.tempConf.font.fontWeight == false) {
+  setItalic() {
+    if (this.tempConf.font.fontStyle == false) {
       this.butpress = true;
-      this.tempConf.font.fontWeight = true;
-      exampleDiv.style.fontStyle = 'italic';
+      this.tempConf.font.fontStyle = true;
+      this.element.style.setProperty('--fontStyle', 'italic')
     }
-    else if (this.tempConf.font.fontWeight == true) {
+    else if (this.tempConf.font.fontStyle == true) {
       this.butpress = false;
-      this.tempConf.font.fontWeight = false;
-      exampleDiv.style.fontStyle = 'normal';
+      this.tempConf.font.fontStyle = false;
+      this.element.style.setProperty('--fontStyle', 'normal')
     }
   }
 
@@ -98,21 +110,24 @@ export class FontModal {
   }
 
   addCustomFont() {
-    // const elem: HTMLElement = this.element.shadowRoot.querySelector('.product')
-    // var newStyle = document.createElement('style');
-    this.element.style.setProperty('--newFont', this.NewFontName)
-    this.element.style.setProperty('--newUrl', `url('${this.NewFontURL}')`)
-    this.element.style.setProperty('--tempFont', this.NewFontName);
-    writeFileSync('./fontsStyles.css', ``);
-    // newStyle.appendChild(document.createTextNode("\
-    //   @font-face {\
-    //   font-family: " + `'${this.NewFontName}'` + ";\
-    //   src: url('" + `${this.NewFontURL}` + "') format('woff2');\
-    // }\ "));
-    // elem.appendChild(newStyle);
-    // console.log(newStyle)
+    var link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('type', 'text/css');
+    link.setAttribute('href', this.NewFontURL);
+    document.head.appendChild(link);
+
+    const numA = this.NewFontURL.indexOf('family=')
+    const numB = this.NewFontURL.indexOf(':wght@100' || '&display')
+    const result = this.NewFontURL.slice(numA + 7, numB)
+    const a = result.replace('+', ' ')
+    const test = this.NewFontURL.search('family=')
+    const b = this.NewFontURL.split('family=', 3)
+
+    document.documentElement.style.setProperty('--tempFont', `'${result}'`)
     this.NewFontName = ''
     this.NewFontURL = ''
+    // https://fonts.googleapis.com/css2?family=Macondo&display=swap
+    // https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap
   }
 
   renderFonts() {
@@ -132,8 +147,8 @@ export class FontModal {
             <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
               {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
             </ion-select>
-            <button class={this.buttonPressed ? 'button bold activated' : 'button bold deactivated'} onClick={() => { this.setFontWeight('.exampleDiv') }}>B</button>
-            <button class={this.butpress ? 'button cursive activated' : 'button cursive deactivated'} onClick={() => { this.setItalic('.exampleDiv') }}>I</button>
+            <button class={this.buttonPressed ? 'button bold activated' : 'button bold deactivated'} onClick={() => { this.setFontWeight() }}>B</button>
+            <button class={this.butpress ? 'button cursive activated' : 'button cursive deactivated'} onClick={() => { this.setItalic() }}>I</button>
           </ion-item>
         </ion-row>
         <ion-row class='row'>

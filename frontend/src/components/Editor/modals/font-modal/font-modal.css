@@ -6,6 +6,8 @@
   --newFont: '';
   --newUrl: '';
   --importUrl: '';
+  --tempWeight: var(--fontWeight);
+  --tempStyle: var(--fontStyle);
 }
 
 @import url("../../../../global/modalstyle.css");
@@ -39,6 +41,11 @@ ion-item {
 .select {
   --color-hover: white;
   width: 77%;
+}
+
+.exampleDiv {
+  font-weight: var(--tempWeight);
+  font-style: var(--tempStyle);
 }
 
 /* Slider */

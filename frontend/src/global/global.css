@@ -8,6 +8,8 @@
     --alert: #d9534f;
     --font: var(--globalfont);
     --fontSize: 1rem;
+    --fontWeight: 'normal';
+    --fontStyle: 'normal';
 }
 
 body {

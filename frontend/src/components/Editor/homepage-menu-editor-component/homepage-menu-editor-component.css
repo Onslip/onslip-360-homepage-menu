@@ -12,6 +12,8 @@
   border-radius: 5px;
   font-size: var(--fontSize);
   font-family: var(--font);
+  font-weight: var(--fontWeight);
+  font-style: var(--fontStyle);
 }
 
 .logoDiv {
