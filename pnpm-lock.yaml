@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 importers:
 
@@ -35,8 +35,8 @@ importers:
       '@divine/sysconsole': 2.0.0
       '@divine/uri': 0.4.4_@divine+headers@2.0.2
       '@divine/uri-postgres-protocol': 0.4.2_@divine+uri@0.4.4
-      '@divine/uri-x4e-parser': 0.4.3_onhnqzu4tikvtxmm4i4xq5sxde
-      '@divine/web-service': 0.4.3_zsmfdoqe2rqn2rjp76hbnrbqru
+      '@divine/uri-x4e-parser': 0.4.3_734ed8669c9a1559dd8ce23978765719
+      '@divine/web-service': 0.4.3_cc9851ba04d460dd452fff8e16c4308d
       '@divine/x4e': 0.4.3
       '@onslip/onslip-360-node-api': 1.24.0-2107071611
       '@stencil/core': 2.15.1
@@ -426,7 +426,7 @@ packages:
       - pg-native
     dev: false
 
-  /@divine/uri-x4e-parser/0.4.3_onhnqzu4tikvtxmm4i4xq5sxde:
+  /@divine/uri-x4e-parser/0.4.3_734ed8669c9a1559dd8ce23978765719:
     resolution: {integrity: sha512-6Nf6b9jFowzhpdtTN2mPD+wz61Lamk++ao1FizNsWa4LoA8LFmuwBGMRV0SbBbRzkk/BIyzQ+sLVuB5FphjhwA==}
     engines: {node: '>= 12.17.0'}
     peerDependencies:
@@ -461,7 +461,7 @@ packages:
       yaml: 1.10.2
     dev: false
 
-  /@divine/web-service/0.4.3_zsmfdoqe2rqn2rjp76hbnrbqru:
+  /@divine/web-service/0.4.3_cc9851ba04d460dd452fff8e16c4308d:
     resolution: {integrity: sha512-VJVDbkhxmOgLvQv3dZjfB4eYviNGJgTASUzqV6ongj7eYOIRFUhmn2ZNwwramUboynXx8ekHxCa0LSGTiLgvlg==}
     engines: {node: '>= 12.17.0'}
     peerDependencies:
@@ -1091,8 +1091,6 @@ packages:
       raw-body: 2.5.1
       type-is: 1.6.18
       unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /brace-expansion/1.1.11:
@@ -1347,11 +1345,6 @@ packages:
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
     dependencies:
       ms: 2.0.0
     dev: false
@@ -1581,8 +1574,6 @@ packages:
       type-is: 1.6.18
       utils-merge: 1.0.1
       vary: 1.1.2
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /extend/3.0.2:
@@ -1629,8 +1620,6 @@ packages:
       parseurl: 1.3.3
       statuses: 2.0.1
       unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /find-up/4.1.0:
@@ -3131,8 +3120,6 @@ packages:
       on-finished: 2.4.1
       range-parser: 1.2.1
       statuses: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /serve-static/1.15.0:
@@ -3143,8 +3130,6 @@ packages:
       escape-html: 1.0.3
       parseurl: 1.3.3
       send: 0.18.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /setprototypeof/1.2.0:

@@ -20,7 +20,7 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
   @State() logoImage: string = ''
-  @Prop() Id: number
+  @Prop() menuId: number
 
   async componentWillLoad() {
 
@@ -99,7 +99,7 @@ export class HomepageMenuEditorComponent {
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item>
-          <menu-editor-component toggle={this.toggle} menuId={this.Id}></menu-editor-component>
+          <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
           {/* <test-menu></test-menu> */}
         </div>
         <div class='logoDiv'>

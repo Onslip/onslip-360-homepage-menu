@@ -1,4 +1,4 @@
-import { Component, h, State, getAssetPath, Element, Method } from '@stencil/core';
+import { Component, h, State, getAssetPath, Element } from '@stencil/core';
 import { config, DBConnection, location, mainConfig } from '../../utils/utils';
 import { PostData } from '../../utils/post';
 import { GetData } from '../../utils/get';

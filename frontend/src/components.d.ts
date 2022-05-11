@@ -26,10 +26,10 @@ export namespace Components {
     interface FontModal {
     }
     interface HomepageMenuComponent {
-        "Id": number;
+        "menuId": number;
     }
     interface HomepageMenuEditorComponent {
-        "Id": number;
+        "menuId": number;
     }
     interface LayoutOverlay {
     }
@@ -202,10 +202,10 @@ declare namespace LocalJSX {
     interface FontModal {
     }
     interface HomepageMenuComponent {
-        "Id"?: number;
+        "menuId"?: number;
     }
     interface HomepageMenuEditorComponent {
-        "Id"?: number;
+        "menuId"?: number;
     }
     interface LayoutOverlay {
     }

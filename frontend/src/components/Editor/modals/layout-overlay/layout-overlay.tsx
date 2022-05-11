@@ -1,5 +1,4 @@
-import { Component, h, Prop } from '@stencil/core';
-import { copyFile } from 'fs';
+import { Component, h } from '@stencil/core';
 import { PostData } from '../../../utils/post';
 import { config, DBConnection } from '../../../utils/utils'
 
