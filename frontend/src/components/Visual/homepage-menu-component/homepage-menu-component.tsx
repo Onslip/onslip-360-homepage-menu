@@ -40,24 +40,24 @@ export class HomepageMenuComponent {
     }
   }
 
-  private async LoadConfig(element, element1) {
-    const component = document.querySelector('editor-visual-check').querySelector('homepage-menu-component');
-    component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
+  private async LoadConfig() {
+    const container: HTMLElement = this.element.shadowRoot.querySelector('.menuContainer');
+    document.documentElement.style.setProperty('--font', config?.font.fontFamily)
     if (config?.font?.fontWeight) {
-      component.querySelector(element).style.fontWeight = 'bold';
+      document.documentElement.style.setProperty('--fontWeight', 'bold')
     }
     if (config?.font?.fontStyle) {
-      component.querySelector(element).style.fontStyle = 'italic';
+      document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
-    document.querySelector(element1).style.fontSize = config?.font?.fontSize;
-    component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
+    document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
+    container.style.background = config?.menuBackground;
     if (config?.background?.enabled) {
       document.querySelector('body').style.background = config?.background?.color;
     }
   }
 
   async componentDidLoad() {
-    this.LoadConfig('.menuContainer', ':root');
+    this.LoadConfig();
   }
 
   private async LoadBackground(image) {
