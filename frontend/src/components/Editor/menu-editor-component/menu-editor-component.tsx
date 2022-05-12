@@ -167,10 +167,10 @@ export class MenuEditorComponent {
       //     }
       //   </div>
       <div class='productContainer'>
-        <ion-col hidden={config.productImages.placement == 'Right'} class='iconLogo' size='3'>
+        <ion-col hidden={config.productImages.placement === 'Right' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
           <div>
             {
-              !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+              !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={x.image} ></ion-img>,
                 <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
@@ -193,10 +193,10 @@ export class MenuEditorComponent {
             </ion-col>
           </ion-row>
         </ion-col>
-        <ion-col hidden={config.productImages.placement == 'Left'} class='iconLogo' size='3'>
+        <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
           <div>
             {
-              !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+              !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={x.image} ></ion-img>,
                 <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>

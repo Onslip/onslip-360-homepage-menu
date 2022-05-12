@@ -17,14 +17,33 @@
         "fontFamily": null,
         "fontWeight": false,
         "fontStyle": false,
-        "fontSize": null,
+        "fontSize": [
+            4,
+            "clamp(10px, 3.5vw, 25px)"
+        ],
         "fontOutline": false,
         "colors": {
             "categoryTitle": null,
             "productName": null,
             "productPrice": null,
             "productDesc": null
-        }
+        },
+        "customFonts": [
+            {
+                "names": [
+                    "Josefin Sans",
+                    "Mukta"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap"
+            },
+            {
+                "names": [
+                    "Josefin Sans",
+                    "Mukta"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap"
+            }
+        ]
     },
     "menuBackground": null,
     "connect": true,

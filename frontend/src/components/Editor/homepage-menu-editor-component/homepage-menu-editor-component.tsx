@@ -45,14 +45,23 @@ export class HomepageMenuEditorComponent {
 
   private async LoadConfig() {
     const container: HTMLElement = this.element.shadowRoot.querySelector('.menuContainer');
-    document.documentElement.style.setProperty('--font', config?.font.fontFamily)
+    // document.documentElement.style.setProperty('--font', config?.font.fontFamily)
+    document.documentElement.style.setProperty('--font', config?.font?.fontFamily)
     if (config?.font?.fontWeight) {
       document.documentElement.style.setProperty('--fontWeight', 'bold')
     }
     if (config?.font?.fontStyle) {
       document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
-    document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
+    if(config.font.fontSize != undefined)
+    {
+      document.documentElement.style.setProperty('--fontSize', config?.font?.fontSize[1])
+    }
+    var link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('type', 'text/css');
+    config.font.customFonts.forEach(font => link.setAttribute('href', font.fontUrl))
+    document.head.appendChild(link);
     container.style.background = config?.menuBackground;
     if (config?.background?.enabled) {
       document.querySelector('body').style.background = config?.background?.color;

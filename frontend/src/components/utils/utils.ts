@@ -47,6 +47,10 @@ export interface Styleconfig {
 }
 
 interface font {
+  customFonts?: {
+    names: string[]
+    fontUrl: string
+  }[];
   fontFamily?: string,
   fontWeight?: boolean;
   fontStyle?: boolean;
@@ -115,7 +119,7 @@ export const config: Styleconfig = await getConfig();
 
 export async function getConfig(): Promise<Styleconfig> {
   let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
-  if (data.categoryImages == undefined)
+  if (data.font.fontSize === undefined)
     return {
       configId: 1,
       background: {
@@ -132,6 +136,7 @@ export async function getConfig(): Promise<Styleconfig> {
       Logo: false,
       banner: false,
       font: {
+        customFonts: [],
         fontFamily: null,
         fontWeight: false,
         fontStyle: false,
