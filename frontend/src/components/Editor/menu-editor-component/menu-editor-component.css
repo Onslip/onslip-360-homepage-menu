@@ -46,7 +46,6 @@
 }
 
 .categoryTitle[data-status='Banner'] {
-  font-size: var(--fontSize);
   padding: 30px;
   background: rgba(255, 255, 255, 0.5);
 }
