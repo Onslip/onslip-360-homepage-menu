@@ -113,23 +113,32 @@ export class FontModal {
   }
 
   addCustomFont() {
-    var link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('type', 'text/css');
-    link.setAttribute('href', this.NewFontURL);
-    document.head.appendChild(link);
 
-    const numA = this.NewFontURL.indexOf('family=')
-    const numB = this.NewFontURL.indexOf(':wght@100' || '&display')
-    const result = this.NewFontURL.slice(numA + 7, numB)
-    const a = result.replace('+', ' ')
-    const test = this.NewFontURL.search('family=')
-    const b = this.NewFontURL.split('family=', 3)
 
-    document.documentElement.style.setProperty('--tempFont', `'${result}'`)
-    this.NewFontName = ''
+    const regex = new RegExp(/(?<=\bfamily=)(.*?)(?=\b[:|$|&|@])/, 'g')
+    console.log(regex)
+    const nameArray = this.NewFontURL.match(regex)
+    if (nameArray !== null) {
+      const fontNames = nameArray.map(name => name.replace('+', ' '))
+
+      if (this.tempConf.font.customFonts === undefined) {
+        this.tempConf.font.customFonts = []
+      }
+      this.tempConf.font.customFonts.forEach(c =>
+        c.names.forEach(n => {
+          const element = this.tempConf.font.customFonts
+          if (fontNames.includes(n)) {
+            element.splice(element.indexOf(c), 1)
+          }
+        }))
+      this.tempConf.font.customFonts.push({ names: fontNames, fontUrl: this.NewFontURL })
+      var link = document.createElement('link');
+      link.setAttribute('href', this.NewFontURL);
+      document.head.appendChild(link);
+    }
     this.NewFontURL = ''
-    const reg = new RegExp(/family=\b/, 'g')
+    // document.documentElement.style.setProperty('--tempFont', `'${result}'`)
+
     // https://fonts.googleapis.com/css2?family=Macondo&display=swap
     // https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap
   }
@@ -137,10 +146,12 @@ export class FontModal {
   renderFonts() {
     return (
       <ion-col class='modalContent'>
-        <ion-title>Fonts</ion-title>
         <ion-row>
+          <ion-label>Justera Typsnitt:</ion-label>
+
           <ion-item class='slider'>
-            <ion-range min={1} max={5} step={1} value={this.tempConf.font.fontSize[0]} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
+            <ion-label>Textstorlek:</ion-label>
+            <ion-range min={1} max={5} step={1} value={this?.tempConf?.font?.fontSize != undefined ? this?.tempConf?.font?.fontSize[0] : 3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
               <p class='small' slot='start'>A</p>
               <p class='big' slot='end'>A</p>
             </ion-range>
@@ -148,58 +159,61 @@ export class FontModal {
         </ion-row>
         <ion-row class='settings'>
           <ion-item class='row'>
+            <ion-label>Typsnitt:</ion-label>
             <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
-              {Fonts.map(x => <ion-select-option value={x} style={{ 'font-family': x }}>{x}</ion-select-option>)}
+              {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
+              {this.tempConf.font.customFonts.flatMap(x => {
+                return (
+                  x.names.map(n => {
+                    return (
+                      <ion-select-option value={n}>{n} *</ion-select-option>
+                    )
+                  }))
+              })}
             </ion-select>
             <button class={this.buttonPressed ? 'button bold activated' : 'button bold deactivated'} onClick={() => { this.setFontWeight() }}>B</button>
             <button class={this.butpress ? 'button cursive activated' : 'button cursive deactivated'} onClick={() => { this.setItalic() }}>I</button>
           </ion-item>
         </ion-row>
         <ion-row class='row'>
-          <ion-item class='inputRow'>
+          {/* <ion-item class='inputRow'>
             <ion-label position='fixed'>Namn:</ion-label>
             <ion-input type="text" value={this.NewFontName} onIonChange={(event: any) => this.NewFontName = event.target.value}></ion-input>
-          </ion-item>
+          </ion-item> */}
+          <ion-label>Importera Typsnitt:</ion-label>
           <ion-item class='inputRow'>
             <ion-label position='fixed'>URL:</ion-label>
             <ion-input type="text" value={this.NewFontURL} onIonChange={(event: any) => this.NewFontURL = event.target.value}></ion-input>
           </ion-item>
-          <button onClick={() => this.addCustomFont()} class='button add'>Lägg till <ion-icon class='icon' name="add-circle-sharp" /></button>
+          <button disabled={this.NewFontURL == ''} type='submit' onClick={() => this.addCustomFont()} class='button add'>Lägg till <ion-icon class='icon' name="add-circle-sharp" /></button>
         </ion-row>
       </ion-col>)
   }
 
   renderColors() {
     return (
-      <ion-grid>
-        <ion-title class="title">
-          Färger
-        </ion-title>
-        <ion-row>
-          <ion-col>
-            <ion-label>Kategorititel:</ion-label>
-            <input slot='end' type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
-          </ion-col>
-          <ion-col>
-            <ion-label>Produktnamn:</ion-label>
-            <input type='color' slot='end' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-label>Produktbeskrivning:</ion-label>
-            <input type='color' slot='end' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
-          </ion-col>
-          <ion-col>
-            <ion-label>Produktpris:</ion-label>
-            <input type='color' slot='end' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-label>Bakgrund:</ion-label>
+      <ion-col>
+        <ion-item>
+          <ion-label>Kategorititel:</ion-label>
+          <input slot='end' type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+        </ion-item>
+        <ion-item>
+          <ion-label >Produktnamn:</ion-label>
+          <input type='color' slot='end' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
+        </ion-item>
+        <ion-item>
+          <ion-label >Produktbeskrivning:</ion-label>
+          <input type='color' slot='end' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
+        </ion-item>
+        <ion-item>
+          <ion-label >Produktpris:</ion-label>
+          <input type='color' slot='end' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
+        </ion-item>
+        <ion-item>
+          <ion-label >Bakgrund:</ion-label>
           <input type='color' slot='end' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
-        </ion-row>
-      </ion-grid>
+        </ion-item>
+      </ion-col>
     )
   }
 
@@ -207,22 +221,18 @@ export class FontModal {
     return (
       <div class="modal">
         <div class="header">
-          <ion-col>
-            <ion-row>
-              <ion-tabs >
-                <ion-tab-bar >
-                  <ion-tab-button class={!this.RenderButton ? 'focus' : null} selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
-                    <ion-icon name="text-sharp"></ion-icon>
-                    <ion-label>Fonts</ion-label>
-                  </ion-tab-button>
-                  <ion-tab-button class={this.RenderButton ? 'focus' : null} selected={this.RenderButton} onClick={() => this.RenderButton = true}>
-                    <ion-icon name="color-palette-sharp"></ion-icon>
-                    <ion-label>Colors</ion-label>
-                  </ion-tab-button>
-                </ion-tab-bar>
-              </ion-tabs>
-            </ion-row>
-          </ion-col>
+          <ion-tabs>
+            <ion-tab-bar>
+              <ion-tab-button class={!this.RenderButton ? 'focus' : null} selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
+                <ion-icon name="text-sharp"></ion-icon>
+                <ion-label>Typsnitt</ion-label>
+              </ion-tab-button>
+              <ion-tab-button class={this.RenderButton ? 'focus' : null} selected={this.RenderButton} onClick={() => this.RenderButton = true}>
+                <ion-icon name="color-palette-sharp"></ion-icon>
+                <ion-label>Färger</ion-label>
+              </ion-tab-button>
+            </ion-tab-bar>
+          </ion-tabs>
         </div>
         <div class="body">
           <div class="content">

@@ -12,11 +12,9 @@
 }
 
 .modal .header {
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--mono-05);
+  min-height: 60px;
+  padding: 8px 15px;
+  box-shadow: 0 4px 4px -3px rgba(0, 0, 0, 0.3);
 }
 
 .modal .body {
@@ -24,21 +22,21 @@
   overflow: auto;
   height: 100%;
   align-items: center;
+  margin: 4px 0;
 }
 
 .modal .body .content {
   margin: 0 30px;
-  margin-bottom: 10px;
-  width: 90%;
-  height: 90%;
 }
 
 .modal .footer {
-  padding: 16px;
+  padding: 8px 15px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-top: 1px solid var(--mono-05);
+  box-shadow: 0 -4px 4px -3px rgba(0, 0, 0, 0.3);
+
+  border-top: 1px solid lightgray;
 }
 
 

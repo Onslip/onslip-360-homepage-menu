@@ -110,18 +110,22 @@ export interface Styleconfig {
 }
 
 interface font {
+    customFonts?: {
+      names: string[]
+      fontUrl: string
+    }[]
     fontFamily?: string,
     fontWeight?: boolean;
     fontStyle?: boolean;
-    fontSize?: string;
+    fontSize?: [number, string];
     fontOutline?: boolean;
     colors?: {
-        categoryTitle?: string;
-        productName?: string;
-        productPrice?: string;
-        productDesc?: string;
+      categoryTitle?: string;
+      productName?: string;
+      productPrice?: string;
+      productDesc?: string;
     }
-}
+  }
 
 export interface MainConfig {
     configId: number;
