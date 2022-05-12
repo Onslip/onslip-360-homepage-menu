@@ -24,8 +24,14 @@ export class FontModal {
   }
 
   async PostData() {
+    this.setGlobalValues();
+    await PostData('http://localhost:8080/config', this.tempConf).then(() => this.close())
+  }
+
+  setGlobalValues() {
     document.documentElement.style.setProperty('--font', this.tempConf.font.fontFamily)
-    document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
+    document.documentElement.style.setProperty('--fontSize', this.tempConf?.font.fontSize[1])
+    document.documentElement.style.setProperty('--menuBackground', this.tempConf?.menuBackground)
     if (this.tempConf.font.fontStyle == true) {
       document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
@@ -38,9 +44,7 @@ export class FontModal {
     }
     else {
       document.documentElement.style.setProperty('--fontWeight', 'normal')
-
     }
-    await PostData('http://localhost:8080/config', this.tempConf).then(() => this.close())
   }
 
   private customPopoverOptions: any = {
@@ -125,6 +129,7 @@ export class FontModal {
     document.documentElement.style.setProperty('--tempFont', `'${result}'`)
     this.NewFontName = ''
     this.NewFontURL = ''
+    const reg = new RegExp(/family=\b/, 'g')
     // https://fonts.googleapis.com/css2?family=Macondo&display=swap
     // https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap
   }
@@ -144,7 +149,7 @@ export class FontModal {
         <ion-row class='settings'>
           <ion-item class='row'>
             <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
-              {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
+              {Fonts.map(x => <ion-select-option value={x} style={{ 'font-family': x }}>{x}</ion-select-option>)}
             </ion-select>
             <button class={this.buttonPressed ? 'button bold activated' : 'button bold deactivated'} onClick={() => { this.setFontWeight() }}>B</button>
             <button class={this.butpress ? 'button cursive activated' : 'button cursive deactivated'} onClick={() => { this.setItalic() }}>I</button>
@@ -166,31 +171,35 @@ export class FontModal {
 
   renderColors() {
     return (
-      <ion-col>
+      <ion-grid>
         <ion-title class="title">
           Färger
         </ion-title>
-        <ion-item>
-          <ion-label>Kategorititel:</ion-label>
-          <input slot='end' type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Produktnamn:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Produktbeskrivning:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Produktpris:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Bakgrund:</ion-label>
+        <ion-row>
+          <ion-col>
+            <ion-label>Kategorititel:</ion-label>
+            <input slot='end' type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+          </ion-col>
+          <ion-col>
+            <ion-label>Produktnamn:</ion-label>
+            <input type='color' slot='end' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>Produktbeskrivning:</ion-label>
+            <input type='color' slot='end' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
+          </ion-col>
+          <ion-col>
+            <ion-label>Produktpris:</ion-label>
+            <input type='color' slot='end' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-label>Bakgrund:</ion-label>
           <input type='color' slot='end' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
-        </ion-item>
-      </ion-col>
+        </ion-row>
+      </ion-grid>
     )
   }
 

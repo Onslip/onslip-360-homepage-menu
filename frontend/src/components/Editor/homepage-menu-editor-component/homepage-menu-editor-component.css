@@ -14,6 +14,7 @@
   font-family: var(--font);
   font-weight: var(--fontWeight);
   font-style: var(--fontStyle);
+  background-color: var(--menuBackground);
 }
 
 .logoDiv {

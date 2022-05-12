@@ -44,7 +44,6 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadConfig() {
-    const container: HTMLElement = this.element.shadowRoot.querySelector('.menuContainer');
     document.documentElement.style.setProperty('--font', config?.font.fontFamily)
     if (config?.font?.fontWeight) {
       document.documentElement.style.setProperty('--fontWeight', 'bold')
@@ -53,7 +52,7 @@ export class HomepageMenuEditorComponent {
       document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
     document.documentElement.style.setProperty('--fontSize', config?.font.fontSize[1])
-    container.style.background = config?.menuBackground;
+    document.documentElement.style.setProperty('--menuBackground', config?.menuBackground)
     if (config?.background?.enabled) {
       document.querySelector('body').style.background = config?.background?.color;
     }

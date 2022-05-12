@@ -10,6 +10,7 @@
     --fontSize: 1rem;
     --fontWeight: 'normal';
     --fontStyle: 'normal';
+    --menuBackground: '';
 }
 
 body {
