@@ -1,5 +1,4 @@
 import { Component, h, Element, State } from '@stencil/core';
-import { stringify } from 'querystring';
 import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 
