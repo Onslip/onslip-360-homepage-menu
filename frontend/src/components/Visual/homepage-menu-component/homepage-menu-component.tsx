@@ -88,9 +88,6 @@ export class HomepageMenuComponent {
           </ion-item>
           <menu-component menuId={this.menuId}></menu-component>
         </div>
-        <div class='logoDiv'>
-          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-        </div>
       </Host >
     )
   }
