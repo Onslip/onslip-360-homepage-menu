@@ -43,6 +43,10 @@ ion-item {
   font-family: var(--tempFont);
 }
 
+ion-select-option {
+  font-family: unset;
+}
+
 .exampleDiv {
   font-weight: var(--tempWeight);
   font-style: var(--tempStyle);

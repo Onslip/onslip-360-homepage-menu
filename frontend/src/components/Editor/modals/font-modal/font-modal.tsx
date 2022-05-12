@@ -113,8 +113,6 @@ export class FontModal {
   }
 
   addCustomFont() {
-
-
     const regex = new RegExp(/(?<=\bfamily=)(.*?)(?=\b[:|$|&|@])/, 'g')
     console.log(regex)
     const nameArray = this.NewFontURL.match(regex)
@@ -161,7 +159,7 @@ export class FontModal {
           <ion-item class='row'>
             <ion-label>Typsnitt:</ion-label>
             <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
-              {Fonts.map(x => <ion-select-option value={x}>{x}</ion-select-option>)}
+              {Fonts.map(x => <ion-select-option value={x} style={{ fontFamily: x }}>{x}</ion-select-option>)}
               {this.tempConf.font.customFonts.flatMap(x => {
                 return (
                   x.names.map(n => {

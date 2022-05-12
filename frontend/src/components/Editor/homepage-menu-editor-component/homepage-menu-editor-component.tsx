@@ -54,11 +54,15 @@ export class HomepageMenuEditorComponent {
     if (config.font.fontSize != undefined) {
       document.documentElement.style.setProperty('--fontSize', config?.font?.fontSize[1])
     }
-    var link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('type', 'text/css');
-    config.font.customFonts.forEach(font => link.setAttribute('href', font.fontUrl))
-    document.head.appendChild(link);
+
+    config.font.customFonts.forEach(font => {
+      var link = document.createElement('link');
+      link.setAttribute('rel', 'stylesheet');
+      link.setAttribute('type', 'text/css');
+      link.setAttribute('href', font.fontUrl)
+      document.head.appendChild(link);
+    }
+    )
     document.documentElement.style.setProperty('--menuBackground', config?.menuBackground)
     if (config?.background?.enabled) {
       document.querySelector('body').style.background = config?.background?.color;

@@ -33,6 +33,7 @@ table {
   user-select: none;
   font-size: 15px;
   width: 100%;
+  text-align: center;
 }
 
 .Schedule {
@@ -87,7 +88,6 @@ ion-select::part(icon) {
 }
 
 .scroll {
-  overflow: auto;
   height: 100%;
   width: 100%;
 }

@@ -214,18 +214,13 @@ export class ScheduleOverlay {
         <div class="body">
           {this.selectedLocation != undefined || this.selectedMenuId != undefined ?
             <div class="content">
-              <ion-row class='HeaderRow'>
-                <table class='HeaderTable'>
-                  <tbody>
+              <div class='scroll'>
+                <table class='Schedule'>
+                  <tbody class='TableBody' onMouseDown={(event: any) => this.SelectTime(event)}>
                     <tr class='DaysOfWeekHeaders'>
                       <th class='Days'></th>
                       {this.daysOfWeek.map(x => <th class='Days'>{x[0]}</th>)}
                     </tr>
-                  </tbody>
-                </table></ion-row>
-              <div class='scroll'>
-                <table class='Schedule'>
-                  <tbody class='TableBody' onMouseDown={(event: any) => this.SelectTime(event)}>
                     <tr id='0' class='TimeSlots'>
                       <td class='Time'><div></div></td>
                       {this.daysOfWeek.map(d => <td id={String(d[1])} class='box'></td>)}
