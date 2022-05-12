@@ -8,6 +8,7 @@
   --importUrl: '';
   --tempWeight: var(--fontWeight);
   --tempStyle: var(--fontStyle);
+  --tempColor: var(--menuBackground);
 }
 
 @import url("../../../../global/modalstyle.css");
@@ -50,7 +51,28 @@ ion-select-option {
 .exampleDiv {
   font-weight: var(--tempWeight);
   font-style: var(--tempStyle);
+  padding: 0.01px;
+  background-color: var(--tempColor);
+  border-radius: 5px;
 }
+
+.col {
+  flex-basis: content;
+  display: flex;
+  justify-content: space-evenly;
+  width: min-content;
+
+}
+
+.picker {
+  justify-content: space-between;
+  width: min-content;
+}
+
+.font {
+  font-size: var(--tempSize);
+}
+
 
 /* Slider */
 
@@ -75,28 +97,32 @@ ion-range {
 
 .product {
   align-items: flex-start;
-  font-size: var(--tempSize);
-  padding: 5px;
 }
 
 .productName {
   text-align: start;
   font-family: var(--tempFont);
+  font-size: 90%;
 }
 
 .productDesc {
-  text-align: center;
   font-family: var(--tempFont);
+  font-size: 70%;
 }
 
 .productPrice {
   text-align: end;
   font-family: var(--tempFont);
+  font-size: 90%;
 }
 
 .categoryTitle {
   font-family: var(--tempFont);
   font-size: var(--tempSize);
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 

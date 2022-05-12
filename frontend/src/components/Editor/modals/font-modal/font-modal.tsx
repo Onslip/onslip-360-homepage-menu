@@ -190,28 +190,42 @@ export class FontModal {
 
   renderColors() {
     return (
-      <ion-col>
-        <ion-item>
-          <ion-label>Kategorititel:</ion-label>
-          <input slot='end' type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Produktnamn:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Produktbeskrivning:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Produktpris:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
-        </ion-item>
-        <ion-item>
-          <ion-label >Bakgrund:</ion-label>
-          <input type='color' slot='end' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
-        </ion-item>
-      </ion-col>
+      <ion-grid>
+        <ion-row>
+          <ion-col class='col'>
+            <ion-item class='picker'>
+              <ion-label position='stacked'>Kategorititel:</ion-label>
+              <input type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+            </ion-item>
+          </ion-col>
+          <ion-col class='col'>
+            <ion-item class='picker'>
+              <ion-label position='stacked' >Produktnamn:</ion-label>
+              <input type='color' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
+            </ion-item>
+          </ion-col>
+          <ion-col class='col'>
+            <ion-item class='picker'>
+              <ion-label position='stacked'>Produktbeskrivning:</ion-label>
+              <input type='color' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class='col'>
+            <ion-item class='picker'>
+              <ion-label position='stacked' >Produktpris:</ion-label>
+              <input type='color' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
+            </ion-item>
+          </ion-col>
+          <ion-col class='col'>
+            <ion-item class='picker'>
+              <ion-label position='stacked' >Bakgrund:</ion-label>
+              <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     )
   }
 
@@ -240,15 +254,26 @@ export class FontModal {
             <div class='exampleDiv' style={{ color: this.tempConf.menuBackground }}>
               <ion-card class='card'>
                 <ion-card-header>
-                  <ion-card-title class='categoryTitle' style={{ color: this.tempConf.font.colors.categoryTitle }}>Kategori exempel</ion-card-title>
+                  <ion-card-title class='categoryTitle' style={{ color: this.tempConf.font.colors.categoryTitle }}>Kategori-titel exempel</ion-card-title>
                 </ion-card-header>
-                <ion-card>
+                <ion-card-content >
                   <div class='product'>
-                    <div class="productName" slot="primary" style={{ color: this.tempConf.font.colors.productName }}>Produkt-titel</div>
-                    <div class="productDesc" slot="secondary" style={{ color: this.tempConf.font.colors.productDesc }}>Det här är en produktbeskrivning som beskriver denna produkt väldigt bra! Tack för mig!</div>
-                    <div class="productPrice" slot='end' style={{ color: this.tempConf.font.colors.productPrice }}>999kr</div>
+                    <ion-row>
+                      <ion-col class='font'>
+                        <div class="productName" style={{ color: this.tempConf.font.colors.productName }}>Produkt-titel exempel</div>
+                      </ion-col>
+                      <ion-col class='font'>
+                        <div class="productPrice" style={{ color: this.tempConf.font.colors.productPrice }}>$123</div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col class='font'>
+                        <div class="productDesc" style={{ color: this.tempConf.font.colors.productDesc }}>Det här är ett exempel på hur en produktbeskrivning kan se ut!</div>
+                      </ion-col>
+                    </ion-row>
                   </div>
-                </ion-card>
+                </ion-card-content>
+
               </ion-card>
             </div>
           </div>

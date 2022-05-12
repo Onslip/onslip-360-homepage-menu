@@ -148,24 +148,6 @@ export class MenuEditorComponent {
 
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
-      // <content-component class={'productContainer'} style={{ backgroundImage: config?.productImages?.style == 'Background' && x?.imageLoaded ? `url(${x?.image})` : '' }}>
-      //   {!x?.imageLoaded && config?.productImages?.style == 'Background' ?
-      //     <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar>
-      //     : <div hidden={config?.productImages?.style != 'Background'}>
-      //       <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-      //     </div>}
-      //   <div class="productName" slot="primary">{x?.name}</div>
-      //   <div class="productPrice" slot={config?.productImages?.placement == "Left" ? 'end' : 'start'}>{x?.price}kr</div>
-      //   <div class="productDesc" slot="secondary">{x?.description}</div>
-      //   <div class={config?.productImages?.style == 'Background' ? 'iconBackground' : 'iconLogo'} hidden={config?.productImages?.style != 'Logo'} slot={config?.productImages?.placement == "Left" ? 'start' : 'end'}>
-      //     {
-      //       !x.imageLoaded ?
-      //         <ion-spinner class="spinner"></ion-spinner>
-      //         : [<ion-img src={x.image} ></ion-img>,
-      //         <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-      //         ]
-      //     }
-      //   </div>
       <div class='productContainer'>
         <ion-col hidden={config.productImages.placement === 'Right' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
           <div>
@@ -205,33 +187,11 @@ export class MenuEditorComponent {
           </div>
         </ion-col>
       </div>
-      // </content-component>
     ))
   }
 
   renderCards(products?: DBproduct[]) {
     return (
-      // <ion-row class='products'>
-      //   {(products?.map(x =>
-      //     <ion-card class={"product"} id='scroll-container'>
-      //       {
-      //         !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
-      //           <ion-spinner class="spinner"></ion-spinner>
-      //           : [<ion-img src={x.image} ></ion-img>,
-      //           <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-      //           ]
-      //       }
-      //       <div class="card-text" style={{ '--color': config?.font?.fontColor }}>
-      //         <ion-card-header>
-      //           <div class='card productName'>{x.name}</div>
-      //           <div class='card productDesc'>{x.description}</div>
-      //         </ion-card-header>
-      //         <ion-card-content>
-      //           <div class='card productPrice'>{x.price} sek</div>
-      //         </ion-card-content>
-      //       </div>
-      //     </ion-card>))}
-      // </ion-row>
       <ion-row class='products'>
         {(products?.map(x =>
           <ion-card class={"product"} id='scroll-container'>
@@ -260,53 +220,9 @@ export class MenuEditorComponent {
     return (
 
       <ion-reorder-group onIonItemReorder={(ev) => this.doReorder(ev)} disabled={this.toggle} class={this.toggle ? 'paper-content' : 'reorder'}>
-        {/* {
-          !this.loading ?
-            this.categories?.map(data => {
-
-              return (
-                <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
-                  <div>
-                    <ion-title style={{ color: config?.font?.fontTitleColor }} class='categoryTitle'>
-                      <div>
-                        {data?.category?.name}
-                        <ion-reorder hidden={this.toggle}>
-                          <ion-icon name="reorder-three-sharp"></ion-icon>
-                        </ion-reorder>
-                      </div>
-                    </ion-title>
-                  </div>
-                  <ion-col hidden={!this.toggle} class="paper-products">
-
-                    {data.products.map(x => {
-                      return (
-                        <ion-row style={{ color: config?.font?.fontColor }}>
-                          <ion-col>
-                            <ion-row>
-                              <div class='productName'>{x.name}</div>
-                              <ion-col class="separator"></ion-col>
-                              <div class='productPrice'>{x.price} sek</div>
-                            </ion-row>
-                            <ion-row>
-                              <div class='productDesc'>{x.description}</div>
-                            </ion-row>
-                          </ion-col>
-                        </ion-row>
-                      )
-                    })
-                    }
-                  </ion-col>
-
-                </div>
-              )
-            })
-            : null
-
-        } */}
         {
           !this.loading ?
             this.categories?.map(data => {
-
               return (
                 <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
                   <div>
@@ -317,7 +233,7 @@ export class MenuEditorComponent {
                       </ion-reorder>
                     </ion-title>
                   </div>
-                  <ion-col class="paper-products">
+                  <ion-col class="paper-products" hidden={!this.toggle}>
                     {data.products.map(x => {
                       return (
                         <ion-row>
@@ -336,7 +252,6 @@ export class MenuEditorComponent {
                     })
                     }
                   </ion-col>
-
                 </div>
               )
             })

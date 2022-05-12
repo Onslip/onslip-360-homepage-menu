@@ -21,7 +21,7 @@
   font-size: var(--fontSize);
   width: 100%;
   margin: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
 }
 
 .progressbar {
@@ -105,7 +105,6 @@ ion-reorder {
   transform: translate(0, -50%);
 }
 
-
 .catImages {
   left: 85%;
   position: absolute;
@@ -130,6 +129,7 @@ ion-reorder {
   background-position: center;
   background-size: cover;
   display: flex;
+  background-color: transparent;
 }
 
 .saveButton {
@@ -147,7 +147,7 @@ ion-reorder {
   min-width: 200px;
   max-width: 350px;
   margin: 5px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: transparent;
 }
 
 .card-text {
@@ -156,6 +156,7 @@ ion-reorder {
 
 .products {
   justify-content: center;
+  background-color: transparent;
 }
 
 .paper-products {
@@ -170,7 +171,7 @@ ion-reorder {
   justify-content: space-around;
   display: flex;
   flex-wrap: wrap;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
 }
 
 .paper-section {
