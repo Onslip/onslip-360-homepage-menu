@@ -1,5 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { EditorVisualCheck } from '../editor-visual-check';
+import { EditorVisualCheck } from '../app-root';
 
 describe('editor-visual-check', () => {
   it('renders', async () => {

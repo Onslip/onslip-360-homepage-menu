@@ -9,6 +9,8 @@ import { MenuWithCategory } from "./components/utils/utils";
 export namespace Components {
     interface ApiUi {
     }
+    interface AppRoot {
+    }
     interface ContentComponent {
     }
     interface CropTool {
@@ -20,8 +22,6 @@ export namespace Components {
         "format"?: "image/jpeg" | "image/jpg" | "image/png";
         "imageFile": File;
         "url": string;
-    }
-    interface EditorVisualCheck {
     }
     interface FontModal {
     }
@@ -56,6 +56,7 @@ export namespace Components {
         "buttonClass": string;
         "buttonValue": string;
         "format"?: "image/jpeg" | "image/jpg" | "image/png";
+        "iconName": string;
         "url": string;
     }
     interface ScheduleOverlay {
@@ -80,6 +81,12 @@ declare global {
         prototype: HTMLApiUiElement;
         new (): HTMLApiUiElement;
     };
+    interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {
+    }
+    var HTMLAppRootElement: {
+        prototype: HTMLAppRootElement;
+        new (): HTMLAppRootElement;
+    };
     interface HTMLContentComponentElement extends Components.ContentComponent, HTMLStencilElement {
     }
     var HTMLContentComponentElement: {
@@ -91,12 +98,6 @@ declare global {
     var HTMLCropToolElement: {
         prototype: HTMLCropToolElement;
         new (): HTMLCropToolElement;
-    };
-    interface HTMLEditorVisualCheckElement extends Components.EditorVisualCheck, HTMLStencilElement {
-    }
-    var HTMLEditorVisualCheckElement: {
-        prototype: HTMLEditorVisualCheckElement;
-        new (): HTMLEditorVisualCheckElement;
     };
     interface HTMLFontModalElement extends Components.FontModal, HTMLStencilElement {
     }
@@ -166,9 +167,9 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
+        "app-root": HTMLAppRootElement;
         "content-component": HTMLContentComponentElement;
         "crop-tool": HTMLCropToolElement;
-        "editor-visual-check": HTMLEditorVisualCheckElement;
         "font-modal": HTMLFontModalElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
         "homepage-menu-editor-component": HTMLHomepageMenuEditorComponentElement;
@@ -185,6 +186,8 @@ declare global {
 declare namespace LocalJSX {
     interface ApiUi {
     }
+    interface AppRoot {
+    }
     interface ContentComponent {
     }
     interface CropTool {
@@ -196,8 +199,6 @@ declare namespace LocalJSX {
         "format"?: "image/jpeg" | "image/jpg" | "image/png";
         "imageFile"?: File;
         "url"?: string;
-    }
-    interface EditorVisualCheck {
     }
     interface FontModal {
     }
@@ -226,6 +227,7 @@ declare namespace LocalJSX {
         "buttonClass"?: string;
         "buttonValue"?: string;
         "format"?: "image/jpeg" | "image/jpg" | "image/png";
+        "iconName"?: string;
         "url"?: string;
     }
     interface ScheduleOverlay {
@@ -244,9 +246,9 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "api-ui": ApiUi;
+        "app-root": AppRoot;
         "content-component": ContentComponent;
         "crop-tool": CropTool;
-        "editor-visual-check": EditorVisualCheck;
         "font-modal": FontModal;
         "homepage-menu-component": HomepageMenuComponent;
         "homepage-menu-editor-component": HomepageMenuEditorComponent;
@@ -265,9 +267,9 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
+            "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "content-component": LocalJSX.ContentComponent & JSXBase.HTMLAttributes<HTMLContentComponentElement>;
             "crop-tool": LocalJSX.CropTool & JSXBase.HTMLAttributes<HTMLCropToolElement>;
-            "editor-visual-check": LocalJSX.EditorVisualCheck & JSXBase.HTMLAttributes<HTMLEditorVisualCheckElement>;
             "font-modal": LocalJSX.FontModal & JSXBase.HTMLAttributes<HTMLFontModalElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;
             "homepage-menu-editor-component": LocalJSX.HomepageMenuEditorComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuEditorComponentElement>;

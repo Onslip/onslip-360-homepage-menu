@@ -193,19 +193,19 @@ export class FontModal {
       <ion-grid>
         <ion-row>
           <ion-col class='col'>
-            <ion-item class='picker'>
+            <ion-item class='picker' lines='none'>
               <ion-label position='stacked'>Kategorititel:</ion-label>
               <input type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
-            <ion-item class='picker'>
-              <ion-label position='stacked' >Produktnamn:</ion-label>
+            <ion-item class='picker' lines='none'>
+              <ion-label position='stacked'>Produktnamn:</ion-label>
               <input type='color' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
-            <ion-item class='picker'>
+            <ion-item class='picker' lines='none'>
               <ion-label position='stacked'>Produktbeskrivning:</ion-label>
               <input type='color' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
             </ion-item>
@@ -213,14 +213,20 @@ export class FontModal {
         </ion-row>
         <ion-row>
           <ion-col class='col'>
-            <ion-item class='picker'>
+            <ion-item class='picker' lines='none'>
               <ion-label position='stacked' >Produktpris:</ion-label>
               <input type='color' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
-            <ion-item class='picker'>
-              <ion-label position='stacked' >Bakgrund:</ion-label>
+            <ion-item class='picker' lines='none'>
+              <ion-label position='stacked' >Menyfärg:</ion-label>
+              <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+            </ion-item>
+          </ion-col>
+          <ion-col class='col'>
+            <ion-item class='picker' lines='none'>
+              <ion-label position='stacked' >Bakgrundsfärg:</ion-label>
               <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
             </ion-item>
           </ion-col>

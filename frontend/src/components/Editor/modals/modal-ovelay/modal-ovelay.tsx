@@ -17,6 +17,7 @@ export class ModalOvelay {
   @Prop() buttonValue: string;
   @Prop() ImagePosition: string;
   @Prop() CategoryId: number;
+  @Prop() iconName: string;
   private imageFile: File;
 
   @Element() el: any
@@ -56,7 +57,7 @@ export class ModalOvelay {
       return (
         <Host>
           <label class={this.buttonClass}>
-            {this.buttonValue}{this.ImagePosition != 'Category' && this.ImagePosition != 'Product' ? <ion-icon class="icon" name="folder-sharp"></ion-icon> : null}
+            {this.buttonValue}{this.ImagePosition != 'Category' && this.ImagePosition != 'Product' ? <ion-icon class="icon" name={this.iconName}></ion-icon> : null}
             <input class='catImages' type='file' onChange={(event: any) => { this.imageFile = event.target.files; this.presentModal(); }} hidden />
           </label>
         </Host>
@@ -66,7 +67,7 @@ export class ModalOvelay {
       return (
         <Host>
           <label class={this.buttonClass}>
-            {this.buttonValue}<ion-icon class="icon" name="settings-sharp"></ion-icon>
+            {this.buttonValue}<ion-icon class="icon" name={this.iconName}></ion-icon>
             <input class='catImages' onClick={() => { this.presentModal(); }} hidden />
           </label>
         </Host>
