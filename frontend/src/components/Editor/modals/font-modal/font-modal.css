@@ -59,14 +59,17 @@ ion-select-option {
 .col {
   flex-basis: content;
   display: flex;
-  justify-content: space-evenly;
-  width: min-content;
-
+  justify-content: space-around;
 }
 
 .picker {
-  justify-content: space-between;
+  align-items: center;
+  text-align: center;
   width: min-content;
+}
+
+.picker ion-label {
+  transform: translate(0, 0) !important;
 }
 
 .font {

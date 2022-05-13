@@ -99,33 +99,29 @@ export class ToolbarComponent {
           <ion-row>
             <ion-col class="menu-col">
               {DBConnection?.DatabaseConnected ? [<ion-row>
-                <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg"></modal-ovelay>
+                <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg" iconName='image-sharp'></modal-ovelay>
               </ion-row>,
               <ion-row>
-                <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg"></modal-ovelay>
+                <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
               </ion-row>,
               <ion-row>
-                <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png"></modal-ovelay>
+                <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png" iconName='image-sharp'></modal-ovelay>
               </ion-row>] : null}
               <ion-row>
                 <label htmlFor='color' class='menu-button'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
                 <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
               </ion-row>
               <ion-row>
-                <label htmlFor='menucolor' class='menu-button'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
+                <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button'></modal-ovelay>
+                <modal-ovelay RenderType='layout-overlay' buttonValue='Layout och placering' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <modal-ovelay RenderType='layout-overlay' buttonValue='Layout och placering' buttonClass='menu-button'></modal-ovelay>
+                <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button' iconName='calendar-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button'></modal-ovelay>
-              </ion-row>
-              <ion-row>
-                <modal-ovelay RenderType='font-modal' buttonValue='Fonts' buttonClass='menu-button'></modal-ovelay>
+                <modal-ovelay RenderType='font-modal' buttonValue='Typsnitt och Färger' buttonClass='menu-button' iconName='color-palette-sharp'></modal-ovelay>
               </ion-row>
             </ion-col>
             {DBConnection?.DatabaseConnected ? [
