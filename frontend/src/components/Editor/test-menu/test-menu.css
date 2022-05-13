@@ -1,5 +1,6 @@
 :host {
   display: block;
+  height: 100%;
 }
 
 
@@ -29,9 +30,11 @@
 }
 
 #myVideo {
-  max-width: 1000px;
+  max-width: 100%;
+  max-height: 100%;
   position: absolute;
-  margin: auto;
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 0;
 }
 
@@ -61,17 +64,33 @@
   margin: 0;
   background-color: transparent;
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
 }
 
 
 .container {
-  max-width: 40%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 0);
+  /* position: relative; */
+  /* display: flex; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: auto; */
+  /* padding-top: 45%; */
+  /* transform: translate(0, 50%); */
+  /* max-width: 40%; */
 }
 
 .reorder {
   box-shadow: none;
 }
+
+.categoryTitle {
+  font-size: 130%;
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  padding: 15px;
+}
+
+@media screen {}

@@ -109,11 +109,11 @@ export class HomepageMenuEditorComponent {
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item> */}
           {/* <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>  */}
-          <test-menu toggle={this.toggle}></test-menu>
+          <test-menu toggle={this.toggle} menuId={this.menuId}></test-menu>
         </div>
-        <div class='logoDiv'>
+        {/* <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-        </div>
+        </div> */}
       </Host >
     )
   }

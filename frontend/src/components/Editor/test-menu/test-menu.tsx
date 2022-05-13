@@ -37,7 +37,8 @@ export class TestMenu {
       config.categoryImages.style = 'Disabled';
       config.productImages.style = 'Disabled';
     }
-    if (this.menuId == undefined) {
+    console.log(this.menuId)
+    if (this.menuId === undefined) {
       const date = new Date()
       const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
       this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
@@ -45,7 +46,7 @@ export class TestMenu {
         .find(t => t.time == date.getHours())?.menuid
     }
 
-    GetData(this.url)
+    await GetData(this.url)
       .then(response => this.AllMenus = response)
       .then(() => this.menu = this.AllMenus.find(m => m.menu.id == this.menuId))
       .then(() => { this.loading = false, config.connect = true })
@@ -194,7 +195,7 @@ export class TestMenu {
     return (
       <Host>
         <video autoplay muted loop id="myVideo">
-          <source src={getAssetPath('../../../assets/lunch.mp4')} type='video/mp4' />
+          <source src={getAssetPath(`../../../assets/${this.menu.menu.name.toLowerCase()}.mp4`)} type='video/mp4' />
         </video>
         <div class="error-message">
           <ion-label>{this.errormessage}</ion-label>

@@ -6,7 +6,7 @@
 .menuContainer {
   margin: auto;
   width: auto;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   padding-bottom: 1px;
   border-radius: 5px;
   font-size: var(--fontSize);

@@ -109,7 +109,8 @@ export class FontModal {
 
   changeBackgroundColor(element, ev) {
     this.tempConf.menuBackground = ev.target.value
-    this.element.shadowRoot.querySelector(element).style.background = ev.target.value
+    this.element.style.setProperty('--tempColor', ev.target.value);
+    // this.element.shadowRoot.querySelector(element).style.background = ev.target.value
   }
 
   addCustomFont() {
@@ -135,10 +136,6 @@ export class FontModal {
       document.head.appendChild(link);
     }
     this.NewFontURL = ''
-    // document.documentElement.style.setProperty('--tempFont', `'${result}'`)
-
-    // https://fonts.googleapis.com/css2?family=Macondo&display=swap
-    // https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap
   }
 
   renderFonts() {
@@ -174,10 +171,6 @@ export class FontModal {
           </ion-item>
         </ion-row>
         <ion-row class='row'>
-          {/* <ion-item class='inputRow'>
-            <ion-label position='fixed'>Namn:</ion-label>
-            <ion-input type="text" value={this.NewFontName} onIonChange={(event: any) => this.NewFontName = event.target.value}></ion-input>
-          </ion-item> */}
           <ion-label>Importera Typsnitt:</ion-label>
           <ion-item class='inputRow'>
             <ion-label position='fixed'>URL:</ion-label>
