@@ -2,10 +2,13 @@ import { Component, h, Element, State } from '@stencil/core';
 import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 
+import Coloris from "@melloware/coloris";
+Coloris.init()
+
 @Component({
   tag: 'font-modal',
   styleUrl: 'font-modal.css',
-  shadow: true,
+  shadow: false,
 })
 export class FontModal {
   @Element() element: HTMLElement;
@@ -16,6 +19,14 @@ export class FontModal {
   @State() NewFontName: string;
   @State() NewFontURL: string;
   @State() tempConf?: Styleconfig = config ?? null;
+
+  componentDidRender() {
+    Coloris({
+      el: '.coloris',
+      wrap: true
+    })
+    Coloris.close()
+  }
 
   async close() {
     await customElements.whenDefined('ion-modal')
@@ -104,17 +115,16 @@ export class FontModal {
       default:
         break;
     }
-    this.element.shadowRoot.querySelector(element).style.color = ev.target.value
+    this.element.querySelector(element).style.color = ev.target.value
   }
 
-  changeBackgroundColor(element, ev) {
+  changeBackgroundColor(ev) {
     this.tempConf.menuBackground = ev.target.value
-    this.element.shadowRoot.querySelector(element).style.background = ev.target.value
+    this.element.style.setProperty('--tempColor', ev.target.value);
   }
 
   addCustomFont() {
     const regex = new RegExp(/(?<=\bfamily=)(.*?)(?=\b[:|$|&|@])/, 'g')
-    console.log(regex)
     const nameArray = this.NewFontURL.match(regex)
     if (nameArray !== null) {
       const fontNames = nameArray.map(name => name.replace('+', ' '))
@@ -194,40 +204,40 @@ export class FontModal {
         <ion-row>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked'>Kategorititel:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+              <ion-label position='stacked'>Kategorititel</ion-label>
+              <input type='text' class='coloris' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked'>Produktnamn:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
+              <ion-label position='stacked'>Produktnamn</ion-label>
+              <input type='text' class='coloris' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked'>Produktbeskrivning:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
+              <ion-label position='stacked'>Produktbeskrivning</ion-label>
+              <input type='text' class='coloris' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked' >Produktpris:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
+              <ion-label position='stacked' >Produktpris</ion-label>
+              <input type='text' class='coloris' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked' >Menyfärg:</ion-label>
-              <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+              <ion-label position='stacked' >Menyfärg</ion-label>
+              <input type='text' class='coloris' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor(event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked' >Bakgrundsfärg:</ion-label>
-              <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+              <ion-label position='stacked' >Bakgrundsfärg</ion-label>
+              <input type='text' class='coloris' value={this.tempConf.background.color} />
             </ion-item>
           </ion-col>
         </ion-row>
@@ -239,6 +249,7 @@ export class FontModal {
     return (
       <div class="modal">
         <div class="header">
+
           <ion-tabs>
             <ion-tab-bar>
               <ion-tab-button class={!this.RenderButton ? 'focus' : null} selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
@@ -257,7 +268,7 @@ export class FontModal {
             {
               this.RenderButton ? this.renderColors() : this.renderFonts()
             }
-            <div class='exampleDiv' style={{ color: this.tempConf.menuBackground }}>
+            <div class='exampleDiv'>
               <ion-card class='card'>
                 <ion-card-header>
                   <ion-card-title class='categoryTitle' style={{ color: this.tempConf.font.colors.categoryTitle }}>Kategori-titel exempel</ion-card-title>
@@ -269,7 +280,7 @@ export class FontModal {
                         <div class="productName" style={{ color: this.tempConf.font.colors.productName }}>Produkt-titel exempel</div>
                       </ion-col>
                       <ion-col class='font'>
-                        <div class="productPrice" style={{ color: this.tempConf.font.colors.productPrice }}>$123</div>
+                        <div class="productPrice">$123</div>
                       </ion-col>
                     </ion-row>
                     <ion-row>

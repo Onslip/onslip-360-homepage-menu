@@ -12,7 +12,7 @@
 }
 
 @import url("../../../../global/modalstyle.css");
-
+@import url("./coloris.css");
 
 /* General CSS */
 
@@ -74,6 +74,27 @@ ion-select-option {
 
 .font {
   font-size: var(--tempSize);
+}
+
+input.coloris {
+  width: 100px;
+  height: 32px;
+  padding: 0 10px;
+  padding-left: 36px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  box-sizing: border-box;
+}
+
+.clr-field button {
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  left: 5px;
+  right: auto;
 }
 
 
