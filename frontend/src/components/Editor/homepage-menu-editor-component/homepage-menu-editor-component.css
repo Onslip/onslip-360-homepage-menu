@@ -4,17 +4,17 @@
 }
 
 .menuContainer {
-  margin: 10px auto;
+  margin: auto;
   width: auto;
   max-width: 1000px;
   padding-bottom: 1px;
-  background-color: white;
   border-radius: 5px;
   font-size: var(--fontSize);
   font-family: var(--font);
   font-weight: var(--fontWeight);
   font-style: var(--fontStyle);
-  background-color: var(--menuBackground);
+  /* background-color: var(--menuBackground); */
+  background-color: transparent;
 }
 
 .logoDiv {
