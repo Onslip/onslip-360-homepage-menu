@@ -69,6 +69,12 @@ export namespace Components {
         "value": string;
     }
     interface TestMenu {
+        "GetMenu": () => Promise<MenuWithCategory[]>;
+        "GetMenuWithImages": () => Promise<MenuWithCategory>;
+        "UploadCatImage": (file: File, id: number) => Promise<void>;
+        "menuId"?: number;
+        "toggle": boolean;
+        "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
     interface ToolbarComponent {
     }
@@ -239,6 +245,8 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface TestMenu {
+        "menuId"?: number;
+        "toggle"?: boolean;
     }
     interface ToolbarComponent {
     }
