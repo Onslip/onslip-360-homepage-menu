@@ -27,7 +27,7 @@ export class ScheduleOverlay {
 
     this.locationList = await GetData('http://localhost:8080/locations');
 
-    const menu = document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
+    const menu = document.querySelector('app-root').querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
     this.menus = await menu?.GetMenu();
 
     let hours = [0]

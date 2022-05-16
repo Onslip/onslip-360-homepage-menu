@@ -95,6 +95,7 @@ export class Listener {
             const chack = (await this.Getproducts()).find(z => z.product?.id == x.id) == undefined
 
             if (chack) {
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where product_id = ${x.id ?? null}`
                 await this.db.query<DBQuery>`delete from onslip.productimages where product_id = ${x.id ?? null}`
                 await this.db.query<DBQuery>`delete from onslip.products where id = ${x.id ?? null}`;
             }
@@ -102,6 +103,7 @@ export class Listener {
         categoryList.forEach(async x => {
             const chack = (await this.GetCategories()).find(z => z.id == x.id) == undefined
             if (chack) {
+                await this.db.query<DBQuery>`delete from onslip.grouptoproduct where category_id = ${x.id ?? null}`
                 await this.db.query<DBQuery>`delete from onslip.categoryimages where category_id = ${x.id}`
                 await this.db.query<DBQuery>`delete from onslip.productcategories where id = ${x.id}`;
             }

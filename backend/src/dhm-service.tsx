@@ -24,7 +24,7 @@ export class DHMService {
         try {
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
-            // this.listener.Listener();
+            this.listener.Listener();
             return this;
         }
         catch (error) {

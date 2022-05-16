@@ -155,7 +155,7 @@ export class MenuEditorComponent {
               !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
                 ]
             }
           </div>
@@ -181,7 +181,7 @@ export class MenuEditorComponent {
               !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
                 : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
                 ]
             }
           </div>
