@@ -37,7 +37,6 @@ export class TestMenu {
       config.categoryImages.style = 'Disabled';
       config.productImages.style = 'Disabled';
     }
-    console.log(this.menuId)
     if (this.menuId === undefined) {
       const date = new Date()
       const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
@@ -149,77 +148,49 @@ export class TestMenu {
 
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
-      <div class='productContainer'>
-        <ion-col hidden={config.productImages.placement === 'Right' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
-          <div>
-            {
-              !x.imageLoaded ?
-                <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                ]
-            }
-          </div>
-        </ion-col>
+      <div class='videoproductContainer'>
         <ion-col class='text'>
           <ion-row>
             <ion-col>
-              <div style={{ color: config.font.colors.productName }} class="productName">{x?.name}</div>
+              <div style={{ color: config.font.colors.productName }} class="videoproductName">{x?.name}</div>
             </ion-col>
             <ion-col hidden>
-              <div style={{ color: config.font.colors.productPrice }} class="productPrice">{x?.price}kr</div>
+              <div style={{ color: config.font.colors.productPrice }} class="videoproductPrice">{x?.price}kr</div>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <div style={{ color: config.font.colors.productDesc }} class="productDesc">{x?.description}</div>
+              <div style={{ color: config.font.colors.productDesc }} class="videoproductDesc">{x?.description}</div>
             </ion-col>
           </ion-row>
-        </ion-col>
-        <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
-          <div>
-            {
-              !x.imageLoaded ?
-                <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                ]
-            }
-          </div>
         </ion-col>
       </div>
     ))
   }
 
-
   render() {
     return (
       <Host>
-        <video autoplay muted loop id="myVideo">
+        <video autoplay muted loop class="myVideo">
           <source src={getAssetPath(`../../../assets/${this.menu.menu.name.toLowerCase()}.mp4`)} type='video/mp4' />
         </video>
         <div class="error-message">
           <ion-label>{this.errormessage}</ion-label>
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
-        <div class='container'>
+        <div class='videocontainer'>
           <div>
-            <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='reorder'>
+            <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='videoreorder'>
               {
                 !this.loading ?
                   this.categories?.map(data => {
 
                     return (
-                      <div id={data?.category?.id.toString()} class='outer-card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                        <ion-card class='content' data-status={config?.categoryImages?.style}>
+                      <div id={data?.category?.id.toString()} class='videoouter-card'>
+                        <ion-card class='videocontent' data-status={config?.categoryImages?.style}>
                           <div>
-                            <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                              <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.colors.categoryTitle }} data-status={config?.categoryImages?.style}>
-                                {
-                                  config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
-                                    : null
-                                }
+                            <ion-card-header class='header'>
+                              <ion-card-title class={this.toggle ? 'videocategoryTitle' : 'videocategoryTitle categoryToggled'} style={{ color: config?.font?.colors.categoryTitle }} data-status={config?.categoryImages?.style}>
                                 {data?.category?.name}
                                 <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
                               </ion-card-title>
