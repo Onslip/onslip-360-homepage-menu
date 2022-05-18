@@ -91,7 +91,7 @@ export class HomepageMenuEditorComponent {
   render() {
     return (
       <Host>
-        {/* <toolbar-component></toolbar-component> */}
+        <toolbar-component></toolbar-component>
         <div class="content-container">
         <video id='Bvideo' autoplay={true} muted loop={true}  preload="auto" playsinline><source src={getAssetPath(`../../../assets/meny.mp4`)}></source></video>
 
