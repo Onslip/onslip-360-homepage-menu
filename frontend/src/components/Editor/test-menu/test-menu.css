@@ -1,6 +1,5 @@
 :host {
   display: block;
-  height: 100%;
 }
 
 
@@ -31,7 +30,7 @@
 
 #myVideo {
   max-width: 100%;
-  max-height: 100%;
+  min-height: 100%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
@@ -70,15 +69,10 @@
 
 
 .container {
-  /* position: relative; */
-  /* display: flex; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* margin: auto; */
-  /* padding-top: 45%; */
-  /* transform: translate(0, 50%); */
-  /* max-width: 40%; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
 }
 
 .reorder {

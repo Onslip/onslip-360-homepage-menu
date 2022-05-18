@@ -58,6 +58,7 @@ export class TestMenu {
         this.loading = false
         config.connect = false
       });
+    console.log(this.AllMenus)
   }
 
   async getCatImages() {
