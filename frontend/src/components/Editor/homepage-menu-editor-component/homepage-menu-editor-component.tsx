@@ -61,12 +61,7 @@ export class HomepageMenuEditorComponent {
       link.setAttribute('type', 'text/css');
       link.setAttribute('href', font.fontUrl)
       document.head.appendChild(link);
-    }
-    )
-    document.documentElement.style.setProperty('--menuBackground', config?.menuBackground)
-    if (config?.background?.enabled) {
-      document.querySelector('body').style.background = config?.background?.color;
-    }
+    })
   }
 
   async componentDidLoad() {
@@ -74,8 +69,10 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadBackground(image) {
-    const loadedImage = await loadImage(image.image.data).catch(err => err)
-    document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
+    if (!config.background.enabled) {
+      const loadedImage = await loadImage(image.image.data).catch(err => err)
+      document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
+    }
   }
 
   private async LoadLogo(image) {
@@ -108,7 +105,7 @@ export class HomepageMenuEditorComponent {
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
           </ion-item>
-          <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component> 
+          <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
           {/* <test-menu toggle={this.toggle}></test-menu> */}
         </div>
         <div class='logoDiv'>

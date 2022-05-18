@@ -4,7 +4,7 @@
 }
 
 .outer-card {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -39,6 +39,7 @@
 }
 
 .categoryTitle {
+  color: var(--prodTitle);
   font-size: 1.5rem;
   margin: 0;
   text-align: center;
@@ -59,28 +60,34 @@
 }
 
 .productName {
+  color: var(--prodName);
   font-size: 90%;
 }
 
 .productPrice {
+  color: var(--prodPrice);
   font-size: 90%;
   color: #737373;
   text-align: end;
 }
 
 .productDesc {
+  color: var(--prodDesc);
   font-size: 70%;
 }
 
 .card.productName {
+  color: var(--prodName);
   font-size: 90%;
 }
 
 .card.productPrice {
+  color: var(--prodDesc);
   font-size: 90%;
 }
 
 .card.productDesc {
+  color: var(--prodPrice);
   font-size: 70%;
 }
 
@@ -91,6 +98,12 @@
 .iconLogo {
   min-width: 80px;
   max-width: 180px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed hsla(0, 0%, 30%, 0.7);
+  padding: 0;
+  background-color: hsla(0, 0%, 70%, 0.5);
 }
 
 .text {
@@ -130,6 +143,7 @@ ion-reorder {
   background-size: cover;
   display: flex;
   background-color: transparent;
+  padding: 3px;
 }
 
 .saveButton {
@@ -148,6 +162,11 @@ ion-reorder {
   max-width: 350px;
   margin: 5px;
   background-color: transparent;
+  font-size: unset !important;
+}
+
+.productContent {
+  font-size: unset !important;
 }
 
 .card-text {

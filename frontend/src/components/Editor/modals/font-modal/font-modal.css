@@ -1,4 +1,4 @@
-:host {
+:root {
   display: block;
   height: 100%;
   --tempFont: var(--font);
@@ -8,7 +8,13 @@
   --importUrl: '';
   --tempWeight: var(--fontWeight);
   --tempStyle: var(--fontStyle);
+  --tempBackground: var(--backgroundColor);
   --tempColor: var(--menuBackground);
+
+  --tempTitle: var(--prodTitle);
+  --tempName: var(--prodName);
+  --tempDesc: var(--prodDesc);
+  --tempPrice: var(--prodPrice);
 }
 
 @import url("../../../../global/modalstyle.css");
@@ -42,6 +48,7 @@ ion-item {
 .select {
   --color-hover: white;
   font-family: var(--tempFont);
+  max-width: 200px;
 }
 
 ion-select-option {
@@ -77,7 +84,7 @@ ion-select-option {
 }
 
 input.coloris {
-  width: 100px;
+  max-width: 120px;
   height: 32px;
   padding: 0 10px;
   padding-left: 36px;
@@ -119,34 +126,45 @@ ion-range {
 
 /* Product CSS */
 
+.container {
+  margin: auto;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--tempBackground);
+}
+
 .product {
   align-items: flex-start;
 }
 
 .productName {
   text-align: start;
+  color: var(--tempName);
   font-family: var(--tempFont);
   font-size: 90%;
 }
 
 .productDesc {
+  color: var(--tempDesc);
   font-family: var(--tempFont);
   font-size: 70%;
 }
 
 .productPrice {
   text-align: end;
+  color: var(--tempPrice);
   font-family: var(--tempFont);
   font-size: 90%;
 }
 
 .categoryTitle {
+  color: var(--tempTitle);
   font-family: var(--tempFont);
   font-size: var(--tempSize);
 }
 
 .card {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 
@@ -209,13 +227,12 @@ ion-tab-button.focus {
 }
 
 .deactivated {
-  background: rgba(67, 124, 67, 0.57);
-  box-shadow: none;
+  background: gray;
 }
 
 .activated {
   background: var(--primary);
-  box-shadow: none;
+  box-shadow: inset 0 0 2px 2px hsla(0, 0%, 40%, 0.5);
 }
 
 .icon {

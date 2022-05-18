@@ -108,10 +108,6 @@ export class ToolbarComponent {
                 <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png" iconName='image-sharp'></modal-ovelay>
               </ion-row>] : null}
               <ion-row>
-                <label htmlFor='color' class='menu-button'>Ändra bakgrundsfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
-              </ion-row>
-              <ion-row>
                 <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
