@@ -6,7 +6,7 @@ host = "localhost"
 uri = "asdasdasasd"
 
 [onslip360]
-base = ""
-realm = ""
-id = ""
-key = ""
+base = "asd"
+realm = "asd"
+id = "asd"
+key = "asd"

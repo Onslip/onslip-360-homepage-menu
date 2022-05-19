@@ -23,7 +23,6 @@ export class HomepageMenuEditorComponent {
   @Prop() menuId: number
 
   async componentWillLoad() {
-
     if (DBConnection) {
       if (!config?.background?.enabled) {
         GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
@@ -31,27 +30,21 @@ export class HomepageMenuEditorComponent {
       if (config?.banner) {
         GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
       }
-
       if (config?.Logo) {
-        if (config?.banner) {
-          GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
-        }
-        else {
-          GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
-        }
+        GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
       }
     }
   }
 
   private async LoadConfig() {
-    document.documentElement.style.setProperty('--font', config?.font.fontFamily)
+    document.documentElement.style.setProperty('--font', config?.font?.fontFamily)
     if (config?.font?.fontWeight) {
       document.documentElement.style.setProperty('--fontWeight', 'bold')
     }
     if (config?.font?.fontStyle) {
       document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
-    if (config.font.fontSize != undefined) {
+    if (config?.font?.fontSize != undefined) {
       document.documentElement.style.setProperty('--fontSize', config?.font?.fontSize[1])
     }
 
@@ -99,15 +92,19 @@ export class HomepageMenuEditorComponent {
     return (
       <Host>
         <toolbar-component></toolbar-component>
-        <div class='menuContainer'>
-          <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
-            {config?.connect ? <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
-            <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
-            <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
-          </ion-item>
-          <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
-          {/* <test-menu toggle={this.toggle}></test-menu> */}
-        </div>
+        {
+        config?.connect ?
+          <div class='menuContainer'>
+            <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
+              <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+              <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
+              <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
+            </ion-item>
+            <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
+            {/* <test-menu toggle={this.toggle}></test-menu> */}
+          </div> :
+          null
+          }
         <div class='logoDiv'>
           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
         </div>
