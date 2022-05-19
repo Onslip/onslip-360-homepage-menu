@@ -67,7 +67,6 @@
 .productPrice {
   color: var(--prodPrice);
   font-size: 90%;
-  color: #737373;
   text-align: end;
 }
 
@@ -91,16 +90,19 @@
   font-size: 70%;
 }
 
-.card.image {
+.cardImage {
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.prodImg {
+  min-height: 80px;
+  border: 1px dashed gray;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
 .iconLogo {
   min-width: 80px;
   max-width: 180px !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border: 1px dashed hsla(0, 0%, 30%, 0.7);
   padding: 0;
   background-color: hsla(0, 0%, 70%, 0.5);

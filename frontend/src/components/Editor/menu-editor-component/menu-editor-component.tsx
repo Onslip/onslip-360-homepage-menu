@@ -165,8 +165,8 @@ export class MenuEditorComponent {
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
       <div class='productContainer'>
-        <ion-col hidden={config.productImages.placement === 'Right' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
-          <div >
+        <ion-col hidden={config.productImages.placement == 'Right' || config.productImages.style == 'Disabled'} class='iconLogo' size='3'>
+          <div>
             {
               !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
@@ -193,17 +193,20 @@ export class MenuEditorComponent {
             </ion-col>
           </ion-row>
         </ion-col>
-        {/* <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
+        <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style == 'Disabled'} class='iconLogo' size='3'>
           <div>
             {
               !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                ]
+                :
+                <div class="prodImg">
+                  <ion-img src={x.image} ></ion-img>
+                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
+                </div>
             }
           </div>
-        </ion-col> */}
+        </ion-col>
+
       </div>
     ))
   }
@@ -213,13 +216,15 @@ export class MenuEditorComponent {
       <ion-row class='products'>
         {(products?.map(x =>
           <ion-card class={"product"} id='scroll-container'>
-            <div>
+            <div class='cardImage'>
               {
                 !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
                   <ion-spinner class="spinner"></ion-spinner>
-                  : [<ion-img src={x.image} ></ion-img>,
-                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                  ]
+                  :
+                  <div class='prodImg'>
+                    <ion-img src={x.image} ></ion-img>
+                    <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} iconName='share-sharp' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                  </div>
               }
             </div>
             <div class="card-text">
@@ -303,7 +308,7 @@ export class MenuEditorComponent {
                               <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} data-status={config?.categoryImages?.style}>
                                 {
                                   config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
+                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} iconName='share-sharp' RenderType='image' ImagePosition='Category' ></modal-ovelay>
                                     : null
                                 }
                                 {data?.category?.name}

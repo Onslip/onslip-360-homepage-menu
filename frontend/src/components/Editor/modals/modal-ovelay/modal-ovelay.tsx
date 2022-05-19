@@ -56,7 +56,7 @@ export class ModalOvelay {
     if (this.RenderType == 'image') {
       return (
         <Host>
-          <label class={this.buttonClass}>
+          <label class={this.buttonClass} title='Ladda upp bild...'>
             {this.buttonValue}<ion-icon class="icon" name={this.iconName}></ion-icon>
             <input class='catImages' type='file' onChange={(event: any) => { this.imageFile = event.target.files; this.presentModal(); }} hidden />
           </label>

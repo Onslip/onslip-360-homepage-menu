@@ -131,7 +131,7 @@ export class MenuComponent {
                 <ion-col hidden={config.productImages.placement == 'Right' || config.productImages.style == 'Disabled'} class='iconLogo' size='3'>
                     <div>
                         {
-                            !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                            !x.imageLoaded ?
                                 <ion-spinner class="spinner"></ion-spinner>
                                 : <ion-img src={x.image} ></ion-img>
                         }
@@ -155,7 +155,7 @@ export class MenuComponent {
                 <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style == 'Disabled'} class='iconLogo' size='3'>
                     <div>
                         {
-                            !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                            !x.imageLoaded ?
                                 <ion-spinner class="spinner"></ion-spinner>
                                 : <ion-img src={x.image} ></ion-img>
                         }
