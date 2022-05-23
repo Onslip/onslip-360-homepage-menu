@@ -243,12 +243,6 @@ export class TestMenu {
   }
 }
 
-export interface image {
-  id: number,
-  image: string
-}
-
-
 interface DBCatImage {
   image: any,
   category_id: number

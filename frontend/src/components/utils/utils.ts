@@ -5,6 +5,11 @@ export interface DBImage {
   product_id: number
 }
 
+export interface DBCatImage {
+  image: any,
+  category_id: number
+}
+
 export interface DBproduct {
   id: number,
   name: string

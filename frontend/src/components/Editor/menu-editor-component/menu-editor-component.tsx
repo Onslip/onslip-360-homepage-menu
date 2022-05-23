@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop, Method } from '@stencil/core';
-import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
+import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config, Timetable } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -337,15 +337,4 @@ export class MenuEditorComponent {
       </Host>
     )
   }
-}
-
-export interface image {
-  id: number,
-  image: string
-}
-
-
-interface DBCatImage {
-  image: any,
-  category_id: number
 }

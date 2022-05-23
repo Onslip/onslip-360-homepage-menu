@@ -59,7 +59,6 @@ importers:
 
   frontend:
     specifiers:
-      '@iarna/toml': ^2.2.5
       '@ionic/cli': ^6.19.1
       '@ionic/core': 6.1.1
       '@ionic/storage': ^3.0.6
@@ -68,10 +67,6 @@ importers:
       '@stencil/router': ^1.0.1
       '@types/jest': ^26.0.24
       '@types/node': ^17.0.35
-      common: link:@angular/common
-      compressorjs: ^1.1.1
-      http: link:@angular/common/http
-      ion: ^1.0.1
       ionic: ^5.4.16
       jest: ^26.6.3
       jest-cli: ^26.6.3
@@ -82,17 +77,12 @@ importers:
       stencil-router-v2: ^0.6.0
       stream: ^0.0.2
     dependencies:
-      '@iarna/toml': 2.2.5
       '@ionic/cli': 6.19.1
       '@ionic/core': 6.1.1
       '@ionic/storage': 3.0.6
       '@melloware/coloris': 0.12.2
       '@stencil/core': 2.15.2
       '@stencil/router': 1.0.1
-      common: link:@angular/common
-      compressorjs: 1.1.1
-      http: link:@angular/common/http
-      ion: 1.0.1
       ionic: 5.4.16
       nestjs: 0.0.1
       nodejs: 0.0.0
@@ -2154,10 +2144,6 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
-  /blueimp-canvas-to-blob/3.29.0:
-    resolution: {integrity: sha512-0pcSSGxC0QxT+yVkivxIqW0Y4VlO2XSDPofBAqoJ1qJxgH9eiUDLv50Rixij2cDuEfx4M6DpD9UGZpRhT5Q8qg==}
-    dev: false
-
   /body-parser/1.20.0:
     resolution: {integrity: sha512-DfJ+q6EPcGKZD1QWUjSpqp+Q7bDQTsQIF4zfUAtZ6qk+H/3/QRhg9CEp39ss+/T2vw0+HaidC0ecJj/DRLIaKg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -2427,12 +2413,6 @@ packages:
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
     dev: true
 
-  /coffeescript/2.2.4:
-    resolution: {integrity: sha512-YNi3ksTEP8AQBMlwx4TjrcSX7BMKDFaKR0czMhEIUuT8Qz3anwgYucWSYtSMX0QKxAurqq4p7annrHT5qXMaqA==}
-    engines: {node: '>=6'}
-    hasBin: true
-    dev: false
-
   /collect-v8-coverage/1.0.1:
     resolution: {integrity: sha512-iBPtljfCNcTKNAto0KEtDfZ3qzjJvqE3aTGZsbhjSBlorqpXJlaWWtPO35D+ZImoC3KWejX64o+yPGxhWSTzfg==}
     dev: true
@@ -2474,13 +2454,6 @@ packages:
 
   /component-emitter/1.3.0:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
-
-  /compressorjs/1.1.1:
-    resolution: {integrity: sha512-SysRuUPfmUNoq+RviE0iMFVUmoX2q/x+7PkEPUmk6NGkd85hDrmvujx0Qtp8UCGA6KMe5kuodsylPQcNaLf60w==}
-    dependencies:
-      blueimp-canvas-to-blob: 3.29.0
-      is-blob: 2.1.0
-    dev: false
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
@@ -2877,12 +2850,6 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
     dev: true
-
-  /esprima/1.1.1:
-    resolution: {integrity: sha1-W28VR/TRAuZw4UDFCb5ncdautUk=}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-    dev: false
 
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
@@ -3592,17 +3559,6 @@ packages:
       through: 2.3.8
     dev: false
 
-  /ion/1.0.1:
-    resolution: {integrity: sha512-YqRwSeiiXYLNPkcb558jtYdXVMGcu5uElikAD1I+Dw83iykoiPJE1oA0ZQDJQm2OPxMBtQWmsF1FzOEjbVF0cg==}
-    hasBin: true
-    dependencies:
-      coffeescript: 2.2.4
-      esprima: 1.1.1
-      pegjs: 0.8.0
-      source-map: 0.7.3
-      uglify-js: 3.15.5
-    dev: false
-
   /ionic/5.4.16:
     resolution: {integrity: sha512-MlHmcctGxxUdvjKJGDUQOZEJMMTrZk3ZtC0tkMUy/im53c0giZrKQtkBKXOLK6uYXBnhlOXn0jrs97PnfNadyg==}
     engines: {node: '>=8.9.4'}
@@ -3675,11 +3631,6 @@ packages:
   /is-arrayish/0.2.1:
     resolution: {integrity: sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=}
     dev: true
-
-  /is-blob/2.1.0:
-    resolution: {integrity: sha512-SZ/fTft5eUhQM6oF/ZaASFDEdbFVe89Imltn9uZr03wdKMcWNVYSMjQPFtg05QuNkt5l5c135ElvXEQG0rk4tw==}
-    engines: {node: '>=6'}
-    dev: false
 
   /is-buffer/1.1.6:
     resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
@@ -5638,12 +5589,6 @@ packages:
     resolution: {integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=}
     dev: false
 
-  /pegjs/0.8.0:
-    resolution: {integrity: sha1-l28GfaE+XFsVAcAXklZoolOBFWE=}
-    engines: {node: '>= 0.8'}
-    hasBin: true
-    dev: false
-
   /pend/1.2.0:
     resolution: {integrity: sha1-elfrVQpng/kRUzH89GY9XI4AelA=}
     dev: true
@@ -6389,6 +6334,7 @@ packages:
   /source-map/0.7.3:
     resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
     engines: {node: '>= 8'}
+    dev: true
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
@@ -6944,12 +6890,6 @@ packages:
 
   /ua-parser-js/1.0.2:
     resolution: {integrity: sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==}
-    dev: false
-
-  /uglify-js/3.15.5:
-    resolution: {integrity: sha512-hNM5q5GbBRB5xB+PMqVRcgYe4c8jbyZ1pzZhS6jbq54/4F2gFK869ZheiE5A8/t+W5jtTNpWef/5Q9zk639FNQ==}
-    engines: {node: '>=0.8.0'}
-    hasBin: true
     dev: false
 
   /unbzip2-stream/1.4.3:

@@ -5,12 +5,6 @@ import nodePolyfills from 'rollup-plugin-node-polyfills';
 export const config: Config = {
   namespace: 'homepage-menu',
   globalStyle: 'src/global/global.css',
-  rollupPlugins: {
-
-    after: [
-      nodePolyfills(),
-    ]
-  },
   outputTargets: [
     {
       type: 'dist',
