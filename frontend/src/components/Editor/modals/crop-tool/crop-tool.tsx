@@ -113,26 +113,25 @@ export class CropTool {
       pos3 = ev.clientX;
       pos4 = ev.clientY;
 
+      let maxW: boolean = elmnt.parentElement.clientWidth > elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft - 1
+      let maxH: boolean = elmnt.parentElement.clientHeight > elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop - 1
+      let minW: boolean = elmnt.parentElement.clientWidth < 50
+      let minH: boolean = elmnt.parentElement.clientHeight < 50
 
-      let maxW: boolean = elmnt.parentElement.clientWidth > elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft
-      let maxH: boolean = elmnt.parentElement.clientHeight > elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop
-
-
-      if ((!maxH && pos2 < 0) || pos2 > 0) {
-        elmnt.parentElement.style.height = (elmnt.parentElement.clientHeight - pos2) + "px";
-        elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
+      if (((maxW || maxH) && !(pos1 > 0 || pos2 > 0)) || ((minW || minH) && (pos1 > 0 || pos2 > 0))) {
+        pos1 = 0
+        pos2 = 0
+        if (maxW) {
+          elmnt.parentElement.style.width = (elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft) + "px"
+          elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
+        }
+        else if (maxH) {
+          elmnt.parentElement.style.height = (elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop) + "px"
+          elmnt.parentElement.style.width = (elmnt.parentElement.clientHeight * ar) + "px";
+        }
       }
-      if ((!maxW && pos1 > 0) || pos1 < 0) {
-        elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1) + "px";
-        elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
-      }
-
-      if (maxW) {
-        elmnt.parentElement.style.width = (elmnt.parentElement.parentElement.clientWidth - elmnt.parentElement.offsetLeft) + "px";
-      }
-      if (maxH) {
-        elmnt.parentElement.style.height = (elmnt.parentElement.parentElement.clientHeight - elmnt.parentElement.offsetTop) + "px";
-      }
+      elmnt.parentElement.style.width = (elmnt.parentElement.clientWidth - pos1 - pos2) + "px";
+      elmnt.parentElement.style.height = (elmnt.parentElement.clientWidth / ar) + "px";
     }
 
     function closeDragElement() {
