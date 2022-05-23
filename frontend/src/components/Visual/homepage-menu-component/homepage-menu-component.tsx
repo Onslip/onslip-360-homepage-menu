@@ -1,4 +1,4 @@
-import { Component, h, State, Host, getAssetPath, Element, Prop } from '@stencil/core';
+import { Component, h, State, Host, Element, Prop } from '@stencil/core';
 import { config, DBConnection, mainConfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
@@ -76,7 +76,7 @@ export class HomepageMenuComponent {
     }
   }
 
-  
+
 
   render() {
     return (

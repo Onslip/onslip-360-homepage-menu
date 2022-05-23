@@ -2,8 +2,6 @@
   display: block;
 }
 
-
-
 .videoproductName {
   font-size: 90%;
   text-align: center;
@@ -30,44 +28,43 @@
 
 .myVideo {
   max-width: 100%;
-  min-height: 100%;
+  height: 100vh;
+
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 0;
 }
 
-
-
-.videoouter-card {
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  flex-grow: 1;
-  flex-basis: 45%;
-}
-
-.videoproductContainer {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  display: flex;
-  background-color: transparent;
-}
-
 .videocontent {
-  font-size: var(--fontSize);
-  width: 100%;
-  margin: 0;
+  font-size: 2vh;
   background-color: transparent;
   box-shadow: none;
-  display: flex;
-  flex-direction: column;
+  max-height: max-content;
+
+}
+
+.videocontainer {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  max-height: 70vh;
+  overflow: hidden;
+
+}
+
+ion-card {
+  padding: 0.3em 0;
+}
+
+ion-col {
+  padding: 0;
+  padding-top: 0.2em;
 }
 
 ion-card-header {
-  padding: 5px;
+  padding-bottom: 0;
 }
 
 .videoreorder {
@@ -77,52 +74,12 @@ ion-card-header {
 
 @media (orientation: landscape) {
   .videocontainer {
-    position: absolute;
-    padding-top: 500px;
-    left: 50%;
-    transform: translate(-50%, 0);
+    max-width: 16%;
   }
 }
 
 @media (orientation: portrait) {
   .videocontainer {
-    position: absolute;
-    left: 50%;
-    padding-top: 47%;
-    transform: translate(-50%, 0);
-  }
-}
-
-@media screen and (width > 2000px) {
-  .videocontainer {
-    padding-top: 560px;
-    max-width: 18%;
-  }
-}
-
-@media screen and (height > 3000px) {
-  .videocontainer {
-    padding-top: 1000px;
-    max-width: 60%;
-  }
-}
-
-@media screen and (width < 800px) {
-  .videoproductContainer {
-    padding: 0;
-  }
-
-  ion-col {
-    padding: 0;
-  }
-
-  .videocontainer {
-    padding-top: 67%;
-  }
-}
-
-@media screen and (aspect-ratio: 375/667) {
-  .videocontainer {
-    padding-top: 47%;
+    max-width: 45%;
   }
 }

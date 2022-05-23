@@ -179,38 +179,34 @@ export class TestMenu {
           {this.loading ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
         </div>
         <div class='videocontainer'>
-          <div>
-            <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='videoreorder'>
-              {
-                !this.loading ?
-                  this.categories?.map(data => {
+          {/* <ion-reorder-group disabled={this.toggle} onIonItemReorder={(ev) => this.doReorder(ev)} class='videoreorder'> */}
+          {
+            !this.loading ?
+              this.categories?.map(data => {
 
-                    return (
-                      <div id={data?.category?.id.toString()} class='videoouter-card'>
-                        <ion-card class='videocontent' data-status={config?.categoryImages?.style}>
-                          <div>
-                            <ion-card-header class='header'>
-                              <ion-card-title class={this.toggle ? 'videocategoryTitle' : 'videocategoryTitle categoryToggled'} style={{ color: config?.font?.colors.categoryTitle }} data-status={config?.categoryImages?.style}>
-                                {data?.category?.name}
-                                <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
-                              </ion-card-title>
-                            </ion-card-header>
-                            {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
-                          </div>
-                          {this.toggle && config.menuType == 'inline' ?
-                            this.renderProducts(data?.products)
-                            : null}
+                return (
+                  <div id={data?.category?.id.toString()} class='videoouter-card'>
+                    <ion-card class='videocontent' data-status={config?.categoryImages?.style}>
+                      <ion-card-header class='header'>
+                        <ion-card-title class={this.toggle ? 'videocategoryTitle' : 'videocategoryTitle categoryToggled'} style={{ color: config?.font?.colors.categoryTitle }} data-status={config?.categoryImages?.style}>
+                          {data?.category?.name}
+                          <ion-reorder hidden={this.toggle}><ion-icon name="reorder-three-sharp"></ion-icon></ion-reorder>
+                        </ion-card-title>
+                      </ion-card-header>
+                      {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+                      {this.toggle && config.menuType == 'inline' ?
+                        this.renderProducts(data?.products)
+                        : null}
 
-                        </ion-card>
-                      </div>
-                    )
-                  })
-                  : null
-              }
-            </ion-reorder-group>
-          </div>
+                    </ion-card>
+                  </div>
+                )
+              })
+              : null
+          }
+          {/* </ion-reorder-group> */}
         </div>
-        {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null}
+        {/* {!this.toggle ? <ion-button class='saveButton' onClick={() => this.SaveReorder()} disabled={!this.CanSave}>Spara</ion-button> : null} */}
       </Host>
     )
   }
