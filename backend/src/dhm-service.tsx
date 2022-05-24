@@ -273,7 +273,7 @@ export class DHMService {
 
     private async rootResponse() {
         if (this.dbConnect == true) {
-            return await GetProdByGroup(this.db, this.api);
+            return await GetProdByGroup(this.db);
         }
         else {
             return await GetProdFromApi(this.api);
