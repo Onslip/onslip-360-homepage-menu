@@ -22,10 +22,12 @@
 }
 
 .uploadButton {
+  width: auto;
+  height: 1.5em;
   padding: 5px;
   font-family: var(--globalfont);
   text-align: center;
-  font-size: 130%;
+  font-size: 1.5em;
   color: hsla(0, 0%, 95%);
   background-color: hsla(0, 0%, 70%, 0.9);
   border-radius: 5px;
@@ -39,14 +41,13 @@
 
 .uploadButton.banner {
   left: unset;
-  position: absolute;
+  font-size: 1.3em;
   top: 50%;
   right: 20px;
-  padding: 5px;
   transform: translate(0, -50%);
 }
 
-.uploadButton:hover {
+.uploadButton .icon:hover {
   color: var(--primary);
 }
 
