@@ -22,7 +22,7 @@
 }
 
 .uploadButton {
-  width: 1.5em;
+  width: auto;
   height: 1.5em;
   padding: 5px;
   font-family: var(--globalfont);
@@ -47,7 +47,7 @@
   transform: translate(0, -50%);
 }
 
-.uploadButton:hover {
+.uploadButton .icon:hover {
   color: var(--primary);
 }
 
