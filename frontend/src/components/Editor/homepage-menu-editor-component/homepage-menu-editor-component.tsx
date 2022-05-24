@@ -1,5 +1,5 @@
-import { Component, h, State, Host, Element } from '@stencil/core';
-import { config, DBConnection } from '../../utils/utils';
+import { Component, h, State, Host, Element, getAssetPath } from '@stencil/core';
+import { config, DBConnection, mainConfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
@@ -103,17 +103,17 @@ export class HomepageMenuEditorComponent {
       <Host>
         <toolbar-component></toolbar-component>
         <div class='menuContainer'>
-          {/* <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
+          <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
             {config?.connect ? <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
             <h2 class="header-text" hidden={config.Logo}>{mainConfig.selectedLocation.name}</h2>
             <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
-          </ion-item> */}
-          {/* <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>  */}
-          <test-menu toggle={this.toggle} menuId={this.menuId}></test-menu>
+          </ion-item>
+          <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
+          {/* <test-menu toggle={this.toggle} menuId={this.menuId}></test-menu> */}
         </div>
-        {/* <div class='logoDiv'> */}
-        {/* <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img> */}
-        {/* </div> */}
+        <div class='logoDiv'>
+          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+        </div>
       </Host>
     )
   }
