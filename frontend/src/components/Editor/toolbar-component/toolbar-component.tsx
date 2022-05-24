@@ -1,7 +1,8 @@
 import { Component, h, State, getAssetPath, Element } from '@stencil/core';
 import { config, DBConnection, location, mainConfig } from '../../utils/utils';
-import { PostData } from '../../utils/post';
+import { PostData, PostImage } from '../../utils/post';
 import { GetData } from '../../utils/get';
+import { CheckImage, loadImage } from '../../utils/image';
 
 @Component({
   tag: 'toolbar-component',
@@ -55,6 +56,21 @@ export class ToolbarComponent {
     reference: "event",
   };
 
+  async changeLogo(files) {
+    const reader = new FileReader();
+    let fd = new FormData()
+    reader.readAsDataURL(files[0]);
+    reader.onload = () => {
+      const image = `url(${reader.result})`;
+      if (image != null) {
+        fd.append('logo', files[0])
+        const mainelement = document.querySelector('app-root').querySelector('homepage-menu-editor-component');
+        mainelement.shadowRoot.querySelector('.header').querySelector('img').src = reader.result.toString();
+        PostImage(this.url3, fd);
+      }
+    };
+  }
+
   render() {
     return [
       <ion-header>
@@ -91,9 +107,14 @@ export class ToolbarComponent {
                 <ion-row>
                   <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
                 </ion-row>,
-                <ion-row>
-                  <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png" iconName='image-sharp'></modal-ovelay>
-                </ion-row>] : null}
+                // <ion-row>
+                //   <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png" iconName='image-sharp'></modal-ovelay>
+                // </ion-row>
+                <label class='menu-button'>Byt logo <ion-icon class='icon' name='image-sharp'></ion-icon>
+                  <input type='file' onChange={(event: any) => this.changeLogo(event.target.files)} hidden></input>
+                </label>,
+              ]
+                : null}
               <ion-row>
                 <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
