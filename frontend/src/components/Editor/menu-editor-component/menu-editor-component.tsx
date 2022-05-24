@@ -30,9 +30,9 @@ export class MenuEditorComponent {
     return this.AllMenus
   }
 
-  @Method() async GetMenuWithImages(): Promise<MenuWithCategory> {
-    return this.menu
-  }
+  // @Method() async GetMenuWithImages(): Promise<MenuWithCategory> {
+  //   return this.menu
+  // }
 
   async componentWillLoad() {
     if (!DBConnection) {
@@ -76,7 +76,7 @@ export class MenuEditorComponent {
     }
   }
 
-  async getCatImages() {
+  getCatImages() {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })
@@ -124,7 +124,6 @@ export class MenuEditorComponent {
 
   @Method() async uploadProdImage(file: File, id: number, catId: number) {
     if (CheckImage(file)) {
-      console.log([catId, id, file])
       const fileReader = new FileReader()
       fileReader.onload = () => {
         this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
@@ -136,7 +135,6 @@ export class MenuEditorComponent {
 
   @Method() async UploadCatImage(file: File, id: number) {
     if (CheckImage(file)) {
-      console.log(id)
       const fileReader = new FileReader()
       fileReader.onload = () => {
         this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
