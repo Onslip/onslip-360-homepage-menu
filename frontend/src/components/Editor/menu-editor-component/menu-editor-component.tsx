@@ -118,7 +118,6 @@ export class MenuEditorComponent {
         loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
           .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
       } catch (error) {
-
       } finally {
         c.category.imageLoaded = true
         this.categories = [...this.categories]
