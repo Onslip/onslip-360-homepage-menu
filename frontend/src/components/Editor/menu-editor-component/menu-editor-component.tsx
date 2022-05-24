@@ -53,7 +53,6 @@ export class MenuEditorComponent {
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
       .then(() => this.getCatImages())
-      .then(() => this.getProdImages())
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
@@ -81,12 +80,13 @@ export class MenuEditorComponent {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })
+        .then(() => this.getProdImages())
         .catch(() => {
         });
     }
   }
 
-  private getProdImages() {
+  async getProdImages() {
     if (config?.productImages?.style != 'Disabled' && DBConnection) {
       GetData(this.produrl)
         .then(response => this.LoadImages(response))
@@ -99,15 +99,13 @@ export class MenuEditorComponent {
     this.categories.forEach(async c => {
       c.products.forEach(async p => {
         try {
-          loadImage(DBimages.find(i => i.product_id == p.id).image.data)
-            .then(response => p.image = response.toString())
+          p.image = (await loadImage(DBimages.find(i => i.product_id == p.id).image.data)).toString()
         } catch (error) {
           p.image = getAssetPath(`../../../assets/placeholder.png`)
         } finally {
           p.imageLoaded = true
           this.categories = [...this.categories]
         }
-
       })
     })
   }
@@ -115,8 +113,7 @@ export class MenuEditorComponent {
   async LoadCatImages(DBimages: DBCatImage[]) {
     this.categories?.forEach(async c => {
       try {
-        loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
-          .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
+        c.category.image = `url(${await loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)})`
       } catch (error) {
       } finally {
         c.category.imageLoaded = true
