@@ -3,28 +3,26 @@ import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
-import { Listener } from './Listener';
+import { Update } from './Listener';
 import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable, location } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
     private api: API;
     private db: DatabaseURI;
-    private listener: Listener;
     private dbConnect: boolean = true;
 
     constructor(private config: DHMConfig) {
         const { base, realm, id, key } = config.onslip360;
         this.api = new API(base, realm, id, key);
         this.db = new URI(config.database.uri) as DatabaseURI;
-        this.listener = new Listener(this.api, this.db);
     }
 
     async initialize(): Promise<this> {
         try {
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
-            this.listener.Listener();
+            Update(this.api, this.db)
             return this;
         }
         catch (error) {
