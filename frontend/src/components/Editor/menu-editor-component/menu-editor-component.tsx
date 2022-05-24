@@ -215,7 +215,7 @@ export class MenuEditorComponent {
       <ion-row class='products'>
         {(products?.map(x =>
           <ion-card class={"product"} id='scroll-container'>
-            <div class='cardImage'>
+            <div>
               {
                 !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
                   <ion-spinner class="spinner"></ion-spinner>
