@@ -3,6 +3,8 @@ import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 
 import Coloris from "@melloware/coloris";
+import { GetData } from '../../../utils/get';
+import { json } from 'stream/consumers';
 Coloris.init()
 
 @Component({
@@ -18,7 +20,12 @@ export class FontModal {
   @State() RenderButton: boolean;
   @State() NewFontName: string;
   @State() NewFontURL: string;
-  @State() tempConf?: Styleconfig = config ?? null;
+  @State() settingsHaveChanged: boolean = false
+  private tempConfig: Styleconfig
+
+  async componentWillLoad() {
+    this.tempConfig = await GetData('http://localhost:8080/config')
+  }
 
   componentDidRender() {
     Coloris({
@@ -42,6 +49,12 @@ export class FontModal {
     Coloris.close()
   }
 
+  valueChanged() {
+    JSON.stringify(this.tempConfig) === JSON.stringify(config) ?
+      this.settingsHaveChanged = false :
+      this.settingsHaveChanged = true
+  }
+
   async close() {
     await customElements.whenDefined('ion-modal')
     const modal = document.querySelector('ion-modal')
@@ -49,8 +62,10 @@ export class FontModal {
   }
 
   async PostData() {
-    this.setGlobalValues();
-    await PostData('http://localhost:8080/config', config).then(() => this.close())
+    if (this.settingsHaveChanged) {
+      this.setGlobalValues();
+      await PostData('http://localhost:8080/config', config).then(() => this.close())
+    }
   }
 
   setGlobalValues() {
@@ -89,11 +104,13 @@ export class FontModal {
   changeFont(ev) {
     config.font.fontFamily = ev.target.value;
     this.element.style.setProperty('--tempFont', config.font.fontFamily)
+    this.valueChanged()
   }
 
   changeFontSize(ev) {
     config.font.fontSize = fontSize.find(x => x[0] == ev.target.value)
     this.element.style.setProperty('--tempSize', config.font.fontSize[1])
+    this.valueChanged()
   }
 
   setFontWeight() {
@@ -102,6 +119,7 @@ export class FontModal {
     config.font.fontWeight ?
       this.element.style.setProperty('--tempWeight', 'bold') :
       this.element.style.setProperty('--tempWeight', 'normal')
+    this.valueChanged()
   }
 
   setItalic() {
@@ -110,6 +128,7 @@ export class FontModal {
     config.font.fontStyle ?
       this.element.style.setProperty('--tempStyle', 'italic') :
       this.element.style.setProperty('--tempStyle', 'normal')
+    this.valueChanged()
   }
 
   changeColor(element, ev) {
@@ -130,17 +149,20 @@ export class FontModal {
         break;
     }
     this.element.querySelector(element).style.color = ev.target.value
+    this.valueChanged()
   }
 
   changeMenuBackgroundColor(ev) {
     config.menuBackground = ev.target.value
     this.element.style.setProperty('--tempColor', ev.target.value);
+    this.valueChanged()
   }
 
   changeBackgroundColor(ev) {
     config.background.color = ev.target.value
     config.background.enabled = true
     this.element.style.setProperty('--tempBackground', ev.target.value);
+    this.valueChanged()
   }
 
   addCustomFont() {
@@ -178,7 +200,7 @@ export class FontModal {
 
           <ion-item class='slider'>
             <ion-label>Textstorlek:</ion-label>
-            <ion-range min={1} max={5} step={1} value={this?.tempConf?.font?.fontSize != undefined ? this?.tempConf?.font?.fontSize[0] : 3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
+            <ion-range min={1} max={5} step={1} value={config.font?.fontSize != undefined ? config.font?.fontSize[0] : 3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
               <p class='small' slot='start'>A</p>
               <p class='big' slot='end'>A</p>
             </ion-range>
@@ -317,7 +339,7 @@ export class FontModal {
           </div>
         </div>
         <div class="footer">
-          <button class='button save' onClick={this.PostData.bind(this)} type="submit">Spara</button>
+          <button disabled={!this.settingsHaveChanged} class={this.settingsHaveChanged ? 'button save' : 'button disabled'} onClick={this.PostData.bind(this)} type="submit">Spara</button>
           <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
         </div>
       </div >

@@ -10,7 +10,4 @@ ion-radio {
   --color-checked: var(--primary)
 }
 
-.title {
-  margin: 15px 0;
-  padding: 0;
-}
+.title {}

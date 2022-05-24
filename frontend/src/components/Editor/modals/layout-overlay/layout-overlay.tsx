@@ -1,6 +1,8 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, State } from '@stencil/core';
+import { json } from 'stream/consumers';
+import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
-import { config, DBConnection } from '../../../utils/utils'
+import { config, DBConnection, Styleconfig } from '../../../utils/utils'
 
 @Component({
   tag: 'layout-overlay',
@@ -9,7 +11,8 @@ import { config, DBConnection } from '../../../utils/utils'
   assetsDirs: ['assets'],
 })
 export class LayoutOverlay {
-
+  @State() settingsHaveChanged: boolean = false
+  private tempConfig: Styleconfig
 
   async componentWillLoad() {
     if (config.productImages.style == 'Background') {
@@ -17,6 +20,13 @@ export class LayoutOverlay {
         config.categoryImages.style = 'Banner'
       }
     }
+    this.tempConfig = await GetData('http://localhost:8080/config')
+  }
+
+  valueChanged() {
+    JSON.stringify(this.tempConfig) === JSON.stringify(config) ?
+      this.settingsHaveChanged = false :
+      this.settingsHaveChanged = true
   }
 
   async close() {
@@ -26,7 +36,9 @@ export class LayoutOverlay {
   }
 
   async PostData() {
-    await PostData('http://localhost:8080/config', config).then(() => location.reload())
+    if (this.settingsHaveChanged) {
+      await PostData('http://localhost:8080/config', config).then(() => location.reload())
+    }
   }
 
   render() {
@@ -39,7 +51,7 @@ export class LayoutOverlay {
           <div class="content">
             <ion-list>
               <ion-title class="title">Produkter</ion-title>
-              <ion-radio-group onIonChange={(event) => config.productImages.style = event.detail.value} value={config?.productImages?.style}>
+              <ion-radio-group onIonChange={(event) => { config.productImages.style = event.detail.value; this.valueChanged() }} value={config?.productImages?.style}>
                 <ion-list-header>
                   <ion-label>Bildstil</ion-label>
                 </ion-list-header>
@@ -56,7 +68,7 @@ export class LayoutOverlay {
                   <ion-radio slot="start" value='Disabled' disabled={!DBConnection}></ion-radio>
                 </ion-item>
               </ion-radio-group>
-              <ion-radio-group value={config?.productImages?.placement} onIonChange={(event) => [config.productImages.placement = event.detail.value]} >
+              <ion-radio-group value={config?.productImages?.placement} onIonChange={(event) => { config.productImages.placement = event.detail.value; this.valueChanged() }} >
                 <ion-list-header>
                   <ion-label>Bildplacering</ion-label>
                 </ion-list-header>
@@ -72,7 +84,7 @@ export class LayoutOverlay {
             </ion-list>
             <ion-list>
               <ion-title class="title">Kategorier</ion-title>
-              <ion-radio-group value={config?.categoryImages?.style} onIonChange={(event) => config.categoryImages.style = event.detail.value}>
+              <ion-radio-group value={config?.categoryImages?.style} onIonChange={(event) => { config.categoryImages.style = event.detail.value; this.valueChanged() }}>
                 <ion-list-header>
                   <ion-label>Bildplacering</ion-label>
                 </ion-list-header>
@@ -92,7 +104,7 @@ export class LayoutOverlay {
             </ion-list>
             <ion-list>
               <ion-title class="title">Utseende</ion-title>
-              <ion-radio-group value={config?.menuType} onIonChange={(event) => config.menuType = event.detail.value}>
+              <ion-radio-group value={config?.menuType} onIonChange={(event) => { config.menuType = event.detail.value; this.valueChanged() }}>
                 <ion-list-header>
                   <ion-label>Produkt-layout</ion-label>
                 </ion-list-header>
@@ -113,7 +125,7 @@ export class LayoutOverlay {
           </div>
         </div>
         <div class="footer">
-          <button class='button save' onClick={this.PostData.bind(this)} type="submit">Spara</button>
+          <button disabled={!this.settingsHaveChanged} class={this.settingsHaveChanged ? 'button save' : 'button disabled'} onClick={this.PostData.bind(this)} type="submit">Spara</button>
           <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
 
         </div>

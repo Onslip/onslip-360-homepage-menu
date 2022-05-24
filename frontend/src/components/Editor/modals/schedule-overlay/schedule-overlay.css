@@ -13,6 +13,13 @@ ion-item {
   width: 50%;
 }
 
+.headerContent {
+  padding: 0;
+}
+
+.header {
+  padding-bottom: 0 !important;
+}
 
 .HeaderTable {
   width: 100%;

@@ -188,7 +188,7 @@ export class ScheduleOverlay {
     return (
       <div class="modal">
         <div class="header">
-          <ion-col>
+          <ion-col class='headerContent'>
             <ion-row>
               <ion-title class="title">Schema för plats och meny</ion-title>
             </ion-row>

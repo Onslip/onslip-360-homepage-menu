@@ -118,7 +118,7 @@ export class CropTool {
       let minW: boolean = elmnt.parentElement.clientWidth < 50
       let minH: boolean = elmnt.parentElement.clientHeight < 50
 
-      if (((maxW || maxH) && !(pos1 > 0 || pos2 > 0)) || ((minW || minH) && (pos1 > 0 || pos2 > 0))) {
+      if (((maxW || maxH) && !(pos1 > 0 || pos2 > 0)) || ((minW || minH) && !(pos1 < 0 || pos2 < 0))) {
         pos1 = 0
         pos2 = 0
         if (maxW) {
