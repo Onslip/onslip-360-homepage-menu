@@ -1,4 +1,4 @@
-import { Component, State, Host, h, Element, Prop, Method } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, Method, getAssetPath } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config, Timetable } from '../../utils/utils';
@@ -9,6 +9,7 @@ import { PostData } from '../../utils/post';
   tag: 'menu-editor-component',
   styleUrl: 'menu-editor-component.css',
   shadow: true,
+  assetsDirs: ['../../../assets'],
 })
 export class MenuEditorComponent {
 
@@ -100,10 +101,9 @@ export class MenuEditorComponent {
         try {
           loadImage(DBimages.find(i => i.product_id == p.id).image.data)
             .then(response => p.image = response.toString())
-            .then(() => p.imageLoaded = true)
-            .then(() => this.categories = [...this.categories])
-            .catch(err => err)
         } catch (error) {
+          p.image = getAssetPath(`../../../assets/placeholder.png`)
+        } finally {
           p.imageLoaded = true
           this.categories = [...this.categories]
         }
@@ -117,10 +117,9 @@ export class MenuEditorComponent {
       try {
         loadImage(DBimages.find(i => i.category_id == c.category.id).image.data)
           .then(response => c.category.image = `url(${response?.toString() ?? ''})`)
-          .then(() => c.category.imageLoaded = true)
-          .then(() => this.categories = [...this.categories])
-          .catch(err => err)
       } catch (error) {
+
+      } finally {
         c.category.imageLoaded = true
         this.categories = [...this.categories]
       }

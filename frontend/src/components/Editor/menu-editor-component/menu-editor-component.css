@@ -94,20 +94,6 @@
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
 }
 
-.prodImg {
-  min-height: 80px;
-  border: 1px dashed gray;
-  background-color: rgba(128, 128, 128, 0.3);
-}
-
-.iconLogo {
-  min-width: 80px;
-  max-width: 180px !important;
-  border: 1px dashed hsla(0, 0%, 30%, 0.7);
-  padding: 0;
-  background-color: hsla(0, 0%, 70%, 0.5);
-}
-
 .text {
   font-family: var(--font);
   align-self: flex-start;
@@ -135,7 +121,9 @@ ion-reorder {
 
 .spinner {
   color: var(--primary);
-  transform: translate(50%, 50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
   padding: 5px;
 }
 

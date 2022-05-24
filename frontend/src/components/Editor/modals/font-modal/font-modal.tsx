@@ -18,7 +18,7 @@ export class FontModal {
   @State() buttonpress: boolean = false;
   @State() RenderButton: boolean;
   @State() NewFontName: string;
-  @State() NewFontURL: string;
+  @State() NewFontURL: string = '';
   @State() settingsHaveChanged: boolean = false
   private tempConfig: Styleconfig
 
@@ -232,8 +232,8 @@ export class FontModal {
           <ion-item class='inputRow'>
             <ion-label position='fixed'>URL:</ion-label>
             <ion-input type="text" value={this.NewFontURL} onIonChange={(event: any) => this.NewFontURL = event.target.value}></ion-input>
+            <button slot='end' disabled={this.NewFontURL == ''} type='submit' onClick={() => this.addCustomFont()} class={this.NewFontURL != '' ? 'button add' : 'button disabled'}>Lägg till <ion-icon class='icon' name="add-circle-sharp" /></button>
           </ion-item>
-          <button disabled={this.NewFontURL == ''} type='submit' onClick={() => this.addCustomFont()} class='button add'>Lägg till <ion-icon class='icon' name="add-circle-sharp" /></button>
         </ion-row>
       </ion-col>)
   }
@@ -292,11 +292,11 @@ export class FontModal {
 
           <ion-tabs>
             <ion-tab-bar>
-              <ion-tab-button class={!this.RenderButton ? 'focus' : null} selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
+              <ion-tab-button selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
                 <ion-icon name="text-sharp"></ion-icon>
                 <ion-label>Typsnitt</ion-label>
               </ion-tab-button>
-              <ion-tab-button class={this.RenderButton ? 'focus' : null} selected={this.RenderButton} onClick={() => this.RenderButton = true}>
+              <ion-tab-button selected={this.RenderButton} onClick={() => this.RenderButton = true}>
                 <ion-icon name="color-palette-sharp"></ion-icon>
                 <ion-label>Färger</ion-label>
               </ion-tab-button>

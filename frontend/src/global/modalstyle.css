@@ -66,17 +66,23 @@
   background-color: var(--alert);
 }
 
+.button.add {
+  background-color: var(--warning);
+}
+
 .button.disabled {
   background-color: gray;
   cursor: unset;
 }
 
-.save,
+.add:hover,
+.save:hover,
 .close:hover {
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
 }
 
-.save,
+.add:focus,
+.save:focus,
 .close:focus {
   box-shadow: inset -1px -1px 2px 1px rgba(255, 255, 255, 0.456);
 }
