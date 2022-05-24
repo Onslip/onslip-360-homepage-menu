@@ -4,7 +4,6 @@ import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 
 import Coloris from "@melloware/coloris";
 import { GetData } from '../../../utils/get';
-import { json } from 'stream/consumers';
 Coloris.init()
 
 @Component({
