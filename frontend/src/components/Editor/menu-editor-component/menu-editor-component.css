@@ -90,10 +90,6 @@
   font-size: 70%;
 }
 
-.cardImage {
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
-}
-
 .text {
   font-family: var(--font);
   align-self: flex-start;
@@ -125,6 +121,13 @@ ion-reorder {
   left: 50%;
   transform: translate(-50%, 50%);
   padding: 5px;
+}
+
+.prodImg {
+  min-height: 100px;
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
 }
 
 .productContainer {
