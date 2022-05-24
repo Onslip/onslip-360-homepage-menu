@@ -5,6 +5,11 @@ export interface DBImage {
   product_id: number
 }
 
+export interface DBCatImage {
+  image: any,
+  category_id: number
+}
+
 export interface DBproduct {
   id: number,
   name: string
@@ -115,46 +120,49 @@ export const editorvisual: boolean = false;
 
 export const config: Styleconfig = await getConfig();
 
-
-
-export async function getConfig(): Promise<Styleconfig> {
-  let data: Styleconfig = await GetData(`http://localhost:8080/config`).then(response => response).catch(err => err)
-  if (data.font.fontSize === undefined)
-    return {
-      configId: 1,
-      background: {
-        enabled: false,
-        color: null,
-      },
-      productImages: {
-        style: 'Disabled',
-        placement: 'Left',
-      },
-      categoryImages: {
-        style: 'Disabled'
-      },
-      Logo: false,
-      banner: false,
-      font: {
-        customFonts: [],
-        fontFamily: null,
-        fontWeight: false,
-        fontStyle: false,
-        fontSize: null,
-        fontOutline: false,
-        colors: {
-          categoryTitle: null,
-          productName: null,
-          productPrice: null,
-          productDesc: null,
-        }
-      },
-      menuBackground: null,
-      connect: true,
-      menuInUse: 1,
-      menuType: 'inline'
-    } as Styleconfig
-  else return data
+async function getConfig(): Promise<Styleconfig> {
+  let data: Styleconfig = await GetData(`http://localhost:8080/config`)
+    .then(response => response)
+    .catch(() => {
+      return ({
+        configId: 1,
+        background: {
+          enabled: true,
+          color: 'white',
+        },
+        productImages: {
+          style: 'Disabled',
+          placement: 'Left',
+        },
+        categoryImages: {
+          style: 'Disabled'
+        },
+        Logo: false,
+        banner: false,
+        font: {
+          customFonts: [],
+          fontFamily: 'sans-serif',
+          fontWeight: false,
+          fontStyle: false,
+          fontSize: [
+            3,
+            "clamp(10px, 3vw, 20px)"
+          ],
+          fontOutline: false,
+          colors: {
+            categoryTitle: 'black',
+            productName: 'black',
+            productPrice: 'black',
+            productDesc: 'black',
+          }
+        },
+        menuBackground: 'white',
+        connect: false,
+        menuInUse: 1,
+        menuType: 'inline'
+      })
+    })
+  return data
 }
 
 

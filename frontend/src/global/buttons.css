@@ -1,15 +1,15 @@
 .menu-button {
-    cursor: pointer;
-    overflow: hidden;
-    white-space: nowrap;
-    line-height: 1;
-    padding: 15px 5px;
-    transition: all .2s, box-shadow .08s ease-in;
-    touch-action: manipulation;
-    width: 160px;
-    text-overflow: ellipsis;
-    display: block;
-    padding-right: 35px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1;
+  padding: 15px 5px;
+  transition: all .2s, box-shadow .08s ease-in;
+  touch-action: manipulation;
+  width: 160px;
+  text-overflow: ellipsis;
+  display: block;
+  padding-right: 35px;
 }
 
 .menu-button .icon {
@@ -18,55 +18,60 @@
 }
 
 .menu-button:hover {
-    background-color: var(--primary);
+  background-color: var(--primary);
 }
 
 .uploadButton {
+  padding: 5px;
   font-family: var(--globalfont);
-  display: flex;
-  justify-content: center;
   text-align: center;
-  font-size: small;
-  color: white;
-  background-color: var(--primary);
+  font-size: 130%;
+  color: hsla(0, 0%, 95%);
+  background-color: hsla(0, 0%, 70%, 0.9);
+  border-radius: 5px;
   font-weight: normal;
   font-style: normal;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .uploadButton.banner {
+  left: unset;
   position: absolute;
   top: 50%;
-  left: 20px;
-  padding: 8px 10px;
-  transform: translate(0, -50%)
+  right: 20px;
+  padding: 5px;
+  transform: translate(0, -50%);
 }
 
 .uploadButton:hover {
-  background-color: var(--secondary);
+  color: var(--primary);
 }
 
 .toggle {
-    width: 100%;
-    padding: 0 5px;
-    --overflow: visible;
-    --background: transparent;
-    --color: white;
-    --border-style: none;
-    --inner-padding-end: 0;
-    --padding-start: 0;
-    --min-height: 0;
+  width: 100%;
+  padding: 0 5px;
+  --overflow: visible;
+  --background: transparent;
+  --color: white;
+  --border-style: none;
+  --inner-padding-end: 0;
+  --padding-start: 0;
+  --min-height: 0;
 }
 
 .toggle>ion-toggle {
-    --background: var(--faded);
-    --background-checked: var(--primary);
-    --handle-background: white;
-    --handle-background-checked: white;
-    --border-radius: 5px;
-    --handle-border-radius: 5px;
-    --handle-width: 15px;
-    --handle-spacing: 0px;
-    --handle-height: 100%;
-    --width: auto;
-    height: 20px;
+  --background: var(--faded);
+  --background-checked: var(--primary);
+  --handle-background: white;
+  --handle-background-checked: white;
+  --border-radius: 5px;
+  --handle-border-radius: 5px;
+  --handle-width: 15px;
+  --handle-spacing: 0px;
+  --handle-height: 100%;
+  --width: auto;
+  height: 20px;
 }

@@ -1,5 +1,5 @@
 import { Component, State, Host, h, Element, Prop, Method } from '@stencil/core';
-import { categorywithproduct, DBConnection, DBImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
+import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config, Timetable } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
@@ -58,6 +58,22 @@ export class MenuEditorComponent {
         this.loading = false
         config.connect = false
       });
+  }
+
+  componentDidRender() {
+    this.setProperties()
+  }
+
+  setProperties() {
+    document.documentElement.style.setProperty('--prodTitle', config?.font.colors.categoryTitle)
+    document.documentElement.style.setProperty('--prodName', config?.font.colors.productName)
+    document.documentElement.style.setProperty('--prodDesc', config?.font.colors.productDesc)
+    document.documentElement.style.setProperty('--prodPrice', config?.font.colors.productPrice)
+    document.documentElement.style.setProperty('--menuBackground', config?.menuBackground)
+
+    if (config.background.enabled) {
+      document.documentElement.style.setProperty('--backgroundColor', config?.background.color)
+    }
   }
 
   async getCatImages() {
@@ -149,43 +165,48 @@ export class MenuEditorComponent {
   renderProducts(products?: DBproduct[]) {
     return (products?.map(x =>
       <div class='productContainer'>
-        <ion-col hidden={config.productImages.placement === 'Right' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
+        <ion-col hidden={config.productImages.placement == 'Right' || config.productImages.style == 'Disabled'} class='iconLogo' size='3'>
           <div>
             {
               !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                ]
+                :
+                <div class="prodImg">
+                  <ion-img src={x.image} ></ion-img>
+                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
+                </div>
             }
           </div>
         </ion-col>
         <ion-col class='text'>
           <ion-row>
             <ion-col>
-              <div style={{ color: config.font.colors.productName }} class="productName">{x?.name}</div>
+              <div class="productName">{x?.name}</div>
             </ion-col>
             <ion-col>
-              <div style={{ color: config.font.colors.productPrice }} class="productPrice">{x?.price}kr</div>
+              <div class="productPrice">{x?.price}kr</div>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <div style={{ color: config.font.colors.productDesc }} class="productDesc">{x?.description}</div>
+              <div class="productDesc">{x?.description}</div>
             </ion-col>
           </ion-row>
         </ion-col>
-        <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style === 'Disabled'} class='iconLogo' size='3'>
+        <ion-col hidden={config.productImages.placement == 'Left' || config.productImages.style == 'Disabled'} class='iconLogo' size='3'>
           <div>
             {
               !x.imageLoaded ?
                 <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.3} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                ]
+                :
+                <div class="prodImg">
+                  <ion-img src={x.image} ></ion-img>
+                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
+                </div>
             }
           </div>
         </ion-col>
+
       </div>
     ))
   }
@@ -195,20 +216,24 @@ export class MenuEditorComponent {
       <ion-row class='products'>
         {(products?.map(x =>
           <ion-card class={"product"} id='scroll-container'>
-            {
-              !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
-                <ion-spinner class="spinner"></ion-spinner>
-                : [<ion-img src={x.image} ></ion-img>,
-                <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
-                ]
-            }
+            <div class='cardImage'>
+              {
+                !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                  <ion-spinner class="spinner"></ion-spinner>
+                  :
+                  <div class='prodImg'>
+                    <ion-img src={x.image} ></ion-img>
+                    <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} iconName='share-sharp' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                  </div>
+              }
+            </div>
             <div class="card-text">
               <ion-card-header>
-                <div style={{ color: config.font.colors.productName }} class='card productName'>{x.name}</div>
-                <div style={{ color: config.font.colors.productDesc }} class='card productDesc'>{x.description}</div>
+                <div class='card productName'>{x.name}</div>
+                <div class='card productDesc'>{x.description}</div>
               </ion-card-header>
-              <ion-card-content>
-                <div style={{ color: config.font.colors.productPrice }} class='card productPrice'>{x.price} sek</div>
+              <ion-card-content class='productContent'>
+                <div class='card productPrice'>{x.price} sek</div>
               </ion-card-content>
             </div>
           </ion-card>))}
@@ -226,7 +251,7 @@ export class MenuEditorComponent {
               return (
                 <div class={this.toggle ? 'paper-section' : 'paper-section categoryToggled'}>
                   <div>
-                    <ion-title style={{ color: config?.font?.colors.categoryTitle }} class='categoryTitle'>
+                    <ion-title class='categoryTitle'>
                       {data?.category?.name}
                       <ion-reorder hidden={this.toggle}>
                         <ion-icon name="reorder-three-sharp"></ion-icon>
@@ -239,12 +264,12 @@ export class MenuEditorComponent {
                         <ion-row>
                           <ion-col>
                             <ion-row>
-                              <div style={{ color: config?.font?.colors.productName }} class='productName'>{x.name}</div>
+                              <div class='productName'>{x.name}</div>
                               <ion-col class="separator"></ion-col>
-                              <div style={{ color: config?.font?.colors.productPrice }} class='productPrice'>{x.price} sek</div>
+                              <div class='productPrice'>{x.price} sek</div>
                             </ion-row>
                             <ion-row>
-                              <div style={{ color: config?.font?.colors.productDesc }} class='productDesc'>{x.description}</div>
+                              <div class='productDesc'>{x.description}</div>
                             </ion-row>
                           </ion-col>
                         </ion-row>
@@ -280,10 +305,10 @@ export class MenuEditorComponent {
                         <ion-card class='content' data-status={config?.categoryImages?.style}>
                           <div>
                             <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                              <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} style={{ color: config?.font?.colors.categoryTitle }} data-status={config?.categoryImages?.style}>
+                              <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} data-status={config?.categoryImages?.style}>
                                 {
                                   config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} buttonValue='Välj bild...' RenderType='image' ImagePosition='Category' ></modal-ovelay>
+                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} iconName='share-sharp' RenderType='image' ImagePosition='Category' ></modal-ovelay>
                                     : null
                                 }
                                 {data?.category?.name}
@@ -312,15 +337,4 @@ export class MenuEditorComponent {
       </Host>
     )
   }
-}
-
-export interface image {
-  id: number,
-  image: string
-}
-
-
-interface DBCatImage {
-  image: any,
-  category_id: number
 }

@@ -13,8 +13,7 @@
   font-family: var(--font);
   font-weight: var(--fontWeight);
   font-style: var(--fontStyle);
-  /* background-color: var(--menuBackground); */
-  background-color: transparent;
+  background-color: var(--menuBackground);
 }
 
 .logoDiv {

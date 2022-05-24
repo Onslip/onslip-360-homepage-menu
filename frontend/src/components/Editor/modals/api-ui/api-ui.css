@@ -2,6 +2,7 @@
   display: block;
   height: 100%;
 }
+
 @import url("../../../../global/modalstyle.css");
 
 .error {
@@ -11,10 +12,7 @@
   margin: 0;
 }
 
-.title {
-  margin: 15px 0;
-  padding: 0;
-}
+.title {}
 
 ion-item {
   --highlight-color-focused: var(--primary);

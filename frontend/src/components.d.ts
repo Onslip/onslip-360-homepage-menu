@@ -11,8 +11,6 @@ export namespace Components {
     }
     interface AppRoot {
     }
-    interface ContentComponent {
-    }
     interface CropTool {
         "AspectRatio": number;
         "CategoryId": number;
@@ -93,12 +91,6 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
-    interface HTMLContentComponentElement extends Components.ContentComponent, HTMLStencilElement {
-    }
-    var HTMLContentComponentElement: {
-        prototype: HTMLContentComponentElement;
-        new (): HTMLContentComponentElement;
-    };
     interface HTMLCropToolElement extends Components.CropTool, HTMLStencilElement {
     }
     var HTMLCropToolElement: {
@@ -174,7 +166,6 @@ declare global {
     interface HTMLElementTagNameMap {
         "api-ui": HTMLApiUiElement;
         "app-root": HTMLAppRootElement;
-        "content-component": HTMLContentComponentElement;
         "crop-tool": HTMLCropToolElement;
         "font-modal": HTMLFontModalElement;
         "homepage-menu-component": HTMLHomepageMenuComponentElement;
@@ -193,8 +184,6 @@ declare namespace LocalJSX {
     interface ApiUi {
     }
     interface AppRoot {
-    }
-    interface ContentComponent {
     }
     interface CropTool {
         "AspectRatio"?: number;
@@ -255,7 +244,6 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "api-ui": ApiUi;
         "app-root": AppRoot;
-        "content-component": ContentComponent;
         "crop-tool": CropTool;
         "font-modal": FontModal;
         "homepage-menu-component": HomepageMenuComponent;
@@ -276,7 +264,6 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "api-ui": LocalJSX.ApiUi & JSXBase.HTMLAttributes<HTMLApiUiElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
-            "content-component": LocalJSX.ContentComponent & JSXBase.HTMLAttributes<HTMLContentComponentElement>;
             "crop-tool": LocalJSX.CropTool & JSXBase.HTMLAttributes<HTMLCropToolElement>;
             "font-modal": LocalJSX.FontModal & JSXBase.HTMLAttributes<HTMLFontModalElement>;
             "homepage-menu-component": LocalJSX.HomepageMenuComponent & JSXBase.HTMLAttributes<HTMLHomepageMenuComponentElement>;

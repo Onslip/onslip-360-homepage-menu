@@ -2,10 +2,14 @@ import { Component, h, Element, State } from '@stencil/core';
 import { PostData } from '../../../utils/post';
 import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 
+import Coloris from "@melloware/coloris";
+import { GetData } from '../../../utils/get';
+Coloris.init()
+
 @Component({
   tag: 'font-modal',
   styleUrl: 'font-modal.css',
-  shadow: true,
+  shadow: false,
 })
 export class FontModal {
   @Element() element: HTMLElement;
@@ -15,7 +19,40 @@ export class FontModal {
   @State() RenderButton: boolean;
   @State() NewFontName: string;
   @State() NewFontURL: string;
-  @State() tempConf?: Styleconfig = config ?? null;
+  @State() settingsHaveChanged: boolean = false
+  private tempConfig: Styleconfig
+
+  async componentWillLoad() {
+    this.tempConfig = await GetData('http://localhost:8080/config')
+  }
+
+  componentDidRender() {
+    Coloris({
+      el: '.coloris',
+      wrap: true,
+      swatches: [
+        '#000000',
+        '#0000FF',
+        '#808080',
+        '#008000',
+        '#800080',
+        '#FF0000',
+        '#FFFFFF',
+        '#F0F8FF',
+        '#FF7F50',
+        '#B22222',
+        '#FF69B4',
+        '#FFFACD'
+      ],
+    })
+    Coloris.close()
+  }
+
+  valueChanged() {
+    JSON.stringify(this.tempConfig) === JSON.stringify(config) ?
+      this.settingsHaveChanged = false :
+      this.settingsHaveChanged = true
+  }
 
   async close() {
     await customElements.whenDefined('ion-modal')
@@ -24,22 +61,34 @@ export class FontModal {
   }
 
   async PostData() {
-    this.setGlobalValues();
-    await PostData('http://localhost:8080/config', this.tempConf).then(() => this.close())
+    if (this.settingsHaveChanged) {
+      this.setGlobalValues();
+      await PostData('http://localhost:8080/config', config).then(() => this.close())
+    }
   }
 
   setGlobalValues() {
-    document.documentElement.style.setProperty('--font', this.tempConf.font.fontFamily)
-    document.documentElement.style.setProperty('--fontSize', this.tempConf?.font.fontSize[1])
-    document.documentElement.style.setProperty('--menuBackground', this.tempConf?.menuBackground)
-    if (this.tempConf.font.fontStyle == true) {
+    document.documentElement.style.setProperty('--font', config.font.fontFamily)
+    document.documentElement.style.setProperty('--fontSize', config.font.fontSize[1])
+    document.documentElement.style.setProperty('--menuBackground', config.menuBackground)
+    if (config.background.enabled) {
+      document.documentElement.querySelector('body').style.backgroundImage = 'unset'
+      document.documentElement.style.setProperty('--backgroundColor', config.background.color)
+    }
+
+    document.documentElement.style.setProperty('--prodTitle', config.font.colors.categoryTitle)
+    document.documentElement.style.setProperty('--prodName', config.font.colors.productName)
+    document.documentElement.style.setProperty('--prodDesc', config.font.colors.productDesc)
+    document.documentElement.style.setProperty('--prodPrice', config.font.colors.productPrice)
+
+    if (config.font.fontStyle == true) {
       document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
     else {
       document.documentElement.style.setProperty('--fontStyle', 'normal')
 
     }
-    if (this.tempConf.font.fontWeight == true) {
+    if (config.font.fontWeight == true) {
       document.documentElement.style.setProperty('--fontWeight', 'bold')
     }
     else {
@@ -52,90 +101,91 @@ export class FontModal {
   };
 
   changeFont(ev) {
-    this.tempConf.font.fontFamily = ev.target.value;
-    this.element.style.setProperty('--tempFont', this.tempConf.font.fontFamily)
+    config.font.fontFamily = ev.target.value;
+    this.element.style.setProperty('--tempFont', config.font.fontFamily)
+    this.valueChanged()
   }
 
   changeFontSize(ev) {
-    this.tempConf.font.fontSize = fontSize.find(x => x[0] == ev.target.value)
-    this.element.style.setProperty('--tempSize', this.tempConf.font.fontSize[1])
+    config.font.fontSize = fontSize.find(x => x[0] == ev.target.value)
+    this.element.style.setProperty('--tempSize', config.font.fontSize[1])
+    this.valueChanged()
   }
 
   setFontWeight() {
-    if (this.tempConf.font.fontWeight == false) {
-      this.buttonPressed = true;
-      this.tempConf.font.fontWeight = true;
-      this.element.style.setProperty('--fontWeight', 'bold')
-    }
-    else if (this.tempConf.font.fontWeight == true) {
-      this.buttonPressed = false;
-      this.tempConf.font.fontWeight = false;
-      this.element.style.setProperty('--fontWeight', 'normal')
-    }
+    this.buttonPressed = !this.buttonPressed;
+    config.font.fontWeight = !config.font.fontWeight;
+    config.font.fontWeight ?
+      this.element.style.setProperty('--tempWeight', 'bold') :
+      this.element.style.setProperty('--tempWeight', 'normal')
+    this.valueChanged()
   }
 
   setItalic() {
-    if (this.tempConf.font.fontStyle == false) {
-      this.butpress = true;
-      this.tempConf.font.fontStyle = true;
-      this.element.style.setProperty('--fontStyle', 'italic')
-    }
-    else if (this.tempConf.font.fontStyle == true) {
-      this.butpress = false;
-      this.tempConf.font.fontStyle = false;
-      this.element.style.setProperty('--fontStyle', 'normal')
-    }
+    this.butpress = !this.butpress
+    config.font.fontStyle = !config.font.fontStyle;
+    config.font.fontStyle ?
+      this.element.style.setProperty('--tempStyle', 'italic') :
+      this.element.style.setProperty('--tempStyle', 'normal')
+    this.valueChanged()
   }
 
   changeColor(element, ev) {
     switch (element) {
       case ".categoryTitle":
-        this.tempConf.font.colors.categoryTitle = ev.target.value
+        config.font.colors.categoryTitle = ev.target.value
         break;
       case ".productName":
-        this.tempConf.font.colors.productName = ev.target.value
+        config.font.colors.productName = ev.target.value
         break;
       case ".productDesc":
-        this.tempConf.font.colors.productDesc = ev.target.value
+        config.font.colors.productDesc = ev.target.value
         break;
       case ".productPrice":
-        this.tempConf.font.colors.productPrice = ev.target.value
+        config.font.colors.productPrice = ev.target.value
         break;
       default:
         break;
     }
-    this.element.shadowRoot.querySelector(element).style.color = ev.target.value
+    this.element.querySelector(element).style.color = ev.target.value
+    this.valueChanged()
   }
 
-  changeBackgroundColor(element, ev) {
-    this.tempConf.menuBackground = ev.target.value
-    this.element.shadowRoot.querySelector(element).style.background = ev.target.value
+  changeMenuBackgroundColor(ev) {
+    config.menuBackground = ev.target.value
+    this.element.style.setProperty('--tempColor', ev.target.value);
+    this.valueChanged()
+  }
+
+  changeBackgroundColor(ev) {
+    config.background.color = ev.target.value
+    config.background.enabled = true
+    this.element.style.setProperty('--tempBackground', ev.target.value);
+    this.valueChanged()
   }
 
   addCustomFont() {
     const regex = new RegExp(/(?<=\bfamily=)(.*?)(?=\b[:|$|&|@])/, 'g')
-    console.log(regex)
     const nameArray = this.NewFontURL.match(regex)
     if (nameArray !== null) {
       const fontNames = nameArray.map(name => name.replace('+', ' '))
 
-      if (this.tempConf.font.customFonts === undefined) {
-        this.tempConf.font.customFonts = []
+      if (config.font.customFonts === undefined) {
+        config.font.customFonts = []
       }
-      this.tempConf.font.customFonts.forEach(c =>
+      config.font.customFonts.forEach(c =>
         c.names.forEach(n => {
-          const element = this.tempConf.font.customFonts
+          const element = config.font.customFonts
           if (fontNames.includes(n)) {
             element.splice(element.indexOf(c), 1)
           }
         }))
-      this.tempConf.font.customFonts.push({ names: fontNames, fontUrl: this.NewFontURL })
+      config.font.customFonts.push({ names: fontNames, fontUrl: this.NewFontURL })
       var link = document.createElement('link');
       link.setAttribute('href', this.NewFontURL);
       document.head.appendChild(link);
     }
     this.NewFontURL = ''
-    // document.documentElement.style.setProperty('--tempFont', `'${result}'`)
 
     // https://fonts.googleapis.com/css2?family=Macondo&display=swap
     // https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap
@@ -149,7 +199,7 @@ export class FontModal {
 
           <ion-item class='slider'>
             <ion-label>Textstorlek:</ion-label>
-            <ion-range min={1} max={5} step={1} value={this?.tempConf?.font?.fontSize != undefined ? this?.tempConf?.font?.fontSize[0] : 3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
+            <ion-range min={1} max={5} step={1} value={config.font?.fontSize != undefined ? config.font?.fontSize[0] : 3} snaps={true} onIonChange={(event: any) => this.changeFontSize(event)}>
               <p class='small' slot='start'>A</p>
               <p class='big' slot='end'>A</p>
             </ion-range>
@@ -158,9 +208,9 @@ export class FontModal {
         <ion-row class='settings'>
           <ion-item class='row'>
             <ion-label>Typsnitt:</ion-label>
-            <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={this.tempConf.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
+            <ion-select onIonChange={(event: any) => this.changeFont(event)} class="select" interface='popover' placeholder='Välj' value={config.font.fontFamily} interfaceOptions={this.customPopoverOptions}>
               {Fonts.map(x => <ion-select-option value={x} style={{ fontFamily: x }}>{x}</ion-select-option>)}
-              {this.tempConf.font.customFonts.flatMap(x => {
+              {config.font.customFonts.flatMap(x => {
                 return (
                   x.names.map(n => {
                     return (
@@ -194,40 +244,40 @@ export class FontModal {
         <ion-row>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked'>Kategorititel:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.categoryTitle} onChange={(event: any) => this.changeColor('.categoryTitle', event)} />
+              <ion-label position='stacked'>Titel</ion-label>
+              <input type='text' class='coloris' value={config.font.colors.categoryTitle} onInput={(event: any) => this.changeColor('.categoryTitle', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked'>Produktnamn:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.productName} onChange={(event: any) => this.changeColor('.productName', event)} />
+              <ion-label position='stacked'>Namn</ion-label>
+              <input type='text' class='coloris' value={config.font.colors.productName} onInput={(event: any) => this.changeColor('.productName', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked'>Produktbeskrivning:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.productDesc} onChange={(event: any) => this.changeColor('.productDesc', event)} />
+              <ion-label position='stacked'>Beskrivning</ion-label>
+              <input type='text' class='coloris' value={config.font.colors.productDesc} onInput={(event: any) => this.changeColor('.productDesc', event)} />
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked' >Produktpris:</ion-label>
-              <input type='color' value={this.tempConf.font.colors.productPrice} onChange={(event: any) => this.changeColor('.productPrice', event)} />
+              <ion-label position='stacked'>Pris</ion-label>
+              <input type='text' class='coloris' value={config.font.colors.productPrice} onInput={(event: any) => this.changeColor('.productPrice', event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked' >Menyfärg:</ion-label>
-              <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+              <ion-label position='stacked' >Menyfärg</ion-label>
+              <input type='text' class='coloris' value={config.menuBackground} onInput={(event: any) => this.changeMenuBackgroundColor(event)} />
             </ion-item>
           </ion-col>
           <ion-col class='col'>
             <ion-item class='picker' lines='none'>
-              <ion-label position='stacked' >Bakgrundsfärg:</ion-label>
-              <input type='color' value={this.tempConf.menuBackground} onChange={(event: any) => this.changeBackgroundColor('.exampleDiv', event)} />
+              <ion-label position='stacked' >Bakgrundsfärg</ion-label>
+              <input type='text' class='coloris' value={config.background.color} onInput={(event: any) => this.changeBackgroundColor(event)} />
             </ion-item>
           </ion-col>
         </ion-row>
@@ -239,6 +289,7 @@ export class FontModal {
     return (
       <div class="modal">
         <div class="header">
+
           <ion-tabs>
             <ion-tab-bar>
               <ion-tab-button class={!this.RenderButton ? 'focus' : null} selected={!this.RenderButton} onClick={() => this.RenderButton = false}>
@@ -257,35 +308,37 @@ export class FontModal {
             {
               this.RenderButton ? this.renderColors() : this.renderFonts()
             }
-            <div class='exampleDiv' style={{ color: this.tempConf.menuBackground }}>
-              <ion-card class='card'>
-                <ion-card-header>
-                  <ion-card-title class='categoryTitle' style={{ color: this.tempConf.font.colors.categoryTitle }}>Kategori-titel exempel</ion-card-title>
-                </ion-card-header>
-                <ion-card-content >
-                  <div class='product'>
-                    <ion-row>
-                      <ion-col class='font'>
-                        <div class="productName" style={{ color: this.tempConf.font.colors.productName }}>Produkt-titel exempel</div>
-                      </ion-col>
-                      <ion-col class='font'>
-                        <div class="productPrice" style={{ color: this.tempConf.font.colors.productPrice }}>$123</div>
-                      </ion-col>
-                    </ion-row>
-                    <ion-row>
-                      <ion-col class='font'>
-                        <div class="productDesc" style={{ color: this.tempConf.font.colors.productDesc }}>Det här är ett exempel på hur en produktbeskrivning kan se ut!</div>
-                      </ion-col>
-                    </ion-row>
-                  </div>
-                </ion-card-content>
+            <div class='container'>
+              <div class='exampleDiv'>
+                <ion-card class='card'>
+                  <ion-card-header>
+                    <ion-card-title class='categoryTitle'>Kategori-titel exempel</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content >
+                    <div class='product'>
+                      <ion-row>
+                        <ion-col class='font'>
+                          <div class="productName">Produkt-titel exempel</div>
+                        </ion-col>
+                        <ion-col class='font'>
+                          <div class="productPrice">$123</div>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col class='font'>
+                          <div class="productDesc">Det här är ett exempel på hur en produktbeskrivning kan se ut!</div>
+                        </ion-col>
+                      </ion-row>
+                    </div>
+                  </ion-card-content>
 
-              </ion-card>
+                </ion-card>
+              </div>
             </div>
           </div>
         </div>
         <div class="footer">
-          <button class='button save' onClick={this.PostData.bind(this)} type="submit">Spara</button>
+          <button disabled={!this.settingsHaveChanged} class={this.settingsHaveChanged ? 'button save' : 'button disabled'} onClick={this.PostData.bind(this)} type="submit">Spara</button>
           <button class='button close' type="submit" value="Submit" onClick={() => { this.close() }}>Avbryt</button>
         </div>
       </div >
