@@ -61,7 +61,16 @@ export class DHMService {
                     return args.body();
                 }
             },
+            class implements WebResource {
+                static path = /deleteimage/;
 
+                async POST(args: WebArguments) {
+                    const data = await args.body();
+                    await svc.db.query<DBQuery[]>`delete from onslip.productimages where product_id = ${data}`;
+                    return data;
+                }
+            }
+                ,
             class implements WebResource {
                 static path = /mainconfig/;
                 async GET() {

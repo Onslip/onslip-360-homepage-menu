@@ -1,4 +1,4 @@
-import { DatabaseURI } from "@divine/uri";
+import { DatabaseURI, DBQuery, URI } from "@divine/uri";
 import { API } from "@onslip/onslip-360-node-api";
 import { categorywithproduct, DBcategory, DBproduct, Junction, MainConfig, Menu, MenuWithCategory, Timetable } from "./interfaces";
 
@@ -51,25 +51,25 @@ export async function GetProdFromApi(api: API): Promise<MenuWithCategory[]> {
 export async function GetProdByGroup(db: DatabaseURI): Promise<MenuWithCategory[]> {
     // const mainConf: MainConfig = await new URI('./configs/main.json').load()
 
-    // const jointTables:DBJointTable[] = await db.query<DBJointTable[]>`
+    // const jointTables = await db.query<DBQuery[]>`
     // SELECT menu.id as menuId, menu.name as menuName, productcategories.id as categoryId, productcategories.name as categoryName, productcategories.position, products.id, products.name, products.description, products.price, grouptoproduct.productposition
     // FROM onslip.menu
     // LEFT JOIN onslip.productcategories ON onslip.productcategories.menu_id = onslip.menu.id
     // LEFT JOIN onslip.grouptoproduct ON onslip.grouptoproduct.category_id = onslip.productcategories.id
-    // LEFT JOIN onslip.products ON onslip.products.id = onslip.grouptoproduct.product_id
-    // WHERE onslip.menu.id = ${mainConf.selectedMenu ?? 0}`
+    // LEFT JOIN onslip.products ON onslip.products.id = onslip.grouptoproduct.product_id order by grouptoproduct.productposition`
 
     // jointTables.forEach(jT => {
     //     jT.categoryid = Number(jT.categoryid)
     //     jT.menuid = Number(jT.menuid)
-    //     jT.id = Number(jT.id)
+    //     jT.id = Number(jT.id)Vrålstark Lättöl
+
     //     jT.position = Number(jT.position)
     //     jT.productposition = Number(jT.productposition)
     // })
     // jointTables.sort((a, b) => a.productposition - b.productposition)
     // jointTables.sort((a, b) => a.position - b.position)
 
-    // console.log(jointTables)
+
 
     const menu = await db.query<Menu[]>`select * from onslip.menu`;
     const categories = await db.query<DBcategory[]>`select * from onslip.productcategories`;
@@ -118,5 +118,4 @@ export async function GetProdByGroup(db: DatabaseURI): Promise<MenuWithCategory[
     }) as MenuWithCategory[]
 
     return SelectedMenu;
-
 }
