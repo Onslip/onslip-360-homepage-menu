@@ -76,7 +76,7 @@ export class MenuEditorComponent {
     }
   }
 
-  getCatImages() {
+  async getCatImages() {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })

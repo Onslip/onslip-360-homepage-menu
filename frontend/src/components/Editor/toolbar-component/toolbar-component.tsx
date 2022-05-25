@@ -116,16 +116,16 @@ export class ToolbarComponent {
               ]
                 : null}
               <ion-row>
-                <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
+                <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button' iconName='calendar-sharp'></modal-ovelay>
+              </ion-row>
+              <ion-row>
+                <modal-ovelay RenderType='font-modal' buttonValue='Typsnitt och Färger' buttonClass='menu-button' iconName='color-palette-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
                 <modal-ovelay RenderType='layout-overlay' buttonValue='Layout och placering' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button' iconName='calendar-sharp'></modal-ovelay>
-              </ion-row>
-              <ion-row>
-                <modal-ovelay RenderType='font-modal' buttonValue='Typsnitt och Färger' buttonClass='menu-button' iconName='color-palette-sharp'></modal-ovelay>
+                <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
             </ion-col>
             {DBConnection?.DatabaseConnected ? [
