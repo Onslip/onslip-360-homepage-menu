@@ -6,6 +6,10 @@
 
 @import url("../../../../global/modalstyle.css");
 
+.icon {
+  vertical-align: middle;
+}
+
 .modal .body .content {
   display: flex;
   justify-content: center;

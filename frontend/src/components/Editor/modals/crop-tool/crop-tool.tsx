@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Element, getAssetPath } from '@stencil/core';
 import { PostImage } from '../../../utils/post';
 import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
 
@@ -6,6 +6,7 @@ import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
   tag: 'crop-tool',
   styleUrls: ['crop-tool.css'],
   shadow: true,
+  assetsDirs: ['../../../assets'],
 })
 export class CropTool {
   @Element() element: HTMLElement;
@@ -14,9 +15,9 @@ export class CropTool {
   @Prop() AspectRatio: number;
   @Prop() MaxWidth: number;
   @Prop() TargetId: number
-  @Prop() imageFile: File;
   @Prop() ImagePosition;
   @Prop() CategoryId: number;
+  private imageFile: File;
   private img: HTMLImageElement = new Image();
   private scale: number;
   private renderedWidth: number = 550
@@ -27,10 +28,17 @@ export class CropTool {
   }
 
   LoadImage() {
-    const reader = new FileReader();
-    reader.readAsDataURL(this.imageFile[0]);
-    reader.onload = () => {
-      this.img.src = reader.result.toString();
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.imageFile[0]);
+      reader.onload = () => {
+        this.img.src = reader.result.toString();
+        this.img.onload = () => {
+          this.CreateCanvas();
+        }
+      }
+    } catch {
+      this.img.src = getAssetPath(`../../../assets/placeholder.png`)
       this.img.onload = () => {
         this.CreateCanvas();
       }
@@ -219,7 +227,18 @@ export class CropTool {
       <Host>
         <div class="modal">
           <div class="header">
-            <h4>Redigera bild</h4>
+            <ion-item lines='none'>
+              <h4>Redigera bild</h4>
+              <div slot='end'>
+                <ion-item lines='none'>
+                  <label class='button add'>
+                    Ladda upp bild <ion-icon class='icon' name="add-circle-sharp" />
+                    <input hidden type="file" onChange={(event: any) => { this.imageFile = event.target.files; this.LoadImage() }} />
+                  </label>
+                  <button class='button close' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Radera bild <ion-icon class='icon' name="remove-circle-sharp" /></button>
+                </ion-item>
+              </div>
+            </ion-item>
           </div>
           <div class="body">
             <div class="content">
