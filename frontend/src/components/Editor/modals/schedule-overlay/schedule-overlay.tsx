@@ -1,7 +1,7 @@
 import { Component, h, State, Element } from '@stencil/core';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
-import { MenuWithCategory, location, mainConfig, Timetable, locationsAndMenu } from '../../../utils/utils';
+import { location, mainConfig, Timetable, locationsAndMenu } from '../../../utils/utils';
 
 @Component({
   tag: 'schedule-overlay',

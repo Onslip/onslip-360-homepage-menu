@@ -1,7 +1,6 @@
-import { DatabaseURI, DBQuery, URI } from "@divine/uri";
-import { API, jsonType } from "@onslip/onslip-360-node-api";
-import { join } from "path";
-import { categorywithproduct, DBcategory, DBJointTables, DBproduct, Junction, MainConfig, Menu, MenuWithCategory, Timetable } from "./interfaces";
+import { DatabaseURI } from "@divine/uri";
+import { API } from "@onslip/onslip-360-node-api";
+import { categorywithproduct,  DBJointTables, DBproduct, MenuWithCategory } from "./interfaces";
 
 export async function GetProdFromApi(api: API, menuId: number): Promise<MenuWithCategory> {
     const categorybuttonamp = (await api.listButtonMaps()).filter(c => c.type == 'menu-section');
@@ -83,7 +82,6 @@ export async function GetProdByGroup(db: DatabaseURI, menuId: number): Promise<M
             })
         }).sort((a, b) => a.category.position - b.category.position)
     }
-
 
     const uniqueChars: categorywithproduct[] = [];
     sortedtable.categories?.forEach((c) => {

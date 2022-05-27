@@ -106,9 +106,6 @@ export class ToolbarComponent {
                 <ion-row>
                   <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
                 </ion-row>,
-                // <ion-row>
-                //   <modal-ovelay url={this.url3} ImagePosition='Logo' RenderType='image' buttonValue='Ändra logo' buttonClass='menu-button' MaxWidth={300} AspectRatio={1.5} format="image/png" iconName='image-sharp'></modal-ovelay>
-                // </ion-row>
                 <label class='menu-button'>Byt logo <ion-icon class='icon' name='image-sharp'></ion-icon>
                   <input type='file' onChange={(event: any) => this.changeLogo(event.target.files)} hidden></input>
                 </label>,
