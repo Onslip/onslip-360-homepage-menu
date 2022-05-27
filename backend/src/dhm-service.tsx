@@ -211,8 +211,14 @@ export class DHMService {
             class implements WebResource {
                 static path = /product-image/;
 
-                async GET() {
-                    const data = await svc.db.query<DBImage[]>`select * from onslip.productimages`;
+                async GET(args: WebArguments) {
+                    const id = args.string('?id', undefined)
+                    let data: DBImage[]
+                    if (id != undefined) {
+                        data = await svc.db.query<DBImage[]>`select * from onslip.productimages where product_id=${Number(id)}`
+                    } else {
+                        data = await svc.db.query<DBImage[]>`select * from onslip.productimages`
+                    }
                     const list: DBImage[] = data.map(x => ({
                         product_id: Number(x.product_id),
                         image: x.image
@@ -236,13 +242,24 @@ export class DHMService {
                     }
                     return data;
                 }
+
+                async DELETE(args: WebArguments) {
+                    const data = await args.body();
+                    await svc.db.query<DBQuery[]>`delete from onslip.productimages where product_id = ${Number(data)}`;
+                    return data;
+                }
             },
             class implements WebResource {
                 static path = /category-image/;
-                async GET() {
-                    const data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`;
+                async GET(args: WebArguments) {
+                    const id = args.string('?id', undefined)
+                    let data: DBCatImage[]
+                    if (id != undefined) {
+                        data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages where category_id=${Number(id)}`
+                    } else {
+                        data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`
+                    }
                     const list: DBCatImage[] = data.map(x => ({
-
                         image: x.image,
                         category_id: Number(x.category_id)
                     }))
@@ -262,6 +279,12 @@ export class DHMService {
                     else {
                         await svc.db.query<DBQuery[]>`update onslip.categoryimages set (image) = (${dataBuffer}) where category_id = ${id}`;
                     }
+                    return data;
+                }
+
+                async DELETE(args: WebArguments) {
+                    const data = await args.body();
+                    await svc.db.query<DBQuery[]>`delete from onslip.categoryimages where category_id = ${Number(data)}`;
                     return data;
                 }
             }

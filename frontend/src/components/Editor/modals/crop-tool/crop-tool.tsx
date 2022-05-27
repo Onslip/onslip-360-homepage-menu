@@ -1,6 +1,9 @@
 import { Component, Host, h, Prop, Element, getAssetPath } from '@stencil/core';
 import { PostImage } from '../../../utils/post';
 import { LoadBackground, LoadBanner, LoadLogo } from './SetImage';
+import { deleteImage } from '../../../utils/delete';
+import { loadImage } from '../../../utils/image';
+import { GetData } from '../../../utils/get';
 
 @Component({
   tag: 'crop-tool',
@@ -27,7 +30,7 @@ export class CropTool {
     this.LoadImage()
   }
 
-  LoadImage() {
+  async LoadImage() {
     try {
       const reader = new FileReader();
       reader.readAsDataURL(this.imageFile[0]);
@@ -38,7 +41,14 @@ export class CropTool {
         }
       }
     } catch {
-      this.img.src = getAssetPath(`../../../assets/placeholder.png`)
+      try {
+        const currentImage = await GetData(`${this.url}?id=${this.TargetId}`)
+          .then(response => response)
+        const loadedImage = await loadImage(currentImage[0]['image']['data'])
+        this.img.src = loadedImage.toString()
+      } catch {
+        this.img.src = getAssetPath(`../../../assets/placeholder.png`)
+      }
       this.img.onload = () => {
         this.CreateCanvas();
       }
@@ -192,8 +202,10 @@ export class CropTool {
     const data = await fetch(canvas1.toDataURL(this.format, 0.8))
       .then(res => res)
     const file = new File([await data.blob()], 'image');
-    this.UploadImage(file, this.TargetId);
-    this.close()
+
+    if (this.imageFile != undefined) {
+      this.UploadImage(file, this.TargetId);
+    }
   }
 
   UploadImage(File: File, id: number) {
@@ -217,7 +229,18 @@ export class CropTool {
       fd.append('id', String(id));
       a.uploadProdImage(File, id, this.CategoryId);
     }
+
+    console.log('test')
     PostImage(this.url, fd).catch(err => console.log(err));
+    this.close()
+  }
+
+  private deleteImage() {
+    let aproved = (): boolean => { return window.confirm('Är du säker på att du vill radera bilden?') }
+    if (aproved) {
+      deleteImage(this.url, this.TargetId)
+      this.close()
+    }
   }
 
 
@@ -235,7 +258,7 @@ export class CropTool {
                     Ladda upp bild <ion-icon class='icon' name="add-circle-sharp" />
                     <input hidden type="file" onChange={(event: any) => { this.imageFile = event.target.files; this.LoadImage() }} />
                   </label>
-                  <button class='button close' type="submit" value="Submit" onClick={() => { this.Compress(); }}>Radera bild <ion-icon class='icon' name="remove-circle-sharp" /></button>
+                  <button class='button close' type="submit" onClick={() => { this.deleteImage(); }}>Radera bild <ion-icon class='icon' name="remove-circle-sharp" /></button>
                 </ion-item>
               </div>
             </ion-item>
