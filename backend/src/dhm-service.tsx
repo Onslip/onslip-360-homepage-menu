@@ -4,7 +4,7 @@ import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-s
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
 import { Update } from './Listener';
-import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable, location } from './interfaces';
+import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable, locationsAndMenu, location } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
 export class DHMService {
@@ -52,7 +52,6 @@ export class DHMService {
                     const data: [number] = await args.body();
                     console.error(data[0])
                     id = data[0]
-
                     return args.body();
                 }
             },
@@ -112,8 +111,11 @@ export class DHMService {
                 static path = /locations/;
 
                 async GET() {
-                    const locations: location[] = (await svc.api.listLocations()).map(l => ({ name: l.name, id: l.id }))
-                    return locations
+                    const filteredmenus = (await svc.api.listButtonMaps()).filter(x => x.type == 'menu');
+                    const menus:Menu[] = await filteredmenus.flatMap(x => { return ({ id: x.id, name: x.name})})
+                    const locations: location[]= (await svc.api.listLocations()).map(l => ({ name: l.name, id: l.id }))
+                    const data: locationsAndMenu = { menu: menus, location: locations};
+                    return data
                 }
             },
 

@@ -190,6 +190,13 @@ export interface location {
   id: number
 }
 
+export interface locationsAndMenu {
+  menu: Menu[]
+  location: location[]
+}
+
+
+
 export interface mainConfigInterface {
   configId: number;
   selectedLocation: location;

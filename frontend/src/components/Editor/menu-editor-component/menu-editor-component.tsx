@@ -18,7 +18,6 @@ export class MenuEditorComponent {
   private produrl: string = 'http://localhost:8080/product-image';
   private caturl: string = 'http://localhost:8080/category-image';
   @State() categories: categorywithproduct[];
-  @State() AllMenus: MenuWithCategory[]
   @State() menu: MenuWithCategory;
   @State() errormessage: string
   @State() loading: boolean = true
@@ -26,9 +25,6 @@ export class MenuEditorComponent {
   @Prop() toggle: boolean;
   @Prop() menuId?: number;
 
-  @Method() async GetMenu(): Promise<MenuWithCategory[]> {
-    return this.AllMenus
-  }
 
   async componentWillLoad() {
     if (!DBConnection) {
@@ -36,28 +32,26 @@ export class MenuEditorComponent {
       config.productImages.style = 'Disabled';
     }
     if (this.menuId == undefined) {
+      
       const date = new Date()
       const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
       this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
-        .find(d => d.Day == date.getDay())?.Times
-        .find(t => t.time == date.getHours())?.menuid
+      .find(d => d.Day == date.getDay())?.Times
+      .find(t => t.time == date.getHours())?.menuid
+    }
+    else {
+      await PostData(this.url, [this.menuId]);
     }
 
-    // if (this.menuId != null || this.menuId == undefined) {
-    console.log(this.menuId)
-    await PostData(this.url, [this.menuId]);
-    // }
-
     GetData(this.url)
-      .then(response => this.AllMenus = response)
-      .then(() => this.menu = this.AllMenus.find(m => m.menu.id == this.menuId))
+      .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
       .then(() => this.getCatImages())
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
-        config.connect = false
+        config.connect = false 
       });
   }
 
