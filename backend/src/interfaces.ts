@@ -45,7 +45,7 @@ export interface DBJointTables {
 
 export interface MenuWithCategory {
     menu?: Menu
-    categories: categorywithproduct[]
+    categories?: categorywithproduct[]
 }
 
 export interface categorywithproduct {
@@ -162,3 +162,9 @@ export interface location {
     name: string
     id: number
 }
+
+export interface locationsAndMenu {
+    menu: Menu[]
+    location: location[]
+}
+

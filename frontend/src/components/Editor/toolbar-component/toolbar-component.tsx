@@ -1,5 +1,5 @@
 import { Component, h, State, getAssetPath, Element } from '@stencil/core';
-import { config, DBConnection, location, mainConfig } from '../../utils/utils';
+import { config, DBConnection, locationsAndMenu, mainConfig } from '../../utils/utils';
 import { PostData, PostImage } from '../../utils/post';
 import { GetData } from '../../utils/get';
 
@@ -16,11 +16,11 @@ export class ToolbarComponent {
   private url2: string = 'http://localhost:8080/banner';
   private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
-  private locations: location[];
+  private locations: locationsAndMenu;
   @State() locationsLoaded: boolean = false
 
   async componentWillLoad() {
-    GetData('http://localhost:8080/locations')
+    await GetData('http://localhost:8080/locations')
       .then(res => this.locations = res)
       .then(() => this.locationsLoaded = true)
       .catch(err => console.log(err));
@@ -85,7 +85,7 @@ export class ToolbarComponent {
                 <div>
                   <ion-item class="select">
                     <ion-select hidden={mainConfig == undefined} onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={mainConfig?.selectedLocation} selectedText={mainConfig?.selectedLocation?.name}>
-                      {this.locations?.map(x => <ion-select-option value={x}>{x?.name}</ion-select-option>)}
+                      {this.locations?.location?.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
                     </ion-select>
                   </ion-item>
                 </div> :

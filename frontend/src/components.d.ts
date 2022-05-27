@@ -36,7 +36,6 @@ export namespace Components {
         "menuId"?: number;
     }
     interface MenuEditorComponent {
-        "GetMenu": () => Promise<MenuWithCategory[]>;
         "UploadCatImage": (file: File, id: number) => Promise<void>;
         "menuId"?: number;
         "toggle": boolean;
