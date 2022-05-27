@@ -33,6 +33,7 @@ export class DHMService {
 
     asWebService(): WebService<this> {
         const svc = this;
+        let id: number;
 
         return new WebService(this)
 
@@ -44,7 +45,15 @@ export class DHMService {
             .addResources([class implements WebResource {
                 static path = RegExp('');
                 async GET() {
-                    return svc.rootResponse();
+                    return svc.rootResponse(id);
+                }
+
+                async POST(args: WebArguments) {
+                    const data: [number] = await args.body();
+                    console.error(data[0])
+                    id = data[0]
+
+                    return args.body();
                 }
             },
 
@@ -280,12 +289,12 @@ export class DHMService {
         await new URI('./test.toml').save(config)
     }
 
-    private async rootResponse() {
+    private async rootResponse(id: number) {
         if (this.dbConnect == true) {
-            return await GetProdByGroup(this.db);
+            return await GetProdByGroup(this.db, id);
         }
         else {
-            return await GetProdFromApi(this.api);
+            return await GetProdFromApi(this.api, id);
         }
     }
 }

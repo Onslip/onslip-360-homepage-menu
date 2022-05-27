@@ -30,10 +30,6 @@ export class MenuEditorComponent {
     return this.AllMenus
   }
 
-  // @Method() async GetMenuWithImages(): Promise<MenuWithCategory> {
-  //   return this.menu
-  // }
-
   async componentWillLoad() {
     if (!DBConnection) {
       config.categoryImages.style = 'Disabled';
@@ -46,6 +42,11 @@ export class MenuEditorComponent {
         .find(d => d.Day == date.getDay())?.Times
         .find(t => t.time == date.getHours())?.menuid
     }
+
+    // if (this.menuId != null || this.menuId == undefined) {
+    console.log(this.menuId)
+    await PostData(this.url, [this.menuId]);
+    // }
 
     GetData(this.url)
       .then(response => this.AllMenus = response)

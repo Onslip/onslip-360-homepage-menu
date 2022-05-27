@@ -14,9 +14,9 @@ export class AppRoot {
           <ion-route url="/" component="test-menu" />
           <ion-route-redirect to='/menu' from='/' />
           <ion-route url='/menu' component="homepage-menu-component" />
-          <ion-route url='/menu/:Id' component="homepage-menu-component" />
+          <ion-route url='/menu/:menuId' component="homepage-menu-component" />
           <ion-route url='/menu/editor' component='homepage-menu-editor-component' />
-          <ion-route url='menu/editor/:Id' component='homepage-menu-editor-component' />
+          <ion-route url='menu/editor/:menuId' component='homepage-menu-editor-component' />
         </ion-router>
 
         <ion-content class="content" id="main">

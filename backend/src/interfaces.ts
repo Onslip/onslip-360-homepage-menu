@@ -30,27 +30,27 @@ export interface DBCatImage {
 
 }
 
-// export interface DBJointTables {
-//     menuid: number,
-//     menuname: string,
-//     categoryid: number,
-//     categoryname: string,
-//     position: number,
-//     id: number,
-//     name: string,
-//     description: string,
-//     price: string,
-//     productposition: number
-// }
+export interface DBJointTables {
+    menuid: number,
+    menuname: string,
+    categoryid: number,
+    categoryname: string,
+    position: number,
+    id: number,
+    name: string,
+    description: string,
+    price: string,
+    productposition: number
+}
 
 export interface MenuWithCategory {
-    menu: Menu
-    categories: categorywithproduct[]
+    menu?: Menu
+    categories?: categorywithproduct[]
 }
 
 export interface categorywithproduct {
-    category: DBcategory,
-    products: DBproduct[],
+    category?: DBcategory,
+    products?: DBproduct[],
 }
 
 export interface newApi {
@@ -111,8 +111,8 @@ export interface Styleconfig {
 
 interface font {
     customFonts?: {
-      names: string[]
-      fontUrl: string
+        names: string[]
+        fontUrl: string
     }[]
     fontFamily?: string,
     fontWeight?: boolean;
@@ -120,12 +120,12 @@ interface font {
     fontSize?: [number, string];
     fontOutline?: boolean;
     colors?: {
-      categoryTitle?: string;
-      productName?: string;
-      productPrice?: string;
-      productDesc?: string;
+        categoryTitle?: string;
+        productName?: string;
+        productPrice?: string;
+        productDesc?: string;
     }
-  }
+}
 
 export interface MainConfig {
     configId: number;
