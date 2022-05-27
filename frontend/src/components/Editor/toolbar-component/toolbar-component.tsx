@@ -2,7 +2,6 @@ import { Component, h, State, getAssetPath, Element } from '@stencil/core';
 import { config, DBConnection, location, mainConfig } from '../../utils/utils';
 import { PostData, PostImage } from '../../utils/post';
 import { GetData } from '../../utils/get';
-import { CheckImage, loadImage } from '../../utils/image';
 
 @Component({
   tag: 'toolbar-component',

@@ -18,7 +18,6 @@ export namespace Components {
         "MaxWidth": number;
         "TargetId": number;
         "format"?: "image/jpeg" | "image/jpg" | "image/png";
-        "imageFile": File;
         "url": string;
     }
     interface FontModal {
@@ -191,7 +190,6 @@ declare namespace LocalJSX {
         "MaxWidth"?: number;
         "TargetId"?: number;
         "format"?: "image/jpeg" | "image/jpg" | "image/png";
-        "imageFile"?: File;
         "url"?: string;
     }
     interface FontModal {

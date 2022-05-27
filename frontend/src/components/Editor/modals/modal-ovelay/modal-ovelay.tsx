@@ -18,7 +18,6 @@ export class ModalOvelay {
   @Prop() ImagePosition: string;
   @Prop() CategoryId: number;
   @Prop() iconName: string;
-  private imageFile: File;
 
   @Element() el: any
 
@@ -31,7 +30,6 @@ export class ModalOvelay {
         componentProps: {
           'url': this.url,
           'format': this.format,
-          'imageFile': this.imageFile,
           'MaxWidth': this.MaxWidth,
           'AspectRatio': this.AspectRatio,
           'TargetId': this.TargetId,
@@ -58,7 +56,7 @@ export class ModalOvelay {
         <Host>
           <label class={this.buttonClass} title='Ladda upp bild...'>
             {this.buttonValue}<ion-icon class="icon" name={this.iconName}></ion-icon>
-            <input type='file' onChange={(event: any) => { this.imageFile = event.target.files; this.presentModal(); }} hidden />
+            <button type='submit' onClick={() => { this.presentModal(); }} hidden />
           </label>
         </Host>
       );
