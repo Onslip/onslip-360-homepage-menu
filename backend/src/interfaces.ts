@@ -45,12 +45,12 @@ export interface DBJointTables {
 
 export interface MenuWithCategory {
     menu?: Menu
-    categories?: categorywithproduct[]
+    categories: categorywithproduct[]
 }
 
 export interface categorywithproduct {
-    category?: DBcategory,
-    products?: DBproduct[],
+    category: DBcategory,
+    products: DBproduct[],
 }
 
 export interface newApi {
