@@ -33,7 +33,7 @@ export class DHMService {
 
     asWebService(): WebService<this> {
         const svc = this;
-        let id: number;
+        let menuid: number;
 
         return new WebService(this)
 
@@ -45,13 +45,13 @@ export class DHMService {
             .addResources([class implements WebResource {
                 static path = RegExp('');
                 async GET() {
-                    return svc.rootResponse(id);
+                    return svc.rootResponse(menuid);
                 }
 
                 async POST(args: WebArguments) {
                     const data: [number] = await args.body();
                     console.error(data[0])
-                    id = data[0]
+                    menuid = data[0]
                     return args.body();
                 }
             },
@@ -219,7 +219,11 @@ export class DHMService {
                     if (id != undefined) {
                         data = await svc.db.query<DBImage[]>`select * from onslip.productimages where product_id=${Number(id)}`
                     } else {
-                        data = await svc.db.query<DBImage[]>`select * from onslip.productimages`
+                        data = await svc.db.query<DBImage[]>`select  productimages.product_id as product_id, productimages.image as image from onslip.menu
+                        left join onslip.productcategories on onslip.productcategories.menu_id = onslip.menu.id 
+                        left join onslip.grouptoproduct on onslip.grouptoproduct.category_id = onslip.productcategories.id 
+                        left join onslip.products on onslip.products.id = onslip.grouptoproduct.product_id
+                        left join onslip.productimages on onslip.productimages.product_id = onslip.products.id where onslip.menu.id = ${menuid}`
                     }
                     const list: DBImage[] = data.map(x => ({
                         product_id: Number(x.product_id),
@@ -259,7 +263,10 @@ export class DHMService {
                     if (id != undefined) {
                         data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages where category_id=${Number(id)}`
                     } else {
-                        data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages`
+                        data = await svc.db.query<DBCatImage[]>`select categoryimages.category_id as category_id, categoryimages.image as image from onslip.menu
+                        LEFT JOIN onslip.productcategories ON onslip.productcategories.menu_id = onslip.menu.id
+                        left join onslip.categoryimages on onslip.categoryimages.category_id = onslip.productcategories.id where onslip.menu.id = ${menuid} 
+                    `
                     }
                     const list: DBCatImage[] = data.map(x => ({
                         image: x.image,
