@@ -46,6 +46,7 @@ export class DHMService {
                 static path = RegExp('');
                 async GET(args: WebArguments) {
                     const id = args.number('?id', 0)
+                    menuid = id;
                     return svc.rootResponse(id);
                 }
             },

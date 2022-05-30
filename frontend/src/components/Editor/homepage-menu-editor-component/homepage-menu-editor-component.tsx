@@ -104,6 +104,7 @@ export class HomepageMenuEditorComponent {
 
   changeMenu(event: any) {
     this.menuId = event.target.value
+    location.reload()
   }
 
   async selectLocation(selectedLocation: location) {
@@ -128,7 +129,7 @@ export class HomepageMenuEditorComponent {
                     </ion-item>
                     <ion-list slot='content'>
                       {this.locationsAndMenus?.location?.map(x =>
-                        <ion-router-link href={`/menu/editor/`}>
+                        <ion-router-link href={`/editor/menu/`}>
                           <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
                         </ion-router-link>
                       )}
@@ -142,7 +143,7 @@ export class HomepageMenuEditorComponent {
                     </ion-item>
                     <ion-list slot='content'>
                       {this.locationsAndMenus?.menu?.map(x =>
-                        <ion-router-link href={`/menu/editor/${x.id}`}>
+                        <ion-router-link href={`/editor/menu/${x.id}`}>
                           <ion-item lines='none' class='accordion-item'>
                             {x.name}
                           </ion-item>

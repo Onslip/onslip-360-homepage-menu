@@ -33,7 +33,7 @@ export class MenuEditorComponent {
     }
 
     console.log(this.menuId)
-    GetData(`/?id=${this.menuId}`)
+    await GetData(`/?id=${this.menuId}`)
       .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
@@ -42,7 +42,7 @@ export class MenuEditorComponent {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
         config.connect = false
-      });
+      })
   }
 
   componentDidRender() {
