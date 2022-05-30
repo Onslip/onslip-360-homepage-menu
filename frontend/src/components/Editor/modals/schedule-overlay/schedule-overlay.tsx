@@ -24,12 +24,12 @@ export class ScheduleOverlay {
   async componentWillLoad() {
     this.selectedLocation = mainConfig.selectedLocation
 
-    this.listofMenusandLocations = await GetData('http://localhost:8080/locations');
+    this.listofMenusandLocations = await GetData('/locations');
     console.log(this.listofMenusandLocations.menu)
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))
-    this.timeTables = await GetData('http://localhost:8080/schedule')
-    this.oldTimeTables = await GetData('http://localhost:8080/schedule')
+    this.timeTables = await GetData('/schedule')
+    this.oldTimeTables = await GetData('/schedule')
   }
 
   async componentDidRender() {
@@ -161,7 +161,7 @@ export class ScheduleOverlay {
   };
 
   async Save() {
-    await PostData('http://localhost:8080/schedule', this.timeTables).then(() => this.close());
+    await PostData('/schedule', this.timeTables).then(() => this.close());
   }
 
   changeLocation(event: any) {

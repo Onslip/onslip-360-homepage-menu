@@ -33,7 +33,7 @@ export class SelectorComponent {
       config.font.fontStyle = false;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontStyle = 'normal';
     }
-    await PostData('http://localhost:8080/config', config)
+    await PostData('/config', config)
   }
 
   async FontWeight(element) {
@@ -48,32 +48,32 @@ export class SelectorComponent {
       config.font.fontWeight = false;
       document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontWeight = 'normal';
     }
-    await PostData('http://localhost:8080/config', config)
+    await PostData('/config', config)
   }
 
   async FontSize(value, element) {
     document.querySelector(element).style.fontSize = value
     config.font.fontSize = value;
-    await PostData('http://localhost:8080/config', config)
+    await PostData('/config', config)
   }
 
   async action(event, element) {
     if (this.type == 'font') {
       document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.fontFamily = event;
       config.font.fontFamily = event;
-      await PostData('http://localhost:8080/config', config)
+      await PostData('/config', config)
       location.reload()
     }
     else if (this.type == 'preset') {
       document.querySelector('editor-visual-check').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
       mainConfig.configId = event
-      await PostData('http://localhost:8080/mainconfig', mainConfig)
+      await PostData('/mainconfig', mainConfig)
       location.reload();
     }
     else if (this.type == 'location') {
       console.log(event)
       mainConfig.selectedLocation = event
-      await PostData('http://localhost:8080/maincofig', mainConfig)
+      await PostData('/maincofig', mainConfig)
     }
   }
 

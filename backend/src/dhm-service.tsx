@@ -3,7 +3,7 @@ import { ContentType } from '@divine/headers'
 import { CORSFilter, WebArguments, WebResource, WebService } from '@divine/web-service';
 import { API } from '@onslip/onslip-360-node-api';
 import { DHMConfig } from './schema';
-import { Update } from './Listener';
+import { UpdateDb } from './Listener';
 import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable, locationsAndMenu, location } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
 
@@ -22,7 +22,7 @@ export class DHMService {
         try {
             await this.db.query<DBQuery>`select version()`
             this.dbConnect = true;
-            Update(this.api, this.db)
+            UpdateDb(this.api, this.db)
             return this;
         }
         catch (error) {

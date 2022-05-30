@@ -19,7 +19,7 @@ export class LayoutOverlay {
         config.categoryImages.style = 'Banner'
       }
     }
-    this.tempConfig = await GetData('http://localhost:8080/config')
+    this.tempConfig = await GetData('/config')
   }
 
   valueChanged() {
@@ -36,7 +36,7 @@ export class LayoutOverlay {
 
   async PostData() {
     if (this.settingsHaveChanged) {
-      await PostData('http://localhost:8080/config', config).then(() => location.reload())
+      await PostData('/config', config).then(() => location.reload())
     }
   }
 

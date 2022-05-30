@@ -23,7 +23,7 @@ export class FontModal {
   private tempConfig: Styleconfig
 
   async componentWillLoad() {
-    this.tempConfig = await GetData('http://localhost:8080/config')
+    this.tempConfig = await GetData('/config')
   }
 
   componentDidRender() {
@@ -63,7 +63,7 @@ export class FontModal {
   async PostData() {
     if (this.settingsHaveChanged) {
       this.setGlobalValues();
-      await PostData('http://localhost:8080/config', config).then(() => this.close())
+      await PostData('/config', config).then(() => this.close())
     }
   }
 

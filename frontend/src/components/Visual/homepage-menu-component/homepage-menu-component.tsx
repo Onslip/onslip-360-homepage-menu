@@ -12,9 +12,9 @@ import '@ionic/core'
 })
 export class HomepageMenuComponent {
 
-  private imageurl: string = 'http://localhost:8080/background';
-  private bannerUrl: string = 'http://localhost:8080/banner';
-  private logoUrl: string = 'http://localhost:8080/logo';
+  private imageurl: string = '/background';
+  private bannerUrl: string = '/banner';
+  private logoUrl: string = '/logo';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
   @State() logoImage: string = ''

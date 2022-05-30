@@ -111,9 +111,9 @@ export const Fonts = [
   'Verdana, Geneva, Tahoma, sans-serif',
 ];
 
-export const DBConnection: newApi = await GetData(`http://localhost:8080/api`).then(response => response).catch(err => err);
+export const DBConnection: newApi = await GetData(`/api`).then(response => response).catch(err => err);
 
-export const mainConfig: mainConfigInterface = await GetData(`http://localhost:8080/mainconfig`).then(response => response).catch(err => err);
+export const mainConfig: mainConfigInterface = await GetData(`/mainconfig`).then(response => response).catch(err => err);
 
 export const editorvisual: boolean = false;
 
@@ -121,7 +121,7 @@ export const editorvisual: boolean = false;
 export const config: Styleconfig = await getConfig();
 
 async function getConfig(): Promise<Styleconfig> {
-  let data: Styleconfig = await GetData(`http://localhost:8080/config`)
+  let data: Styleconfig = await GetData(`/config`)
     .then(response => response)
     .catch(() => {
       return ({

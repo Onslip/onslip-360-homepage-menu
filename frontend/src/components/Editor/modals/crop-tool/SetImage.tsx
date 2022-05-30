@@ -9,7 +9,7 @@ export async function LoadBackground(file) {
         if (image != null) {
             document.querySelector('body').style.backgroundImage = image
             config.background.enabled = false
-            PostData('http://localhost:8080/config', config);
+            PostData('/config', config);
         }
     };
 }

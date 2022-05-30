@@ -12,15 +12,15 @@ import { GetData } from '../../utils/get';
 
 export class ToolbarComponent {
   @State() menuopen: boolean = false
-  private url1: string = 'http://localhost:8080/background'
-  private url2: string = 'http://localhost:8080/banner';
-  private url3: string = 'http://localhost:8080/logo';
+  private url1: string = '/background'
+  private url2: string = '/banner';
+  private url3: string = '/logo';
   @Element() element: HTMLElement;
   private locations: locationsAndMenu;
   @State() locationsLoaded: boolean = false
 
   async componentWillLoad() {
-    await GetData('http://localhost:8080/locations')
+    await GetData('/locations')
       .then(res => this.locations = res)
       .then(() => this.locationsLoaded = true)
       .catch(err => console.log(err));
@@ -41,13 +41,13 @@ export class ToolbarComponent {
   }
 
   async submitForm() {
-    await PostData('http://localhost:8080/config', config);
+    await PostData('/config', config);
     location.reload();
   }
 
   async selectLocation(event) {
     mainConfig.selectedLocation = event
-    await PostData('http://localhost:8080/mainconfig', mainConfig)
+    await PostData('/mainconfig', mainConfig)
       .then(() => location.reload())
   }
 

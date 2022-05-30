@@ -2,7 +2,7 @@ import { API, AbortController } from "@onslip/onslip-360-node-api";
 import { DatabaseURI, DBQuery } from "@divine/uri";
 import { DBcategory, DBCatImage, DBImage, DBproduct, ICategory, IProduct } from "./interfaces";
 
-export async function Update(api: API, db: DatabaseURI) {
+export async function UpdateDb(api: API, db: DatabaseURI) {
     CreateDB(api, db);
     while (true) {
         const cancel = new AbortController();

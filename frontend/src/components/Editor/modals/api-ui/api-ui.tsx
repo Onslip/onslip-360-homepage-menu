@@ -12,7 +12,7 @@ import { DBConnection, newApi } from '../../../utils/utils';
 export class ApiUi {
   @State() Api: newApi
   @State() loading: boolean = true;
-  private url = 'http://localhost:8080/api'
+  private url = '/api'
 
   async close() {
     await customElements.whenDefined('ion-modal')

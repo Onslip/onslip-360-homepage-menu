@@ -56,6 +56,8 @@ export async function GetProdByGroup(db: DatabaseURI, menuId: number): Promise<M
     LEFT JOIN onslip.productcategories ON onslip.productcategories.menu_id = onslip.menu.id
     LEFT JOIN onslip.grouptoproduct ON onslip.grouptoproduct.category_id = onslip.productcategories.id
     LEFT JOIN onslip.products ON onslip.products.id = onslip.grouptoproduct.product_id WHERE onslip.menu.id = ${menuId}`
+
+    
   
     const sortedtable: MenuWithCategory = {
         menu: {

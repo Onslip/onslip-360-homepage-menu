@@ -12,9 +12,8 @@ import { loadImage } from '../../utils/image';
 export class MenuComponent {
 
     @Element() element: HTMLElement;
-    private url = 'http://localhost:8080'
-    private produrl: string = 'http://localhost:8080/product-image';
-    private caturl: string = 'http://localhost:8080/category-image';
+    private produrl: string = '/product-image';
+    private caturl: string = '/category-image';
     @State() categories: categorywithproduct[];
     @State() AllMenus: MenuWithCategory[]
     @State() menu: MenuWithCategory;
@@ -38,13 +37,13 @@ export class MenuComponent {
 
         if (this.menuId == undefined) {
             const date = new Date()
-            const schedule: Timetable[] = await GetData('http://localhost:8080/schedule')
+            const schedule: Timetable[] = await GetData('/schedule')
             this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
                 .find(d => d.Day == date.getDay())?.Times
                 .find(t => t.time == date.getHours())?.menuid
         }
 
-        GetData(this.url)
+        GetData('/')
             .then(response => this.AllMenus = response)
             .then(() => this.menu = this.AllMenus.find(m => m.menu.id == this.menuId))
             .then(() => { this.loading = false, config.connect = true })
