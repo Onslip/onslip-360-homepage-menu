@@ -230,7 +230,6 @@ export class MenuEditorComponent {
 
   renderPaper() {
     return (
-
       <ion-reorder-group onIonItemReorder={(ev) => this.doReorder(ev)} disabled={this.toggle} class={this.toggle ? 'paper-content' : 'reorder'}>
         {
           !this.loading ?

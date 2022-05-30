@@ -68,3 +68,31 @@
     border-radius: 0;
   }
 }
+
+ion-accordion-group {
+  position: absolute;
+  width: 300px;
+  z-index: 99;
+}
+
+ion-accordion.accordion-expanding ion-icon {
+  transition: ease-in-out 0.3s;
+  transform: rotate(180deg);
+}
+
+ion-accordion.accordion-collapsing ion-icon {
+  transition: ease-in-out 0.3s;
+}
+
+ion-accordion.accordion-expanded ion-icon {
+  transform: rotate(180deg);
+}
+
+
+.accordion-item:hover {
+  --background: hsl(0, 0%, 91%);
+}
+
+.accordion-item {
+  text-align: center;
+}

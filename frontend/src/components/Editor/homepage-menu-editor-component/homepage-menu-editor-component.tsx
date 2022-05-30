@@ -1,5 +1,5 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { config, DBConnection, mainConfig } from '../../utils/utils';
+import { config, DBConnection, location, locationsAndMenu, mainConfig } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
@@ -20,7 +20,9 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
   @State() logoImage: string = ''
-  @Prop() menuId: number
+  @Prop() menuId: number;
+  @State() locationsAndMenus: locationsAndMenu;
+  @State() selectedLocation: location;
 
   async componentWillLoad() {
     if (DBConnection) {
@@ -34,6 +36,7 @@ export class HomepageMenuEditorComponent {
         GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
       }
     }
+    this.locationsAndMenus = await GetData('/locations');
   }
 
   private async LoadConfig() {
@@ -88,6 +91,17 @@ export class HomepageMenuEditorComponent {
     }
   }
 
+  private customPopoverOptions: any = {
+    reference: "event",
+  };
+
+  changeLocation(event: any) {
+    mainConfig.selectedLocation = event.target.value
+  }
+  changeMenu(event: any) {
+    this.menuId = event.target.value
+  }
+
   render() {
     return (
       <Host>
@@ -95,6 +109,28 @@ export class HomepageMenuEditorComponent {
         {
           config?.connect ?
             <div class='menuContainer'>
+              <ion-accordion-group>
+                <ion-accordion toggleIcon='chevron-down'>
+                  <ion-item lines='none' slot='header' class='accordion-header'>
+                    <ion-label>Platser</ion-label>
+                  </ion-item>
+                  <ion-list slot='content'>
+                    {this.locationsAndMenus?.location?.map(x => <ion-item class='accordion-item' lines='none'>{x.name}</ion-item>)}
+                  </ion-list>
+                </ion-accordion>
+                <ion-accordion toggleIcon='chevron-down'>
+                  <ion-item slot='header' lines='none' class='accordion-header'>
+                    <ion-label>Menyer</ion-label>
+                  </ion-item>
+                  <ion-list slot='content'>
+                    {this.locationsAndMenus?.menu?.map(x =>
+                      <ion-item lines='none' class='accordion-item'>
+                        <ion-router-link href={`/menu/editor/${x.id}`}>{x.name}</ion-router-link>
+                      </ion-item>
+                    )}
+                  </ion-list>
+                </ion-accordion>
+              </ion-accordion-group>
               <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
                 <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button>
                 <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
