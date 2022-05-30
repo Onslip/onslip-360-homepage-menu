@@ -21,13 +21,25 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
   @State() logoImage: string = ''
-  @Prop() menuId?: number;
+  @Prop() menuId: number;
   @Prop() locationId: number;
   @State() locationsAndMenus: locationsAndMenu;
   @State() selectedMenu: Menu
   @State() selectedLocation: location;
 
   async componentWillLoad() {
+    this.locationsAndMenus = await GetData('/locations');
+    if (this.menuId == undefined) {
+      const date = new Date()
+      const schedule: Timetable[] = await GetData('/schedule')
+      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+        .find(d => d.Day == date.getDay())?.Times
+        .find(t => t.time == date.getHours())?.menuid
+    }
+    this.selectedMenu = this.locationsAndMenus.menu.find(x => x.id == this.menuId);
+  }
+
+  componentDidRender() {
     if (DBConnection) {
       if (!config?.background?.enabled) {
         GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
@@ -39,15 +51,6 @@ export class HomepageMenuEditorComponent {
         GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
       }
     }
-    this.locationsAndMenus = await GetData('/locations');
-    if (this.menuId == undefined) {
-      const date = new Date()
-      const schedule: Timetable[] = await GetData('/schedule')
-      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
-        .find(d => d.Day == date.getDay())?.Times
-        .find(t => t.time == date.getHours())?.menuid
-    }
-    this.selectedMenu = this.locationsAndMenus.menu.find(x => x.id == this.menuId);
   }
 
   private async LoadConfig() {
@@ -76,7 +79,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadBackground(image) {
-    if (!config.background.enabled) {
+    if (!config?.background?.enabled) {
       const loadedImage = await loadImage(image.image.data).catch(err => err)
       document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
     }
@@ -88,7 +91,8 @@ export class HomepageMenuEditorComponent {
 
   private async LoadBanner(image, element) {
     const loadedImage = await loadImage(image.image.data).catch(err => err);
-    if (config.banner) {
+    if (config?.banner) {
+      console.log('test')
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
     }
   }

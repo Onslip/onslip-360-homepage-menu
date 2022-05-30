@@ -27,7 +27,7 @@ export namespace Components {
     }
     interface HomepageMenuEditorComponent {
         "locationId": number;
-        "menuId"?: number;
+        "menuId": number;
     }
     interface LayoutOverlay {
     }
