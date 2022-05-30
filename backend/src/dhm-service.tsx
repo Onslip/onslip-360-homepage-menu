@@ -80,9 +80,50 @@ export class DHMService {
             class implements WebResource {
                 static path = /config/;
                 async GET() {
-                    const config: MainConfig = await new URI(`./configs/main.json`).load()
-                    const data: Styleconfig = await new URI(`./configs/config${config.configId}.json`).load()
-                    return data;
+                    try {
+                        const config: MainConfig = await new URI(`./configs/main.json`).load()
+                        const data: Styleconfig = await new URI(`./configs/config${config.configId}.json`).load()
+                        return data;
+                    } catch {
+                        const defaultConfig: Styleconfig = {
+                            configId: 1,
+                            background: {
+                                enabled: true,
+                                color: 'white',
+                            },
+                            productImages: {
+                                style: 'Disabled',
+                                placement: 'Left',
+                            },
+                            categoryImages: {
+                                style: 'Disabled'
+                            },
+                            Logo: false,
+                            banner: false,
+                            font: {
+                                customFonts: [],
+                                fontFamily: 'sans-serif',
+                                fontWeight: false,
+                                fontStyle: false,
+                                fontSize: [
+                                    3,
+                                    "clamp(10px, 3vw, 20px)"
+                                ],
+                                fontOutline: false,
+                                colors: {
+                                    categoryTitle: 'black',
+                                    productName: 'black',
+                                    productPrice: 'black',
+                                    productDesc: 'black',
+                                }
+                            },
+                            menuBackground: 'white',
+                            connect: true,
+                            menuInUse: 1,
+                            menuType: 'inline'
+                        }
+                        return defaultConfig
+                    }
                 }
 
                 async POST(args: WebArguments) {

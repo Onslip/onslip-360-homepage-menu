@@ -117,52 +117,13 @@ export const mainConfig: mainConfigInterface = await GetData(`/mainconfig`).then
 
 export const editorvisual: boolean = false;
 
-
 export const config: Styleconfig = await getConfig();
 
 async function getConfig(): Promise<Styleconfig> {
-  let data: Styleconfig = await GetData(`/config`)
+
+  return await GetData(`/config`)
     .then(response => response)
-    .catch(() => {
-      return ({
-        configId: 1,
-        background: {
-          enabled: true,
-          color: 'white',
-        },
-        productImages: {
-          style: 'Disabled',
-          placement: 'Left',
-        },
-        categoryImages: {
-          style: 'Disabled'
-        },
-        Logo: false,
-        banner: false,
-        font: {
-          customFonts: [],
-          fontFamily: 'sans-serif',
-          fontWeight: false,
-          fontStyle: false,
-          fontSize: [
-            3,
-            "clamp(10px, 3vw, 20px)"
-          ],
-          fontOutline: false,
-          colors: {
-            categoryTitle: 'black',
-            productName: 'black',
-            productPrice: 'black',
-            productDesc: 'black',
-          }
-        },
-        menuBackground: 'white',
-        connect: false,
-        menuInUse: 1,
-        menuType: 'inline'
-      })
-    })
-  return data
+    .catch(err => (console.log(err)))
 }
 
 

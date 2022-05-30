@@ -1,10 +1,9 @@
 import { Component, State, Host, h, Element, Prop, Method, getAssetPath } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
-import { config, Timetable } from '../../utils/utils';
+import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
 import { PostData } from '../../utils/post';
-import { throws } from 'assert';
 
 @Component({
   tag: 'menu-editor-component',
@@ -38,6 +37,8 @@ export class MenuEditorComponent {
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
       .then(() => { config?.menuType != "paper" || config?.categoryImages?.style == 'Disabled' ? this.getCatImages() : null })
+      .then(() => { config?.menuType != "paper" || config?.productImages?.style == 'Disabled' ? this.getProdImages() : null })
+
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
@@ -65,7 +66,6 @@ export class MenuEditorComponent {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })
-        .then(() => this.getProdImages())
         .catch(() => {
         });
     }
@@ -192,7 +192,7 @@ export class MenuEditorComponent {
   renderCards(products?: DBproduct[]) {
     return (
       <ion-row class='products'>
-        {(products?.map(x =>
+        {products?.map(x =>
           <ion-card class={"product"} id='scroll-container'>
             <div>
               {
@@ -214,7 +214,7 @@ export class MenuEditorComponent {
                 <div class='card productPrice'>{x.price} sek</div>
               </ion-card-content>
             </div>
-          </ion-card>))}
+          </ion-card>)}
       </ion-row>
     )
   }
