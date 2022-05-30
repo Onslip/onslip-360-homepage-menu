@@ -34,7 +34,7 @@ export class MenuEditorComponent {
       
       const date = new Date()
       const schedule: Timetable[] = await GetData('/schedule')
-      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+      this.menuId = schedule.find(s => s.locationId == mainConfig?.selectedLocation.id)?.days
       .find(d => d.Day == date.getDay())?.Times
       .find(t => t.time == date.getHours())?.menuid
     }
@@ -46,7 +46,7 @@ export class MenuEditorComponent {
       .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
-      .then(() => this.getCatImages())
+      .then(() => { config?.menuType != "paper" || config?.categoryImages?.style == 'Disabled'  ? this.getCatImages() : null})
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
@@ -55,7 +55,7 @@ export class MenuEditorComponent {
   }
 
   componentDidRender() {
-    this.setProperties()
+    this.setProperties(); 
   }
 
   setProperties() {
@@ -74,7 +74,7 @@ export class MenuEditorComponent {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
       GetData(this.caturl)
         .then(response => { this.LoadCatImages(response); })
-        .then(() => this.getProdImages())
+        .then(() => this.getProdImages() )
         .catch(() => {
         });
     }
