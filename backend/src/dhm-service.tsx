@@ -44,15 +44,9 @@ export class DHMService {
 
             .addResources([class implements WebResource {
                 static path = RegExp('');
-                async GET() {
-                    return svc.rootResponse(menuid);
-                }
-
-                async POST(args: WebArguments) {
-                    const data: [number] = await args.body();
-                    console.error(data[0])
-                    menuid = data[0]
-                    return args.body();
+                async GET(args: WebArguments) {
+                    const id = args.number('?id', 0)
+                    return svc.rootResponse(id);
                 }
             },
 
@@ -102,9 +96,9 @@ export class DHMService {
 
                 async GET() {
                     const filteredmenus = (await svc.api.listButtonMaps()).filter(x => x.type == 'menu');
-                    const menus:Menu[] = await filteredmenus.flatMap(x => { return ({ id: x.id, name: x.name})})
-                    const locations: location[]= (await svc.api.listLocations()).map(l => ({ name: l.name, id: l.id }))
-                    const data: locationsAndMenu = { menu: menus, location: locations};
+                    const menus: Menu[] = await filteredmenus.flatMap(x => { return ({ id: x.id, name: x.name }) })
+                    const locations: location[] = (await svc.api.listLocations()).map(l => ({ name: l.name, id: l.id }))
+                    const data: locationsAndMenu = { menu: menus, location: locations };
                     return data
                 }
             },
@@ -247,10 +241,10 @@ export class DHMService {
             class implements WebResource {
                 static path = /category-image/;
                 async GET(args: WebArguments) {
-                    const id = args.string('?id', undefined)
+                    const id = args.number('?id', undefined)
                     let data: DBCatImage[]
                     if (id != undefined) {
-                        data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages where category_id=${Number(id)}`
+                        data = await svc.db.query<DBCatImage[]>`select * from onslip.categoryimages where category_id=${id}`
                     } else {
                         data = await svc.db.query<DBCatImage[]>`select categoryimages.category_id as category_id, categoryimages.image as image from onslip.menu
                         LEFT JOIN onslip.productcategories ON onslip.productcategories.menu_id = onslip.menu.id
