@@ -4,6 +4,7 @@ import { GetData } from '../../utils/get';
 import { config, Timetable } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
 import { PostData } from '../../utils/post';
+import { throws } from 'assert';
 
 @Component({
   tag: 'menu-editor-component',
@@ -22,7 +23,7 @@ export class MenuEditorComponent {
   @State() loading: boolean = true
   @State() CanSave: boolean;
   @Prop() toggle: boolean;
-  @Prop() menuId?: number;
+  @Prop() menuId: number;
 
 
   async componentWillLoad() {
@@ -30,14 +31,8 @@ export class MenuEditorComponent {
       config.categoryImages.style = 'Disabled';
       config.productImages.style = 'Disabled';
     }
-    if (this.menuId == undefined) {
-      const date = new Date()
-      const schedule: Timetable[] = await GetData('/schedule')
-      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
-        .find(d => d.Day == date.getDay())?.Times
-        .find(t => t.time == date.getHours())?.menuid
-    }
 
+    console.log(this.menuId)
     GetData(`/?id=${this.menuId}`)
       .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })

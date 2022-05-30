@@ -70,22 +70,22 @@
 }
 
 ion-accordion-group {
-  position: absolute;
   width: 300px;
   z-index: 99;
 }
 
 ion-accordion.accordion-expanding ion-icon {
-  transition: ease-in-out 0.3s;
-  transform: rotate(180deg);
+  transition: ease-in-out 0.4s;
+  transform: rotate3d(1, 0, 0, 180deg);
+
 }
 
 ion-accordion.accordion-collapsing ion-icon {
-  transition: ease-in-out 0.3s;
+  transition: ease-in-out 0.4s;
 }
 
 ion-accordion.accordion-expanded ion-icon {
-  transform: rotate(180deg);
+  transform: rotate3d(1, 0, 0, 180deg);
 }
 
 
@@ -94,5 +94,11 @@ ion-accordion.accordion-expanded ion-icon {
 }
 
 .accordion-item {
-  text-align: center;
+  --text-align: center;
+}
+
+
+.group {
+  position: absolute;
+  display: flex;
 }
