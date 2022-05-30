@@ -42,7 +42,7 @@ export class MenuEditorComponent {
       .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
-      .then(() => this.getCatImages())
+      .then(() => { config?.menuType != "paper" || config?.categoryImages?.style == 'Disabled' ? this.getCatImages() : null })
       .catch(() => {
         this.errormessage = 'Kunde inte hitta API:t. Kolla så att du har inmatat rätt API-info';
         this.loading = false
@@ -51,7 +51,7 @@ export class MenuEditorComponent {
   }
 
   componentDidRender() {
-    this.setProperties()
+    this.setProperties();
   }
 
   setProperties() {
