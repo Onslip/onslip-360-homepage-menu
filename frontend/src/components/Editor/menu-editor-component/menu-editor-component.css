@@ -152,9 +152,10 @@ ion-reorder {
   flex-grow: 1;
   min-width: 200px;
   max-width: 350px;
-  margin: 5px;
+  margin: 6px;
   background-color: transparent;
   font-size: unset !important;
+  box-shadow: 0px 2px 6px 1px rgba(27, 26, 26, 0.853);
 }
 
 .productContent {

@@ -21,24 +21,13 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
   @State() logoImage: string = ''
-  @Prop() menuId?: number;
+  @Prop() menuId: number;
   @Prop() locationId: number;
   @State() locationsAndMenus: locationsAndMenu;
   @State() selectedMenu: Menu
   @State() selectedLocation: location;
 
   async componentWillLoad() {
-    if (DBConnection) {
-      if (!config?.background?.enabled) {
-        GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
-      }
-      if (config?.banner) {
-        GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
-      }
-      if (config?.Logo) {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
-      }
-    }
     this.locationsAndMenus = await GetData('/locations');
     if (this.menuId == undefined) {
       const date = new Date()
@@ -48,6 +37,21 @@ export class HomepageMenuEditorComponent {
         .find(t => t.time == date.getHours())?.menuid
     }
     this.selectedMenu = this.locationsAndMenus.menu.find(x => x.id == this.menuId);
+  }
+
+  componentDidRender() {
+    if (DBConnection) {
+      if (!config?.background?.enabled) {
+        console.log('test')
+        GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+      }
+      if (config?.banner) {
+        GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+      }
+      if (config?.Logo) {
+        GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
+      }
+    }
   }
 
   private async LoadConfig() {
@@ -76,7 +80,7 @@ export class HomepageMenuEditorComponent {
   }
 
   private async LoadBackground(image) {
-    if (!config.background.enabled) {
+    if (!config?.background?.enabled) {
       const loadedImage = await loadImage(image.image.data).catch(err => err)
       document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
     }
@@ -88,7 +92,7 @@ export class HomepageMenuEditorComponent {
 
   private async LoadBanner(image, element) {
     const loadedImage = await loadImage(image.image.data).catch(err => err);
-    if (config.banner) {
+    if (config?.banner) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
     }
   }
@@ -118,41 +122,42 @@ export class HomepageMenuEditorComponent {
     return (
       <Host>
         <toolbar-component></toolbar-component>
+        <div class='group'>
+          <ion-accordion-group>
+            <ion-accordion toggleIcon='chevron-down'>
+              <ion-item lines='none' slot='header' class='accordion-header'>
+                <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
+              </ion-item>
+              <ion-list slot='content'>
+                {this.locationsAndMenus?.location?.map(x =>
+                  <ion-router-link href={`/editor/menu/`}>
+                    <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
+                  </ion-router-link>
+                )}
+              </ion-list>
+            </ion-accordion>
+          </ion-accordion-group>
+          <ion-accordion-group>
+            <ion-accordion toggleIcon='chevron-down'>
+              <ion-item slot='header' lines='none' class='accordion-header'>
+                <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
+              </ion-item>
+              <ion-list slot='content'>
+                {this.locationsAndMenus?.menu?.map(x =>
+                  <ion-router-link href={`/editor/menu/${x.id}`}>
+                    <ion-item lines='none' class='accordion-item'>
+                      {x.name}
+                    </ion-item>
+                  </ion-router-link>
+                )}
+              </ion-list>
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
         {
           config?.connect ?
             <div class='menuContainer'>
-              <div class='group'>
-                <ion-accordion-group>
-                  <ion-accordion toggleIcon='chevron-down'>
-                    <ion-item lines='none' slot='header' class='accordion-header'>
-                      <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
-                    </ion-item>
-                    <ion-list slot='content'>
-                      {this.locationsAndMenus?.location?.map(x =>
-                        <ion-router-link href={`/editor/menu/`}>
-                          <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
-                        </ion-router-link>
-                      )}
-                    </ion-list>
-                  </ion-accordion>
-                </ion-accordion-group>
-                <ion-accordion-group>
-                  <ion-accordion toggleIcon='chevron-down'>
-                    <ion-item slot='header' lines='none' class='accordion-header'>
-                      <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
-                    </ion-item>
-                    <ion-list slot='content'>
-                      {this.locationsAndMenus?.menu?.map(x =>
-                        <ion-router-link href={`/editor/menu/${x.id}`}>
-                          <ion-item lines='none' class='accordion-item'>
-                            {x.name}
-                          </ion-item>
-                        </ion-router-link>
-                      )}
-                    </ion-list>
-                  </ion-accordion>
-                </ion-accordion-group>
-              </div>
+
               <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
                 <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button>
                 <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>

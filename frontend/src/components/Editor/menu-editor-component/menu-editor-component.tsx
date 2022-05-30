@@ -31,7 +31,6 @@ export class MenuEditorComponent {
       config.productImages.style = 'Disabled';
     }
 
-    console.log(this.menuId)
     await GetData(`/?id=${this.menuId}`)
       .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })

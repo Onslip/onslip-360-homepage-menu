@@ -4,7 +4,8 @@
 }
 
 .menuContainer {
-  margin: auto;
+  margin: 10px auto;
+
   width: auto;
   max-width: 1000px;
   padding-bottom: 1px;
@@ -70,22 +71,25 @@
 }
 
 ion-accordion-group {
-  width: 300px;
-  z-index: 99;
+  flex-grow: 1;
+  flex-basis: 50%;
+  min-width: 100px;
+  max-width: 500px;
+  width: min-content;
 }
 
-ion-accordion.accordion-expanding ion-icon {
-  transition: ease-in-out 0.4s;
-  transform: rotate3d(1, 0, 0, 180deg);
 
+ion-accordion.accordion-expanding ion-icon {
+  transition: ease-in-out 0.5s;
+  transform: rotate3d(1, 0, 0, 520deg);
 }
 
 ion-accordion.accordion-collapsing ion-icon {
-  transition: ease-in-out 0.4s;
+  transition: ease-in-out 0.5s;
 }
 
 ion-accordion.accordion-expanded ion-icon {
-  transform: rotate3d(1, 0, 0, 180deg);
+  transform: rotate3d(1, 0, 0, 520deg);
 }
 
 
@@ -94,11 +98,19 @@ ion-accordion.accordion-expanded ion-icon {
 }
 
 .accordion-item {
-  --text-align: center;
+  width: 100%;
+
 }
 
 
 .group {
-  position: absolute;
+  margin: auto;
+  max-width: 1000px;
+  width: 100%;
+  z-index: 3;
   display: flex;
+}
+
+ion-list.list-md {
+  padding: 0;
 }
