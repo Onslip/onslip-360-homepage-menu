@@ -140,7 +140,6 @@ export class DHMService {
                     catch (err) {
                         api.DatabaseConnected = false;
                     }
-
                     return api;
                 }
 

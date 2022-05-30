@@ -26,7 +26,8 @@ export namespace Components {
         "menuId": number;
     }
     interface HomepageMenuEditorComponent {
-        "menuId": number;
+        "locationId": number;
+        "menuId"?: number;
     }
     interface LayoutOverlay {
     }
@@ -37,7 +38,7 @@ export namespace Components {
     }
     interface MenuEditorComponent {
         "UploadCatImage": (file: File, id: number) => Promise<void>;
-        "menuId"?: number;
+        "menuId": number;
         "toggle": boolean;
         "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
@@ -197,6 +198,7 @@ declare namespace LocalJSX {
         "menuId"?: number;
     }
     interface HomepageMenuEditorComponent {
+        "locationId"?: number;
         "menuId"?: number;
     }
     interface LayoutOverlay {

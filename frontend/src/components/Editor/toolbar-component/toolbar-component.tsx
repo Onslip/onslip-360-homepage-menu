@@ -88,8 +88,7 @@ export class ToolbarComponent {
                       {this.locations?.location?.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
                     </ion-select>
                   </ion-item>
-                </div> :
-                null
+                </div> : null
             }
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
