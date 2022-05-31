@@ -70,6 +70,14 @@ ion-accordion-group {
   width: min-content;
 }
 
+.left {
+  margin-right: 3px;
+}
+
+.right {
+  margin-left: 3px;
+}
+
 ion-accordion.accordion-expanding ion-icon {
   transition: ease-in-out 0.3s;
   transform: rotateX(180deg) rotateY(180deg);
@@ -117,6 +125,14 @@ ion-list.list-md {
 
   .group {
     flex-direction: column;
+  }
+
+  .left {
+    margin: 0;
+  }
+
+  .right {
+    margin: 0;
   }
 }
 
