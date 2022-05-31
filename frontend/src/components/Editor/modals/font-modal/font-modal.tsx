@@ -4,6 +4,7 @@ import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 
 import Coloris from "@melloware/coloris";
 import { GetData } from '../../../utils/get';
+import { paths } from '../../../utils/urlPaths';
 Coloris.init()
 
 @Component({
@@ -23,7 +24,7 @@ export class FontModal {
   private tempConfig: Styleconfig
 
   async componentWillLoad() {
-    this.tempConfig = await GetData('/config')
+    this.tempConfig = await GetData(paths.config)
   }
 
   componentDidRender() {
@@ -66,7 +67,7 @@ export class FontModal {
   async PostData() {
     if (this.settingsHaveChanged) {
       this.setGlobalValues();
-      await PostData('/config', config).then(() => this.close())
+      await PostData(paths.config, config).then(() => this.close())
     }
   }
 

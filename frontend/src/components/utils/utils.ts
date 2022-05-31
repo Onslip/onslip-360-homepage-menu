@@ -1,4 +1,5 @@
 import { GetData } from "./get";
+import { paths } from "./urlPaths";
 
 export interface DBImage {
   image?: any
@@ -111,17 +112,16 @@ export const Fonts = [
   'Verdana, Geneva, Tahoma, sans-serif',
 ];
 
-export const DBConnection: newApi = await GetData(`/api`).then(response => response).catch(err => err);
+export const DBConnection: newApi = await GetData(paths.api).then(response => response).catch(err => err);
 
-export const mainConfig: mainConfigInterface = await GetData(`/mainconfig`).then(response => response).catch(err => err);
+export const mainConfig: mainConfigInterface = await GetData(paths.mainConfig).then(response => response).catch(err => err);
 
 export const editorvisual: boolean = false;
 
 export const config: Styleconfig = await getConfig();
 
 async function getConfig(): Promise<Styleconfig> {
-
-  return await GetData(`/config`)
+  return await GetData(paths.config)
     .then(response => response)
     .catch(err => (console.log(err)))
 }

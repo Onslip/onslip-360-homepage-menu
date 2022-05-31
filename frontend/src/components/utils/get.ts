@@ -1,6 +1,5 @@
-export async function GetData(endpoint: string): Promise<any> {
-    const baseUrl = 'http://localhost:8080'
-    return fetch(baseUrl + endpoint)
+export async function GetData(path: string): Promise<any> {
+    return fetch(path)
         .then(rsp => rsp.json())
         .then(data => data = JSON.parse(JSON.stringify(data)))
         .catch(err => err)

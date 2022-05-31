@@ -5,6 +5,7 @@ import { loadImage } from '../../utils/image';
 import '@ionic/core'
 import { Prop } from '@ionic/core/dist/types/stencil-public-runtime';
 import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'homepage-menu-editor-component',
@@ -21,17 +22,17 @@ export class HomepageMenuEditorComponent {
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
   @State() logoImage: string = ''
-  @Prop() menuId: number;
+  @Prop({ mutable: true }) menuId: number;
   @Prop() locationId: number;
   @State() locationsAndMenus: locationsAndMenu;
   @State() selectedMenu: Menu
   @State() selectedLocation: location;
 
   async componentWillLoad() {
-    this.locationsAndMenus = await GetData('/locations');
+    this.locationsAndMenus = await GetData(paths.loacation);
     if (this.menuId == undefined) {
       const date = new Date()
-      const schedule: Timetable[] = await GetData('/schedule')
+      const schedule: Timetable[] = await GetData(paths.timetable)
       this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
         .find(d => d.Day == date.getDay())?.Times
         .find(t => t.time == date.getHours())?.menuid
@@ -43,13 +44,13 @@ export class HomepageMenuEditorComponent {
     if (DBConnection) {
       if (!config?.background?.enabled) {
         console.log('test')
-        GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+        GetData(paths.backgroundImage).then(response => this.LoadBackground(response)).catch(err => err);
       }
       if (config?.banner) {
-        GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+        GetData(paths.banner).then(response => this.LoadBanner(response, '.header')).catch(err => err);
       }
       if (config?.Logo) {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
+        GetData(paths.logo).then(response => this.LoadLogo(response)).catch(err => err);
       }
     }
   }
