@@ -15,8 +15,6 @@ import { paths } from '../../utils/urlPaths';
 export class MenuEditorComponent {
 
   @Element() element: HTMLElement;
-  private produrl: string = '/product-image';
-  private caturl: string = '/category-image';
   @State() categories: categorywithproduct[];
   @State() menu: MenuWithCategory;
   @State() errormessage: string

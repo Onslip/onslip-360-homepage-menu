@@ -4,16 +4,16 @@
 }
 
 .menuContainer {
-  margin: 10px auto;
+  margin: 5px auto;
   width: auto;
   max-width: 1000px;
   padding-bottom: 1px;
-  background-color: white;
   border-radius: 5px;
   font-size: var(--fontSize);
   font-family: var(--font);
   font-weight: var(--fontWeight);
   font-style: var(--fontStyle);
+  background-color: var(--menuBackground);
 }
 
 .logoDiv {
@@ -60,6 +60,68 @@
   color: white;
   font-size: small;
   border-radius: 2px;
+}
+
+ion-accordion-group {
+  flex-grow: 1;
+  flex-basis: 50%;
+  min-width: 100px;
+  max-width: 500px;
+  width: min-content;
+}
+
+.left {
+  margin-right: 3px;
+}
+
+.right {
+  margin-left: 3px;
+}
+
+ion-accordion.accordion-expanding ion-icon {
+  transition: ease-in-out 0.4s;
+  transform: rotate3d(1, 0, 0, -180deg);
+}
+
+ion-accordion.accordion-collapsing ion-icon {
+  transition: ease-in-out 0.4s;
+}
+
+ion-accordion.accordion-expanded ion-icon {
+  transform: rotate3d(1, 0, 0, -180deg);
+}
+
+
+.accordion-item:hover,
+.accordion-header:hover {
+  --background: hsla(0, 0%, 46%, 0.479);
+}
+
+.accordion-item,
+.accordion-header {
+  --background: rgba(193, 193, 193, 0.634);
+}
+
+.group {
+  margin: auto;
+  max-width: 1000px;
+  width: 100%;
+  z-index: 3;
+  display: flex;
+}
+
+ion-list.list-md {
+  padding: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  ion-accordion-group {
+    min-width: 100%;
+  }
+
+  .group {
+    flex-direction: column;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
