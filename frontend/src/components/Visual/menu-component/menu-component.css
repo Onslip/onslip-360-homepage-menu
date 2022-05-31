@@ -4,7 +4,7 @@
 }
 
 .outer-card {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.3);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -21,7 +21,7 @@
   font-size: var(--fontSize);
   width: 100%;
   margin: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
 }
 
 .progressbar {
@@ -39,7 +39,8 @@
 }
 
 .categoryTitle {
-  font-size: 1.5rem;
+  color: var(--prodTitle);
+  font-size: 125%;
   margin: 0;
   text-align: center;
   font-weight: bold;
@@ -47,7 +48,6 @@
 }
 
 .categoryTitle[data-status='Banner'] {
-  font-size: var(--fontSize);
   padding: 30px;
   background: rgba(255, 255, 255, 0.5);
 }
@@ -60,38 +60,34 @@
 }
 
 .productName {
+  color: var(--prodName);
   font-size: 90%;
 }
 
 .productPrice {
+  color: var(--prodPrice);
   font-size: 90%;
-  color: #737373;
   text-align: end;
 }
 
 .productDesc {
+  color: var(--prodDesc);
   font-size: 70%;
 }
 
 .card.productName {
+  color: var(--prodName);
   font-size: 90%;
 }
 
 .card.productPrice {
+  color: var(--prodDesc);
   font-size: 90%;
 }
 
 .card.productDesc {
+  color: var(--prodPrice);
   font-size: 70%;
-}
-
-.card.image {
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
-}
-
-.iconLogo {
-  min-width: 80px;
-  max-width: 180px !important;
 }
 
 .text {
@@ -105,7 +101,6 @@ ion-reorder {
   top: 50%;
   transform: translate(0, -50%);
 }
-
 
 .catImages {
   left: 85%;
@@ -122,8 +117,16 @@ ion-reorder {
 
 .spinner {
   color: var(--primary);
-  transform: translate(50%, 50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
   padding: 5px;
+}
+
+.prodImg {
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
 }
 
 .productContainer {
@@ -131,6 +134,8 @@ ion-reorder {
   background-position: center;
   background-size: cover;
   display: flex;
+  background-color: transparent;
+  padding: 3px;
 }
 
 .saveButton {
@@ -147,8 +152,14 @@ ion-reorder {
   flex-grow: 1;
   min-width: 200px;
   max-width: 350px;
-  margin: 5px;
-  background-color: rgba(255, 255, 255, 0.95);
+  margin: 6px;
+  background-color: transparent;
+  font-size: unset !important;
+  box-shadow: 0px 2px 6px 1px rgba(27, 26, 26, 0.853);
+}
+
+.productContent {
+  font-size: unset !important;
 }
 
 .card-text {
@@ -157,6 +168,7 @@ ion-reorder {
 
 .products {
   justify-content: center;
+  background-color: transparent;
 }
 
 .paper-products {
@@ -171,7 +183,7 @@ ion-reorder {
   justify-content: space-around;
   display: flex;
   flex-wrap: wrap;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
 }
 
 .paper-section {

@@ -40,7 +40,7 @@
 
 .categoryTitle {
   color: var(--prodTitle);
-  font-size: 1.5rem;
+  font-size: 125%;
   margin: 0;
   text-align: center;
   font-weight: bold;

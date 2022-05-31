@@ -70,7 +70,7 @@ interface font {
 }
 
 export const fontSize: [number, string][] = [
-  [1, 'clamp(10px, 2vw, 10px)'], [2, 'clamp(10px, 2.5vw, 15px)'], [3, 'clamp(10px, 3vw, 20px)'], [4, 'clamp(10px, 3.5vw, 25px)'], [5, 'clamp(10px, 4vw, 30px)']
+  [1, 'clamp(1rem, 0.8vw, 1vh)'], [2, 'clamp(1.2rem, 1vw, 1.2vh)'], [3, 'clamp(1.4rem, 1.2vw, 1.4vh)'], [4, 'clamp(1.6rem, 1.4vw, 1.6vh)'], [5, 'clamp(1.8rem, 1.6vw, 1.8vh)']
 ]
 
 export interface MenuWithCategory {

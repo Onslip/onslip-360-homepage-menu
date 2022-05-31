@@ -1,8 +1,8 @@
 {
-    "configId": 3,
+    "configId": "3",
     "background": {
         "enabled": true,
-        "color": "#2075c1"
+        "color": "white"
     },
     "productImages": {
         "style": "Disabled",
@@ -14,19 +14,23 @@
     "Logo": false,
     "banner": false,
     "font": {
-        "fontFamily": null,
+        "customFonts": [],
+        "fontFamily": "sans-serif",
         "fontWeight": false,
         "fontStyle": false,
-        "fontSize": null,
+        "fontSize": [
+            4,
+            "clamp(30px, 3.5vw, 40px)"
+        ],
         "fontOutline": false,
         "colors": {
-            "categoryTitle": null,
-            "productName": null,
-            "productPrice": null,
-            "productDesc": null
+            "categoryTitle": "black",
+            "productName": "black",
+            "productPrice": "black",
+            "productDesc": "black"
         }
     },
-    "menuBackground": null,
+    "menuBackground": "white",
     "connect": true,
     "menuInUse": 1,
     "menuType": "inline"

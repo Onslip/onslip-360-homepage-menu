@@ -23,6 +23,7 @@ export namespace Components {
     interface FontModal {
     }
     interface HomepageMenuComponent {
+        "locationId": number;
         "menuId": number;
     }
     interface HomepageMenuEditorComponent {
@@ -32,9 +33,7 @@ export namespace Components {
     interface LayoutOverlay {
     }
     interface MenuComponent {
-        "GetMenu": () => Promise<MenuWithCategory[]>;
-        "GetMenuWithImages": () => Promise<MenuWithCategory>;
-        "menuId"?: number;
+        "menuId": number;
     }
     interface MenuEditorComponent {
         "UploadCatImage": (file: File, id: number) => Promise<void>;
@@ -195,6 +194,7 @@ declare namespace LocalJSX {
     interface FontModal {
     }
     interface HomepageMenuComponent {
+        "locationId"?: number;
         "menuId"?: number;
     }
     interface HomepageMenuEditorComponent {

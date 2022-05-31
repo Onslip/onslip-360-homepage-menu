@@ -6,6 +6,7 @@ import { DHMConfig } from './schema';
 import { UpdateDb } from './Listener';
 import { ChangePosition, DBCatImage, DBImage, MainConfig, Menu, newApi, Styleconfig, Timetable, locationsAndMenu, location } from './interfaces';
 import { GetProdByGroup, GetProdFromApi } from './LoadData';
+import { config } from 'process';
 
 export class DHMService {
     private api: API;
@@ -80,13 +81,13 @@ export class DHMService {
             class implements WebResource {
                 static path = /config/;
                 async GET() {
+                    const config: MainConfig = await new URI(`./configs/main.json`).load()
                     try {
-                        const config: MainConfig = await new URI(`./configs/main.json`).load()
                         const data: Styleconfig = await new URI(`./configs/config${config.configId}.json`).load()
                         return data;
                     } catch {
                         const defaultConfig: Styleconfig = {
-                            configId: 1,
+                            configId: config.configId ?? 1,
                             background: {
                                 enabled: true,
                                 color: 'white',
