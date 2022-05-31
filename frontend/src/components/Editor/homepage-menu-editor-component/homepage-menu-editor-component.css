@@ -62,13 +62,6 @@
   border-radius: 2px;
 }
 
-@media only screen and (max-width: 1000px) {
-  .menuContainer {
-    margin: 0;
-    border-radius: 0;
-  }
-}
-
 ion-accordion-group {
   flex-grow: 1;
   flex-basis: 50%;
@@ -76,8 +69,6 @@ ion-accordion-group {
   max-width: 500px;
   width: min-content;
 }
-
-
 
 ion-accordion.accordion-expanding ion-icon {
   transition: ease-in-out 0.4s;
@@ -120,4 +111,21 @@ ion-accordion.accordion-expanded ion-icon {
 
 ion-list.list-md {
   padding: 0;
+}
+
+@media screen and (width < 600px) {
+  ion-accordion-group {
+    min-width: 100%;
+  }
+
+  .group {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .menuContainer {
+    margin: 0;
+    border-radius: 0;
+  }
 }
