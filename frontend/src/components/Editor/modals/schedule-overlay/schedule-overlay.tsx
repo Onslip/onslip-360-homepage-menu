@@ -25,7 +25,7 @@ export class ScheduleOverlay {
   async componentWillLoad() {
     this.selectedLocation = mainConfig.selectedLocation
 
-    this.listofMenusandLocations = await GetData(paths.loacation);
+    this.listofMenusandLocations = await GetData(paths.location);
     console.log(this.listofMenusandLocations.menu)
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))

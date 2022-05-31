@@ -7,7 +7,7 @@ export const paths = {
     config: rootPath + 'config',
     mainConfig: rootPath + 'mainconfig',
     api: rootPath + 'api',
-    loacation: rootPath + 'locations',
+    location: rootPath + 'locations',
     position: rootPath + 'updateposition',
     timetable: rootPath + 'schedule',
     categoryImages: rootPath + 'category-image',

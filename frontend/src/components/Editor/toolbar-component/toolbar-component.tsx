@@ -21,7 +21,7 @@ export class ToolbarComponent {
   @State() locationsLoaded: boolean = false
 
   async componentWillLoad() {
-    await GetData(paths.loacation)
+    await GetData(paths.location)
       .then(res => this.locations = res)
       .then(() => this.locationsLoaded = true)
       .catch(err => console.log(err));

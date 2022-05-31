@@ -29,7 +29,7 @@ export class HomepageMenuEditorComponent {
   @State() selectedLocation: location;
 
   async componentWillLoad() {
-    this.locationsAndMenus = await GetData(paths.loacation);
+    this.locationsAndMenus = await GetData(paths.location);
     if (this.menuId == undefined) {
       const date = new Date()
       const schedule: Timetable[] = await GetData(paths.timetable)
