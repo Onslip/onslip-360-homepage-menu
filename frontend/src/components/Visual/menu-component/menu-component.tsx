@@ -1,8 +1,10 @@
-import { Component, State, Host, h, Element, Prop, getAssetPath } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, Method, getAssetPath } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { loadImage } from '../../utils/image';
+import { CheckImage, loadImage } from '../../utils/image';
+import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
     tag: 'menu-component',
@@ -13,8 +15,6 @@ import { loadImage } from '../../utils/image';
 export class MenuComponent {
 
     @Element() element: HTMLElement;
-    private produrl: string = '/product-image';
-    private caturl: string = '/category-image';
     @State() categories: categorywithproduct[];
     @State() menu: MenuWithCategory;
     @State() errormessage: string
@@ -29,7 +29,7 @@ export class MenuComponent {
             config.productImages.style = 'Disabled';
         }
 
-        await GetData(`/?id=${this.menuId}`)
+        await GetData(`${paths.products}?id=${this.menuId}`)
             .then(response => this.menu = response)
             .then(() => { this.loading = false, config.connect = true })
             .then(() => this.categories = this.menu.categories)
@@ -61,7 +61,7 @@ export class MenuComponent {
 
     async getCatImages() {
         if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
-            GetData(this.caturl)
+            GetData(paths.categoryImages)
                 .then(response => { this.LoadCatImages(response); })
                 .catch(() => {
                 });
@@ -70,7 +70,7 @@ export class MenuComponent {
 
     async getProdImages() {
         if (config?.productImages?.style != 'Disabled' && DBConnection) {
-            GetData(this.produrl)
+            GetData(paths.productImages)
                 .then(response => this.LoadImages(response))
                 .catch(() => {
                 });
@@ -104,6 +104,38 @@ export class MenuComponent {
         })
     }
 
+    @Method() async uploadProdImage(file: File, id: number, catId: number) {
+        if (CheckImage(file)) {
+            const fileReader = new FileReader()
+            fileReader.onload = () => {
+                this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
+                this.categories = [...this.categories]
+            }
+            fileReader.readAsDataURL(file)
+        }
+    }
+
+    @Method() async UploadCatImage(file: File, id: number) {
+        if (CheckImage(file)) {
+            const fileReader = new FileReader()
+            fileReader.onload = () => {
+                this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
+                this.categories = [...this.categories]
+            }
+            fileReader.readAsDataURL(file)
+        }
+    }
+
+    async doReorder(ev: any) {
+        this.categories = ev.detail.complete(this.categories);
+        this.CanSave = true;
+    }
+
+    async SaveReorder() {
+        this.CanSave = false;
+        const newMenu = { menu: this.menu?.menu?.id, categories: this.categories?.map(x => { return { id: x?.category?.id, position: this.categories?.indexOf(x) } }) }
+        PostData('/updateposition', newMenu)
+    }
 
     renderProducts(products?: DBproduct[]) {
         return (products?.map(x =>
@@ -116,6 +148,7 @@ export class MenuComponent {
                                 :
                                 <div class="prodImg">
                                     <ion-img src={x.image} ></ion-img>
+                                    <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
                                 </div>
                         }
                     </div>
@@ -143,6 +176,7 @@ export class MenuComponent {
                                 :
                                 <div class="prodImg">
                                     <ion-img src={x.image} ></ion-img>
+                                    <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
                                 </div>
                         }
                     </div>
@@ -157,13 +191,14 @@ export class MenuComponent {
             <ion-row class='products'>
                 {products?.map(x =>
                     <ion-card class={"product"} id='scroll-container'>
-                        <div>
+                        <div hidden={config?.productImages.style == 'Disabled'}>
                             {
-                                !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                                !x.imageLoaded ?
                                     <ion-spinner class="spinner"></ion-spinner>
                                     :
                                     <div class='prodImg'>
                                         <ion-img src={x.image} ></ion-img>
+                                        <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} iconName='share-sharp' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
                                     </div>
                             }
                         </div>
@@ -192,7 +227,6 @@ export class MenuComponent {
                                     <div>
                                         <ion-title class='categoryTitle'>
                                             {data?.category?.name}
-                                            <ion-icon name="reorder-three-sharp"></ion-icon>
                                         </ion-title>
                                     </div>
                                     <ion-col class="paper-products">
@@ -219,8 +253,7 @@ export class MenuComponent {
                         })
                         : null
                 }
-            </div>
-        )
+            </div>)
     }
 
     render() {
@@ -243,6 +276,7 @@ export class MenuComponent {
                                                     <div>
                                                         <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
                                                             <ion-card-title class='categoryTitle' data-status={config?.categoryImages?.style}>
+
                                                                 {data?.category?.name}
                                                             </ion-card-title>
                                                         </ion-card-header>

@@ -15,9 +15,6 @@ import { paths } from '../../utils/urlPaths';
 })
 export class HomepageMenuEditorComponent {
 
-  private imageurl: string = '/background';
-  private bannerUrl: string = '/banner';
-  private logoUrl: string = '/logo';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
@@ -114,10 +111,9 @@ export class HomepageMenuEditorComponent {
 
   async selectLocation(selectedLocation: location) {
     mainConfig.selectedLocation = selectedLocation
-    await PostData('/mainconfig', mainConfig)
+    await PostData(paths.mainConfig, mainConfig)
       .then(() => location.reload())
   }
-
 
   render() {
     return (

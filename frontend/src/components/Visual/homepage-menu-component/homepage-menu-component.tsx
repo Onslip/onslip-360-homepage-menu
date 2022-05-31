@@ -5,6 +5,7 @@ import { loadImage } from '../../utils/image';
 import '@ionic/core'
 import { Prop } from '@ionic/core/dist/types/stencil-public-runtime';
 import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'homepage-menu-component',
@@ -14,23 +15,20 @@ import { PostData } from '../../utils/post';
 })
 export class HomepageMenuComponent {
 
-  private imageurl: string = '/background';
-  private bannerUrl: string = '/banner';
-  private logoUrl: string = '/logo';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
   @State() logoImage: string = ''
-  @Prop() menuId: number;
+  @Prop({ mutable: true }) menuId: number;
   @Prop() locationId: number;
   @State() locationsAndMenus: locationsAndMenu;
   @State() selectedMenu: Menu
   @State() selectedLocation: location;
 
   async componentWillLoad() {
-    this.locationsAndMenus = await GetData('/locations');
+    this.locationsAndMenus = await GetData(paths.loacation);
     if (this.menuId == undefined) {
       const date = new Date()
-      const schedule: Timetable[] = await GetData('/schedule')
+      const schedule: Timetable[] = await GetData(paths.timetable)
       this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
         .find(d => d.Day == date.getDay())?.Times
         .find(t => t.time == date.getHours())?.menuid
@@ -42,13 +40,13 @@ export class HomepageMenuComponent {
     if (DBConnection) {
       if (!config?.background?.enabled) {
         console.log('test')
-        GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+        GetData(paths.backgroundImage).then(response => this.LoadBackground(response)).catch(err => err);
       }
       if (config?.banner) {
-        GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+        GetData(paths.banner).then(response => this.LoadBanner(response, '.header')).catch(err => err);
       }
       if (config?.Logo) {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response)).catch(err => err);
+        GetData(paths.logo).then(response => this.LoadLogo(response)).catch(err => err);
       }
     }
   }
@@ -103,37 +101,36 @@ export class HomepageMenuComponent {
 
   async selectLocation(selectedLocation: location) {
     mainConfig.selectedLocation = selectedLocation
-    await PostData('/mainconfig', mainConfig)
+    await PostData(paths.mainConfig, mainConfig)
       .then(() => location.reload())
   }
-
 
   render() {
     return (
       <Host>
         <div class='group'>
-          <ion-accordion-group>
+          <ion-accordion-group class='left'>
             <ion-accordion toggleIcon='chevron-down'>
               <ion-item lines='none' slot='header' class='accordion-header'>
                 <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
               </ion-item>
               <ion-list slot='content'>
                 {this.locationsAndMenus?.location?.map(x =>
-                  <ion-router-link href={`/editor/menu/`}>
+                  <ion-router-link href={`/menu/`}>
                     <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
                   </ion-router-link>
                 )}
               </ion-list>
             </ion-accordion>
           </ion-accordion-group>
-          <ion-accordion-group>
+          <ion-accordion-group class='right'>
             <ion-accordion toggleIcon='chevron-down'>
               <ion-item slot='header' lines='none' class='accordion-header'>
                 <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
               </ion-item>
               <ion-list slot='content'>
                 {this.locationsAndMenus?.menu?.map(x =>
-                  <ion-router-link href={`/editor/menu/${x.id}`}>
+                  <ion-router-link href={`/menu/${x.id}`}>
                     <ion-item lines='none' class='accordion-item'>
                       {x.name}
                     </ion-item>
@@ -151,7 +148,8 @@ export class HomepageMenuComponent {
                 <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
                 <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
               </ion-item>
-              <menu-editor-component menuId={this.menuId}></menu-editor-component>
+              <menu-component menuId={this.menuId}></menu-component>
+              {/* <test-menu toggle={this.toggle}></test-menu> */}
             </div> :
             null
         }

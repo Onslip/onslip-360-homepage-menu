@@ -1,8 +1,6 @@
 import { Component, h, State, getAssetPath, Element } from '@stencil/core';
-import { config, DBConnection, locationsAndMenu, mainConfig } from '../../utils/utils';
+import { config, DBConnection, mainConfig } from '../../utils/utils';
 import { PostData, PostImage } from '../../utils/post';
-import { GetData } from '../../utils/get';
-import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'toolbar-component',
@@ -17,15 +15,8 @@ export class ToolbarComponent {
   private url2: string = '/banner';
   private url3: string = '/logo';
   @Element() element: HTMLElement;
-  private locations: locationsAndMenu;
   @State() locationsLoaded: boolean = false
 
-  async componentWillLoad() {
-    await GetData(paths.loacation)
-      .then(res => this.locations = res)
-      .then(() => this.locationsLoaded = true)
-      .catch(err => console.log(err));
-  }
 
   async menuClick() {
     this.menuopen = !this.menuopen
@@ -52,10 +43,6 @@ export class ToolbarComponent {
       .then(() => location.reload())
   }
 
-  private customPopoverOptions: any = {
-    reference: "event",
-  };
-
   async changeLogo(files) {
     const reader = new FileReader();
     let fd = new FormData()
@@ -81,16 +68,6 @@ export class ToolbarComponent {
               <ion-label>MENY</ion-label>
             </ion-button>
             <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
-            {/* {
-              this.locationsLoaded ?
-                <div>
-                  <ion-item class="select">
-                    <ion-select hidden={mainConfig == undefined} onIonChange={(event: any) => { this.selectLocation(event.target.value) }} interface='popover' interfaceOptions={this.customPopoverOptions} placeholder='Välj' value={mainConfig?.selectedLocation} selectedText={mainConfig?.selectedLocation?.name}>
-                      {this.locations?.location?.map(x => <ion-select-option value={x}>{x.name}</ion-select-option>)}
-                    </ion-select>
-                  </ion-item>
-                </div> : null
-            } */}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
           <ion-title slot="end" class='ddmText'>Digital Dynamic Menu</ion-title>

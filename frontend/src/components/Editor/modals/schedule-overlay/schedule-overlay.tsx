@@ -26,8 +26,7 @@ export class ScheduleOverlay {
     this.selectedLocation = mainConfig.selectedLocation
 
     this.listofMenusandLocations = await GetData(paths.loacation);
-    console.log(this.listofMenusandLocations.menu)
-    let hours = [0]
+    let hours = []
     this.hours.flatMap(x => hours.push(x[1]))
     this.timeTables = await GetData(paths.timetable)
     this.oldTimeTables = await GetData(paths.timetable)
@@ -125,6 +124,8 @@ export class ScheduleOverlay {
   }
 
   markUnavailableTimes() {
+    const listofMenuId: number[] = this.listofMenusandLocations.menu.map(x => x.id);
+
     this.element.shadowRoot.querySelectorAll('.box').forEach(x => {
       x.classList.remove('inactive', 'active')
       x.textContent = ''
@@ -133,12 +134,17 @@ export class ScheduleOverlay {
       .days.forEach(d => {
         d.Times.filter(t => t.menuid != this.selectedMenuId).forEach(f => {
           this.element.shadowRoot.querySelectorAll('.box').forEach(c => {
-            if (f.menuid != undefined) {
-              if (Number(c.id) == d.Day && Number(c.parentElement.id) == f.time) {
-                c.classList.add('inactive');
-                c.classList.remove('active')
-                c.textContent = this.listofMenusandLocations.menu.find(m => m.id == f.menuid).name
+            if (listofMenuId.includes(f?.menuid)) {
+              if (f.menuid != undefined) {
+                if (Number(c.id) == d.Day && Number(c.parentElement.id) == f.time) {
+                  c.classList.add('inactive');
+                  c.classList.remove('active')
+                  c.textContent = this.listofMenusandLocations.menu.find(m => m?.id == f?.menuid)?.name
+                }
               }
+            }
+            else {
+              f.menuid = undefined
             }
           })
         })
