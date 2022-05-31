@@ -71,27 +71,31 @@ ion-accordion-group {
 }
 
 ion-accordion.accordion-expanding ion-icon {
-  transition: ease-in-out 0.4s;
-  transform: rotate3d(1, 0, 0, -180deg);
+  transition: ease-in-out 0.3s;
+  transform: rotateX(180deg) rotateY(180deg);
 }
 
 ion-accordion.accordion-collapsing ion-icon {
-  transition: ease-in-out 0.4s;
+  transition: ease-in-out 0.3s;
 }
 
 ion-accordion.accordion-expanded ion-icon {
-  transform: rotate3d(1, 0, 0, -180deg);
+  transform: rotateX(180deg) rotateY(180deg);
 }
 
 
 .accordion-item:hover,
 .accordion-header:hover {
-  --background: hsla(0, 0%, 46%, 0.479);
+  --background: var(--primary);
 }
 
 .accordion-item,
 .accordion-header {
-  --background: rgba(193, 193, 193, 0.634);
+  --background: hsla(0, 0%, 95%, 1);
+}
+
+.accordion-item {
+  border-top: 1px solid hsla(0, 0%, 60%, 1);
 }
 
 .group {

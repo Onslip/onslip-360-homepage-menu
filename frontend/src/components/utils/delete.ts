@@ -1,6 +1,5 @@
-export function deleteImage(endpoint: string, id: number) {
-    const baseUrl = 'http://localhost:8080'
-    fetch(baseUrl + endpoint, {
+export function deleteImage(path: string, id: number) {
+    fetch(path, {
         method: 'delete',
         body: JSON.stringify(id),
     })

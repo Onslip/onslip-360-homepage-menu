@@ -14,7 +14,7 @@
   align-content: start;
   border-radius: 5px;
   margin: 5px;
-
+  transition: none;
 }
 
 .content {
@@ -100,6 +100,10 @@ ion-reorder {
   right: 10px;
   top: 50%;
   transform: translate(0, -50%);
+}
+
+.reorder.reorder-list-active .outer-card.reorder-selected ion-reorder {
+  color: var(--secondary);
 }
 
 .catImages {

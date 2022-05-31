@@ -238,7 +238,8 @@ export class CropTool {
   }
 
   private deleteImage() {
-    let aproved = (): boolean => { return window.confirm('Är du säker på att du vill radera bilden?') }
+    const aproved: boolean = confirm('Är du säker på att du vill radera bilden?')
+    console.log(aproved)
     if (aproved) {
       deleteImage(this.url, this.TargetId)
       this.close()

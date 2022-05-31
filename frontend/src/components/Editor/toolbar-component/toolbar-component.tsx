@@ -73,6 +73,7 @@ export class ToolbarComponent {
           <ion-title slot="end" class='ddmText'>Digital Dynamic Menu</ion-title>
         </ion-toolbar>
 
+
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">
