@@ -24,6 +24,8 @@ export class HomepageMenuEditorComponent {
   @State() locationsAndMenus: locationsAndMenu;
   @State() selectedMenu: Menu
   @State() selectedLocation: location;
+  private accordionGroupRef?: HTMLIonAccordionGroupElement;
+  private accordionGroupRef1?: HTMLIonAccordionGroupElement;
 
   async componentWillLoad() {
     this.locationsAndMenus = await GetData(paths.location);
@@ -115,58 +117,76 @@ export class HomepageMenuEditorComponent {
       .then(() => location.reload())
   }
 
+  private closeAccordion(event: any) {
+    if (!this.accordionGroupRef1.contains(event.target)) {
+      const { accordionGroupRef1 } = this;
+      if (accordionGroupRef1) {
+        accordionGroupRef1.value = undefined
+      }
+    }
+    if (!this.accordionGroupRef.contains(event.target)) {
+      const { accordionGroupRef } = this;
+      if (accordionGroupRef) {
+        accordionGroupRef.value = undefined;
+      }
+    }
+  }
+
+
   render() {
     return (
       <Host>
-        <toolbar-component></toolbar-component>
-        <div class='group'>
-          <ion-accordion-group>
-            <ion-accordion toggleIcon='chevron-down'>
-              <ion-item lines='none' slot='header' class='accordion-header'>
-                <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
-              </ion-item>
-              <ion-list slot='content'>
-                {this.locationsAndMenus?.location?.map(x =>
-                  <ion-router-link href={`/editor/menu/`}>
-                    <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
-                  </ion-router-link>
-                )}
-              </ion-list>
-            </ion-accordion>
-          </ion-accordion-group>
-          <ion-accordion-group>
-            <ion-accordion toggleIcon='chevron-down'>
-              <ion-item slot='header' lines='none' class='accordion-header'>
-                <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
-              </ion-item>
-              <ion-list slot='content'>
-                {this.locationsAndMenus?.menu?.map(x =>
-                  <ion-router-link href={`/editor/menu/${x.id}`}>
-                    <ion-item lines='none' class='accordion-item'>
-                      {x.name}
-                    </ion-item>
-                  </ion-router-link>
-                )}
-              </ion-list>
-            </ion-accordion>
-          </ion-accordion-group>
-        </div>
-        {
-          config?.connect ?
-            <div class='menuContainer'>
+        <div onClick={(event: any) => { this.closeAccordion(event) }}>
+          <toolbar-component></toolbar-component>
+          <div class='group'>
+            <ion-accordion-group class='left' ref={el => this.accordionGroupRef = el}>
+              <ion-accordion toggleIcon='chevron-down'>
+                <ion-item lines='none' slot='header' class='accordion-header'>
+                  <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
+                </ion-item>
+                <ion-list slot='content'>
+                  {this.locationsAndMenus?.location?.map(x =>
+                    <ion-router-link href={`/editor/menu/`}>
+                      <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
+                    </ion-router-link>
+                  )}
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+            <ion-accordion-group class='right' ref={el => this.accordionGroupRef1 = el}>
+              <ion-accordion toggleIcon='chevron-down'>
+                <ion-item slot='header' lines='none' class='accordion-header'>
+                  <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
+                </ion-item>
+                <ion-list slot='content'>
+                  {this.locationsAndMenus?.menu?.map(x =>
+                    <ion-router-link href={`/editor/menu/${x.id}`}>
+                      <ion-item lines='none' class='accordion-item'>
+                        {x.name}
+                      </ion-item>
+                    </ion-router-link>
+                  )}
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+          </div>
+          {
+            config?.connect ?
+              <div class='menuContainer'>
 
-              <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
-                <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button>
-                <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
-                <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
-              </ion-item>
-              <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
-              {/* <test-menu toggle={this.toggle}></test-menu> */}
-            </div> :
-            null
-        }
-        <div class='logoDiv'>
-          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+                <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
+                  <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+                  <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
+                  <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
+                </ion-item>
+                <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
+                {/* <test-menu toggle={this.toggle}></test-menu> */}
+              </div> :
+              null
+          }
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          </div>
         </div>
       </Host >
     )

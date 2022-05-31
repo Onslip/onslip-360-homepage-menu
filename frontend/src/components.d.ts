@@ -198,6 +198,7 @@ declare namespace LocalJSX {
     interface HomepageMenuComponent {
         "locationId"?: number;
         "menuId"?: number;
+        "onAccordionGroupRef"?: (event: CustomEvent<any>) => void;
     }
     interface HomepageMenuEditorComponent {
         "locationId"?: number;
