@@ -50,3 +50,13 @@ ion-row {
   color: white;
   --background: unset;
 }
+
+@media screen and (width < 800px) {
+  .ddmText {
+    display: none;
+  }
+
+  .logo {
+    left: 83%;
+  }
+}

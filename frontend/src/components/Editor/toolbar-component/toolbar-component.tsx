@@ -80,8 +80,8 @@ export class ToolbarComponent {
               <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
               <ion-label>MENY</ion-label>
             </ion-button>
-            {/* <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component> */}
-            {
+            <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+            {/* {
               this.locationsLoaded ?
                 <div>
                   <ion-item class="select">
@@ -90,10 +90,10 @@ export class ToolbarComponent {
                     </ion-select>
                   </ion-item>
                 </div> : null
-            }
+            } */}
           </ion-buttons>
           <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
-          <ion-title slot="end">Digital Dynamic Menu</ion-title>
+          <ion-title slot="end" class='ddmText'>Digital Dynamic Menu</ion-title>
         </ion-toolbar>
 
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>

@@ -4,8 +4,7 @@
 }
 
 .menuContainer {
-  margin: 10px auto;
-
+  margin: 5px auto;
   width: auto;
   max-width: 1000px;
   padding-bottom: 1px;
@@ -63,13 +62,6 @@
   border-radius: 2px;
 }
 
-@media only screen and (max-width: 1000px) {
-  .menuContainer {
-    margin: 0;
-    border-radius: 0;
-  }
-}
-
 ion-accordion-group {
   flex-grow: 1;
   flex-basis: 50%;
@@ -78,30 +70,36 @@ ion-accordion-group {
   width: min-content;
 }
 
-
 ion-accordion.accordion-expanding ion-icon {
-  transition: ease-in-out 0.5s;
-  transform: rotate3d(1, 0, 0, 520deg);
+  transition: ease-in-out 0.4s;
+  transform: rotate3d(1, 0, 0, 180deg);
 }
 
 ion-accordion.accordion-collapsing ion-icon {
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.4s;
 }
 
 ion-accordion.accordion-expanded ion-icon {
-  transform: rotate3d(1, 0, 0, 520deg);
+  transform: rotate3d(1, 0, 0, 180deg);
 }
 
 
 .accordion-item:hover {
-  --background: hsl(0, 0%, 91%);
+  --background: hsla(0, 0%, 26%, 0.479);
 }
 
 .accordion-item {
   width: 100%;
-
+  --background: rgba(155, 155, 155, 0.634);
 }
 
+.accordion-header {
+  --background: rgba(155, 155, 155, 0.634);
+}
+
+.accordion-header:hover {
+  --background: hsla(0, 0%, 26%, 0.479);
+}
 
 .group {
   margin: auto;
@@ -113,4 +111,21 @@ ion-accordion.accordion-expanded ion-icon {
 
 ion-list.list-md {
   padding: 0;
+}
+
+@media screen and (width < 600px) {
+  ion-accordion-group {
+    min-width: 100%;
+  }
+
+  .group {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .menuContainer {
+    margin: 0;
+    border-radius: 0;
+  }
 }
