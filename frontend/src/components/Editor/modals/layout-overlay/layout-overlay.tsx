@@ -1,6 +1,7 @@
 import { Component, h, State } from '@stencil/core';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
+import { paths } from '../../../utils/urlPaths';
 import { config, DBConnection, Styleconfig } from '../../../utils/utils'
 
 @Component({
@@ -19,7 +20,7 @@ export class LayoutOverlay {
         config.categoryImages.style = 'Banner'
       }
     }
-    this.tempConfig = await GetData('/config')
+    this.tempConfig = await GetData(paths.config)
   }
 
   valueChanged() {
@@ -36,7 +37,7 @@ export class LayoutOverlay {
 
   async PostData() {
     if (this.settingsHaveChanged) {
-      await PostData('/config', config).then(() => location.reload())
+      await PostData(paths.config, config).then(() => location.reload())
     }
   }
 

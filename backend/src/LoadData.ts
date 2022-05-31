@@ -1,6 +1,6 @@
 import { DatabaseURI } from "@divine/uri";
 import { API } from "@onslip/onslip-360-node-api";
-import { categorywithproduct,  DBJointTables, DBproduct, MenuWithCategory } from "./interfaces";
+import { categorywithproduct, DBJointTables, DBproduct, MenuWithCategory } from "./interfaces";
 
 export async function GetProdFromApi(api: API, menuId: number): Promise<MenuWithCategory> {
     const categorybuttonamp = (await api.listButtonMaps()).filter(c => c.type == 'menu-section');
@@ -57,8 +57,8 @@ export async function GetProdByGroup(db: DatabaseURI, menuId: number): Promise<M
     LEFT JOIN onslip.grouptoproduct ON onslip.grouptoproduct.category_id = onslip.productcategories.id
     LEFT JOIN onslip.products ON onslip.products.id = onslip.grouptoproduct.product_id WHERE onslip.menu.id = ${menuId}`
 
-    
-  
+
+
     const sortedtable: MenuWithCategory = {
         menu: {
             id: Number(jointTables.find(x => x.menuid == menuId)?.menuid) ?? 0,
@@ -77,7 +77,7 @@ export async function GetProdByGroup(db: DatabaseURI, menuId: number): Promise<M
                         name: p?.name,
                         description: p?.description,
                         price: Number(p?.price),
-                        productcategory_id: Number(c?.id),
+                        productcategory_id: Number(c?.categoryid),
                         position: Number(p?.productposition)
                     })
                 }).sort((a, b) => (a.position) - (b.position))

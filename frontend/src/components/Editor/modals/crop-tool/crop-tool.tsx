@@ -27,6 +27,8 @@ export class CropTool {
 
 
   async componentDidRender() {
+    console.log(this.CategoryId)
+    console.log(this.TargetId)
     this.LoadImage()
   }
 
@@ -226,8 +228,8 @@ export class CropTool {
       a.UploadCatImage(File, id)
     }
     else if (this.ImagePosition == 'Product') {
-      fd.append('id', String(id));
-      a.uploadProdImage(File, id, this.CategoryId);
+      fd.append('id', String(this.TargetId));
+      a.uploadProdImage(File, this.TargetId, this.CategoryId);
     }
 
     console.log('test')

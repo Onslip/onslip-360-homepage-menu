@@ -1,6 +1,7 @@
 import { Component, h, State } from '@stencil/core';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
+import { paths } from '../../../utils/urlPaths';
 import { DBConnection, newApi } from '../../../utils/utils';
 
 @Component({
@@ -25,7 +26,7 @@ export class ApiUi {
 
   async GetApiData() {
     this.loading = true
-    GetData(this.url)
+    GetData(paths.api)
       .then(response => this.Api = response)
       .then(() => this.loading = false)
       .catch(err => err);

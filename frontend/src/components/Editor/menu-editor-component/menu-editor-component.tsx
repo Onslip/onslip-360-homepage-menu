@@ -1,9 +1,10 @@
 import { Component, State, Host, h, Element, Prop, Method, getAssetPath } from '@stencil/core';
-import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, mainConfig, MenuWithCategory } from '../../utils/utils';
+import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
 import { CheckImage, loadImage } from '../../utils/image';
 import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'menu-editor-component',
@@ -31,7 +32,7 @@ export class MenuEditorComponent {
       config.productImages.style = 'Disabled';
     }
 
-    await GetData(`/?id=${this.menuId}`)
+    await GetData(`${paths.products}?id=${this.menuId}`)
       .then(response => this.menu = response)
       .then(() => { this.loading = false, config.connect = true })
       .then(() => this.categories = this.menu.categories)
@@ -63,7 +64,7 @@ export class MenuEditorComponent {
 
   async getCatImages() {
     if (config?.categoryImages?.style != 'Disabled' && DBConnection) {
-      GetData(this.caturl)
+      GetData(paths.categoryImages)
         .then(response => { this.LoadCatImages(response); })
         .catch(() => {
         });
@@ -72,7 +73,7 @@ export class MenuEditorComponent {
 
   async getProdImages() {
     if (config?.productImages?.style != 'Disabled' && DBConnection) {
-      GetData(this.produrl)
+      GetData(paths.productImages)
         .then(response => this.LoadImages(response))
         .catch(() => {
         });
@@ -150,7 +151,7 @@ export class MenuEditorComponent {
                 :
                 <div class="prodImg">
                   <ion-img src={x.image} ></ion-img>
-                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
+                  <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
                 </div>
             }
           </div>
@@ -178,7 +179,7 @@ export class MenuEditorComponent {
                 :
                 <div class="prodImg">
                   <ion-img src={x.image} ></ion-img>
-                  <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
+                  <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
                 </div>
             }
           </div>
@@ -193,14 +194,14 @@ export class MenuEditorComponent {
       <ion-row class='products'>
         {products?.map(x =>
           <ion-card class={"product"} id='scroll-container'>
-            <div>
+            <div hidden={config?.productImages.style == 'Disabled'}>
               {
-                !x.imageLoaded && config?.productImages?.style != 'Disabled' ?
+                !x.imageLoaded ?
                   <ion-spinner class="spinner"></ion-spinner>
                   :
                   <div class='prodImg'>
                     <ion-img src={x.image} ></ion-img>
-                    <modal-ovelay buttonClass='uploadButton' url={this.produrl} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} iconName='share-sharp' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
+                    <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} iconName='share-sharp' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
                   </div>
               }
             </div>
@@ -284,7 +285,7 @@ export class MenuEditorComponent {
                               <ion-card-title class={this.toggle ? 'categoryTitle' : 'categoryTitle categoryToggled'} data-status={config?.categoryImages?.style}>
                                 {
                                   config?.categoryImages?.style != 'Disabled' && this.toggle ?
-                                    <modal-ovelay buttonClass='uploadButton banner' url={this.caturl} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} iconName='share-sharp' RenderType='image' ImagePosition='Category' ></modal-ovelay>
+                                    <modal-ovelay buttonClass='uploadButton banner' url={paths.categoryImages} MaxWidth={700} AspectRatio={4} TargetId={data.category.id} iconName='share-sharp' RenderType='image' ImagePosition='Category' ></modal-ovelay>
                                     : null
                                 }
                                 {data?.category?.name}

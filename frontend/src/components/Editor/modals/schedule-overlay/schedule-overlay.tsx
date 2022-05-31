@@ -1,6 +1,7 @@
 import { Component, h, State, Element } from '@stencil/core';
 import { GetData } from '../../../utils/get';
 import { PostData } from '../../../utils/post';
+import { paths } from '../../../utils/urlPaths';
 import { location, mainConfig, Timetable, locationsAndMenu } from '../../../utils/utils';
 
 @Component({
@@ -24,12 +25,12 @@ export class ScheduleOverlay {
   async componentWillLoad() {
     this.selectedLocation = mainConfig.selectedLocation
 
-    this.listofMenusandLocations = await GetData('/locations');
+    this.listofMenusandLocations = await GetData(paths.loacation);
     console.log(this.listofMenusandLocations.menu)
     let hours = [0]
     this.hours.flatMap(x => hours.push(x[1]))
-    this.timeTables = await GetData('/schedule')
-    this.oldTimeTables = await GetData('/schedule')
+    this.timeTables = await GetData(paths.timetable)
+    this.oldTimeTables = await GetData(paths.timetable)
   }
 
   async componentDidRender() {
@@ -161,7 +162,7 @@ export class ScheduleOverlay {
   };
 
   async Save() {
-    await PostData('/schedule', this.timeTables).then(() => this.close());
+    await PostData(paths.timetable, this.timeTables).then(() => this.close());
   }
 
   changeLocation(event: any) {

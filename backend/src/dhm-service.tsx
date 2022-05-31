@@ -240,10 +240,10 @@ export class DHMService {
                 static path = /product-image/;
 
                 async GET(args: WebArguments) {
-                    const id = args.string('?id', undefined)
+                    const id = args.number('?id', undefined)
                     let data: DBImage[]
                     if (id != undefined) {
-                        data = await svc.db.query<DBImage[]>`select * from onslip.productimages where product_id=${Number(id)}`
+                        data = await svc.db.query<DBImage[]>`select * from onslip.productimages where product_id=${id}`
                     } else {
                         data = await svc.db.query<DBImage[]>`select  productimages.product_id as product_id, productimages.image as image from onslip.menu
                         left join onslip.productcategories on onslip.productcategories.menu_id = onslip.menu.id 

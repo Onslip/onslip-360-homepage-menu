@@ -1,7 +1,6 @@
-export async function PostData(endpoint: string, data: any) {
-    const baseUrl = 'http://localhost:8080'
+export async function PostData(path: string, data: any) {
     try {
-        const response = await fetch(baseUrl + endpoint, {
+        const response = await fetch(path, {
             method: 'post',
             body: JSON.stringify(data),
             headers: {
@@ -17,10 +16,9 @@ export async function PostData(endpoint: string, data: any) {
     }
 }
 
-export async function PostImage(endpoint: string, data: any) {
-    const baseUrl = 'http://localhost:8080'
+export async function PostImage(path: string, data: any) {
     try {
-        const response = await fetch(baseUrl + endpoint, {
+        const response = await fetch(path, {
             method: 'post',
             body: data,
         });

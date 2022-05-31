@@ -2,6 +2,7 @@ import { Component, h, State, getAssetPath, Element } from '@stencil/core';
 import { config, DBConnection, locationsAndMenu, mainConfig } from '../../utils/utils';
 import { PostData, PostImage } from '../../utils/post';
 import { GetData } from '../../utils/get';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'toolbar-component',
@@ -20,7 +21,7 @@ export class ToolbarComponent {
   @State() locationsLoaded: boolean = false
 
   async componentWillLoad() {
-    await GetData('/locations')
+    await GetData(paths.loacation)
       .then(res => this.locations = res)
       .then(() => this.locationsLoaded = true)
       .catch(err => console.log(err));
