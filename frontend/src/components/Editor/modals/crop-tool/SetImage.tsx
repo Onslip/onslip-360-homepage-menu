@@ -1,4 +1,5 @@
 import { PostData } from "../../../utils/post";
+import { paths } from "../../../utils/urlPaths";
 import { config } from "../../../utils/utils";
 
 export async function LoadBackground(file) {
@@ -9,7 +10,7 @@ export async function LoadBackground(file) {
         if (image != null) {
             document.querySelector('body').style.backgroundImage = image
             config.background.enabled = false
-            PostData('/config', config);
+            PostData(paths.config, config);
         }
     };
 }

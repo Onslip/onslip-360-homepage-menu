@@ -39,6 +39,7 @@ export namespace Components {
     }
     interface MenuEditorComponent {
         "UploadCatImage": (file: File, id: number) => Promise<void>;
+        "deletedProdImg": (id: number, type?: 'Product' | 'Category') => Promise<void>;
         "menuId": number;
         "toggle": boolean;
         "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;

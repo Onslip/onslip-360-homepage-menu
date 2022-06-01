@@ -12,9 +12,6 @@ import { paths } from '../../utils/urlPaths';
 
 export class ToolbarComponent {
   @State() menuopen: boolean = false
-  private url1: string = '/background'
-  private url2: string = '/banner';
-  private url3: string = '/logo';
   @Element() element: HTMLElement;
   @State() locationsLoaded: boolean = false
 
@@ -63,7 +60,7 @@ export class ToolbarComponent {
       <ion-header>
         <ion-toolbar class="toolbar">
           <ion-buttons slot="start">
-            <ion-button onClick={() => { this.menuClick() }}>
+            <ion-button id='menuButton' onClick={() => { this.menuClick() }}>
               <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
               <ion-label>MENY</ion-label>
             </ion-button>
@@ -73,13 +70,12 @@ export class ToolbarComponent {
           <ion-title slot="end" class='ddmText'>Digital Dynamic Menu</ion-title>
         </ion-toolbar>
 
-
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">
               {DBConnection?.DatabaseConnected ? [
                 <ion-row>
-                  <modal-ovelay url={paths.backgroundImage} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={600} AspectRatio={1.77} format="image/jpg" iconName='image-sharp'></modal-ovelay>
+                  <modal-ovelay url={paths.backgroundImage} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg" iconName='image-sharp'></modal-ovelay>
                 </ion-row>,
                 <ion-row>
                   <modal-ovelay url={paths.banner} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
