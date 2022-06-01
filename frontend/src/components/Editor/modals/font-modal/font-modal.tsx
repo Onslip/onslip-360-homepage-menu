@@ -5,7 +5,9 @@ import { config, Fonts, Styleconfig, fontSize } from '../../../utils/utils';
 import Coloris from "@melloware/coloris";
 import { GetData } from '../../../utils/get';
 import { paths } from '../../../utils/urlPaths';
+
 Coloris.init()
+Coloris.close(true)
 
 @Component({
   tag: 'font-modal',
@@ -31,6 +33,7 @@ export class FontModal {
     Coloris({
       el: '.coloris',
       wrap: true,
+      theme: 'polaroid',
       swatches: [
         '#b21f36',
         '#d82735',
@@ -49,7 +52,6 @@ export class FontModal {
         '#bd7af6',
       ],
     })
-    Coloris.close()
   }
 
   valueChanged() {
