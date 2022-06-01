@@ -34,7 +34,7 @@ export class ApiUi {
 
 
   async TestData() {
-    await PostData(this.url, this.Api)
+    await PostData(paths.api, this.Api)
     await this.GetApiData()
 
     if (this.Api.ApiConnected && !this.loading) {
@@ -47,7 +47,7 @@ export class ApiUi {
     return (
       <div class="modal">
         <div class="header">
-          <ion-title class="title">Ändra api-nyckel:</ion-title>
+          <ion-title class="main-title">Ändra api-nyckel:</ion-title>
         </div>
         {
           !this.loading ?

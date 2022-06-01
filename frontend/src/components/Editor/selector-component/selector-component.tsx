@@ -1,6 +1,7 @@
 
 import { Component, Host, h, State, Prop } from '@stencil/core';
 import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 import { config, mainConfig } from '../../utils/utils';
 
 @Component({
@@ -22,7 +23,7 @@ export class SelectorComponent {
     if (this.type == 'preset') {
       document.querySelector('app-root').querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style = event;
       mainConfig.configId = event
-      await PostData('/mainconfig', mainConfig)
+      await PostData(paths.mainConfig, mainConfig)
       location.reload();
     }
   }

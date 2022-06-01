@@ -95,6 +95,10 @@
   align-self: flex-start;
 }
 
+.categoryBackground {
+  background-color: rgba(179, 179, 179, 0.702);
+}
+
 ion-reorder {
   position: absolute;
   right: 10px;

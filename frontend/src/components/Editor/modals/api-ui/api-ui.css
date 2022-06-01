@@ -12,8 +12,11 @@
   margin: 0;
 }
 
-.title {}
-
 ion-item {
   --highlight-color-focused: var(--primary);
+}
+
+.title {
+  margin-top: 20px;
+  padding-bottom: 10px;
 }

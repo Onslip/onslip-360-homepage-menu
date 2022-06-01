@@ -28,15 +28,17 @@ export class HomepageMenuEditorComponent {
   private accordionGroupRef1?: HTMLIonAccordionGroupElement;
 
   async componentWillLoad() {
-    this.locationsAndMenus = await GetData(paths.location);
+    if (DBConnection?.ApiConnected) {
+      this.locationsAndMenus = await GetData(paths.location);
+    }
     if (this.menuId == undefined) {
       const date = new Date()
       const schedule: Timetable[] = await GetData(paths.timetable)
-      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+      this.menuId = schedule.find(s => s.locationId == mainConfig?.selectedLocation?.id)?.days
         .find(d => d.Day == date.getDay())?.Times
         .find(t => t.time == date.getHours())?.menuid
     }
-    this.selectedMenu = this.locationsAndMenus.menu.find(x => x.id == this.menuId);
+    this.selectedMenu = this.locationsAndMenus?.menu?.find(x => x.id == this.menuId);
   }
 
   componentDidRender() {
@@ -106,11 +108,6 @@ export class HomepageMenuEditorComponent {
     }
   }
 
-  changeMenu(event: any) {
-    this.menuId = event.target.value
-    location.reload()
-  }
-
   async selectLocation(selectedLocation: location) {
     mainConfig.selectedLocation = selectedLocation
     await PostData(paths.mainConfig, mainConfig)
@@ -131,7 +128,6 @@ export class HomepageMenuEditorComponent {
       }
     }
   }
-
 
   render() {
     return (

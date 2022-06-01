@@ -327,8 +327,10 @@ export class DHMService {
     }
 
     private async WritetoFile(api: DHMConfig) {
+        console.log(this.api)
         this.api = new API(api.onslip360.base, api.onslip360.realm, api.onslip360.id, api.onslip360.key);
         this.db = new URI(api.database.uri) as DatabaseURI;
+        this.initialize();
         const config: DHMConfig = {
             listen: {
                 port: 8080,
@@ -352,6 +354,7 @@ export class DHMService {
             return await GetProdByGroup(this.db, id);
         }
         else {
+            console.log('api')
             return await GetProdFromApi(this.api, id);
         }
     }

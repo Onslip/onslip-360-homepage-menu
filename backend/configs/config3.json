@@ -2,7 +2,7 @@
     "configId": "3",
     "background": {
         "enabled": true,
-        "color": "white"
+        "color": "#595959ef"
     },
     "productImages": {
         "style": "Disabled",
@@ -15,23 +15,23 @@
     "banner": false,
     "font": {
         "customFonts": [],
-        "fontFamily": "sans-serif",
+        "fontFamily": "monospace",
         "fontWeight": false,
-        "fontStyle": false,
+        "fontStyle": true,
         "fontSize": [
-            4,
-            "clamp(30px, 3.5vw, 40px)"
+            3,
+            "clamp(1.4rem, 1.2vw, 1.4vh)"
         ],
         "fontOutline": false,
         "colors": {
-            "categoryTitle": "black",
+            "categoryTitle": "#5b6665",
             "productName": "black",
-            "productPrice": "black",
-            "productDesc": "black"
+            "productPrice": "#000000",
+            "productDesc": "#4d4d4d"
         }
     },
-    "menuBackground": "white",
+    "menuBackground": "#c7ccd4",
     "connect": true,
     "menuInUse": 1,
-    "menuType": "inline"
+    "menuType": "paper"
 }

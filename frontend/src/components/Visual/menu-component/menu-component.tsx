@@ -272,24 +272,27 @@ export class MenuComponent {
 
                                         return (
                                             <div id={data?.category?.id.toString()} class='outer-card' style={{ backgroundImage: config?.categoryImages?.style == 'Background' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                                                <ion-card class='content' data-status={config?.categoryImages?.style}>
-                                                    <div>
-                                                        <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
-                                                            <ion-card-title class='categoryTitle' data-status={config?.categoryImages?.style}>
+                                                <div class={config?.categoryImages?.style == 'Background' ? 'categoryBackground' : null}>
 
-                                                                {data?.category?.name}
-                                                            </ion-card-title>
-                                                        </ion-card-header>
-                                                        {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
-                                                    </div>
-                                                    {config.menuType == 'inline' ?
-                                                        this.renderProducts(data?.products)
-                                                        : null}
-                                                    {config.menuType == 'card' ?
-                                                        this.renderCards(data?.products)
-                                                        : null}
+                                                    <ion-card class='content' data-status={config?.categoryImages?.style}>
+                                                        <div>
+                                                            <ion-card-header class='background' style={{ backgroundImage: config?.categoryImages?.style == 'Banner' && data?.category?.imageLoaded ? data?.category?.image : null }}>
+                                                                <ion-card-title class='categoryTitle' data-status={config?.categoryImages?.style}>
 
-                                                </ion-card>
+                                                                    {data?.category?.name}
+                                                                </ion-card-title>
+                                                            </ion-card-header>
+                                                            {(!data.category.imageLoaded && config.categoryImages.style != 'Disabled') ? <ion-progress-bar type="indeterminate" class="progressbar"></ion-progress-bar> : null}
+                                                        </div>
+                                                        {config.menuType == 'inline' ?
+                                                            this.renderProducts(data?.products)
+                                                            : null}
+                                                        {config.menuType == 'card' ?
+                                                            this.renderCards(data?.products)
+                                                            : null}
+
+                                                    </ion-card>
+                                                </div>
                                             </div>
                                         )
                                     })

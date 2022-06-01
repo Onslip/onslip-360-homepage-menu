@@ -99,11 +99,6 @@ export class HomepageMenuComponent {
     }
   }
 
-  changeMenu(event: any) {
-    this.menuId = event.target.value
-    location.reload()
-  }
-
   async selectLocation(selectedLocation: location) {
     mainConfig.selectedLocation = selectedLocation
     await PostData(paths.mainConfig, mainConfig)
