@@ -6,7 +6,7 @@ host = "localhost"
 uri = "asdasdasasd"
 
 [onslip360]
-base = "asd"
-realm = "asd"
-id = "asd"
-key = "asd"
+base = "https://test.onslip360.com/v1/"
+realm = "elis.948636"
+id = "key:pat-admin+apielite@elis.948636"
+key = "K11Ye3V9dzNvbiguNHVAKVVlKXpSWyoyUTw/UjROaGg="
