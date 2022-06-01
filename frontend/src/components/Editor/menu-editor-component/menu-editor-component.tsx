@@ -78,6 +78,20 @@ export class MenuEditorComponent {
     }
   }
 
+  @Method() async deletedProdImg(id: number, type?: 'Product' | 'Category') {
+    this.categories.forEach(cat => {
+      if (type == 'Category' && cat.category.id == id) {
+        cat.category.image = undefined
+      }
+      cat.products.forEach(prod => {
+        if (type == 'Product' && prod.id == id) {
+          prod.image = getAssetPath(`../../../assets/placeholder.png`)
+        }
+      })
+    })
+    this.categories = [...this.categories]
+  }
+
   async LoadImages(DBimages: DBImage[]) {
     this.categories.forEach(async c => {
       c.products.forEach(async p => {

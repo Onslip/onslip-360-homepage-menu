@@ -238,9 +238,11 @@ export class CropTool {
   }
 
   private deleteImage() {
+    const a = document.querySelector('app-root').querySelector('homepage-menu-editor-component').shadowRoot.querySelector('menu-editor-component');
     const aproved: boolean = confirm('Är du säker på att du vill radera bilden?')
     console.log(aproved)
     if (aproved) {
+      a.deletedProdImg(this.TargetId, this.ImagePosition)
       deleteImage(this.url, this.TargetId)
       this.close()
     }

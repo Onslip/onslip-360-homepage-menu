@@ -10,7 +10,7 @@
   text-overflow: ellipsis;
   display: block;
   padding-right: 35px;
-  border-bottom: 1px solid hsla(0, 0%, 60%, 1);
+  border-top: 1px solid hsla(0, 0%, 60%, 1);
 }
 
 .menu-button .icon {
@@ -64,7 +64,7 @@
   --inner-padding-end: 0;
   --padding-start: 0;
   --min-height: 0;
-  border-bottom: 1px solid hsla(0, 0%, 60%, 1);
+  border-top: 1px solid hsla(0, 0%, 60%, 1);
 }
 
 .toggle>ion-toggle {

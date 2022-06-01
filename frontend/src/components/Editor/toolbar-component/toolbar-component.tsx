@@ -1,6 +1,7 @@
 import { Component, h, State, getAssetPath, Element } from '@stencil/core';
 import { config, DBConnection, mainConfig } from '../../utils/utils';
 import { PostData, PostImage } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'toolbar-component',
@@ -11,9 +12,6 @@ import { PostData, PostImage } from '../../utils/post';
 
 export class ToolbarComponent {
   @State() menuopen: boolean = false
-  private url1: string = '/background'
-  private url2: string = '/banner';
-  private url3: string = '/logo';
   @Element() element: HTMLElement;
   @State() locationsLoaded: boolean = false
 
@@ -33,13 +31,13 @@ export class ToolbarComponent {
   }
 
   async submitForm() {
-    await PostData('/config', config);
+    await PostData(paths.config, config);
     location.reload();
   }
 
   async selectLocation(event) {
     mainConfig.selectedLocation = event
-    await PostData('/mainconfig', mainConfig)
+    await PostData(paths.mainConfig, mainConfig)
       .then(() => location.reload())
   }
 
@@ -53,7 +51,7 @@ export class ToolbarComponent {
         fd.append('logo', files[0])
         const mainelement = document.querySelector('app-root').querySelector('homepage-menu-editor-component');
         mainelement.shadowRoot.querySelector('.header').querySelector('img').src = reader.result.toString();
-        PostImage(this.url3, fd);
+        PostImage(paths.logo, fd);
       }
     };
   }
@@ -63,7 +61,7 @@ export class ToolbarComponent {
       <ion-header>
         <ion-toolbar class="toolbar">
           <ion-buttons slot="start">
-            <ion-button onClick={() => { this.menuClick() }}>
+            <ion-button id='menuButton' onClick={() => { this.menuClick() }}>
               <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
               <ion-label>MENY</ion-label>
             </ion-button>
@@ -73,16 +71,15 @@ export class ToolbarComponent {
           <ion-title slot="end" class='ddmText'>Digital Dynamic Menu</ion-title>
         </ion-toolbar>
 
-
         <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">
               {DBConnection?.DatabaseConnected ? [
                 <ion-row>
-                  <modal-ovelay url={this.url1} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg" iconName='image-sharp'></modal-ovelay>
+                  <modal-ovelay url={paths.backgroundImage} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg" iconName='image-sharp'></modal-ovelay>
                 </ion-row>,
                 <ion-row>
-                  <modal-ovelay url={this.url2} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
+                  <modal-ovelay url={paths.banner} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
                 </ion-row>,
                 <label class='menu-button'>Byt logo <ion-icon class='icon' name='image-sharp'></ion-icon>
                   <input type='file' onChange={(event: any) => this.changeLogo(event.target.files)} hidden></input>
