@@ -1,6 +1,6 @@
-export async function PostData(URL: string, data: any) {
+export async function PostData(path: string, data: any) {
     try {
-        const response = await fetch(URL, {
+        const response = await fetch(path, {
             method: 'post',
             body: JSON.stringify(data),
             headers: {
@@ -16,9 +16,9 @@ export async function PostData(URL: string, data: any) {
     }
 }
 
-export async function PostImage(URL: string, data: any) {
+export async function PostImage(path: string, data: any) {
     try {
-        const response = await fetch(URL, {
+        const response = await fetch(path, {
             method: 'post',
             body: data,
         });

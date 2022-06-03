@@ -3,10 +3,10 @@ port = 8_080
 host = "localhost"
 
 [database]
-uri = ""
+uri = "asdasdasasd"
 
 [onslip360]
-base = ""
-realm = ""
-id = ""
-key = ""
+base = "https://test.onslip360.com/v1/"
+realm = "elis.948636"
+id = "key:pat-admin+apielite@elis.948636"
+key = "K11Ye3V9dzNvbiguNHVAKVVlKXpSWyoyUTw/UjROaGg="

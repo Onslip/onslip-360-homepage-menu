@@ -17,7 +17,7 @@
   transition: .4s;
   z-index: 10;
   max-width: 0;
-    color: white;
+  color: white;
 
 }
 
@@ -26,14 +26,14 @@ ion-row {
 }
 
 .label {
-   --background: none;
+  --background: none;
   --color: white;
   --box-shadow: none;
   border-radius: 6px;
 }
 
 .label:hover {
-  background-color:#8cbb4abd; 
+  background-color: #8cbb4abd;
 }
 
 .labelpressed {
@@ -50,14 +50,14 @@ ion-row {
 }
 
 .test-button {
-    font-size: large;
+  font-size: large;
 }
 
 .cursive-button {
   width: 25px;
   font-family: 'Times New Roman', Times, serif;
   font-size: large;
-  font-style:italic;
+  font-style: italic;
 }
 
 ion-item {
@@ -67,7 +67,8 @@ ion-item {
   max-height: 50px;
   --inner-padding-end: none;
   max-width: 200px;
-  --padding-end: none;--padding-start: none;
+  --padding-end: none;
+  --padding-start: none;
   min-height: 0;
 }
 
@@ -87,10 +88,7 @@ ion-popover {
   font-size: 1.3em;
   padding-left: 5px;
   padding-right: 5px;
-  content:url('./build/assets/font-size.svg');
-}
-
-.sizeSelect {
+  content: url('/build/assets/font-size.svg');
 }
 
 .select {
@@ -104,11 +102,11 @@ ion-select {
 
 .outerItem {
   background-color: none;
-    --background-hover:none;
+  --background-hover: none;
 
 }
 
 .outerItem:hover {
   --background: none;
-  --background-hover:none;
+  --background-hover: none;
 }

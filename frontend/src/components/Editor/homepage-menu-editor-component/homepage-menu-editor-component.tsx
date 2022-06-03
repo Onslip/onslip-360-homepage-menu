@@ -1,8 +1,11 @@
 import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-import { config, DBConnection } from '../../utils/utils';
+import { config, DBConnection, location, locationsAndMenu, mainConfig, Menu, Timetable } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
 import '@ionic/core'
+import { Prop } from '@ionic/core/dist/types/stencil-public-runtime';
+import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'homepage-menu-editor-component',
@@ -12,89 +15,86 @@ import '@ionic/core'
 })
 export class HomepageMenuEditorComponent {
 
-  @State() private imageurl: string = 'http://localhost:8080/background';
-  @State() private bannerUrl: string = 'http://localhost:8080/banner';
-  @State() private logoUrl: string = 'http://localhost:8080/logo';
-  @State() private locationUrl: string = 'http://localhost:8080/location';
   @Element() element: HTMLElement;
   @State() loading: boolean = true;
   @State() toggle: boolean = true;
+  @State() logoImage: string = ''
+  @Prop({ mutable: true }) menuId: number;
+  @Prop() locationId: number;
+  @State() locationsAndMenus: locationsAndMenu;
+  @State() selectedMenu: Menu
+  @State() selectedLocation: location;
+  private accordionGroupRef?: HTMLIonAccordionGroupElement;
+  private accordionGroupRef1?: HTMLIonAccordionGroupElement;
 
   async componentWillLoad() {
-    if (!config?.background?.enabled && DBConnection) {
-      GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
+    if (DBConnection?.ApiConnected) {
+      this.locationsAndMenus = await GetData(paths.location);
     }
-    if (config?.banner && DBConnection) {
-      GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
+    if (this.menuId == undefined) {
+      const date = new Date()
+      const schedule: Timetable[] = await GetData(paths.timetable)
+      this.menuId = schedule.find(s => s.locationId == mainConfig?.selectedLocation?.id)?.days
+        .find(d => d.Day == date.getDay())?.Times
+        .find(t => t.time == date.getHours())?.menuid
     }
+    this.selectedMenu = this.locationsAndMenus?.menu?.find(x => x.id == this.menuId);
+  }
 
-    if (config?.Logo && DBConnection) {
+  componentDidRender() {
+    if (DBConnection) {
+      if (!config?.background?.enabled) {
+        console.log('test')
+        GetData(paths.backgroundImage).then(response => this.LoadBackground(response)).catch(err => err);
+      }
       if (config?.banner) {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
+        GetData(paths.banner).then(response => this.LoadBanner(response, '.header')).catch(err => err);
       }
-      else {
-        GetData(this.logoUrl).then(response => this.LoadLogo(response, '.no-banner')).catch(err => err);
-
+      if (config?.Logo) {
+        GetData(paths.logo).then(response => this.LoadLogo(response)).catch(err => err);
       }
-
-    }
-    else {
-      GetData(this.locationUrl).then(response => {
-        const node = document.createElement("h1");
-        node.innerText = response;
-        if (config?.banner) {
-          this.element.shadowRoot.querySelector('.header').appendChild(node);
-        }
-        else {
-          // const divnode = document.createElement("div");
-          // divnode.className = "no-banner";
-          // this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
-          this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
-        }
-
-      })
-        .catch(err => console.log(err))
     }
   }
 
-  private async LoadConfig(element, element1) {
-    const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component');
-    component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
+  private async LoadConfig() {
+    document.documentElement.style.setProperty('--font', config?.font?.fontFamily)
     if (config?.font?.fontWeight) {
-      component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
+      document.documentElement.style.setProperty('--fontWeight', 'bold')
     }
     if (config?.font?.fontStyle) {
-      component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
+      document.documentElement.style.setProperty('--fontStyle', 'italic')
     }
-    document.querySelector(element1).style.fontSize = config?.font?.fontSize;
-    component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
-    if (config?.background?.enabled) {
-      document.querySelector('body').style.background = config?.background?.color;
+    if (config?.font?.fontSize != undefined) {
+      document.documentElement.style.setProperty('--fontSize', config?.font?.fontSize[1])
     }
+
+    config.font.customFonts.forEach(font => {
+      var link = document.createElement('link');
+      link.setAttribute('rel', 'stylesheet');
+      link.setAttribute('type', 'text/css');
+      link.setAttribute('href', font.fontUrl)
+      document.head.appendChild(link);
+    })
   }
 
   async componentDidLoad() {
-    this.LoadConfig('.menuContainer', ':root');
+    this.LoadConfig();
   }
 
   private async LoadBackground(image) {
-    const loadedImage = await loadImage(image).catch(err => err)
-    document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
-  }
-
-  private async LoadLogo(image, element) {
-    const loadedImage = await loadImage(image)
-    if (config.Logo) {
-      const img = document.createElement('img');
-      img.src = loadedImage.toString();
-
-      this.element.shadowRoot.querySelector(element).appendChild(img);
+    if (!config?.background?.enabled) {
+      const loadedImage = await loadImage(image.image.data).catch(err => err)
+      document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
     }
   }
 
+  private async LoadLogo(image) {
+    this.logoImage = await (await loadImage(image.image.data)).toString()
+  }
+
   private async LoadBanner(image, element) {
-    const loadedImage = await loadImage(image).catch(err => err);
-    if (config.banner) {
+    const loadedImage = await loadImage(image.image.data).catch(err => err);
+    if (config?.banner) {
       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
     }
   }
@@ -108,23 +108,82 @@ export class HomepageMenuEditorComponent {
     }
   }
 
+  async selectLocation(selectedLocation: location) {
+    mainConfig.selectedLocation = selectedLocation
+    await PostData(paths.mainConfig, mainConfig)
+      .then(() => location.reload())
+  }
+
+  private closeAccordion(event: any) {
+    if (!this.accordionGroupRef1.contains(event.target)) {
+      const { accordionGroupRef1 } = this;
+      if (accordionGroupRef1) {
+        accordionGroupRef1.value = undefined
+      }
+    }
+    if (!this.accordionGroupRef.contains(event.target)) {
+      const { accordionGroupRef } = this;
+      if (accordionGroupRef) {
+        accordionGroupRef.value = undefined;
+      }
+    }
+  }
+
   render() {
     return (
       <Host>
-
-        <div>
+        <div onClick={(event: any) => { this.closeAccordion(event) }}>
           <toolbar-component></toolbar-component>
-        </div>
-        <div class='menuContainer'>
-          <div class={config?.banner ? 'header' : 'no-banner'}>
-            {config?.connect ? <ion-button onClick={() => this.change()} class='toggle'>Toggle</ion-button> : null}
+          <div class='group'>
+            <ion-accordion-group class='left' ref={el => this.accordionGroupRef = el}>
+              <ion-accordion toggleIcon='chevron-down'>
+                <ion-item lines='none' slot='header' class='accordion-header'>
+                  <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
+                </ion-item>
+                <ion-list slot='content'>
+                  {this.locationsAndMenus?.location?.map(x =>
+                    <ion-router-link href={`/editor/menu/`}>
+                      <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
+                    </ion-router-link>
+                  )}
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+            <ion-accordion-group class='right' ref={el => this.accordionGroupRef1 = el}>
+              <ion-accordion toggleIcon='chevron-down'>
+                <ion-item slot='header' lines='none' class='accordion-header'>
+                  <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
+                </ion-item>
+                <ion-list slot='content'>
+                  {this.locationsAndMenus?.menu?.map(x =>
+                    <ion-router-link href={`/editor/menu/${x.id}`}>
+                      <ion-item lines='none' class='accordion-item'>
+                        {x.name}
+                      </ion-item>
+                    </ion-router-link>
+                  )}
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
           </div>
-          <menu-editor-component toggle={this.toggle}></menu-editor-component>
-        </div>
-        <div class='logoDiv'>
-          <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-        </div>
+          {
+            config?.connect ?
+              <div class='menuContainer'>
 
+                <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
+                  <ion-button slot='start' onClick={() => this.change()} class='toggle'>Toggle</ion-button>
+                  <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
+                  <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
+                </ion-item>
+                <menu-editor-component toggle={this.toggle} menuId={this.menuId}></menu-editor-component>
+                {/* <test-menu toggle={this.toggle}></test-menu> */}
+              </div> :
+              null
+          }
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          </div>
+        </div>
       </Host >
     )
   }

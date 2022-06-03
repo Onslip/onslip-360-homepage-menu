@@ -1,0 +1,232 @@
+:root {
+  display: block;
+  height: 100%;
+  --tempFont: var(--font);
+  --tempSize: var(--fontSize);
+  --newFont: '';
+  --newUrl: '';
+  --importUrl: '';
+  --tempWeight: var(--fontWeight);
+  --tempStyle: var(--fontStyle);
+  --tempBackground: var(--backgroundColor);
+  --tempColor: var(--menuBackground);
+
+  --tempTitle: var(--prodTitle);
+  --tempName: var(--prodName);
+  --tempDesc: var(--prodDesc);
+  --tempPrice: var(--prodPrice);
+}
+
+@import url("../../../../global/modalstyle.css");
+@import url("./coloris.css");
+
+/* General CSS */
+
+.row {
+  width: 100%;
+  flex-direction: column;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.modal .header {
+  padding: 0;
+  min-height: 60px;
+}
+
+.inputRow {
+  width: 100%;
+}
+
+ion-item {
+  --highlight-color-focused: var(--primary);
+}
+
+.select {
+  --color-hover: white;
+  font-family: var(--tempFont);
+  max-width: 200px;
+}
+
+ion-select-option {
+  font-family: unset;
+}
+
+.exampleDiv {
+  font-weight: var(--tempWeight);
+  font-style: var(--tempStyle);
+  padding: 0.01px;
+  background-color: var(--tempColor);
+  border-radius: 5px;
+}
+
+.col {
+  flex-basis: content;
+  display: flex;
+  justify-content: space-around;
+}
+
+.picker {
+  align-items: center;
+  text-align: center;
+  width: min-content;
+}
+
+.picker ion-label {
+  transform: translate(0, 0) !important;
+}
+
+.font {
+  font-size: var(--tempSize);
+}
+
+input.coloris {
+  max-width: 120px;
+  height: 32px;
+  padding: 0 10px;
+  padding-left: 36px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  box-sizing: border-box;
+}
+
+.clr-field button {
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  left: 5px;
+  right: auto;
+}
+
+
+/* Slider */
+
+.slider {
+  width: 100%;
+}
+
+.small {
+  font-size: small;
+}
+
+.big {
+  font-size: x-large;
+}
+
+ion-range {
+  padding-top: 0;
+  --color: var(--primary)
+}
+
+/* Product CSS */
+
+.container {
+  margin: auto;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--tempBackground);
+}
+
+.product {
+  align-items: flex-start;
+}
+
+.productName {
+  text-align: start;
+  color: var(--tempName);
+  font-family: var(--tempFont);
+  font-size: 90%;
+}
+
+.productDesc {
+  color: var(--tempDesc);
+  font-family: var(--tempFont);
+  font-size: 70%;
+}
+
+.productPrice {
+  text-align: end;
+  color: var(--tempPrice);
+  font-family: var(--tempFont);
+  font-size: 90%;
+}
+
+.categoryTitle {
+  color: var(--tempTitle);
+  font-family: var(--tempFont);
+  font-size: var(--tempSize);
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* Tabs */
+
+.tab-button {
+  width: auto;
+  height: 40px;
+  background-color: white;
+  border-top: none;
+  border-color: lightgray;
+  border-radius: 3px;
+  box-shadow: none;
+  font-weight: bold;
+}
+
+ion-tabs {
+  position: unset;
+}
+
+ion-tab-bar {
+  justify-content: space-evenly;
+}
+
+ion-tab-button {
+  --color-selected: var(--primary);
+}
+
+ion-tab-button:focus {
+  /* box-shadow: 0px -6px 5px -7px inset var(--primary); */
+  border-bottom: inset 3px var(--primary);
+}
+
+
+/* Buttons */
+
+.bold {
+  width: 40px;
+  padding: 10px;
+  font-size: large;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.cursive {
+  width: 40px;
+  padding: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  font-style: italic;
+}
+
+.deactivated {
+  background: gray;
+}
+
+.activated {
+  background: var(--primary);
+  box-shadow: inset -2px -2px 4px 0 hsla(0, 0%, 40%, 0.5);
+}
+
+.icon {
+  vertical-align: middle;
+}

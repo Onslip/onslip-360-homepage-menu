@@ -2,6 +2,8 @@
   display: block;
 }
 
+@import url(../../../global/buttons.css);
+
 .toolbar {
   --background: #a4d463;
   --color: white;
@@ -14,116 +16,49 @@
 }
 
 
-ion-nav {
-  position: fixed;
-  height: min-content;
-  z-index: 2;
-  overflow: visible;
-}
-
-.menu_box_closed {
-  font-size: large;
-  display: block;
-  position: fixed;
-  transition-duration: .4s;
+.menu_box.closed {
   transform: translateY(-100%);
-  color: white;
   opacity: 0;
-  top: 50px;
-  left: 0;
-  z-index: 1;
 }
 
 .menu_box {
-  font-size: large;
-  display: inline-block;
-  position: fixed;
-  transition-duration: .4s;
-  background-color: rgb(51, 51, 51);
-  color: white;
-  top: 55px;
-  left: 0;
-  z-index: 1;
-}
-
-.icon {
-  position:absolute;
-  right: 10px;
-}
-
-.button-9 {
-    padding-right: 120px;
+  /* border: 1px solid hsla(0, 0%, 60%, 1); */
+  box-shadow: 1px 2px 2px 0 rgba(0, 0, 0, 0.5);
+  font-size: medium;
   display: block;
-  backface-visibility: hidden;
-  border-width: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 100%;
-  line-height: 1;
-  outline: none;
-  overflow: hidden;
-  padding: 15px 5px;
-  text-transform: none;
-  transition: all .2s,box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  height: max-content;
-  width: 100%;
-}
-
-.button-9:hover {
-  background-color: var(--primary);
-}
-
-.toggle {
-  width: 100%;
-  font-size: 100%;
-  font-size: 100%;
-  line-height: 1;
-  padding: 5px 5px;
-  --min-height: 0;
-  --background: transparent;
-  --color: white;
-  --border-style: none;
-  --inner-padding-end: 0;
-  --padding-start: 0;
-}
-
-ion-toggle {
-  --background: var(--faded);
-  --background-checked: var(--primary);
-  --handle-background: var(--faded);
-  --handle-background-checked: var(--primary);
-  --border-radius: 5px;
-  --handle-border-radius: 5px;
-  --handle-width: 15px;
-  --width: auto;
-}
-
-ion-button:hover {
-  background-color: var(--primary);
+  position: absolute;
+  transition-duration: .4s;
+  background-color: hsla(0, 0%, 95%, 1);
+  color: hsla(0, 0%, 20%, 1);
+  z-index: 1;
 }
 
 .menu-col {
   padding: 0;
 }
 
-api-ui {
-  width: 100%;
-}
-
-layout-overlay {
-  width: 100%;
+ion-row {
+  height: min-content;
 }
 
 .fontselector {
-  --color:white;
-  --background:none;
+  --color: white;
+  --background: none;
   max-width: 100px;
   font-family: unset;
 }
 
-ion-toggle {
-  float:right;
+.select {
+  color: white;
+  --background: unset;
+}
+
+@media only screen and (max-width: 800px) {
+  .ddmText {
+    display: none;
+  }
+
+  .logo {
+    left: 83%;
+  }
 }

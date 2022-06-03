@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+@import url("../../../../global/modalstyle.css");
+
+.error {
+  font-size: small;
+  color: var(--alert);
+  padding-top: 10px;
+  margin: 0;
+}
+
+ion-item {
+  --highlight-color-focused: var(--primary);
+}
+
+.title {
+  margin-top: 20px;
+  padding-bottom: 10px;
+}

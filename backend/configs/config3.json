@@ -1,1 +1,37 @@
-{"id":"3","background":{"enabled":false,"color":"#862d53"},"productImages":{"useProductImages":true,"style":"Disabled","placement":"Left"},"categoryImages":{"useCategoryImages":true,"style":"Banner"},"Logo":true,"banner":true,"font":{"fontFamily":"'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif","fontWeight":true,"fontStyle":false,"fontSize":"1.4em","fontColor":"#500e0e","fontTitleColor":"#1f1919","fontOutline":false},"menuBackground":"#cccccc","connect":true,"menuInUse":0}
+{
+    "configId": "3",
+    "background": {
+        "enabled": true,
+        "color": "#595959ef"
+    },
+    "productImages": {
+        "style": "Disabled",
+        "placement": "Left"
+    },
+    "categoryImages": {
+        "style": "Disabled"
+    },
+    "Logo": false,
+    "banner": false,
+    "font": {
+        "customFonts": [],
+        "fontFamily": "monospace",
+        "fontWeight": false,
+        "fontStyle": true,
+        "fontSize": [
+            3,
+            "clamp(1.4rem, 1.2vw, 1.4vh)"
+        ],
+        "fontOutline": false,
+        "colors": {
+            "categoryTitle": "#5b6665",
+            "productName": "black",
+            "productPrice": "#000000",
+            "productDesc": "#4d4d4d"
+        }
+    },
+    "menuBackground": "#c7ccd4",
+    "connect": true,
+    "menuInUse": 1,
+    "menuType": "paper"
+}

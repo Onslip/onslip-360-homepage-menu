@@ -1,3 +1,5 @@
+import { DHMConfig } from "./schema";
+
 export interface DBproduct {
     id?: number
     name?: string
@@ -5,6 +7,7 @@ export interface DBproduct {
     price?: number
     productcategory_id?: number;
     position?: number
+    imageLoaded?: boolean
 }
 
 export interface DBcategory {
@@ -12,6 +15,7 @@ export interface DBcategory {
     id: number,
     menu_id?: number;
     position: number
+    imageLoaded?: boolean
 }
 
 export interface DBImage {
@@ -26,9 +30,22 @@ export interface DBCatImage {
 
 }
 
+export interface DBJointTables {
+    menuid: number,
+    menuname: string,
+    categoryid: number,
+    categoryname: string,
+    position: number,
+    id: number,
+    name: string,
+    description: string,
+    price: string,
+    productposition: number
+}
+
 export interface MenuWithCategory {
-    menu: Menu
-    categories: categorywithproduct[]
+    menu?: Menu
+    categories?: categorywithproduct[]
 }
 
 export interface categorywithproduct {
@@ -37,11 +54,9 @@ export interface categorywithproduct {
 }
 
 export interface newApi {
-    base: string,
-    realm: string,
-    key: string,
-    id: string,
-    uri: string
+    api: DHMConfig;
+    ApiConnected?: boolean,
+    DatabaseConnected?: boolean
 }
 
 export interface IPayload {
@@ -73,19 +88,17 @@ export interface Menu {
 }
 
 export interface Styleconfig {
-    id: number
+    configId: number;
     background?: {
-      enabled?: boolean
-      color?: string,
+        enabled?: boolean
+        color?: string,
     },
     productImages?: {
-      useProductImages?: boolean,
-      style?: 'Background' | 'Logo' | 'Disabled',
-      placement?: 'Left' | 'Right',
+        style?: 'Background' | 'Logo' | 'Disabled',
+        placement?: 'Left' | 'Right',
     }
     categoryImages?: {
-      useCategoryImages?: boolean,
-      style?: 'Background' | 'Banner' | 'Disabled'
+        style?: 'Background' | 'Banner' | 'Disabled'
     }
     Logo?: boolean,
     banner?: boolean,
@@ -93,24 +106,65 @@ export interface Styleconfig {
     menuBackground?: string,
     connect?: boolean,
     menuInUse?: number;
-  }
-  
-  interface font {
+    menuType: 'card' | 'inline' | 'paper';
+}
+
+interface font {
+    customFonts?: {
+        names: string[]
+        fontUrl: string
+    }[]
     fontFamily?: string,
     fontWeight?: boolean;
     fontStyle?: boolean;
-    fontSize?: string;
-    fontColor?: string;
-    fontTitleColor?: string;
+    fontSize?: [number, string];
     fontOutline?: boolean;
-  }
+    colors?: {
+        categoryTitle?: string;
+        productName?: string;
+        productPrice?: string;
+        productDesc?: string;
+    }
+}
 
-  export interface MainConfig {
-    id: number;
+export interface MainConfig {
+    configId: number;
+    selectedLocation: {
+        name: string,
+        id: number
+    }
+    selectedMenu: number;
 };
 
 export interface ChangePosition {
     menu: number
-    categories: { id: number, position: number}[]
+    categories: { id: number, position: number }[]
+}
+
+
+export interface Timetable {
+    locationId: number,
+    days: days[]
+}
+
+export interface days {
+    Day: number,
+    Times: times[]
+}
+
+export interface times {
+    time: number,
+    menuid?: number
+}
+
+
+export interface location {
+    name: string
+    id: number
+}
+
+export interface locationsAndMenu {
+    menu: Menu[]
+    location: location[]
 }
 

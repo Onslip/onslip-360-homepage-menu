@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  font-family: var(--globalfont);
+  height: 100%;
+}
+
+@import url("../../../../global/modalstyle.css");
+
+.icon {
+  vertical-align: middle;
+}
+
+.modal .body .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainElement {
+  position: relative;
+  font-size: 0;
+}
+
+.resizeContainer {
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  width: min-content;
+  user-select: none;
+}
+
+.pullhandle {
+  height: 0px;
+  width: 0px;
+  border: 5px solid var(--primary);
+  position: absolute;
+  user-select: none;
+}
+
+.se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+  user-select: none;
+}
+
+.resize {
+  position: absolute;
+  overflow: none;
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 0 0 10000px rgba(0, 0, 0, 0.5), 0 0 0 2px var(--primary) inset;
+  user-select: none;
+}
+
+.drag {
+  cursor: move;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}

@@ -1,30 +1,81 @@
 {
-    "id": "2",
+    "configId": 2,
     "background": {
         "enabled": true,
-        "color": "#142cd1"
+        "color": "#282c33"
     },
     "productImages": {
-        "useProductImages": false,
-        "style": "Disabled",
+        "style": "Logo",
         "placement": "Left"
     },
     "categoryImages": {
-        "useCategoryImages": true,
         "style": "Banner"
     },
-    "Logo": false,
+    "Logo": true,
     "banner": true,
     "font": {
-        "fontFamily": "fantasy",
+        "customFonts": [
+            {
+                "names": [
+                    "Josefin Sans",
+                    "Mukta"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100&family=Mukta:wght@200&display=swap"
+            },
+            {
+                "names": [
+                    "Macondo"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Macondo&display=swap"
+            },
+            {
+                "names": [
+                    "Oswald"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap"
+            },
+            {
+                "names": [
+                    "Roboto Flex"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100&display=swap"
+            },
+            {
+                "names": [
+                    "Anton"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Anton&display=swap"
+            },
+            {
+                "names": [
+                    "Lobster"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+            },
+            {
+                "names": [
+                    "Koulen"
+                ],
+                "fontUrl": "https://fonts.googleapis.com/css2?family=Koulen&display=swap"
+            }
+        ],
+        "fontFamily": "Anton",
         "fontWeight": false,
         "fontStyle": false,
-        "fontSize": "1.2em",
-        "fontColor": "#341eb5",
-        "fontTitleColor": "#18b107",
-        "fontOutline": false
+        "fontSize": [
+            3,
+            "clamp(1.4rem, 1.2vw, 1.4vh)"
+        ],
+        "fontOutline": false,
+        "colors": {
+            "categoryTitle": "#242424",
+            "productName": "#EEEEEE",
+            "productPrice": "#F7F7F7",
+            "productDesc": "#F7F7F7"
+        }
     },
-    "menuBackground": "#30d917",
+    "menuBackground": "#4a4042",
     "connect": true,
-    "menuInUse": 0
+    "menuInUse": 1,
+    "menuType": "card"
 }

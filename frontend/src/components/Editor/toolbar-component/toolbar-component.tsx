@@ -1,6 +1,7 @@
-import { Component, Host, h, State, getAssetPath, Element } from '@stencil/core';
-import { buttonvalues, Fonts, config, DBConnection } from '../../utils/utils';
-import { PostData } from '../../utils/post';
+import { Component, h, State, getAssetPath, Element } from '@stencil/core';
+import { config, DBConnection, mainConfig } from '../../utils/utils';
+import { PostData, PostImage } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
 
 @Component({
   tag: 'toolbar-component',
@@ -11,14 +12,11 @@ import { PostData } from '../../utils/post';
 
 export class ToolbarComponent {
   @State() menuopen: boolean = false
-  private url1: string = 'http://localhost:8080/background'
-  private url2: string = 'http://localhost:8080/banner';
-  private url3: string = 'http://localhost:8080/logo';
   @Element() element: HTMLElement;
+  @State() locationsLoaded: boolean = false
 
-  async useProductImages(event) {
-    config.productImages.useProductImages = event.detail.checked
-    await this.submitForm()
+  async menuClick() {
+    this.menuopen = !this.menuopen
   }
 
   async useLogoPic(event) {
@@ -31,89 +29,76 @@ export class ToolbarComponent {
     await this.submitForm();
   }
 
-  async changeColor() {
-    config.background.enabled = true
-    document.body.style.backgroundImage = null;
-    document.body.style.backgroundColor = config?.background.color;
-    PostData('http://localhost:8080/config', config);
-  }
-
-  async ChangeFontColor() {
-    this.submitForm();
-  }
-
-  async ChangeFontTitleColor() {
-    this.submitForm();
-  }
-
-  async ChangeMenuColor(element) {
-    console.log(config)
-    document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-editor-component').shadowRoot.querySelector(element).style.background = config?.menuBackground;
-    PostData('http://localhost:8080/config', config);
-  }
-
   async submitForm() {
-    await PostData('http://localhost:8080/config', config);
+    await PostData(paths.config, config);
     location.reload();
   }
 
+  async selectLocation(event) {
+    mainConfig.selectedLocation = event
+    await PostData(paths.mainConfig, mainConfig)
+      .then(() => location.reload())
+  }
+
+  async changeLogo(files) {
+    const reader = new FileReader();
+    let fd = new FormData()
+    reader.readAsDataURL(files[0]);
+    reader.onload = () => {
+      const image = `url(${reader.result})`;
+      if (image != null) {
+        fd.append('logo', files[0])
+        const mainelement = document.querySelector('app-root').querySelector('homepage-menu-editor-component');
+        mainelement.shadowRoot.querySelector('.header').querySelector('img').src = reader.result.toString();
+        PostImage(paths.logo, fd);
+      }
+    };
+  }
+
   render() {
-    return (
-      <Host>
-        <ion-nav>
-          <ion-header>
-            <ion-toolbar class="toolbar">
-              <ion-buttons slot="start">
-                <ion-button onClick={() => { this.menuopen = !this.menuopen }}>
-                  <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
-                  <ion-label>MENY</ion-label>
-                </ion-button>
-                {config ? [
-                  <selector-component value={config?.font?.fontFamily} DropDownvalues={Fonts} IconName='text-sharp' element='.menuContainer' type='font'></selector-component>,
-                  <selector-component value={config?.id?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
-                ] : null}
-              </ion-buttons>
-              <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
-              <ion-title slot="end">Digital Dynamic Menu</ion-title>
-            </ion-toolbar>
-          </ion-header>
-        </ion-nav>
-        <div class={this.menuopen ? "menu_box" : "menu_box_closed"}>
+    return [
+      <ion-header>
+        <ion-toolbar class="toolbar">
+          <ion-buttons slot="start">
+            <ion-button id='menuButton' onClick={() => { this.menuClick() }}>
+              <ion-icon name={this.menuopen ? "close-sharp" : "menu-sharp"}></ion-icon>
+              <ion-label>MENY</ion-label>
+            </ion-button>
+            <selector-component value={config?.configId?.toString()} DropDownvalues={['1', '2', '3']} DisplayName="Config" IconName='brush-sharp' element='.menuContainer' type='preset'></selector-component>
+          </ion-buttons>
+          <img class="logo" slot="primary" src={getAssetPath('../../../assets/onslip-brand-full.png')}></img>
+          <ion-title slot="end" class='ddmText'>Digital Dynamic Menu</ion-title>
+        </ion-toolbar>
+
+        <div class={this.menuopen ? "menu_box" : "menu_box closed"}>
           <ion-row>
             <ion-col class="menu-col">
-              {DBConnection ? [<ion-row>
-                <upload-image-button buttonvalue={buttonvalues.logo} URL={this.url3}></upload-image-button>
-              </ion-row>,
+              {DBConnection?.DatabaseConnected ? [
+                <ion-row>
+                  <modal-ovelay url={paths.backgroundImage} ImagePosition='Background' RenderType='image' buttonValue='Ändra bakgrund' buttonClass='menu-button' MaxWidth={1000} AspectRatio={1.77} format="image/jpg" iconName='image-sharp'></modal-ovelay>
+                </ion-row>,
+                <ion-row>
+                  <modal-ovelay url={paths.banner} ImagePosition='Banner' RenderType='image' buttonValue='Ändra banner' buttonClass='menu-button' MaxWidth={500} AspectRatio={2} format="image/jpeg" iconName='image-sharp'></modal-ovelay>
+                </ion-row>,
+                <label class='menu-button'>Byt logo <ion-icon class='icon' name='image-sharp'></ion-icon>
+                  <input type='file' onChange={(event: any) => this.changeLogo(event.target.files)} hidden></input>
+                </label>,
+              ]
+                : null}
               <ion-row>
-                <upload-image-button buttonvalue={buttonvalues.banner} URL={this.url2}></upload-image-button>
-              </ion-row>,
-              <ion-row>
-                <upload-image-button buttonvalue={buttonvalues.background} URL={this.url1}></upload-image-button>
-              </ion-row>] : null}
-              <ion-row>
-                <label htmlFor='color' class='button-9'>Ändra bakgrundsfärg<ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='color' type='color' onChange={(event: any) => { config.background.color = event.target.value; this.changeColor() }} hidden />
+                <modal-ovelay RenderType='schedule-overlay' buttonValue='Tidsschema' buttonClass='menu-button' iconName='calendar-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <label htmlFor='menucolor' class='button-9'>Ändra menyns färg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='menucolor' type='color' onChange={(event: any) => { config.menuBackground = event.target.value; this.ChangeMenuColor(`.menuContainer`) }} hidden />
+                <modal-ovelay RenderType='font-modal' buttonValue='Typsnitt och Färger' buttonClass='menu-button' iconName='color-palette-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <label htmlFor='fontColor' class='button-9'>Ändra textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontColor' type='color' onChange={(event: any) => { config.font.fontColor = event.target.value; this.ChangeFontColor() }} hidden />
+                <modal-ovelay RenderType='layout-overlay' buttonValue='Layout och placering' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
               <ion-row>
-                <label htmlFor='fontTitleColor' class='button-9'>Ändra titelns textfärg <ion-icon class="icon" name="color-palette-sharp"></ion-icon></label>
-                <input id='fontTitleColor' type='color' onChange={(event: any) => { config.font.fontTitleColor = event.target.value; this.ChangeFontTitleColor() }} hidden />
-              </ion-row>
-              <ion-row>
-                <api-ui></api-ui>
-              </ion-row>
-              <ion-row>
-                <layout-overlay></layout-overlay>
+                <modal-ovelay RenderType='api-ui' buttonValue='Ändra API-nyckel' buttonClass='menu-button' iconName='settings-sharp'></modal-ovelay>
               </ion-row>
             </ion-col>
-            {DBConnection ? [
+            {DBConnection?.DatabaseConnected ? [
               <ion-col class="menu-col">
                 <ion-row>
                   <ion-item class="toggle">
@@ -130,8 +115,7 @@ export class ToolbarComponent {
               </ion-col>] : null}
           </ion-row>
         </div >
-      </Host >
-    );
+      </ion-header>
+    ];
   }
-
 }

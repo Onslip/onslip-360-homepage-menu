@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  font-family: var(--globalfont);
+}
+
+@import url(../../../../global/buttons.css);
+
+.menuButton {
+  width: 100%;
+}

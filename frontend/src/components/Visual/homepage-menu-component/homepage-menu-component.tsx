@@ -1,139 +1,179 @@
-// import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
-// import { config } from '../../utils/utils';
-// import { GetData } from '../../utils/get';
-// import { loadImage } from '../../utils/image';
+import { Component, h, State, Host, getAssetPath, Element, Event } from '@stencil/core';
+import { config, DBConnection, location, locationsAndMenu, mainConfig, Menu, Timetable } from '../../utils/utils';
+import { GetData } from '../../utils/get';
+import { loadImage } from '../../utils/image';
+import '@ionic/core'
+import { Prop } from '@ionic/core/dist/types/stencil-public-runtime';
+import { PostData } from '../../utils/post';
+import { paths } from '../../utils/urlPaths';
+
+@Component({
+  tag: 'homepage-menu-component',
+  styleUrl: 'homepage-menu-component.css',
+  shadow: true,
+  assetsDirs: ['../../../assets'],
+})
+export class HomepageMenuComponent {
+
+  @Element() element: HTMLElement;
+  @State() loading: boolean = true;
+  @State() logoImage: string = ''
+  @Prop({ mutable: true }) menuId: number;
+  @Prop() locationId: number;
+  @State() locationsAndMenus: locationsAndMenu;
+  @State() selectedMenu: Menu
+  @State() selectedLocation: location;
+  @Event()
+  private accordionGroupRef?: HTMLIonAccordionGroupElement;
+  private accordionGroupRef1?: HTMLIonAccordionGroupElement;
 
 
-// import '@ionic/core'
+  async componentWillLoad() {
+    this.locationsAndMenus = await GetData(paths.location);
+    if (this.menuId == undefined) {
+      const date = new Date()
+      const schedule: Timetable[] = await GetData(paths.timetable)
+      this.menuId = schedule.find(s => s.locationId == mainConfig.selectedLocation.id)?.days
+        .find(d => d.Day == date.getDay())?.Times
+        .find(t => t.time == date.getHours())?.menuid
+    }
+    this.selectedMenu = this.locationsAndMenus.menu.find(x => x.id == this.menuId);
+  }
 
-// @Component({
-//   tag: 'homepage-menu-component',
-//   styleUrl: 'homepage-menu-component.css',
-//   shadow: true,
-//   assetsDirs: ['../../../assets'],
-// })
-// export class HomepageMenuComponent {
+  componentDidRender() {
+    if (DBConnection) {
+      if (!config?.background?.enabled) {
+        console.log('test')
+        GetData(paths.backgroundImage).then(response => this.LoadBackground(response)).catch(err => err);
+      }
+      if (config?.banner) {
+        GetData(paths.banner).then(response => this.LoadBanner(response)).catch(err => err);
+      }
+      if (config?.Logo) {
+        GetData(paths.logo).then(response => this.LoadLogo(response)).catch(err => err);
+      }
+    }
+  }
 
-//   @State() private imageurl: string = 'http://localhost:8080/background';
-//   @State() private bannerUrl: string = 'http://localhost:8080/banner';
-//   @State() private logoUrl: string = 'http://localhost:8080/logo';
-//   @State() private locationUrl: string = 'http://localhost:8080/location';
-//   @Element() element: HTMLElement;
-//   @State() loading: boolean = true;
-//   @State() toggle: boolean = true;
+  private async LoadConfig() {
+    document.documentElement.style.setProperty('--font', config?.font?.fontFamily)
+    if (config?.font?.fontWeight) {
+      document.documentElement.style.setProperty('--fontWeight', 'bold')
+    }
+    if (config?.font?.fontStyle) {
+      document.documentElement.style.setProperty('--fontStyle', 'italic')
+    }
+    if (config?.font?.fontSize != undefined) {
+      document.documentElement.style.setProperty('--fontSize', config?.font?.fontSize[1])
+    }
 
-//   async componentWillLoad() {
-//     if (config?.background?.enabled == false) {
-//       GetData(this.imageurl).then(response => this.LoadBackground(response)).catch(err => err);
-//     }
-//     if (config?.banner == true) {
-//       GetData(this.bannerUrl).then(response => this.LoadBanner(response, '.header')).catch(err => err);
-//     }
+    config.font.customFonts.forEach(font => {
+      var link = document.createElement('link');
+      link.setAttribute('rel', 'stylesheet');
+      link.setAttribute('type', 'text/css');
+      link.setAttribute('href', font.fontUrl)
+      document.head.appendChild(link);
+    })
+  }
 
-//     if (config?.Logo == true) {
-//       if (config?.banner == true) {
-//         GetData(this.logoUrl).then(response => this.LoadLogo(response, '.header')).catch(err => err);
-//       }
-//       else {
-//         GetData(this.logoUrl).then(response => this.LoadLogo(response, '.no-banner')).catch(err => err);
+  async componentDidLoad() {
+    this.LoadConfig();
+  }
 
-//       }
+  private async LoadBackground(image: { image: { data: any; }; }) {
+    if (!config?.background?.enabled) {
+      const loadedImage = await loadImage(image.image.data).catch(err => err)
+      document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
+    }
+  }
 
-//     }
-//     else {
-//       GetData(this.locationUrl).then(response => {
-//         console.log(this.element.shadowRoot.querySelector('.header'));
+  private async LoadLogo(image: { image: { data: any; }; }) {
+    this.logoImage = await (await loadImage(image.image.data)).toString()
+  }
 
-//         const node = document.createElement("h1");
-//         node.innerText = response;
-//         if (config?.banner == true) {
-//           this.element.shadowRoot.querySelector('.header').appendChild(node);
-//         }
-//         else {
-//           const divnode = document.createElement("div");
-//           divnode.className = "no-banner";
-//           this.element.shadowRoot.querySelector('.menuContainer').appendChild(divnode);
-//           this.element.shadowRoot.querySelector('.no-banner').appendChild(node);
-//         }
+  private async LoadBanner(image: { image: { data: any; }; }) {
+    const elem: HTMLElement = this.element.shadowRoot.querySelector('.header')
+    const loadedImage = await loadImage(image.image.data).catch(err => err);
+    if (config?.banner) {
+      elem.style.backgroundImage = `url(${loadedImage})`;
+    }
+  }
 
-//       })
-//         .catch(err => console.log(err))
-//     }
-//   }
+  async selectLocation(selectedLocation: location) {
+    mainConfig.selectedLocation = selectedLocation
+    await PostData(paths.mainConfig, mainConfig)
+      .then(() => location.reload())
+  }
 
-//   private async LoadConfig(element, element1) {
-//     const component = document.querySelector('editor-visual-check').shadowRoot.querySelector('homepage-menu-component');
-//     component.shadowRoot.querySelector(element).style.fontFamily = config?.font?.fontFamily;
-//     if (config?.font.fontWeight == true) {
-//       component.shadowRoot.querySelector(element).style.fontWeight = 'bold';
-//     }
-//     if (config?.font.fontStyle == true) {
-//       component.shadowRoot.querySelector(element).style.fontStyle = 'italic';
-//     }
-//     document.querySelector(element1).style.fontSize = config.font.fontSize;
+  private closeAccordion(event: any) {
+    if (!this.accordionGroupRef1.contains(event.target)) {
+      const { accordionGroupRef1 } = this;
+      if (accordionGroupRef1) {
+        accordionGroupRef1.value = undefined
+      }
+    }
+    if (!this.accordionGroupRef.contains(event.target)) {
+      const { accordionGroupRef } = this;
+      if (accordionGroupRef) {
+        accordionGroupRef.value = undefined;
+      }
+    }
+  }
 
-//     component.shadowRoot.querySelector(element).style.background = config?.menuBackground;
-//     if (config?.font.fontOutline) {
-//       component.shadowRoot.querySelector(element).style.textShadow = "-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000";
-//     }
-//     if (config?.background.enabled == true) {
-//       document.querySelector('body').style.background = config?.background.color;
-//     }
-//   }
+  render() {
+    return (
+      <Host>
+        <div onClick={(event: any) => { this.closeAccordion(event) }}>
+          <div class='group'>
+            <ion-accordion-group class='left' ref={el => this.accordionGroupRef = el}>
+              <ion-accordion toggleIcon='chevron-down'>
+                <ion-item lines='none' slot='header' class='accordion-header'>
+                  <ion-label>Plats: {mainConfig?.selectedLocation?.name}</ion-label>
+                </ion-item>
+                <ion-list slot='content'>
+                  {this.locationsAndMenus?.location?.map(x =>
+                    <ion-router-link href={`/menu/`}>
+                      <ion-item class='accordion-item' lines='none' onClick={() => this.selectLocation(x)}>{x.name}</ion-item>
+                    </ion-router-link>
+                  )}
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+            <ion-accordion-group ref={el => this.accordionGroupRef1 = el} class='right'>
+              <ion-accordion toggleIcon='chevron-down'>
+                <ion-item slot='header' lines='none' class='accordion-header'>
+                  <ion-label>Meny: {this.selectedMenu?.name}</ion-label>
+                </ion-item>
+                <ion-list slot='content'>
+                  {this.locationsAndMenus?.menu?.map(x =>
+                    <ion-router-link href={`/menu/${x.id}`}>
+                      <ion-item lines='none' class='accordion-item'>
+                        {x.name}
+                      </ion-item>
+                    </ion-router-link>
+                  )}
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+          </div>
+          {
+            config?.connect ?
+              <div class='menuContainer'  >
 
-//   async componentDidLoad() {
-//     this.LoadConfig('.menuContainer', ':root');
-//   }
-
-//   private async LoadBackground(image) {
-//     const loadedImage = await loadImage(image).catch(err => err)
-//     document.querySelector('body').style.backgroundImage = `url(${loadedImage})`
-//   }
-
-//   private async LoadLogo(image, element) {
-//     const loadedImage = await loadImage(image).catch(() => {
-
-//     })
-//     if (config.Logo) {
-//       const img = document.createElement('img');
-//       img.src = loadedImage.toString();
-
-//       this.element.shadowRoot.querySelector(element).appendChild(img);
-//     }
-//   }
-
-//   private async LoadBanner(image, element) {
-//     const loadedImage = await loadImage(image).catch(err => err);
-//     if (config.banner) {
-//       this.element.shadowRoot.querySelector(element).style.backgroundImage = `url(${loadedImage})`;
-//     }
-//   }
-
-//   change() {
-//     if (this.toggle) {
-//       this.toggle = false;
-//     }
-//     else {
-//       this.toggle = true;
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <Host>
-//         <div class='menuContainer' data-status={config?.preset}>
-//           <div class={config?.banner ? 'header' : 'no-banner'}>
-
-//           </div>
-
-//           <menu-component toggle={this.toggle}></menu-component>
-//         </div>
-
-//         <div class='logoDiv'>
-//           <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
-//         </div>
-//       </Host>
-//     )
-//   }
-// }
+                <ion-item lines='none' class={config?.banner ? 'header' : 'header no-banner'}>
+                  <h2 class="header-text" hidden={config.Logo}>{mainConfig?.selectedLocation?.name}</h2>
+                  <img slot='end' src={this.logoImage} class="logo" hidden={!config.Logo}></img>
+                </ion-item>
+                <menu-component menuId={this.menuId}></menu-component>
+              </div> :
+              null
+          }
+          <div class='logoDiv'>
+            <img src={getAssetPath(`../../../assets/Onslip.png`)} class='onslipLogo'></img>
+          </div>
+        </div>
+      </Host >
+    )
+  }
+}
 

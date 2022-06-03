@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+@import url("../../../../global/modalstyle.css");
+
+
+ion-radio {
+  --color-checked: var(--primary)
+}
+
+.title {}

@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+@import url("../../../../global/modalstyle.css");
+
+ion-item {
+  --highlight-color-focused: var(--primary);
+}
+
+.row {
+  width: 50%;
+}
+
+.headerContent {
+  padding: 0;
+}
+
+.header {
+  padding-bottom: 0 !important;
+}
+
+.HeaderTable {
+  width: 100%;
+  text-align: center;
+  table-layout: fixed;
+  margin-right: 18px;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+
+}
+
+
+
+.DaysOfWeekHeaders {
+  user-select: none;
+  font-size: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.Schedule {
+  width: 100%;
+  border-spacing: 0;
+  table-layout: fixed;
+  user-select: none;
+}
+
+.Time {
+  border-right: 1px solid lightgray;
+  user-select: none;
+  vertical-align: top;
+  text-align: center;
+  font-size: 17px;
+}
+
+.box {
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  margin: 0;
+  padding: 0;
+  display: table-cell;
+  vertical-align: inherit;
+  height: 28px;
+  user-select: none;
+  transition: 0.1s;
+  text-align: center;
+  font-size: x-small;
+  font-weight: bold;
+  color: rgb(99, 99, 99);
+}
+
+.TableBody {
+  width: 100%;
+  user-select: none;
+
+}
+
+.TimeText {
+  transform: translate(0, -50%);
+}
+
+.alert {
+  color: var(--alert);
+  font-size: large;
+}
+
+ion-select::part(icon) {
+  position: absolute;
+  right: 40px;
+}
+
+.scroll {
+  height: 100%;
+  width: 100%;
+}
+
+.active {
+  background-color: var(--primary);
+}
+
+.inactive {
+  background-color: var(--warning);
+  cursor: not-allowed;
+}
+
+.select {
+  background-color: #93BD58;
+}
+
+.deselect {
+  background-color: rgb(231, 231, 231);
+}
