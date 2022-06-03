@@ -14,7 +14,7 @@
   align-content: start;
   border-radius: 5px;
   margin: 5px;
-
+  transition: none;
 }
 
 .content {
@@ -44,7 +44,7 @@
   margin: 0;
   text-align: center;
   font-weight: bold;
-  padding: 15px;
+  padding: 20px;
 }
 
 .categoryTitle[data-status='Banner'] {
@@ -56,7 +56,7 @@
   font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
-  padding: 15px;
+  padding: 30px;
 }
 
 .productName {
@@ -104,6 +104,10 @@ ion-reorder {
   right: 10px;
   top: 50%;
   transform: translate(0, -50%);
+}
+
+.reorder.reorder-list-active .outer-card.reorder-selected ion-reorder {
+  color: var(--secondary);
 }
 
 .catImages {

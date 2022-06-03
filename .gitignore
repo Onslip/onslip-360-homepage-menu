@@ -7,3 +7,5 @@ backend/config.json
 backend//test.toml
 /test.toml
 
+backend/configs/config3.json
+backend/configs/main.json

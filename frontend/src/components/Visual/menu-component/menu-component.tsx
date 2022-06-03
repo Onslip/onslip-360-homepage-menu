@@ -182,7 +182,7 @@ export class MenuComponent {
 
     renderPaper() {
         return (
-            <div>
+            <div class='paper-content'>
                 {
                     !this.loading ?
                         this.categories?.map(data => {
