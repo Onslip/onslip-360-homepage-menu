@@ -346,7 +346,7 @@ export class DHMService {
                 key: api.onslip360.key ?? ''
             }
         }
-        await new URI('./test.toml').save(config)
+        await new URI('./dhmconfig.toml').save(config)
     }
 
     private async rootResponse(id: number) {
