@@ -29,9 +29,11 @@
     "@ionic/core": "6.1.1",
     "@ionic/storage": "^3.0.6",
     "@melloware/coloris": "^0.12.2",
-    "@stencil/core": "^2.15.2",
+    "@stencil/core": "^2.16.0",
     "@stencil/router": "^1.0.1",
     "nodejs": "^0.0.0",
+    "pnpm": "^7.1.7",
+    "start": "^5.1.0",
     "stream": "^0.0.2"
   },
   "devDependencies": {

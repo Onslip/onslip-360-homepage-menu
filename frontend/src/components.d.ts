@@ -78,6 +78,10 @@ export namespace Components {
     interface ToolbarComponent {
     }
 }
+export interface HomepageMenuComponentCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLHomepageMenuComponentElement;
+}
 declare global {
     interface HTMLApiUiElement extends Components.ApiUi, HTMLStencilElement {
     }
@@ -199,7 +203,7 @@ declare namespace LocalJSX {
     interface HomepageMenuComponent {
         "locationId"?: number;
         "menuId"?: number;
-        "onAccordionGroupRef"?: (event: CustomEvent<any>) => void;
+        "onAccordionGroupRef"?: (event: HomepageMenuComponentCustomEvent<any>) => void;
     }
     interface HomepageMenuEditorComponent {
         "locationId"?: number;
