@@ -33,9 +33,7 @@ export namespace Components {
     interface LayoutOverlay {
     }
     interface MenuComponent {
-        "UploadCatImage": (file: File, id: number) => Promise<void>;
         "menuId": number;
-        "uploadProdImage": (file: File, id: number, catId: number) => Promise<void>;
     }
     interface MenuEditorComponent {
         "UploadCatImage": (file: File, id: number) => Promise<void>;

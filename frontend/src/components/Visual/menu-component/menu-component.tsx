@@ -1,9 +1,8 @@
-import { Component, State, Host, h, Element, Prop, Method, getAssetPath } from '@stencil/core';
+import { Component, State, Host, h, Element, Prop, getAssetPath } from '@stencil/core';
 import { categorywithproduct, DBConnection, DBImage, DBCatImage, DBproduct, MenuWithCategory } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { config } from '../../utils/utils';
-import { CheckImage, loadImage } from '../../utils/image';
-import { PostData } from '../../utils/post';
+import { loadImage } from '../../utils/image';
 import { paths } from '../../utils/urlPaths';
 
 @Component({
@@ -104,38 +103,6 @@ export class MenuComponent {
         })
     }
 
-    @Method() async uploadProdImage(file: File, id: number, catId: number) {
-        if (CheckImage(file)) {
-            const fileReader = new FileReader()
-            fileReader.onload = () => {
-                this.categories.find(c => c.category.id == catId).products.find(p => p.id == id).image = fileReader.result.toString()
-                this.categories = [...this.categories]
-            }
-            fileReader.readAsDataURL(file)
-        }
-    }
-
-    @Method() async UploadCatImage(file: File, id: number) {
-        if (CheckImage(file)) {
-            const fileReader = new FileReader()
-            fileReader.onload = () => {
-                this.categories.find(i => i.category.id == id).category.image = `url(${fileReader.result})`
-                this.categories = [...this.categories]
-            }
-            fileReader.readAsDataURL(file)
-        }
-    }
-
-    async doReorder(ev: any) {
-        this.categories = ev.detail.complete(this.categories);
-        this.CanSave = true;
-    }
-
-    async SaveReorder() {
-        this.CanSave = false;
-        const newMenu = { menu: this.menu?.menu?.id, categories: this.categories?.map(x => { return { id: x?.category?.id, position: this.categories?.indexOf(x) } }) }
-        PostData('/updateposition', newMenu)
-    }
 
     renderProducts(products?: DBproduct[]) {
         return (products?.map(x =>
@@ -148,7 +115,6 @@ export class MenuComponent {
                                 :
                                 <div class="prodImg">
                                     <ion-img src={x.image} ></ion-img>
-                                    <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
                                 </div>
                         }
                     </div>
@@ -176,7 +142,6 @@ export class MenuComponent {
                                 :
                                 <div class="prodImg">
                                     <ion-img src={x.image} ></ion-img>
-                                    <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} RenderType='image' ImagePosition='Product' iconName='share-sharp' CategoryId={x.productcategory_id}></modal-ovelay>
                                 </div>
                         }
                     </div>
@@ -198,7 +163,6 @@ export class MenuComponent {
                                     :
                                     <div class='prodImg'>
                                         <ion-img src={x.image} ></ion-img>
-                                        <modal-ovelay buttonClass='uploadButton' url={paths.productImages} MaxWidth={200} AspectRatio={1.77} TargetId={x.id} iconName='share-sharp' RenderType='image' ImagePosition='Product' CategoryId={x.productcategory_id}></modal-ovelay>
                                     </div>
                             }
                         </div>
