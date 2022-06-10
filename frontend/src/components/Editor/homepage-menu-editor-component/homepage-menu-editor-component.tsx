@@ -1,11 +1,10 @@
-import { Component, h, State, Host, getAssetPath, Element } from '@stencil/core';
+import { Component, h, State, Host, getAssetPath, Element, Prop } from '@stencil/core';
 import { config, DBConnection, location, locationsAndMenu, mainConfig, Menu, Timetable } from '../../utils/utils';
 import { GetData } from '../../utils/get';
 import { loadImage } from '../../utils/image';
-import '@ionic/core'
-import { Prop } from '@ionic/core/dist/types/stencil-public-runtime';
 import { PostData } from '../../utils/post';
 import { paths } from '../../utils/urlPaths';
+import '@ionic/core'
 
 @Component({
   tag: 'homepage-menu-editor-component',
